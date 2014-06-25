@@ -126,7 +126,8 @@ public class MainComponentVolatile extends CustomComponent {
 		        "}, " +
 		        "xaxis : {" +
 		            "show : true," + 
-		            "axisLabel : 'Throughput'" +
+		            "axisLabel : 'Throughput'," +
+		            "autoscaleMargin : .02" +
 		        "},"
 						+
 					"grid: {" 
