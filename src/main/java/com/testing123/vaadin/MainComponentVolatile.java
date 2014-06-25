@@ -116,7 +116,6 @@ public class MainComponentVolatile extends CustomComponent {
 		String options = 
 				"{" + 
 				"series : {" + 
-					"lines: { show: true }," + 
 					"points: { show: true } " + 
 				"}, " +		
 				"colors : [\"#033F8D\", \"#033F8D\"]," +
