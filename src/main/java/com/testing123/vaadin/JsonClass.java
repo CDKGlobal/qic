@@ -1,5 +1,7 @@
 package com.testing123.vaadin;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -8,28 +10,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class JsonClass {
 	
-	public static class Msr{
-		private String key;
-		private double val;
-		private String frmt_val;
-		
-		public String getKey(){return key;}
-		public double getVal(){return val;}
-		public String getFrmt_val(){return frmt_val;}
-		
-		public void setKey(String key){this.key = key;}
-		public void setVal(double val){this.val = val;}
-		public void setFrmt_val(String frmt_val){this.frmt_val = frmt_val;}
-	}
-	
-	
     private int id;
     private String key;
     private String name;
     private String scope;
     private String qualifier;
     private String lname;
-    private Msr msr;
+    private List<Msr> msr;
 
     public void setId(int id) {
         this.id = id;
@@ -53,6 +40,10 @@ public class JsonClass {
 
     public void setLname(String lname) {
         this.lname = lname;
+    }
+    
+    public void setMsr(List<Msr> msr) {
+        this.msr = msr;
     }
 
     public int getId() {
@@ -80,13 +71,7 @@ public class JsonClass {
 
     }
     
-    
-    @JsonProperty("msr")
-    public void setMsr(Msr msr) {
-        this.msr = msr;
-    }
-    
     public Msr getMsr() {
-    	return this.msr;
+    	return this.msr.get(0);
     }
 }
