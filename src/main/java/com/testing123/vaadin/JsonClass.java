@@ -3,14 +3,19 @@ package com.testing123.vaadin;
 // Constructs a JSON class
 
 public class JsonClass {
+	
 	public static class msr{
 		private String key;
 		private double val;
 		private String frmt_val;
 		
-		public String getKey(){return key;}
-		public double getVal(){return val;}
-		public String getFrmt_val(){return frmt_val;}
+		public String setKey(){return key;}
+		public double setVal(){return val;}
+		public String setFrmt_val(){return frmt_val;}
+		
+		public void getKey(String key){this.key = key;}
+		public void getVal(double val){this.val = val;}
+		public void getFrmt_val(String frmt_val){this.frmt_val = frmt_val;}
 	}
 	
 	
@@ -20,7 +25,6 @@ public class JsonClass {
     private String scope;
     private String qualifier;
     private String lname;
-    private double val;
 
     public void setId(int id) {
         this.id = id;
@@ -46,10 +50,6 @@ public class JsonClass {
         this.lname = lname;
     }
 
-    public void setLoc(double val) {
-        this.val = val;
-    }
-
     public int getId() {
         return id;
     }
@@ -73,9 +73,5 @@ public class JsonClass {
     public String getLname() {
         return lname;
 
-    }
-
-    public double geLoc() {
-        return val;
     }
 }
