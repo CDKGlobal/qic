@@ -9,7 +9,7 @@ public class JsonClass {
     private String scope;
     private String qualifier;
     private String lname;
-    private double lineOfCode;
+    private double val;
 
     public void setId(int id) {
         this.id = id;
@@ -35,8 +35,8 @@ public class JsonClass {
         this.lname = lname;
     }
 
-    public void setLoc(double lineOfCode) {
-        this.lineOfCode = lineOfCode;
+    public void setLoc(double val) {
+        this.val = val;
     }
 
     public int getId() {
@@ -65,6 +65,6 @@ public class JsonClass {
     }
 
     public double geLoc() {
-        return lineOfCode;
+        return val;
     }
 }
