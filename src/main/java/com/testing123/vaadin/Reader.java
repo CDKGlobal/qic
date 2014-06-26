@@ -5,10 +5,16 @@ package com.testing123.vaadin;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -22,25 +28,81 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class Reader {
 	//private static final URL link = new URL("http://sonar.cobalt.com/api/resources?resource=com.cobalt.dap:platform&depth=2&metrics=ncloc&format=json").toURI().toURL();
 
-	public static void main(String[] args) {
+	public static Map<Integer, Integer> getData() {
+		
+		Map<Integer, Integer> coords = new TreeMap<Integer, Integer>();
 		
 		ObjectMapper mapper = new ObjectMapper();
-
+		
 		try {
-			URL link = new URL("http://sonar.cobalt.com/api/resources?resource=com.cobalt.dap:platform&depth=2&metrics=ncloc&format=json").toURI().toURL();
+			URL folderLink = new URL("http://sonar.cobalt.com/api/resources?resource=com.cobalt.dap:platform&depth=-1&scopes=DIR&format=json").toURI().toURL();
 			
-			List<JsonClass> jsonClassList =
-				    mapper.readValue(link, new TypeReference<List<JsonClass>>() {});
+			List<JsonClass> folderList = 
+					mapper.readValue(folderLink, new TypeReference<List<JsonClass>>() {});
 			
-			JsonClass one = jsonClassList.get(0);
-			System.out.println(one.getId());
-			System.out.println(one.getKey());
-			System.out.println(one.getName());
-			System.out.println(one.getScope());
-			System.out.println(one.getQualifier());
-			System.out.println(one.getLname());
-			System.out.println(one.getMsr().getVal());
-			System.out.println(jsonClassList.size());
+			System.out.println("Number of folders: " + folderList.size());			
+			
+			int csum = 0;
+			int i = 0;
+			HashMap<String, Double> counts = new HashMap<String, Double>();
+			for (JsonClass folder : folderList) {
+				String currentFolder = "http://sonar.cobalt.com/api/resources?resource=" + folder.getKey() + "&depth=1&metrics=ncloc&format=json";
+				
+//				String currentFolder = "http://sonar.cobalt.com/api/resources?resource=com.cobalt.dap:platform:com.cobalt.dap.wicket.view.dmag.report&depth=1&metrics=ncloc&format=json";
+				URL filesLink = new URL(currentFolder);
+				List<JsonClass> fileList = mapper.readValue(filesLink, new TypeReference<List<JsonClass>>() {});
+				//System.out.println(folder.getKey());
+				//System.out.println("folder: " + i);
+
+				for (JsonClass file : fileList) {
+					if (fileList.size() != 0) {
+						if (counts.containsKey(file.getName())) {
+							counts.put(file.getName() + " (2)", file.getMsr().getVal());
+							continue;
+						}
+						counts.put(file.getName(), file.getMsr().getVal());
+						//csum += file.getMsr().getVal();
+					}
+					csum++;
+				}
+//				System.out.println(csum);
+//				System.out.println(csum + "\t" + folder.getName());
+				i++;
+			}
+			System.out.println(csum);
+			
+			int sum = 0;
+			System.out.println("Number of files :" + counts.size());
+			for (String d : counts.keySet()) {
+				System.out.println(d + ": " + counts.get(d) + " lines");
+				sum += counts.get(d);
+			}
+			System.out.println("TOTAL LINES: " + sum);
+			
+			// x: lines of code
+			// y: number of files
+			for (double linesOfCode : counts.values()) {
+				int lines = (int) linesOfCode;
+				if (coords.containsKey(lines)) {
+					coords.put(lines, coords.get(lines) + 1);				
+				} else {
+					coords.put(lines, 1);
+				}
+			}
+			
+			for (int lines : coords.keySet()) {
+				System.out.println(lines + ", " + coords.get(lines));
+			}
+			
+//			JsonClass one = fileList.get(0);
+//			System.out.println(one.getId());
+//			System.out.println(one.getKey());
+//			System.out.println(one.getName());
+//			System.out.println(one.getScope());
+//			System.out.println(one.getQualifier());
+//			System.out.println(one.getLname());
+//			System.out.println(one.getMsr().getVal());
+//			System.out.println(fileList.size());
 		
 		} catch (JsonParseException e) {
 			e.printStackTrace();
@@ -51,6 +113,7 @@ public class Reader {
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
+		return coords;
 	}
 	
 	/**
