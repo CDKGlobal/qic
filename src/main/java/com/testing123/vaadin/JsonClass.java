@@ -1,21 +1,24 @@
 package com.testing123.vaadin;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 // Constructs a JSON class
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class JsonClass {
 	
-	public static class msr{
+	public static class Msr{
 		private String key;
 		private double val;
 		private String frmt_val;
 		
-		public String setKey(){return key;}
-		public double setVal(){return val;}
-		public String setFrmt_val(){return frmt_val;}
+		public String getKey(){return key;}
+		public double getVal(){return val;}
+		public String getFrmt_val(){return frmt_val;}
 		
-		public void getKey(String key){this.key = key;}
-		public void getVal(double val){this.val = val;}
-		public void getFrmt_val(String frmt_val){this.frmt_val = frmt_val;}
+		public void setKey(String key){this.key = key;}
+		public void setVal(double val){this.val = val;}
+		public void setFrmt_val(String frmt_val){this.frmt_val = frmt_val;}
 	}
 	
 	
@@ -25,6 +28,7 @@ public class JsonClass {
     private String scope;
     private String qualifier;
     private String lname;
+    private Msr msr;
 
     public void setId(int id) {
         this.id = id;
@@ -73,5 +77,13 @@ public class JsonClass {
     public String getLname() {
         return lname;
 
+    }
+    
+    public void setMsr(Msr msr) {
+        this.msr = msr;
+    }
+    
+    public Msr getMsr() {
+    	return this.msr;
     }
 }
