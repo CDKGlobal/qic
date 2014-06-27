@@ -7,6 +7,8 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
+import java.util.TreeMap;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -21,6 +23,8 @@ public class HashMaptoJsonArrayTest {
 	static HashMap empty;
 	static HashMap oneInput;
 	static HashMap multipleInputs;
+	static TreeMap bigMap;
+	static HashMap bigHashMap;
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -36,9 +40,25 @@ public class HashMaptoJsonArrayTest {
 		multipleInputs.put(4, 7);
 		multipleInputs.put(2, 3);
 		multipleInputs.put(5, 4);
+		
+		bigMap = new TreeMap();
+		Random generator = new Random();
+		for(int i = 1; i <= 100000; i++){
+			bigMap.put(i, generator.nextInt(i));
+		}
+		
+		bigHashMap = new HashMap();
+		for(int i = 1; i <= 100000; i++){
+			bigHashMap.put(i, generator.nextInt(i));
+		}
+		
 	}
 	
 	private static String getString(HashMap map){
+		return HashMaptoJsonArray.mapToString(map).replaceAll("\\s+","");
+	}
+	
+	private static String getString(TreeMap map){
 		return HashMaptoJsonArray.mapToString(map).replaceAll("\\s+","");
 	}
 	
@@ -55,6 +75,18 @@ public class HashMaptoJsonArrayTest {
 	@Test
 	public void multipleInputsTest() {
 		assertEquals("[[[1,1],[2,3],[3,2],[4,7],[5,4],[7,3]]]",getString(multipleInputs));
+	}
+	
+	@Test(timeout = 1000)
+	public void bigMapTimeTest(){
+		//System.out.println(getString(bigMap));
+		assertEquals(100000,bigMap.size());
+	}
+	
+	@Test(timeout = 1000)
+	public void bigHashMapTimeTest(){
+		//System.out.println(getString(bigMap));
+		assertEquals(100000,bigHashMap.size());
 	}
 
 }
