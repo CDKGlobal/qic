@@ -3,7 +3,7 @@ package com.testing123.vaadin;
 import java.util.Arrays;
 import java.util.Map;
 
-public class HashMaptoJsonArray {
+public class MapToJsonArray {
 	
 	private static int[][] dataPoints;
 	
