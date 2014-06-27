@@ -130,12 +130,12 @@ public class MainComponentVolatile extends CustomComponent {
 				"colors : [\"#033F8D\", \"#033F8D\"]," +
 				"yaxis : {" + 
 		            "show : true," + 
-		            "axisLabel : 'Cycolmatic Complexity'," + 
+		            "axisLabel : 'Count of Files'," + 
 		            "position: 'left'" + 
 		        "}, " +
 		        "xaxis : {" +
 		            "show : true," + 
-		            "axisLabel : 'Throughput'," +
+		            "axisLabel : 'Lines of Code'," +
 		            "autoscaleMargin : .02" +
 		        "},"
 						+
