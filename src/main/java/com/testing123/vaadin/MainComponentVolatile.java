@@ -11,8 +11,8 @@ public class MainComponentVolatile extends CustomComponent {
 	
 	private static final String PANEL_WIDTH = "1000px";
 	private static final String PANEL_HEIGHT = "500px";
-	private static final String GRAPH_WIDTH = "";
-	private static final String GRAPH_HEIGHT = "";
+	private static final String GRAPH_WIDTH = "800px";
+	private static final String GRAPH_HEIGHT = "400px";
 
 	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
 
