@@ -26,24 +26,21 @@ import com.fasterxml.jackson.databind.MappingJsonFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Reader {
-	//private static final URL link = new URL("http://sonar.cobalt.com/api/resources?resource=com.cobalt.dap:platform&depth=2&metrics=ncloc&format=json").toURI().toURL();
-
+	private static final String link = "http://sonar.cobalt.com/api/resources?resource=com.cobalt.dap:platform&depth=-1&scopes=DIR&format=json";
+	
 	public static Map<Integer, Integer> getData() {
 		
 		Map<Integer, Integer> coords = new TreeMap<Integer, Integer>();
-		
 		ObjectMapper mapper = new ObjectMapper();
 		
 		try {
-			URL folderLink = new URL("http://sonar.cobalt.com/api/resources?resource=com.cobalt.dap:platform&depth=-1&scopes=DIR&format=json").toURI().toURL();
+			URL folderLink = new URL(link).toURI().toURL();
 			
-			List<JsonClass> folderList = 
-					mapper.readValue(folderLink, new TypeReference<List<JsonClass>>() {});
+			List<JsonClass> folderList = mapper.readValue(folderLink, new TypeReference<List<JsonClass>>() {});
 			
-			System.out.println("Number of folders: " + folderList.size());			
+			//System.out.println("Number of folders: " + folderList.size());			
 			
-			int csum = 0;
-			int i = 0;
+			//int csum = 0;
 			HashMap<String, Double> counts = new HashMap<String, Double>();
 			for (JsonClass folder : folderList) {
 				String currentFolder = "http://sonar.cobalt.com/api/resources?resource=" + folder.getKey() + "&depth=1&metrics=ncloc&format=json";
@@ -61,24 +58,25 @@ public class Reader {
 							continue;
 						}
 						counts.put(file.getName(), file.getMsr().getVal());
-						//csum += file.getMsr().getVal();
 					}
-					csum++;
+					//csum++;
 				}
 //				System.out.println(csum);
 //				System.out.println(csum + "\t" + folder.getName());
-				i++;
 			}
-			System.out.println(csum);
+			//System.out.println(csum);
 			
-			int sum = 0;
-			System.out.println("Number of files :" + counts.size());
-			for (String d : counts.keySet()) {
-				System.out.println(d + ": " + counts.get(d) + " lines");
-				sum += counts.get(d);
-			}
-			System.out.println("TOTAL LINES: " + sum);
+//			int sum = 0;
+//			System.out.println("Number of files :" + counts.size());
+//			for (String d : counts.keySet()) {
+//				System.out.println(d + ": " + counts.get(d) + " lines");
+//				sum += counts.get(d);
+//			}
 			
+			//System.out.println("TOTAL LINES: " + sum);
+			
+			
+			/** stores the data into the map as coordinates, keySet() as x-coords, values() as y-coords **/
 			// x: lines of code
 			// y: number of files
 			for (double linesOfCode : counts.values()) {
@@ -90,19 +88,9 @@ public class Reader {
 				}
 			}
 			
-			for (int lines : coords.keySet()) {
-				System.out.println(lines + ", " + coords.get(lines));
-			}
-			
-//			JsonClass one = fileList.get(0);
-//			System.out.println(one.getId());
-//			System.out.println(one.getKey());
-//			System.out.println(one.getName());
-//			System.out.println(one.getScope());
-//			System.out.println(one.getQualifier());
-//			System.out.println(one.getLname());
-//			System.out.println(one.getMsr().getVal());
-//			System.out.println(fileList.size());
+//			for (int lines : coords.keySet()) {
+//				System.out.println(lines + ", " + coords.get(lines));
+//			}
 		
 		} catch (JsonParseException e) {
 			e.printStackTrace();
@@ -116,31 +104,31 @@ public class Reader {
 		return coords;
 	}
 	
-	/**
-	 * Parses a JSON file
-	 * 
-	 * @param fileName the name of the file
-	 * @param result the parsed JSON string
-	 * @return
-	 * @throws Exception 
-	 */
-	public static String JSONParser(String fileName) throws Exception {
-		String result = "";
-		BufferedReader reader = null;
-		try {
-			reader = new BufferedReader(new FileReader(fileName));
-
-			String current;
-			while ((current = reader.readLine()) != null) {
-				result += current;
-			}
-		} catch (IOException e) {
-			e.printStackTrace(System.err);
-		} finally {
-			if (reader != null) {
-				reader.close();
-			}
-		}
-		return result;
-	}
+//	/**
+//	 * Parses a JSON file
+//	 * 
+//	 * @param fileName the name of the file
+//	 * @param result the parsed JSON string
+//	 * @return
+//	 * @throws Exception 
+//	 */
+//	public static String JSONParser(String fileName) throws Exception {
+//		String result = "";
+//		BufferedReader reader = null;
+//		try {
+//			reader = new BufferedReader(new FileReader(fileName));
+//
+//			String current;
+//			while ((current = reader.readLine()) != null) {
+//				result += current;
+//			}
+//		} catch (IOException e) {
+//			e.printStackTrace(System.err);
+//		} finally {
+//			if (reader != null) {
+//				reader.close();
+//			}
+//		}
+//		return result;
+//	}
 }

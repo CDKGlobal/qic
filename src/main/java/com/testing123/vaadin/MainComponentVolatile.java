@@ -8,6 +8,11 @@ import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.Table;
 
 public class MainComponentVolatile extends CustomComponent {
+	
+	private static final String PANEL_WIDTH = "1000px";
+	private static final String PANEL_HEIGHT = "500px";
+	private static final String GRAPH_WIDTH = "";
+	private static final String GRAPH_HEIGHT = "";
 
 	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
 
@@ -40,12 +45,12 @@ public class MainComponentVolatile extends CustomComponent {
 		// common part: create layout
 		mainLayout = new AbsoluteLayout();
 		mainLayout.setImmediate(false);
-		mainLayout.setWidth("1000px");
-		mainLayout.setHeight("500px");
+		mainLayout.setWidth(PANEL_WIDTH);
+		mainLayout.setHeight(PANEL_HEIGHT);
 		
 		// top-level component properties
-		setWidth("1000px");
-		setHeight("500px");
+		setWidth(PANEL_WIDTH);
+		setHeight(PANEL_HEIGHT);
 		
 		// tabSheet_1
 		tabSheet_1 = buildTabSheet_1();
@@ -59,8 +64,8 @@ public class MainComponentVolatile extends CustomComponent {
 		// common part: create layout
 		tabSheet_1 = new TabSheet();
 		tabSheet_1.setImmediate(true);
-		tabSheet_1.setWidth("1000px");
-		tabSheet_1.setHeight("500px");
+		tabSheet_1.setWidth(PANEL_WIDTH);
+		tabSheet_1.setHeight(PANEL_HEIGHT);
 		
 		// absoluteLayout_2
 		absoluteLayout_2 = buildAbsoluteLayout_2();
@@ -81,18 +86,18 @@ public class MainComponentVolatile extends CustomComponent {
 		// common part: create layout
 		absoluteLayout_2 = new AbsoluteLayout();
 		absoluteLayout_2.setImmediate(false);
-		absoluteLayout_2.setWidth("1000px");
-		absoluteLayout_2.setHeight("500px");
+		absoluteLayout_2.setWidth(PANEL_WIDTH);
+		absoluteLayout_2.setHeight(PANEL_HEIGHT);
 		
 		Graph chart = new Graph();
-		chart.setWidth("800px");
-		chart.setHeight("400px");
-		String readData = "";
-		try {
-			readData = Reader.JSONParser("/Users/chenc/Documents/workspace/QIC/src/data/" + "data.json");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		chart.setWidth(GRAPH_WIDTH);
+		chart.setHeight(GRAPH_HEIGHT);
+//		String readData = "";
+//		try {
+//			readData = Reader.JSONParser("/Users/chenc/Documents/workspace/QIC/src/data/" + "data.json");
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 		String data = 
 					"[" + 
 						"[" + 
@@ -106,12 +111,12 @@ public class MainComponentVolatile extends CustomComponent {
 					"]";
 		chart.setData(HashMaptoJsonArray.mapToString(Reader.getData()));
 		
-		String optionsData = "";
-		try {
-			optionsData = Reader.JSONParser("/Users/chenc/Documents/workspace/QIC/src/data/" + "qic.json");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+//		String optionsData = "";
+//		try {
+//			optionsData = Reader.JSONParser("/Users/chenc/Documents/workspace/QIC/src/data/" + "qic.json");
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 		
 		String options = 
 				"{" + 
