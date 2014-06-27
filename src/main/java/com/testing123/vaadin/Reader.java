@@ -1,30 +1,23 @@
-
-//does this help check out?
 package com.testing123.vaadin;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
 
-import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.MappingJsonFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * Reads from the API
+ * @author chenc
+ *
+ */
 public class Reader {
 	private static final String link = "http://sonar.cobalt.com/api/resources?resource=com.cobalt.dap:platform&depth=-1&scopes=DIR&format=json";
 	
@@ -81,6 +74,9 @@ public class Reader {
 			// y: number of files
 			for (double linesOfCode : counts.values()) {
 				int lines = (int) linesOfCode;
+				lines/=10;
+				lines*=10;
+				lines+= 5;
 				if (coords.containsKey(lines)) {
 					coords.put(lines, coords.get(lines) + 1);				
 				} else {
