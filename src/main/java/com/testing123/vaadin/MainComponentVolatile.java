@@ -98,17 +98,7 @@ public class MainComponentVolatile extends CustomComponent {
 //		} catch (Exception e) {
 //			e.printStackTrace();
 //		}
-		String data = 
-					"[" + 
-						"[" + 
-							"[1, 1], " + 
-							"[2, 3], " + 
-							"[3, 2], " +
-							"[4, 7], " +
-							"[5.5, 4]," +
-							"[7, 3]" +
-						"]" +
-					"]";
+
 		chart.setData(MapToJsonArray.mapToString(Reader.getData()));
 		
 //		String optionsData = "";
