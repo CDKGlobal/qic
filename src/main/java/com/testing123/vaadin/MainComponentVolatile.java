@@ -109,7 +109,7 @@ public class MainComponentVolatile extends CustomComponent {
 							"[7, 3]" +
 						"]" +
 					"]";
-		chart.setData(HashMaptoJsonArray.mapToString(Reader.getData()));
+		chart.setData(MapToJsonArray.mapToString(Reader.getData()));
 		
 //		String optionsData = "";
 //		try {
