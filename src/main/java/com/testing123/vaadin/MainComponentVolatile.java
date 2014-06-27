@@ -99,7 +99,7 @@ public class MainComponentVolatile extends CustomComponent {
 //			e.printStackTrace();
 //		}
 
-		chart.setData(MapToJsonArray.mapToString(Reader.getData()));
+		chart.setData(MapToJsonArray.mapToString(Reader2.getData()));
 		
 //		String optionsData = "";
 //		try {
