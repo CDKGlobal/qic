@@ -121,7 +121,7 @@ public class MainComponentVolatile extends CustomComponent {
 		String options = 
 				"{" + 
 				"series : {" + 
-					"points: { show: true } " + 
+					"points: { show: true, fill: true } " + 
 				"}, " +		
 				"colors : [\"#033F8D\", \"#033F8D\"]," +
 				"yaxis : {" + 
