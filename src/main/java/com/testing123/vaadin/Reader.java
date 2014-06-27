@@ -21,7 +21,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class Reader {
 	private static final String link = "http://sonar.cobalt.com/api/resources?resource=com.cobalt.dap:platform&depth=-1&scopes=DIR&format=json";
 	
-	public static Map<Integer, Integer> getData() {
+	public static Map<Integer, Integer> getData(){
+		return getData("ncloc");
+	}
+	
+	public static Map<Integer, Integer> getData(String metric) {
 		
 		Map<Integer, Integer> coords = new TreeMap<Integer, Integer>();
 		ObjectMapper mapper = new ObjectMapper();
@@ -36,7 +40,7 @@ public class Reader {
 			//int csum = 0;
 			HashMap<String, Double> counts = new HashMap<String, Double>();
 			for (JsonClass folder : folderList) {
-				String currentFolder = "http://sonar.cobalt.com/api/resources?resource=" + folder.getKey() + "&depth=1&metrics=ncloc&format=json";
+				String currentFolder = "http://sonar.cobalt.com/api/resources?resource=" + folder.getKey() + "&depth=1&metrics=" + metric + "&format=json";
 				
 //				String currentFolder = "http://sonar.cobalt.com/api/resources?resource=com.cobalt.dap:platform:com.cobalt.dap.wicket.view.dmag.report&depth=1&metrics=ncloc&format=json";
 				URL filesLink = new URL(currentFolder);
@@ -88,6 +92,7 @@ public class Reader {
 //				System.out.println(lines + ", " + coords.get(lines));
 //			}
 		
+		//Catch exceptions
 		} catch (JsonParseException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
@@ -99,6 +104,7 @@ public class Reader {
 		}
 		return coords;
 	}
+
 	
 //	/**
 //	 * Parses a JSON file
