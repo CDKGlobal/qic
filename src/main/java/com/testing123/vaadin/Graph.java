@@ -7,14 +7,18 @@ import org.json.JSONObject;
 import com.vaadin.annotations.JavaScript;
 import com.vaadin.ui.AbstractJavaScriptComponent;
 
-
+/**
+ * Graph represents a Javascript scatterplot, its options, and data.  
+ * 
+ * @author chenc
+ */
 @JavaScript({"jquery.js","jquery.flot.js", "jquery.flot.axislabels.js", "flot_connector.js"})
 public class Graph extends AbstractJavaScriptComponent {
 	
 	/**
 	 * Sets properties of the graph (eg. show lines, axis labels, etc)
 	 * 
-	 * @requires options != null
+	 * @requires options != null, and source is a well formatted JSON data source
 	 * @param options the JSONObject of options that the graph will have
 	 */
 	public void setOptions(String options) {
@@ -30,7 +34,7 @@ public class Graph extends AbstractJavaScriptComponent {
 	/**
 	 * Sets the data that will be plotted
 	 * 
-	 * @requires source != null
+	 * @requires source != null, and source is a well formatted JSON data source
 	 * @param source a string of data that is in the format of a JSONArray
 	 */
 	public void setData(String source) {
@@ -44,7 +48,9 @@ public class Graph extends AbstractJavaScriptComponent {
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Returns graph's current instance's state
+	 * 
+	 * @return the current state of the graph
 	 */
 	@Override
 	protected GraphState getState() {
