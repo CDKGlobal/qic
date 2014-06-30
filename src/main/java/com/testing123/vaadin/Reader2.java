@@ -14,10 +14,22 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * Reader 2 will parse the web API links so data is fetched with multiple threads.
+ * 
+ * @author chenc
+ */
 public class Reader2 {
+	
 	private static final String link = "http://sonar.cobalt.com/api/resources?resource=com.cobalt.dap:platform&depth=-1&scopes=DIR&format=json";
 	public static ObjectMapper mapper;
 	
+	/**
+	 * Grabs the data from a URL and returns the data points needed to be plotted in the form of
+	 * a map, with the keys being the x-coordinate and the values being the y-coordinate 
+	 * 
+	 * @return a Map of x-coordinates mapped to their respective y-coordinates
+	 */
 	public static Map<Integer, Integer> getData() {
 		
 		Map<Integer, Integer> coords = new TreeMap<Integer, Integer>();
@@ -26,69 +38,31 @@ public class Reader2 {
 		try {
 			URL folderLink = new URL(link).toURI().toURL();
 			
+			/** produces a list of folders **/
 			List<JsonClass> folderList = mapper.readValue(folderLink, new TypeReference<List<JsonClass>>() {});
-			
-			//System.out.println("Number of folders: " + folderList.size());			
-			//int csum = 0;
-			System.out.println("TRIED URL");
+					
+			System.out.println("URL SUCCESS");
 			ForkJoinPool fjp = new ForkJoinPool();
+			
+			/** Uses the Java Fork-Join framework to grab all the files in the project. **/
 			CallFolders cF = new CallFolders(0, folderList.size(), new MapHolder(), folderList);
 			MapHolder mh = fjp.invoke(cF);
 			Map<String, Double> counts = mh.fileData;
-			
-//			for (JsonClass folder : folderList) {
-//				String currentFolder = "http://sonar.cobalt.com/api/resources?resource=" + folder.getKey() + "&depth=1&metrics=ncloc&format=json";
-//				
-//				String currentFolder = "http://sonar.cobalt.com/api/resources?resource=com.cobalt.dap:platform:com.cobalt.dap.wicket.view.dmag.report&depth=1&metrics=ncloc&format=json";
-//				URL filesLink = new URL(currentFolder);
-//				List<JsonClass> fileList = mapper.readValue(filesLink, new TypeReference<List<JsonClass>>() {});
-//				//System.out.println(folder.getKey());
-//				//System.out.println("folder: " + i);
-//
-//				for (JsonClass file : fileList) {
-//					if (fileList.size() != 0) {
-//						if (counts.containsKey(file.getName())) {
-//							counts.put(file.getName() + " (2)", file.getMsr().getVal());
-//							continue;
-//						}
-//						counts.put(file.getName(), file.getMsr().getVal());
-//					}
-//					//csum++;
-//				}
-//				System.out.println(csum);
-//				System.out.println(csum + "\t" + folder.getName());
-//			}
-			//System.out.println(csum);
-			
-//			int sum = 0;
-//			System.out.println("Number of files :" + counts.size());
-//			for (String d : counts.keySet()) {
-//				System.out.println(d + ": " + counts.get(d) + " lines");
-//				sum += counts.get(d);
-//			}
-			
-			//System.out.println("TOTAL LINES: " + sum);
-			
 			
 			/** stores the data into the map as coordinates, keySet() as x-coords, values() as y-coords **/
 			// x: lines of code
 			// y: number of files
 			for (double linesOfCode : counts.values()) {
 				int lines = (int) linesOfCode;
-				lines/=10;
-				lines*=10;
-				lines+= 5;
+//				lines/=10;		// puts the data in bucket sizes
+//				lines*=10;
+//				lines+= 5;		// organizes the data to be at every 5 points
 				if (coords.containsKey(lines)) {
 					coords.put(lines, coords.get(lines) + 1);				
 				} else {
 					coords.put(lines, 1);
 				}
 			}
-			
-//			for (int lines : coords.keySet()) {
-//				System.out.println(lines + ", " + coords.get(lines));
-//			}
-		
 		} catch (JsonParseException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
@@ -100,32 +74,4 @@ public class Reader2 {
 		}
 		return coords;
 	}
-	
-//	/**
-//	 * Parses a JSON file
-//	 * 
-//	 * @param fileName the name of the file
-//	 * @param result the parsed JSON string
-//	 * @return
-//	 * @throws Exception 
-//	 */
-//	public static String JSONParser(String fileName) throws Exception {
-//		String result = "";
-//		BufferedReader reader = null;
-//		try {
-//			reader = new BufferedReader(new FileReader(fileName));
-//
-//			String current;
-//			while ((current = reader.readLine()) != null) {
-//				result += current;
-//			}
-//		} catch (IOException e) {
-//			e.printStackTrace(System.err);
-//		} finally {
-//			if (reader != null) {
-//				reader.close();
-//			}
-//		}
-//		return result;
-//	}
 }

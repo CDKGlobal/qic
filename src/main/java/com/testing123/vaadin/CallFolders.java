@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
  * @author chenc
  *
  */
+@SuppressWarnings("serial")
 public class CallFolders extends RecursiveTask<MapHolder> {
 	
 	private int low;
