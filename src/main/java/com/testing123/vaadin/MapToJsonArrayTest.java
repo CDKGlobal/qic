@@ -2,7 +2,6 @@ package com.testing123.vaadin;
 
 import static org.junit.Assert.*;
 
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -13,6 +12,7 @@ import org.junit.Test;
 
 
 
+
 public class MapToJsonArrayTest {
 	
 	static HashMap<Integer,Integer> empty;
@@ -20,6 +20,7 @@ public class MapToJsonArrayTest {
 	static HashMap<Integer,Integer>  multipleInputs;
 	static TreeMap<Integer,Integer>  bigMap;
 	static HashMap<Integer,Integer>  bigHashMap;
+	static HashMap<String,Double> stringDoubleMap;
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -47,6 +48,14 @@ public class MapToJsonArrayTest {
 			bigHashMap.put(i, generator.nextInt(i));
 		}
 		
+		stringDoubleMap = new HashMap<String,Double> ();
+		stringDoubleMap.put("a", 1.0);
+		stringDoubleMap.put("b", 2.0);
+		stringDoubleMap.put("c", 3.0);
+		stringDoubleMap.put("d", 7.0);
+		stringDoubleMap.put("e", 3.0);
+		stringDoubleMap.put("f", 4.0);
+		
 	}
 	
 	private static String getString(Map<Integer,Integer> map){
@@ -71,14 +80,19 @@ public class MapToJsonArrayTest {
 	
 	@Test(timeout = 1000)
 	public void bigMapTimeTest(){
-		//System.out.println(getString(bigMap));
+		getString(bigMap);
 		assertEquals(100000,bigMap.size());
 	}
 	
 	@Test(timeout = 1000)
 	public void bigHashMapTimeTest(){
-		//System.out.println(getString(bigMap));
+		getString(bigHashMap);
 		assertEquals(100000,bigHashMap.size());
 	}
+	/**
+	@Test
+	public void stringDoubleTest(){
+		assertEquals("aa",MapToJsonArray.mapToString(stringDoubleMap).replaceAll("\\s+",""));
+	}**/
 
 }
