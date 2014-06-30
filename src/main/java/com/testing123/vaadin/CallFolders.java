@@ -61,6 +61,7 @@ public class CallFolders extends RecursiveTask<MapHolder> {
 					e.printStackTrace();
 				}
 			}
+			System.out.println("THREAD COMPLETE");
 			return m;
 		} else {
 			int mid = low + (high - low) / 2;
