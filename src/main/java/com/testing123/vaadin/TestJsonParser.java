@@ -66,6 +66,6 @@ public class TestJsonParser {
 	
 	@Test
 	public void testGetMSR() {
-		assertEquals((int)one.getMsr().getVal(), 591);
+		assertEquals((int)one.getMsr().get(0).getVal(), 591);
 	}
 }

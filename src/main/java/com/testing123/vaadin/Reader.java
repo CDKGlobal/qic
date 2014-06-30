@@ -53,10 +53,10 @@ public class Reader {
 				for (JsonClass file : fileList) {
 					if (fileList.size() != 0) {
 						if (counts.containsKey(file.getName())) {
-							counts.put(file.getName() + " (2)", file.getMsr().getVal());
+							counts.put(file.getName() + " (2)", file.getMsr().get(0).getVal());
 							continue;
 						}
-						counts.put(file.getName(), file.getMsr().getVal());
+						counts.put(file.getName(), file.getMsr().get(0).getVal());
 					}
 					//csum++;
 				}

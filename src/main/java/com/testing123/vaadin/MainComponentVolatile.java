@@ -104,7 +104,7 @@ public class MainComponentVolatile extends CustomComponent {
 //			e.printStackTrace();
 //		}
 
-		chart.setData(MapToJsonArray.mapToString(Reader2.getData()));
+		chart.setData("[" + Reader2.getData() + "]");
 		
 //		String optionsData = "";
 //		try {
@@ -125,7 +125,7 @@ public class MainComponentVolatile extends CustomComponent {
 				"colors : [\"#033F8D\", \"#033F8D\"]," +
 				"yaxis : {" + 
 		            "show : true," + 
-		            "axisLabel : 'Count of Files'," + 
+		            "axisLabel : 'Cyclomatic Complexity'," + 
 		            "position: 'left'" + 
 		        "}, " +
 		        "xaxis : {" +

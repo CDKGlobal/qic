@@ -1,7 +1,6 @@
 package com.testing123.vaadin;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
 /**
  * 
  * 
@@ -9,14 +8,14 @@ import java.util.Map;
  */
 public class MapHolder {
 	
-	public Map<String, Double> fileData;
+	public HashSet<DataPoint> fileData;
 	
 	public MapHolder() {
-		this.fileData = new HashMap<String, Double>();
+		this.fileData = new HashSet<DataPoint>();
 	}
 	
 	public MapHolder(MapHolder map1, MapHolder map2) {
-		this.fileData = new HashMap<String, Double>(map1.fileData);
-		fileData.putAll(map2.fileData);
+		this.fileData = new HashSet<DataPoint>(map1.fileData);
+		fileData.addAll(map2.fileData);
 	}
 }

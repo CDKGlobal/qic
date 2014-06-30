@@ -43,5 +43,4 @@ public class DataPoint {
     public String toString() {
         return "[" + lineOfCode + ", " + complexity + ", \"" + key + " \"]";
     }
-
 }

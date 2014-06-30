@@ -3,7 +3,6 @@ package com.testing123.vaadin;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 // Constructs a JSON class
 
@@ -71,7 +70,7 @@ public class JsonClass {
 
     }
     
-    public Msr getMsr() {
-    	return this.msr.get(0);
+    public List<Msr> getMsr() {
+    	return msr;
     }
 }

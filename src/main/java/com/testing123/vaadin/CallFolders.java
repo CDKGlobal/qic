@@ -38,19 +38,23 @@ public class CallFolders extends RecursiveTask<MapHolder> {
 					JsonClass folder = fL.get(i);
 					String currentFolder = "http://sonar.cobalt.com/api/resources?resource="
 							+ folder.getKey()
-							+ "&depth=1&metrics=ncloc&format=json";
-					System.out.println(folder.getKey());
+							+ "&depth=1&" 
+							+ "metrics=" + Reader2.metric
+							+ "&format=json";
+					System.out.println(currentFolder);
 					URL filesLink = new URL(currentFolder);
 					List<JsonClass> fileList;
 					fileList = Reader2.mapper.readValue(filesLink, new TypeReference<List<JsonClass>>() {});
 					
 					for (JsonClass file : fileList) {
 						if (fileList.size() != 0) {
-							if (m.fileData.containsKey(file.getName())) {
-								m.fileData.put(file.getName() + " (2)", file.getMsr().getVal());
+							if (!file.getQualifier().equals("CLA")) {
 								continue;
+							} else if (m.fileData.contains(file.getName())) {
+								file.setName(file.getName().trim() + " (2)");
 							}
-							m.fileData.put(file.getName(), file.getMsr().getVal());
+							m.fileData.add(new DataPoint(file.getName(), file.getMsr().get(1).getVal(), 
+															file.getMsr().get(0).getVal()));
 						}
 					}
 				} catch (JsonParseException e) {
