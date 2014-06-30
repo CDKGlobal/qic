@@ -21,6 +21,7 @@ public class MapToJsonArrayTest {
 	static TreeMap<Integer,Integer>  bigMap;
 	static HashMap<Integer,Integer>  bigHashMap;
 	static HashMap<String,Double> stringDoubleMap;
+	static HashMap<String,Double> stringDoubleMap2;
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -52,9 +53,17 @@ public class MapToJsonArrayTest {
 		stringDoubleMap.put("a", 1.0);
 		stringDoubleMap.put("b", 2.0);
 		stringDoubleMap.put("c", 3.0);
-		stringDoubleMap.put("d", 7.0);
-		stringDoubleMap.put("e", 3.0);
-		stringDoubleMap.put("f", 4.0);
+		stringDoubleMap.put("d", 4.5);
+		stringDoubleMap.put("e", 5.0);
+		stringDoubleMap.put("f", 6.7);
+		
+		stringDoubleMap2 = new HashMap<String,Double> ();
+		stringDoubleMap2.put("a", 11.0);
+		stringDoubleMap2.put("b", 12.0);
+		stringDoubleMap2.put("c", 13.0);
+		stringDoubleMap2.put("d", 14.5);
+		stringDoubleMap2.put("e", 15.0);
+		stringDoubleMap2.put("f", 16.7);
 		
 	}
 	
@@ -92,7 +101,12 @@ public class MapToJsonArrayTest {
 	
 	@Test
 	public void stringDoubleTest(){
-		assertEquals("[[[f,4.0],[d,7.0],[e,3.0],[b,2.0],[c,3.0],[a,1.0]]]",MapToJsonArray.mapToString(stringDoubleMap).replaceAll("\\s+",""));
+		assertEquals("[[[f,6.7],[d,4.5],[e,5.0],[b,2.0],[c,3.0],[a,1.0]]]",MapToJsonArray.mapToString(stringDoubleMap).replaceAll("\\s+",""));
+	}
+	
+	@Test
+	public void twoStringDoubleTest(){
+		assertEquals("[[[6.7,16.7,\"f\"],[4.5,14.5,\"d\"],[5.0,15.0,\"e\"],[2.0,12.0,\"b\"],[3.0,13.0,\"c\"],[1.0,11.0,\"a\"]]]",MapToJsonArray.mapToString(stringDoubleMap,stringDoubleMap2).replaceAll("\\s+",""));
 	}
 
 }
