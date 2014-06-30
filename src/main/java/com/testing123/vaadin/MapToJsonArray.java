@@ -2,6 +2,7 @@ package com.testing123.vaadin;
 
 import java.util.Arrays;
 import java.util.Map;
+import java.util.Set;
 
 public class MapToJsonArray<K, V> {
 
@@ -48,6 +49,10 @@ public class MapToJsonArray<K, V> {
 	public static <K, V> String mapToString(Map<K, V> map1, Map<K, V> map2) {
 		makeJavaArray(map1, map2);
 		return "[" + Arrays.deepToString(labledDataPoints) + "]";
+	}
+	
+	public static <T> String mapToString(Set<T> set){
+		return "[" + set.toString() + "]";
 	}
 
 	private static class Data {
