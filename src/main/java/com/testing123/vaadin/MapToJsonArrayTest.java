@@ -89,10 +89,10 @@ public class MapToJsonArrayTest {
 		getString(bigHashMap);
 		assertEquals(100000,bigHashMap.size());
 	}
-	/**
+	
 	@Test
 	public void stringDoubleTest(){
-		assertEquals("aa",MapToJsonArray.mapToString(stringDoubleMap).replaceAll("\\s+",""));
-	}**/
+		assertEquals("[[[f,4.0],[d,7.0],[e,3.0],[b,2.0],[c,3.0],[a,1.0]]]",MapToJsonArray.mapToString(stringDoubleMap).replaceAll("\\s+",""));
+	}
 
 }
