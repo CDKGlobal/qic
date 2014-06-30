@@ -6,8 +6,11 @@ import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.AbsoluteLayout;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.GridLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 
 /**
@@ -42,15 +45,20 @@ public class QicUI extends UI {
 		setContent(layout);
 		
 		AbsoluteLayout l1 = new AbsoluteLayout();
-//		AbsoluteLayout l2 = new CustomComponent();
+		AbsoluteLayout l2 = new AbsoluteLayout();
 		l1.setWidth("150px");
 		l1.setHeight("100px");
-//		l2.setWidth("200px");
-//		l2.setHeight("00px");
+		
+		l2.setWidth("1000px");
+		l2.setHeight("100px");
+		
+		Label title = new Label("<b>Quality in Code</b>", ContentMode.HTML);
+		title.setStyleName("h1");
+		l2.addComponent(title, "top:25px;");
 		
 		MainComponentVolatile comp = new MainComponentVolatile();
 		layout.addComponent(l1, 1, 1);
-//		l2.addComponent(l2, 2, 1);
+		layout.addComponent(l2, 2, 1);
 		layout.addComponent(comp, 2, 2);
 	}
 }
