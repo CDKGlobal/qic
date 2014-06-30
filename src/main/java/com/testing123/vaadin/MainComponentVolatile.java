@@ -108,11 +108,11 @@ public class MainComponentVolatile extends CustomComponent {
 		
 //		String optionsData = "";
 //		try {
-//			optionsData = Reader.JSONParser("/Users/chenc/Documents/workspace/QIC/src/data/" + "qic.json");
+//			optionsData = Reader.JSONParser("options.json");
 //		} catch (Exception e) {
 //			e.printStackTrace();
+//			System.exit(1);
 //		}
-		
 		String options = 
 				"{" + 
 				"series : {" + 
