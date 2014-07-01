@@ -1,0 +1,20 @@
+{
+	"series": {
+		"points": {
+			"show": true, 
+			"fill": true,
+			"fillColor": "#033F8D"
+		}
+	},		
+	"colors": ["#033F8D", "#033F8D"],
+	"yaxis": { 
+		"show": true, 
+		"axisLabel": "Count of Files",
+		"position": "left"
+	},
+	"xaxis" : {
+		"show" : true, 
+		"axisLabel" : "Lines of Code",
+		"autoscaleMargin" : ".02"
+	}
+}
