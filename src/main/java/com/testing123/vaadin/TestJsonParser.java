@@ -16,7 +16,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class TestJsonParser {
-	static JsonClass one;
+	static WebData one;
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -24,8 +24,8 @@ public class TestJsonParser {
 		try {
 			URL link = new URL("http://sonar.cobalt.com/api/resources?resource=com.cobalt.dap:platform&depth=2&metrics=ncloc&format=json").toURI().toURL();
 			
-			List<JsonClass> jsonClassList =
-				    mapper.readValue(link, new TypeReference<List<JsonClass>>() {});
+			List<WebData> jsonClassList =
+				    mapper.readValue(link, new TypeReference<List<WebData>>() {});
 			
 			one = jsonClassList.get(0);
 		} catch (JsonParseException e) {
