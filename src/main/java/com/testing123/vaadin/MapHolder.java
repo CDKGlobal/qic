@@ -1,8 +1,9 @@
 package com.testing123.vaadin;
 
 import java.util.HashSet;
+
 /**
- * 
+ * A small class that holds the map so multiple threads can use it to store data
  * 
  * @author chenc
  */

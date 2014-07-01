@@ -4,8 +4,9 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-// Constructs a JSON class
-
+/**
+ * A class that will store all of the data from the API
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class JsonClass {
 	
@@ -67,7 +68,6 @@ public class JsonClass {
 
     public String getLname() {
         return lname;
-
     }
     
     public List<Msr> getMsr() {

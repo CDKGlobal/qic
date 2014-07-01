@@ -3,11 +3,8 @@ package com.testing123.vaadin;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
 import java.util.concurrent.ForkJoinPool;
 
 import com.fasterxml.jackson.core.JsonParseException;
@@ -24,7 +21,6 @@ public class Reader2 {
 	
 	private static final String link = "http://sonar.cobalt.com/api/resources?resource=com.cobalt.dap:platform&depth=-1&scopes=DIR&format=json";
 	public static ObjectMapper mapper;
-	
 	public static  String metric;
 	
 	public static Set<DataPoint> getData(){
@@ -55,25 +51,6 @@ public class Reader2 {
 			/** Uses the Java Fork-Join framework to grab all the files in the project. **/
 			CallFolders cF = new CallFolders(0, folderList.size(), new MapHolder(), folderList);
 			mh = fjp.invoke(cF);
-			
-			/** stores the data into the map as coordinates, keySet() as x-coords, values() as y-coords **/
-			// x: lines of code
-			// y: number of files
-//			for (double linesOfCode : counts) {
-//				int lines = (int) linesOfCode;
-////				lines/=10;		// puts the data in bucket sizes
-////				lines*=10;
-////				lines+= 5;		// organizes the data to be at every 5 points
-//				if (coords.containsKey(lines)) {
-//					coords.put(lines, coords.get(lines) + 1);				
-//				} else {
-//					coords.put(lines, 1);
-//				}
-//			}
-			
-			for (DataPoint d : mh.fileData) {
-				System.out.println(d.toString());
-			}
 		} catch (JsonParseException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
