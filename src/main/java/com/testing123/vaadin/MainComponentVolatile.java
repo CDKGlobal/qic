@@ -135,7 +135,7 @@ public class MainComponentVolatile extends CustomComponent {
 		        "},"
 						+
 					"grid: {" 
-						+ 
+						+ "hoverable: true" +
 //						"backgroundColor: {" + 
 //							"colors: [" +
 //								"\"#00CCFF\"," + 
