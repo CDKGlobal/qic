@@ -18,6 +18,6 @@ element.bind("plothover", function(event, pos, item) {
 			padding: '2px',
 			'background-color': '#fee',
 			opacity: 0.80
-}).appendTo("body"); 
+}).appendTo("body").fadeIn(200); 
 });
 }
