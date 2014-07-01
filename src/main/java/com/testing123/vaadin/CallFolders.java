@@ -20,10 +20,10 @@ public class CallFolders extends RecursiveTask<MapHolder> {
 	private int low;
 	private int high;
 	private MapHolder m;
-	private List<JsonClass> fL;
+	private List<WebData> fL;
 	private static final int SEQUENTIAL_CUTOFF = 50;
 	
-	public CallFolders(int low, int high, MapHolder m, List<JsonClass> fL) {
+	public CallFolders(int low, int high, MapHolder m, List<WebData> fL) {
 		this.low = low;
 		this.high = high;
 		this.m = m;
@@ -35,7 +35,7 @@ public class CallFolders extends RecursiveTask<MapHolder> {
 		if (high - low <= SEQUENTIAL_CUTOFF) {
 			for (int i = low; i < high; i++) {
 				try {
-					JsonClass folder = fL.get(i);
+					WebData folder = fL.get(i);
 					String currentFolder = "http://sonar.cobalt.com/api/resources?resource="
 							+ folder.getKey()
 							+ "&depth=1&" 
@@ -43,10 +43,10 @@ public class CallFolders extends RecursiveTask<MapHolder> {
 							+ "&format=json";
 					System.out.println(currentFolder);
 					URL filesLink = new URL(currentFolder);
-					List<JsonClass> fileList;
-					fileList = Reader2.mapper.readValue(filesLink, new TypeReference<List<JsonClass>>() {});
+					List<WebData> fileList;
+					fileList = Reader2.mapper.readValue(filesLink, new TypeReference<List<WebData>>() {});
 					
-					for (JsonClass file : fileList) {
+					for (WebData file : fileList) {
 						if (fileList.size() != 0) {
 							if (!file.getQualifier().equals("CLA")) {
 								continue;

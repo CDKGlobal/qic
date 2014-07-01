@@ -35,22 +35,22 @@ public class Reader {
 		try {
 			URL folderLink = new URL(link).toURI().toURL();
 			
-			List<JsonClass> folderList = mapper.readValue(folderLink, new TypeReference<List<JsonClass>>() {});
+			List<WebData> folderList = mapper.readValue(folderLink, new TypeReference<List<WebData>>() {});
 			
 			//System.out.println("Number of folders: " + folderList.size());			
 			
 			//int csum = 0;
 			HashMap<String, Double> counts = new HashMap<String, Double>();
-			for (JsonClass folder : folderList) {
+			for (WebData folder : folderList) {
 				String currentFolder = "http://sonar.cobalt.com/api/resources?resource=" + folder.getKey() + "&depth=1&metrics=" + metric + "&format=json";
 				
 //				String currentFolder = "http://sonar.cobalt.com/api/resources?resource=com.cobalt.dap:platform:com.cobalt.dap.wicket.view.dmag.report&depth=1&metrics=ncloc&format=json";
 				URL filesLink = new URL(currentFolder);
-				List<JsonClass> fileList = mapper.readValue(filesLink, new TypeReference<List<JsonClass>>() {});
+				List<WebData> fileList = mapper.readValue(filesLink, new TypeReference<List<WebData>>() {});
 				//System.out.println(folder.getKey());
 				//System.out.println("folder: " + i);
 
-				for (JsonClass file : fileList) {
+				for (WebData file : fileList) {
 					if (fileList.size() != 0) {
 						if (counts.containsKey(file.getName())) {
 							counts.put(file.getName() + " (2)", file.getMsr().get(0).getVal());

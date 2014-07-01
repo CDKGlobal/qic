@@ -43,7 +43,7 @@ public class Reader2 {
 			URL folderLink = new URL(link).toURI().toURL();
 			
 			/** produces a list of folders **/
-			List<JsonClass> folderList = mapper.readValue(folderLink, new TypeReference<List<JsonClass>>() {});
+			List<WebData> folderList = mapper.readValue(folderLink, new TypeReference<List<WebData>>() {});
 					
 			System.out.println("URL SUCCESS");
 			ForkJoinPool fjp = new ForkJoinPool();
