@@ -53,9 +53,13 @@ public class MainComponentVolatile extends CustomComponent {
 		setWidth(PANEL_WIDTH);
 		setHeight(PANEL_HEIGHT);
 		
-		// tabSheet_1
-		tabSheet_1 = buildTabSheet_1();
-		mainLayout.addComponent(tabSheet_1, "top:0.0px;");
+		// Graph
+		absoluteLayout_2 = buildAbsoluteLayout_2();
+		mainLayout.addComponent(absoluteLayout_2);
+		
+//		// tabSheet_1
+//		tabSheet_1 = buildTabSheet_1();
+//		mainLayout.addComponent(tabSheet_1, "top:0.0px;");
 		
 		return mainLayout;
 	}
