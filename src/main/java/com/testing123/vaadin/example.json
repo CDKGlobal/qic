@@ -1,1 +1,20 @@
-[{"id":17737,"key":"com.cobalt.dap:platform:com.cobalt.dap.wicket.view.packageattribute.GeoTargetingEditPage","name":"GeoTargetingEditPage","scope":"FIL","qualifier":"CLA","date":"2014-06-25T06:12:34-0700","creationDate":null,"lname":"com.cobalt.dap.wicket.view.packageattribute.GeoTargetingEditPage","lang":"java","msr":[{"key":"ncloc","val":591.0,"frmt_val":"591"}]}]
+[
+   {
+      "id":17737,
+      "key":"com.cobalt.dap:platform:com.cobalt.dap.wicket.view.packageattribute.GeoTargetingEditPage",
+      "name":"GeoTargetingEditPage",
+      "scope":"FIL",
+      "qualifier":"CLA",
+      "date":"2014-06-25T06:12:34-0700",
+      "creationDate":null,
+      "lname":"com.cobalt.dap.wicket.view.packageattribute.GeoTargetingEditPage",
+      "lang":"java",
+      "msr":[
+         {
+            "key":"ncloc",
+            "val":591.0,
+            "frmt_val":"591"
+         }
+      ]
+   }
+]
