@@ -113,7 +113,7 @@ public class MainComponentVolatile2 extends CustomComponent {
         // e.printStackTrace();
         // }
 
-        chart.setData(MapToJsonArray.mapToString(Reader2.getData()));
+        chart.setData(MapToJsonArray.mapToString(Reader2.getData("ncloc,complexity")));
 
         // String optionsData = "";
         // try {

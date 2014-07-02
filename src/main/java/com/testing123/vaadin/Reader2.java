@@ -3,6 +3,7 @@ package com.testing123.vaadin;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ForkJoinPool;
@@ -23,17 +24,17 @@ public class Reader2 {
 	public static ObjectMapper mapper;
 	public static  String metric;
 	
-	public static Set<DataPoint> getData(){
-		return getData("ncloc,complexity");
-	}
-	
 	/**
 	 * Grabs the data from a URL and returns the data points needed to be plotted in the form of
 	 * a map, with the keys being the x-coordinate and the values being the y-coordinate 
 	 * 
 	 * @return a Map of x-coordinates mapped to their respective y-coordinates
 	 */
-	public static Set<DataPoint> getData(String inputMetric) {	
+	public static Set<DataPoint> getData(String inputMetric) {
+		String[] metrics = inputMetric.split(",");
+		if (metrics.length != 2) {
+			return new HashSet<DataPoint>();
+		}
 		metric = inputMetric;
 		
 		MapHolder mh = new MapHolder();
