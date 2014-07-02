@@ -2,8 +2,6 @@ package com.testing123.vaadin;
 
 import static org.junit.Assert.*;
 
-import java.util.Set;
-
 import org.junit.BeforeClass;
 import org.junit.Test;
 
