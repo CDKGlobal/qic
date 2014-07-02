@@ -34,7 +34,9 @@ public class Reader2 {
 	 * @return a Map of x-coordinates mapped to their respective y-coordinates
 	 */
 	public static Set<DataPoint> getData(String m1, String m2) {
-		if (m1 == null || m2 == null || m1.equals("") || m2.equals("")) {
+		
+		getSonarMetrics metrics = new getSonarMetrics();
+		if (!metrics.sonarHasMetrics(m1, m2)) {
 			return new HashSet<DataPoint>();
 		}
 		
