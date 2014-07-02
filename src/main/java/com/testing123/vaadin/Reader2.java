@@ -55,13 +55,9 @@ public class Reader2 {
 			ForkJoinPool forkJoinPool = new ForkJoinPool();
 			CallFolders callFolders = new CallFolders(0, folderList.size(), new MapHolder(), folderList);
 			mapHolder = forkJoinPool.invoke(callFolders);
-		} catch (JsonParseException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		} 
 		return mapHolder.fileData;
 	}
 }
