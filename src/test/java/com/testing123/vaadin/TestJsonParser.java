@@ -17,16 +17,12 @@ public class TestJsonParser {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		ObjectMapper mapper = new ObjectMapper();
-		try {
-			URL link = new URL("http://sonar.cobalt.com/api/resources?resource=com.cobalt.dap:platform&depth=2&metrics=ncloc&format=json").toURI().toURL();
-			
-			List<WebData> jsonClassList =
-				    mapper.readValue(link, new TypeReference<List<WebData>>() {});
-			
-			one = jsonClassList.get(0);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		URL link = new URL("http://sonar.cobalt.com/api/resources?resource=com.cobalt.dap:platform&depth=2&metrics=ncloc&format=json")
+				.toURI().toURL();
+
+		List<WebData> jsonClassList = mapper.readValue(link, new TypeReference<List<WebData>>() {});
+
+		one = jsonClassList.get(0);
 	}
 
 	@Test
