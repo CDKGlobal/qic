@@ -35,8 +35,7 @@ public class Reader2 {
 	 */
 	public static Set<DataPoint> getData(String m1, String m2) {
 		
-		getSonarMetrics metrics = new getSonarMetrics();
-		if (!metrics.sonarHasMetrics(m1, m2)) {
+		if (!SonarMetrics.sonarHasMetrics(m1, m2)) {
 			return new HashSet<DataPoint>();
 		}
 		
