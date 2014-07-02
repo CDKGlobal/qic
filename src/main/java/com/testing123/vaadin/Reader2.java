@@ -37,7 +37,7 @@ public class Reader2 {
 		}
 		metric = inputMetric;
 		
-		MapHolder mh = new MapHolder();
+		MapHolder mapHolder = new MapHolder();
 		mapper = new ObjectMapper();
 		
 		try {
@@ -46,12 +46,12 @@ public class Reader2 {
 			/** produces a list of folders **/
 			List<WebData> folderList = mapper.readValue(folderLink, new TypeReference<List<WebData>>() {});
 					
-			System.out.println("URL SUCCESS");
-			ForkJoinPool fjp = new ForkJoinPool();
+			//System.out.println("URL SUCCESS");
+			ForkJoinPool forkJoinPool = new ForkJoinPool();
 			
 			/** Uses the Java Fork-Join framework to grab all the files in the project. **/
-			CallFolders cF = new CallFolders(0, folderList.size(), new MapHolder(), folderList);
-			mh = fjp.invoke(cF);
+			CallFolders callFolders = new CallFolders(0, folderList.size(), new MapHolder(), folderList);
+			mapHolder = forkJoinPool.invoke(callFolders);
 		} catch (JsonParseException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
@@ -61,6 +61,6 @@ public class Reader2 {
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
-		return mh.fileData;
+		return mapHolder.fileData;
 	}
 }
