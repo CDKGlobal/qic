@@ -40,6 +40,8 @@ public class SonarMetrics {
 	}
 	
 	public static boolean sonarHasMetrics(String metric1, String metric2){
+		flotOptions.setXaxis(metric2);
+		flotOptions.setYaxis(metric1);
 		return sonarHasMetric(metric1) && sonarHasMetric(metric2);
 	}
 }

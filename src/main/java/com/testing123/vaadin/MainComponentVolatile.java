@@ -117,38 +117,8 @@ public class MainComponentVolatile extends CustomComponent {
 //			e.printStackTrace();
 //			System.exit(1);
 //		}
-		String options = 
-				"{" + 
-				"series : {" + 
-					"points: { " +
-						"show: true, " + 
-						"fill: true, " + 
-						"fillColor: \"#033F8D\"" +
-					"} " + 
-				"}, " +		
-				"colors : [\"#033F8D\", \"#033F8D\"]," +
-				"yaxis : {" + 
-		            "show : true," + 
-		            "axisLabel : 'Cyclomatic Complexity'," + 
-		            "position: 'left'" + 
-		        "}, " +
-		        "xaxis : {" +
-		            "show : true," + 
-		            "axisLabel : 'Lines of Code'," +
-		            "autoscaleMargin : .02" +
-		        "},"
-						+
-					"grid: {" 
-						+ "hoverable: true" +
-//						"backgroundColor: {" + 
-//							"colors: [" +
-//								"\"#00CCFF\"," + 
-//								"\"#00CCFF\"" + 
-//							"]" + 
-//						"}" + 
-					"}" + 
-				"}"; 
-		chart.setOptions(options);
+
+		chart.setOptions(flotOptions.getString());
 		
 		absoluteLayout_2.addComponent(chart, "top: 20px;");
 		return absoluteLayout_2;
