@@ -28,13 +28,7 @@ public class TestJsonParser {
 				    mapper.readValue(link, new TypeReference<List<WebData>>() {});
 			
 			one = jsonClassList.get(0);
-		} catch (JsonParseException e) {
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (URISyntaxException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
