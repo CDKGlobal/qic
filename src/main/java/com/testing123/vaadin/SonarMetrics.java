@@ -14,15 +14,12 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 
-public class getSonarMetrics {
+public class SonarMetrics {
 	
-	private final String LINK = "http://sonar.cobalt.com/api/metrics";
+	private static final String LINK = "http://sonar.cobalt.com/api/metrics";
 	
-	private Set<String> metricsSet;
-	
-	
-	public getSonarMetrics(){
-		metricsSet = new HashSet<String>();
+	private static Set<String> getSonarMetrics(){
+		Set<String> metricsSet = new HashSet<String>();
 		try{
 			URL link = new URL(LINK).toURI().toURL();
 			ObjectMapper mapper = new ObjectMapper();
@@ -44,13 +41,14 @@ public class getSonarMetrics {
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
+		return metricsSet;
 	}
 	
-	public boolean sonarHasMetric(String metric){
-		return metricsSet.contains(metric);
+	public static boolean sonarHasMetric(String metric){
+		return getSonarMetrics().contains(metric);
 	}
 	
-	public boolean sonarHasMetrics(String metric1, String metric2){
-		return metricsSet.contains(metric1) && metricsSet.contains(metric2);
+	public static boolean sonarHasMetrics(String metric1, String metric2){
+		return getSonarMetrics().contains(metric1) && getSonarMetrics().contains(metric2);
 	}
 }
