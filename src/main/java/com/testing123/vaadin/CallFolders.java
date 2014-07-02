@@ -39,9 +39,9 @@ public class CallFolders extends RecursiveTask<MapHolder> {
 					String currentFolder = "http://sonar.cobalt.com/api/resources?resource="
 							+ folder.getKey()
 							+ "&depth=1&" 
-							+ "metrics=" + Reader2.metric
+							+ "metrics=" + Reader2.metric1 + "," + Reader2.metric2
 							+ "&format=json";
-					System.out.println(currentFolder);
+					//System.out.println(currentFolder);
 					URL filesLink = new URL(currentFolder);
 					List<WebData> fileList;
 					fileList = Reader2.mapper.readValue(filesLink, new TypeReference<List<WebData>>() {});
@@ -65,7 +65,6 @@ public class CallFolders extends RecursiveTask<MapHolder> {
 					e.printStackTrace();
 				}
 			}
-			System.out.println("THREAD COMPLETE");
 			return m;
 		} else {
 			int mid = low + (high - low) / 2;

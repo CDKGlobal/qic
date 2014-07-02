@@ -22,34 +22,36 @@ public class Reader2 {
 	
 	private static final String link = "http://sonar.cobalt.com/api/resources?resource=com.cobalt.dap:platform&depth=-1&scopes=DIR&format=json";
 	public static ObjectMapper mapper;
-	public static  String metric;
+	public static String metric1;
+	public static String metric2;
 	
 	/**
-	 * Grabs the data from a URL and returns the data points needed to be plotted in the form of
-	 * a map, with the keys being the x-coordinate and the values being the y-coordinate 
+	 * Grabs the data from the Sonar Web API given two valid metrics.  Behavior is unspecified
+	 * if the metrics passed in do not exist.
 	 * 
+	 * @param m1, the first metric to get
+	 * @param m2, the second metric to get
 	 * @return a Map of x-coordinates mapped to their respective y-coordinates
 	 */
-	public static Set<DataPoint> getData(String inputMetric) {
-		String[] metrics = inputMetric.split(",");
-		if (metrics.length != 2) {
+	public static Set<DataPoint> getData(String m1, String m2) {
+		if (m1 == null || m2 == null || m1.equals("") || m2.equals("")) {
 			return new HashSet<DataPoint>();
 		}
-		metric = inputMetric;
+		
+		metric1 = m1;
+		metric2 = m2;
 		
 		MapHolder mapHolder = new MapHolder();
 		mapper = new ObjectMapper();
 		
 		try {
-			URL folderLink = new URL(link).toURI().toURL();
+			URL folderLink = new URL(link);
 			
 			/** produces a list of folders **/
 			List<WebData> folderList = mapper.readValue(folderLink, new TypeReference<List<WebData>>() {});
-					
-			//System.out.println("URL SUCCESS");
-			ForkJoinPool forkJoinPool = new ForkJoinPool();
 			
 			/** Uses the Java Fork-Join framework to grab all the files in the project. **/
+			ForkJoinPool forkJoinPool = new ForkJoinPool();
 			CallFolders callFolders = new CallFolders(0, folderList.size(), new MapHolder(), folderList);
 			mapHolder = forkJoinPool.invoke(callFolders);
 		} catch (JsonParseException e) {
@@ -57,8 +59,6 @@ public class Reader2 {
 		} catch (JsonMappingException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
 		return mapHolder.fileData;
