@@ -10,6 +10,7 @@ import com.vaadin.shared.ui.JavaScriptComponentState;
  * 
  * @author chenc
  */
+@SuppressWarnings("serial")
 public class GraphState extends JavaScriptComponentState{
 	/** the JSONArray of data points to be plotted **/
 	private JSONArray data;

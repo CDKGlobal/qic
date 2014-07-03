@@ -8,6 +8,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.Table;
 
+@SuppressWarnings("serial")
 public class MainComponentVolatile extends CustomComponent {
 	
 	private static final String PANEL_WIDTH = "1000px";
