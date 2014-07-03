@@ -36,18 +36,8 @@ public class TestJsonParser {
     }
 
     @Test
-    public void testGetScope() {
-        assertEquals("FIL", one.getScope());
-    }
-
-    @Test
     public void testGetQualifier() {
         assertEquals("CLA", one.getQualifier());
-    }
-
-    @Test
-    public void testGetLName() {
-        assertEquals("com.cobalt.dap.wicket.view.packageattribute.GeoTargetingEditPage", one.getLname());
     }
 
     @Test
