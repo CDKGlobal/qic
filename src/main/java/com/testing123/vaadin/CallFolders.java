@@ -61,7 +61,7 @@ public class CallFolders extends RecursiveTask<MapHolder> {
 					// Goes through the list of all the files and creates a DataPoint to put into a map
 					for (WebData file : fileList) {
 						if (fileList.size() != 0) {
-							if (!file.getQualifier().equals("CLA")) {
+							if (!"CLA".equals(file.getQualifier())) {
 								// continues if the current file is not a java file
 								continue;
 							} else if (m.fileData.contains(file.getName())) {
