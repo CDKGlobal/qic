@@ -25,7 +25,7 @@ public class Msr {
         this.val = val;
     }
 
-    public void setFrmVal(String frmtVal) {
+    public void setFrmtVal(String frmtVal) {
         this.frmtVal = frmtVal;
     }
 }
