@@ -59,11 +59,11 @@ public class SonarMetrics {
 	 */
 	public static void setAxes(String metric1, String metric2, Map<String,String> definitions){
 		if(metric1.compareTo(metric2)>0){
-			flotOptions.setXaxis(definitions.get(metric1));
-			flotOptions.setYaxis(definitions.get(metric2));
+			FlotOptions.setXaxis(definitions.get(metric1));
+			FlotOptions.setYaxis(definitions.get(metric2));
 		}else{
-			flotOptions.setXaxis(definitions.get(metric2));
-			flotOptions.setYaxis(definitions.get(metric1));
+			FlotOptions.setXaxis(definitions.get(metric2));
+			FlotOptions.setYaxis(definitions.get(metric1));
 		}
 	}
 }

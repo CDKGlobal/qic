@@ -118,7 +118,7 @@ public class MainComponentVolatile extends CustomComponent {
 //			System.exit(1);
 //		}
 
-		chart.setOptions(flotOptions.getString());
+		chart.setOptions(FlotOptions.getString());
 		
 		absoluteLayout_2.addComponent(chart, "top: 20px;");
 		return absoluteLayout_2;
