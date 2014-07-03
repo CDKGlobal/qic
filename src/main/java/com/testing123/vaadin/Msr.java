@@ -1,8 +1,12 @@
 package com.testing123.vaadin;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Msr {
     private String key;
     private double val;
+    
+    @JsonProperty("frmt_val")
     private String frmtVal;
 
     public String getKey() {
