@@ -1,6 +1,6 @@
 package com.testing123.vaadin;
 
-public class flotOptions {
+public class FlotOptions {
 	private static String xaxis;
 	private static String yaxis;
 	
