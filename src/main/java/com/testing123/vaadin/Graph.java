@@ -12,6 +12,7 @@ import com.vaadin.ui.AbstractJavaScriptComponent;
  * 
  * @author chenc
  */
+@SuppressWarnings("serial")
 @JavaScript({"jquery.js","jquery.flot.js", "jquery.flot.axislabels.js", "flot_connector.js"})
 public class Graph extends AbstractJavaScriptComponent {
 	
