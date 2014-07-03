@@ -21,8 +21,8 @@ public class MsrTest {
     @Test
     public void testSetFrmt_valAndGetFrmt_val() {
         Msr msr = new Msr();
-        msr.setFrmt_val("0.0");
-        assertEquals("0.0", msr.getFrmt_val());
+        msr.setFrmtVal("0.0");
+        assertEquals("0.0", msr.getFrmtVal());
     }
 
     @Test
