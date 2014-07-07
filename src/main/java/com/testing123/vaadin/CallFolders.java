@@ -15,8 +15,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 public class CallFolders extends RecursiveTask<MapHolder> {
 	private int low;
 	private int high;
-	private MapHolder m;
-	private List<WebData> fL;
+	private MapHolder mapHolder;
+	private List<WebData> fileList;
 	private static final int SEQUENTIAL_CUTOFF = 50;
 	
 	/**
@@ -30,8 +30,8 @@ public class CallFolders extends RecursiveTask<MapHolder> {
 	public CallFolders(int low, int high, MapHolder m, List<WebData> fL) {
 		this.low = low;
 		this.high = high;
-		this.m = m;
-		this.fL = fL;
+		this.mapHolder = m;
+		this.fileList = fL;
 	}
 	
 	/**
@@ -46,7 +46,7 @@ public class CallFolders extends RecursiveTask<MapHolder> {
 			for (int i = low; i < high; i++) {
 				try {
 					// Gets the current folder being opened and prepares the url
-					WebData folder = fL.get(i);
+					WebData folder = fileList.get(i);
 					String currentFolder = "http://sonar.cobalt.com/api/resources?resource="
 							+ folder.getKey()
 							+ "&depth=1&" 
@@ -64,12 +64,12 @@ public class CallFolders extends RecursiveTask<MapHolder> {
 							if (!"CLA".equals(file.getQualifier())) {
 								// continues if the current file is not a java file
 								continue;
-							} else if (m.fileData.contains(file.getName())) {
+							} else if (mapHolder.fileData.contains(file.getName())) {
 								// appends a string to the end of the file name if another file
 								// with the same name already exists
 								file.setName(file.getName().trim() + " (2)");
 							}
-							m.fileData.add(new DataPoint(file.getName(), file.getMsr().get(1).getVal(), 
+							mapHolder.fileData.add(new DataPoint(file.getName(), file.getMsr().get(1).getVal(), 
 															file.getMsr().get(0).getVal()));
 						}
 					}
@@ -77,12 +77,12 @@ public class CallFolders extends RecursiveTask<MapHolder> {
 					e.printStackTrace();
 				}
 			}
-			return m;
+			return mapHolder;
 		} else {
 			// Splits the current computation into two threads.
 			int mid = low + (high - low) / 2;
-			CallFolders left = new CallFolders(low, mid, m, fL);
-			CallFolders right = new CallFolders(mid, high, m, fL);
+			CallFolders left = new CallFolders(low, mid, mapHolder, fileList);
+			CallFolders right = new CallFolders(mid, high, mapHolder, fileList);
 			left.fork();
 			MapHolder rightRes = right.compute();
 			MapHolder leftRes = left.join();
