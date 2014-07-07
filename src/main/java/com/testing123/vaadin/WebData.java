@@ -10,11 +10,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class WebData {
 	
-	@JsonIgnoreProperties({ "scope", "lname"})
+	@JsonIgnoreProperties({ "scope", "lname","lang","creationDate"})
     private int id;
     private String key;
     private String name;
     private String qualifier;
+    private String date;
     private List<Msr> msr;
 
     public void setId(int id) {
@@ -33,6 +34,7 @@ public class WebData {
         this.qualifier = qualifier;
     }
 
+    public void setDate(String date) {this.date = date;}
     
     public void setMsr(List<Msr> msr) {
         this.msr = msr;
@@ -54,6 +56,7 @@ public class WebData {
         return qualifier;
     }
 
+    public String getDate() {return date;}
     
     public List<Msr> getMsr() {
     	return msr;
