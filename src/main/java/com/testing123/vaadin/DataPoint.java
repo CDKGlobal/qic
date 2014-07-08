@@ -17,7 +17,7 @@ public class DataPoint {
      * @param complexity the complexity of the file
      * @param lineOfCode the number of lines of code in the file
      */
-    public DataPoint(String key, double complexity, double lineOfCode) {
+    public DataPoint(String key, double lineOfCode, double complexity) {
         this.key = key;
         this.complexity = complexity;
         this.lineOfCode = lineOfCode;
@@ -91,6 +91,6 @@ public class DataPoint {
      */
     @Override
     public String toString() {
-        return "[" + lineOfCode + ", " + complexity + ", \"" + key + " \"]";
+        return "[" + complexity + ", " + lineOfCode  + ", \"" + key + " \"]";
     }
 }
