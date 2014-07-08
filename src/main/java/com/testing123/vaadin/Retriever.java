@@ -17,7 +17,7 @@ public class Retriever {
 	
 	public static ObjectMapper mapper;
 
-	public static Set<DataPoint> getData() {
+	public static Set<DataPoint> getData(String startDate, String endDate) {
 		
 		mapper = new ObjectMapper();
 		Map<String, Double[]> map = new HashMap<String, Double[]>();
@@ -31,13 +31,13 @@ public class Retriever {
 			String home = System.getProperty("user.home");
 			String absolutePath = home + "/Perforce/chenc_sea-chenc-m_qic/Playpen/QIC2/";
 			try {
-				dataList = mapper.readValue(new File(absolutePath +
-						"2014-07-07T06:09:17-0700/17271/files.json"),
+				dataList = mapper.readValue(new File(absolutePath + startDate +
+						"/17271/files.json"),
 						new TypeReference<List<WebData>>() {
 						});
 
-			dataList2 = mapper.readValue(new File(absolutePath +
-					"2014-07-08T06:07:31-0700/17271/files.json"),
+			dataList2 = mapper.readValue(new File(absolutePath + endDate +
+					"/17271/files.json"),
 					new TypeReference<List<WebData>>() {
 					});
 			
