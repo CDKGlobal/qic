@@ -91,6 +91,6 @@ public class DataPoint {
      */
     @Override
     public String toString() {
-        return "[" + complexity + ", " + lineOfCode  + ", \"" + key + " \"]";
+        return "[" + lineOfCode + ", " + complexity  + ", \"" + key + " \"]";
     }
 }
