@@ -13,7 +13,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class retriever {
+public class Retriever {
 	
 	public static ObjectMapper mapper;
 
