@@ -21,10 +21,8 @@ public class Retriever {
 		
 		mapper = new ObjectMapper();
 		Map<String, Double[]> map = new HashMap<String, Double[]>();
-		@SuppressWarnings("unchecked")
-		List<WebData> dataList = (List<WebData>) mapper;
-		@SuppressWarnings("unchecked")
-		List<WebData> dataList2 = (List<WebData>) mapper;
+		List<WebData> dataList;
+		List<WebData> dataList2;
 		Set<DataPoint> dataSet = new HashSet<DataPoint>();
 		
 		
@@ -40,15 +38,6 @@ public class Retriever {
 					"/17271/files.json"),
 					new TypeReference<List<WebData>>() {
 					});
-			
-			} catch (JsonParseException e) {
-				e.printStackTrace();
-			} catch (JsonMappingException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			
 			for (WebData file : dataList) {
 				if (dataList.size() != 0) {
 					if ("CLA".equals(file.getQualifier())){
@@ -72,7 +61,14 @@ public class Retriever {
 							dataSet.add(new DataPoint(file.getName(), file.getMsr().get(0).getVal(), file.getMsr().get(1).getVal()));
 				}
 			}
-		
+			
+			} catch (JsonParseException e) {
+				e.printStackTrace();
+			} catch (JsonMappingException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		return dataSet;
 	}
 }
