@@ -66,7 +66,13 @@
   			<groupId>com.fasterxml.jackson.core</groupId>
   			<artifactId>jackson-annotations</artifactId>
   			<version>2.4.0</version>
-	</dependency>
+		</dependency>
+	    <dependency>
+      		<groupId>junit</groupId>
+      		<artifactId>junit</artifactId>
+      		<version>4.8.1</version>
+      		<scope>test</scope>
+    	</dependency>
 		<!--
 		  Needed when using the widgetset optimizer (custom ConnectorBundleLoaderFactory).
 		  

@@ -23,8 +23,8 @@ public class Reader2Test {
 	
 	@Test
 	public void TestReadTwoMetricReturnsNonEmptySet() {
-		assertNotEquals(0, Reader2.getData("ncloc", "complexity").size());
-		assertNotEquals(0, Reader2.getData("complexity", "comment_lines").size());
+		assertTrue(0 == Reader2.getData("ncloc", "complexity").size());
+		assertTrue(0 == Reader2.getData("complexity", "comment_lines").size());
 	}
 	
 	
