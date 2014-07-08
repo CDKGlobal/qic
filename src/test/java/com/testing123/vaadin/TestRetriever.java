@@ -6,7 +6,7 @@ import org.junit.Test;
 
 
 
-public class retrieverTest {
+public class TestRetriever {
 
 //	@Test
 //	public void test() {
