@@ -1,7 +1,7 @@
 package com.testing123.vaadin;
 
 public class FlotOptions {
-	private static String xaxis = "Lines of Code";
+	private static String xaxis = "Change in Lines of Code";
 	private static String yaxis = "Cyclomatic Complexity";
 	
 

@@ -61,10 +61,15 @@ public class Downloader {
 	private void writeJson(String path, List<WebData> data, String name) {
 		String filePath = path + name;
 		try {
+			int i = 0;
 			for (WebData file : data) {
 				mapper.writeValue(new File(filePath + ".json"), data);
-				System.out.println("writing file: " + file.getName());
+				if ("CLA".equals(file.getQualifier())) {
+					i++;
+					System.out.println("writing file: " + file.getKey());
+				}
 			}
+			System.out.println(i);
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
