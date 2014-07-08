@@ -8,10 +8,10 @@ import org.junit.Test;
 
 public class retrieverTest {
 
-	@Test
-	public void test() {
-		System.out.println(retriever.getData());
-		assertEquals("1","1");
-	}
+//	@Test
+//	public void test() {
+//		System.out.println(retriever.getData());
+//		assertEquals("1","1");
+//	}
 
 }
