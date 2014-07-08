@@ -109,7 +109,7 @@ public class MainComponentVolatile extends CustomComponent {
 //			e.printStackTrace();
 //		}
 
-		chart.setData("[" + retriever.getData() + "]");
+		chart.setData("[" + Retriever.getData() + "]");
 		
 //		String optionsData = "";
 //		try {
