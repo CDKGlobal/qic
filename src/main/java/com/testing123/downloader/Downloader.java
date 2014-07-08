@@ -4,26 +4,18 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-import com.testing123.vaadin.DataPoint;
-import com.testing123.vaadin.Reader2;
 import com.testing123.vaadin.WebData;
-import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Downloader {
-	private JsonFactory jsonFactory;
 	private ObjectMapper mapper;
 
 	public Downloader() {
-		this.jsonFactory = new JsonFactory();
 		this.mapper = new ObjectMapper();
 	}
 	
@@ -42,7 +34,7 @@ public class Downloader {
 			
 			System.out.println("WRITING FOLDERS");
 			// creates directories
-			URL folderURL = new URL("http://sonar.cobalt.com/api/resources?resource=com.cobalt.dap:" + projectName + "&depth=-1&scopes=DIR&format=json");
+			URL folderURL = new URL("http://sonar.cobalt.com/api/resources?resource=com.cobalt.dap:" + projectName + "&depth=-1&metrics=ncloc,complexity&scopes=DIR&format=json");
 			List<WebData> folderList = mapper.readValue(folderURL, new TypeReference<List<WebData>>() {});
 			writeJson(currentPath, folderList, "folders");
 			
