@@ -109,7 +109,7 @@ public class MainComponentVolatile extends CustomComponent {
 //			e.printStackTrace();
 //		}
 
-		chart.setData("[" + Reader2.getData("complexity","ncloc") + "]");
+		chart.setData("[" + retriever.getData() + "]");
 		
 //		String optionsData = "";
 //		try {
