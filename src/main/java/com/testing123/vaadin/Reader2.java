@@ -22,11 +22,11 @@ public class Reader2 {
 	public static String metric1;
 	public static String metric2;
 	
-	public static Set<DataPoint> getLocalData(String m1, String m2) {
-		Uploader ul = new Uploader();
-		ul.uploadFileData("2014-07-07T06/09/17-0700", "2014-07-08T06/07/31-0700", "17271");
-		return ul.getFileDifferenceList();	
-	}
+//	public static Set<DataPoint> getLocalData(String m1, String m2) {
+//		Uploader ul = new Uploader();
+//		ul.uploadFileData("2014-07-07T06/09/17-0700", "2014-07-08T06/07/31-0700", "17271");
+//		return ul.getFileDifferenceList();	
+//	}
 	
 	/**
 	 * Grabs the data from the Sonar Web API given two valid metrics.  Behavior is unspecified
