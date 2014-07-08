@@ -98,9 +98,12 @@ public class MainComponentVolatile extends CustomComponent {
 		absoluteLayout_2.setWidth(PANEL_WIDTH);
 		absoluteLayout_2.setHeight(PANEL_HEIGHT);
 		
-		Label graphName = new Label("<b>Platform Project: " + startDate + " to " + endDate + " </b>", ContentMode.HTML);
+		Label graphName = new Label("<b>Platform Project</b>", ContentMode.HTML);
 		graphName.setStyleName("h2");
 		absoluteLayout_2.addComponent(graphName);
+		Label dateRange = new Label(startDate + " to " + endDate);
+		dateRange.setStyleName("p");
+		absoluteLayout_2.addComponent(dateRange, "top: 20px;");
 		
 		Graph chart = new Graph();
 		chart.setWidth(GRAPH_WIDTH);
@@ -124,7 +127,7 @@ public class MainComponentVolatile extends CustomComponent {
 
 		chart.setOptions(FlotOptions.getString());
 		
-		absoluteLayout_2.addComponent(chart, "top: 20px;");
+		absoluteLayout_2.addComponent(chart, "top: 50px;");
 		return absoluteLayout_2;
 	}
 }
