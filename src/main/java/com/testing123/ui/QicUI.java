@@ -2,10 +2,14 @@ package com.testing123.ui;
 
 import javax.servlet.annotation.WebServlet;
 
+import com.testing123.controller.ComponentController;
+import com.testing123.controller.ComponentThread;
+import com.vaadin.annotations.Push;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
+import com.vaadin.shared.communication.PushMode;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.GridLayout;
@@ -19,6 +23,7 @@ import com.vaadin.ui.UI;
  * @author chenc
  *
  */
+@Push(PushMode.MANUAL)
 @SuppressWarnings("serial")
 @Theme("mytheme")
 public class QicUI extends UI {
@@ -58,10 +63,32 @@ public class QicUI extends UI {
 		layout.addComponent(l1, 0, 0);
 		layout.addComponent(l2, 1, 0);
 		
-		MainComponentVolatile comp = new MainComponentVolatile();
-		layout.addComponent(comp, 1, 1);
+		//new ComponentThread().start();
+		ComponentController.drawComponent(layout);
 		
-		NavComponentVolatile nav = new NavComponentVolatile();
+		NavComponentVolatile nav = new NavComponentVolatile(layout);
 		layout.addComponent(nav, 1, 2);
 	}
+	
+//	class ComponentThread extends Thread {
+//
+//		@Override
+//		public void run() {
+//	        try {
+//				access(new Runnable() {
+//					
+//					@Override
+//					public void run() {
+//
+//						// Add the data point, and drop the
+//						// first one if there's already
+//						// more than 10 points.
+//						series.add(new DataSeriesItem(x++, y), true, x > 10);
+//					}
+//				});
+//	        } catch (InterruptedException e) {
+//	            e.printStackTrace();
+//	        }
+//	    }
+//	}
 }

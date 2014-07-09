@@ -111,6 +111,7 @@ public class MainComponentVolatile extends CustomComponent {
 		Graph chart = new Graph();
 		chart.setWidth(GRAPH_WIDTH);
 		chart.setHeight(GRAPH_HEIGHT);
+		System.out.println("Bang!");
 //		String readData = "";
 //		try {
 //			readData = Reader.JSONParser("/Users/chenc/Documents/workspace/QIC/src/data/" + "data.json");
