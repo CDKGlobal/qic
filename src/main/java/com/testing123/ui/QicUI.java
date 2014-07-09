@@ -1,8 +1,7 @@
-package com.testing123.vaadin;
+package com.testing123.ui;
 
 import javax.servlet.annotation.WebServlet;
 
-import com.testing123.ui.NavComponentVolatile;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.VaadinRequest;
