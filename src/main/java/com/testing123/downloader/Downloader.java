@@ -26,7 +26,7 @@ public class Downloader {
 			List<WebData> projectList = mapper.readValue(projectURL, new TypeReference<List<WebData>>() {});
 			
 			// makes a folder with today's date on it
-			String currentPath = makeFolder("", projectList.get(0).getDate().replace(":", "-"));
+			String currentPath = makeFolder("/Archives/", projectList.get(0).getDate().replace(":", "-"));
 			
 			// creates projects
 			writeJson(currentPath, projectList, projectList.get(0).getId() + "");

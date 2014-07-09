@@ -41,7 +41,7 @@ public class QicUI extends UI {
 	@Override
 	protected void init(VaadinRequest request) {
 		final GridLayout layout = new GridLayout(3, 3);
-		layout.setMargin(true);	
+		layout.setMargin(true);
 		setContent(layout);
 		
 		AbsoluteLayout l1 = new AbsoluteLayout();
@@ -57,11 +57,15 @@ public class QicUI extends UI {
 		l2.addComponent(title, "top:25px;");
 		
 		MainComponentVolatile comp = new MainComponentVolatile();
-		layout.addComponent(l1, 1, 1);
-		layout.addComponent(l2, 2, 1);
-		layout.addComponent(comp, 2, 2);
+		layout.addComponent(l1, 0, 0);
+		layout.addComponent(l2, 1, 0);
+		layout.addComponent(comp, 1, 1);
 		
-//		NavComponentVolatile nav = new NavComponentVolatile();
-//		layout.addComponent(nav, 2, 3);
+		try {
+			NavComponentVolatile nav = new NavComponentVolatile();
+			layout.addComponent(nav, 1, 2);
+		} catch (GridLayout.OutOfBoundsException e) {
+			e.printStackTrace();
+		}
 	}
 }
