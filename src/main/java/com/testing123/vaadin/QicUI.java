@@ -2,6 +2,7 @@ package com.testing123.vaadin;
 
 import javax.servlet.annotation.WebServlet;
 
+import com.testing123.ui.NavComponentVolatile;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.VaadinRequest;
@@ -59,5 +60,8 @@ public class QicUI extends UI {
 		layout.addComponent(l1, 1, 1);
 		layout.addComponent(l2, 2, 1);
 		layout.addComponent(comp, 2, 2);
+		
+//		NavComponentVolatile nav = new NavComponentVolatile();
+//		layout.addComponent(nav, 2, 3);
 	}
 }
