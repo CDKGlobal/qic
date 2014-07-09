@@ -4,7 +4,7 @@ import java.net.URL;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.ForkJoinPool;
+//import java.util.concurrent.ForkJoinPool;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -55,9 +55,9 @@ public class Reader2 {
 			List<WebData> folderList = mapper.readValue(folderLink, new TypeReference<List<WebData>>() {});
 			
 			/** Uses the Java Fork-Join framework to grab all the files in the project. **/
-			ForkJoinPool forkJoinPool = new ForkJoinPool();
-			CallFolders callFolders = new CallFolders(0, folderList.size(), new MapHolder(), folderList);
-			mapHolder = forkJoinPool.invoke(callFolders);
+//			ForkJoinPool forkJoinPool = new ForkJoinPool();
+//			CallFolders callFolders = new CallFolders(0, folderList.size(), new MapHolder(), folderList);
+//			mapHolder = forkJoinPool.invoke(callFolders);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 
