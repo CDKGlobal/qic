@@ -75,14 +75,9 @@ public class Retriever {
 					new File(path + date + "/17271/files.json"),
 					new TypeReference<List<WebData>>() {
 					});
-		} catch (JsonParseException e) {
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return new ArrayList<WebData>();
+		} catch (Exception e) {
+			return new ArrayList<WebData>();
+		} 
 	}
 	
 }
