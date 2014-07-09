@@ -56,16 +56,13 @@ public class QicUI extends UI {
 		title.setStyleName("h1");
 		l2.addComponent(title, "top:25px;");
 		
-		MainComponentVolatile comp = new MainComponentVolatile();
 		layout.addComponent(l1, 0, 0);
 		layout.addComponent(l2, 1, 0);
+		
+		MainComponentVolatile comp = new MainComponentVolatile();
 		layout.addComponent(comp, 1, 1);
 		
-		try {
-			NavComponentVolatile nav = new NavComponentVolatile();
-			layout.addComponent(nav, 1, 2);
-		} catch (GridLayout.OutOfBoundsException e) {
-			e.printStackTrace();
-		}
+		NavComponentVolatile nav = new NavComponentVolatile();
+		layout.addComponent(nav, 1, 2);
 	}
 }

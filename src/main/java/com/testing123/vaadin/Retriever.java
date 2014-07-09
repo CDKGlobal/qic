@@ -28,7 +28,7 @@ public class Retriever {
 
 		String home = System.getProperty("user.home");
 		String absolutePath = home
-				+ "/Perforce/chenc_sea-chenc-m_qic/Playpen/QIC2/Archives";
+				+ "/Perforce/chenc_sea-chenc-m_qic/Playpen/QIC2/Archives/";
 
 		dataList = getDataList(absolutePath, startDate);
 
