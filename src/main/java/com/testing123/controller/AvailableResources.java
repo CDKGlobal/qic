@@ -33,7 +33,7 @@ public class AvailableResources {
 			    if (new File(absolutePath + name).isDirectory()) {
 			    	Calendar convertedDate = convertToDate(name);
 			        availDates.add(convertedDate);
-			    	dates.add(convertedDate.getTime().toString());
+			    	dates.add(name);
 			    }
 			}
 		} catch (Exception e) {
