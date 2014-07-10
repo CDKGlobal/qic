@@ -95,7 +95,12 @@ public class NavComponentVolatile extends CustomComponent {
 			@Override
 			public void buttonClick(ClickEvent event) {
 				layout.removeComponent(1, 1);
-				ComponentController.drawComponent(layout);
+				Button button_3 = new Button();
+				button_3.setCaption("Go");
+				button_3.setImmediate(false);
+				button_3.setWidth("-1px");
+				button_3.setHeight("-1px");
+				layout.addComponent(button_3, 1, 1);
 			}
 		});
 		mainLayout.addComponent(button_1, "top:20.0px;left:380.0px;");

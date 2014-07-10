@@ -26,7 +26,8 @@ public class Downloader {
 			List<WebData> projectList = mapper.readValue(projectURL, new TypeReference<List<WebData>>() {});
 			
 			// makes a folder with today's date on it
-			String currentPath = makeFolder("/Archives/", projectList.get(0).getDate().replace(":", "-"));
+			String currentPath = makeFolder("Archives/", projectList.get(0).getDate().replace(":", "-"));
+			
 			
 			// creates projects
 			writeJson(currentPath, projectList, projectList.get(0).getId() + "");
@@ -82,7 +83,7 @@ public class Downloader {
 	private String makeFolder(String path, String name) {
 		File folder = new File(path + name);
 		if (!folder.exists()) {
-			System.out.println("creating directory: " + path + name);
+			System.out.println("creating directory: " + folder.getAbsolutePath());
 			try {
 				folder.mkdir();
 			} catch (SecurityException se) {
