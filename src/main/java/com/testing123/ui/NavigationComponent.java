@@ -93,14 +93,14 @@ public class NavigationComponent extends CustomComponent {
 			
 			@Override
 			public void buttonClick(ClickEvent event) {
-				String startDate = startComboBox.getValue().toString();
-				String endDate = endComboBox.getValue().toString();
 				mainLayout.removeComponent(errorLabel);
 				if (startComboBox.getValue() == null || endComboBox.getValue() == null) {
 					errorLabel = new Label("No date range entered");
 					mainLayout.addComponent(errorLabel, "top:20.0px; left:450.0px;");
 					return;
 				} 
+				String startDate = startComboBox.getValue().toString();
+				String endDate = endComboBox.getValue().toString();
 				if (startDate.equals(endDate) || startDate.compareTo(endDate) > 0) {
 					errorLabel = new Label("Date range invalid");
 					mainLayout.addComponent(errorLabel, "top:20.0px; left:450.0px;");
