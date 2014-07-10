@@ -8,8 +8,6 @@ import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.TabSheet;
-import com.vaadin.ui.Table;
 
 @SuppressWarnings("serial")
 public class MainComponent extends CustomComponent {
