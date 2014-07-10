@@ -31,7 +31,7 @@ import com.vaadin.ui.UI;
 @SuppressWarnings("serial")
 @Theme("mytheme")
 public class QicUI extends UI {
-	private static final Calendar DEFAULT_START_DATE = new GregorianCalendar(2014, 7, 10, );
+	private static final Calendar DEFAULT_START_DATE = new GregorianCalendar(2014, 7, 10);
 	private static final Calendar DEFAULT_END_DATE = new GregorianCalendar(2014, 7, 10);
 
 	/**
@@ -69,7 +69,8 @@ public class QicUI extends UI {
 		layout.addComponent(l1, 0, 0);
 		layout.addComponent(l2, 1, 0);
 		
-		ComponentController.drawMainComponent(layout, DEFAULT_START_DATE, DEFAULT_END_DATE);
+		//ComponentController.drawMainComponent(layout, DEFAULT_START_DATE, DEFAULT_END_DATE);
+		ComponentController.drawMainComponent(layout, "2014-07-07T06-09-17-0700", "2014-07-10T06-07-56-0700");
 		
 		NavigationComponent nav = new NavigationComponent(layout);
 		layout.addComponent(nav, 1, 2);
