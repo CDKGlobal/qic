@@ -46,7 +46,9 @@ public class Retriever {
 				String key = file.getKey();
 				if (map.containsKey(key)) {
 					double val0 = file.getMsr().get(0).getVal() - map.get(key)[0];
+					if(val0!=0){
 					dataSet.add(new DataPoint(file.getName(), Math.abs(val0), map.get(key)[1]));
+					}
 				} else {
 					dataSet.add(new DataPoint(file.getName(), file.getMsr().get(0).getVal(), file.getMsr().get(1).getVal()));
 				}
