@@ -1,5 +1,6 @@
 package com.testing123.ui;
 
+import com.testing123.vaadin.ConvertDate;
 import com.testing123.vaadin.FlotOptions;
 import com.testing123.vaadin.Graph;
 import com.testing123.vaadin.Retriever;
@@ -66,7 +67,8 @@ public class MainComponent extends CustomComponent {
 		Label graphName = new Label("<b>Platform Project</b>", ContentMode.HTML);
 		graphName.setStyleName("h2");
 		absoluteLayout_2.addComponent(graphName);
-		Label dateRange = new Label(startDate + " to " + endDate);
+		Label dateRange = new Label(ConvertDate.convert(startDate).getTime().toString()
+				+ " to " + ConvertDate.convert(endDate).getTime().toString());
 		dateRange.setStyleName("p");
 		absoluteLayout_2.addComponent(dateRange, "top: 20px;");
 		
