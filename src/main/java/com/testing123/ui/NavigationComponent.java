@@ -18,8 +18,6 @@ import com.vaadin.ui.ListSelect;
 
 public class NavigationComponent extends CustomComponent {
 
-	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
-
 	private AbsoluteLayout mainLayout;
 	//private ListSelect listSelect_1;
 	private Button button_1;
@@ -27,6 +25,10 @@ public class NavigationComponent extends CustomComponent {
 	private ComboBox startComboBox;
 	private GridLayout layout;
 	private Label errorLabel;
+	
+	private static final String NAVBAR_OFFSET = "20px";
+	private static final String COMBOBOX_WIDTH = "200px";
+	private static final String DEFAULT_VALUE = "-1px";
 
 	/**
 	 * The constructor should first build the main layout, set the composition
@@ -60,37 +62,35 @@ public class NavigationComponent extends CustomComponent {
 		startComboBox.setImmediate(false);
 		startComboBox.setNullSelectionAllowed(false);
 		startComboBox.setTextInputAllowed(false);
-		startComboBox.setWidth("170px");
-		startComboBox.setHeight("-1px");
+		startComboBox.setWidth(COMBOBOX_WIDTH);
+		startComboBox.setHeight(DEFAULT_VALUE);
 
 		for (String option : options) {
 			startComboBox.addItem(new ConvertDate(option));
-			//startComboBox.setItemCaptionPropertyId(ConvertDate.convert(option).getTime().toString());
 		}
 		
-		mainLayout.addComponent(startComboBox, "top:20.0px;left:22.0px;");
+		mainLayout.addComponent(startComboBox, "top:" + NAVBAR_OFFSET +";");
 		
 		// comboBox_2
 		endComboBox = new ComboBox("End Date");
 		endComboBox.setImmediate(false);
 		endComboBox.setNullSelectionAllowed(false);
 		endComboBox.setTextInputAllowed(false);
-		endComboBox.setWidth("170px");
+		endComboBox.setWidth(COMBOBOX_WIDTH);
 		endComboBox.setHeight("-1px");
 
 		for (String option : options) {
 			endComboBox.addItem(new ConvertDate(option));
-			//endComboBox.setItemCaptionPropertyId(ConvertDate.convert(option));
 		}		
 
-		mainLayout.addComponent(endComboBox, "top:20.0px;left:200.0px;");
+		mainLayout.addComponent(endComboBox, "top:" + NAVBAR_OFFSET + ";left:220.0px;");
 		
 		// button_1
 		button_1 = new Button();
 		button_1.setCaption("Go");
 		button_1.setImmediate(false);
-		button_1.setWidth("-1px");
-		button_1.setHeight("-1px");
+		button_1.setWidth(DEFAULT_VALUE);
+		button_1.setHeight(DEFAULT_VALUE);
 		errorLabel = new Label("");
 		button_1.addClickListener(new Button.ClickListener() {
 			
@@ -99,7 +99,7 @@ public class NavigationComponent extends CustomComponent {
 				mainLayout.removeComponent(errorLabel);
 				if (startComboBox.getValue() == null || endComboBox.getValue() == null) {
 					errorLabel = new Label("No date range entered");
-					mainLayout.addComponent(errorLabel, "top:20.0px; left:450.0px;");
+					mainLayout.addComponent(errorLabel, "top:" + NAVBAR_OFFSET + "; left:510.0px;");
 					return;
 				} 
 				ConvertDate startDate = (ConvertDate) startComboBox.getValue();
@@ -107,14 +107,14 @@ public class NavigationComponent extends CustomComponent {
 				if (startDate.getSonarFormat().equals(endDate.getSonarFormat()) || 
 						startDate.getSonarFormat().compareTo(endDate.getSonarFormat()) > 0) {
 					errorLabel = new Label("Date range invalid");
-					mainLayout.addComponent(errorLabel, "top:20.0px; left:450.0px;");
+					mainLayout.addComponent(errorLabel, "top:" + NAVBAR_OFFSET + "; left:510.0px;");
 					return;
 				}
 				layout.removeComponent(1, 1);
 				ComponentController.drawMainComponent(layout, startDate, endDate);
 			}
 		});
-		mainLayout.addComponent(button_1, "top:20.0px;left:380.0px;");
+		mainLayout.addComponent(button_1, "top:" + NAVBAR_OFFSET + ";left:440.0px;");
 
 		return mainLayout;
 	}
