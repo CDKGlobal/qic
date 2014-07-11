@@ -39,6 +39,8 @@ public class Retriever {
 			}
 		}
 
+		
+		
 		dataList = getDataList(absolutePath, endDate);
 
 		for (WebData file : dataList) {
@@ -47,7 +49,7 @@ public class Retriever {
 				if (map.containsKey(key)) {
 					double val0 = file.getMsr().get(0).getVal() - map.get(key)[0];
 					if(val0!=0){
-					dataSet.add(new DataPoint(file.getName(), Math.abs(val0), map.get(key)[1]));
+					dataSet.add(new DataPoint(file.getName(), Math.abs(val0), file.getMsr().get(1).getVal()));
 					}
 				} else {
 					dataSet.add(new DataPoint(file.getName(), file.getMsr().get(0).getVal(), file.getMsr().get(1).getVal()));
