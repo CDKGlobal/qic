@@ -4,9 +4,12 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
-public class ConvertDate {
+public class ConvertDate implements Comparable<ConvertDate> {
+	private Calendar currentDate;
+	private String sonarFormat;
 	
-	public static Calendar convert(String sonarFormat) {		
+	public ConvertDate(String sonarFormat) {
+		this.sonarFormat = sonarFormat;
 		int year = Integer.parseInt(sonarFormat.substring(0, 4));
 		int month = Integer.parseInt(sonarFormat.substring(5, 7))-1;
 		int day = Integer.parseInt(sonarFormat.substring(8, 10));
@@ -16,13 +19,51 @@ public class ConvertDate {
 		String timeZone = "GMT" + sonarFormat.substring(19);
 		Calendar currentDate = new GregorianCalendar( year, month, day, hour, minute, second);
 		currentDate.setTimeZone(TimeZone.getTimeZone(timeZone));
-		return currentDate;
+		this.currentDate = currentDate;
 	}
 	
-	public static String convert(Calendar date){
-		String timeZoneWithoutGMT = String.format("%1$tZ", date).substring(3);
+	public String getSonarFormat() {
+		return sonarFormat;
+	}
+	
+	public String convert() {
+		String timeZoneWithoutGMT = String.format("%1$tZ", currentDate).substring(3);
 		String timeZone = "" + timeZoneWithoutGMT.substring(0,3) + timeZoneWithoutGMT.substring(4,6);
-		return String.format("%1$tY-%1$tm-%1$teT%1$tH-%1$tM-%1$tS%2$s ", date, timeZone);
+		return String.format("%1$tY-%1$tm-%1$teT%1$tH-%1$tM-%1$tS%2$s ", currentDate, timeZone);
+	}
+	
+	public String toString() {
+		return currentDate.getTime().toString();
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((sonarFormat == null) ? 0 : sonarFormat.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ConvertDate other = (ConvertDate) obj;
+		if (sonarFormat == null) {
+			if (other.sonarFormat != null)
+				return false;
+		} else if (!sonarFormat.equals(other.sonarFormat))
+			return false;
+		return true;
+	}
+
+	@Override
+	public int compareTo(ConvertDate o) {
+		return sonarFormat.compareTo(o.getSonarFormat());
+	}
 }

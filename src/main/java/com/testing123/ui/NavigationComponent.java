@@ -64,7 +64,7 @@ public class NavigationComponent extends CustomComponent {
 		startComboBox.setHeight("-1px");
 
 		for (String option : options) {
-			startComboBox.addItem(option);
+			startComboBox.addItem(new ConvertDate(option));
 			//startComboBox.setItemCaptionPropertyId(ConvertDate.convert(option).getTime().toString());
 		}
 		
@@ -79,7 +79,7 @@ public class NavigationComponent extends CustomComponent {
 		endComboBox.setHeight("-1px");
 
 		for (String option : options) {
-			endComboBox.addItem(option);
+			endComboBox.addItem(new ConvertDate(option));
 			//endComboBox.setItemCaptionPropertyId(ConvertDate.convert(option));
 		}		
 
@@ -102,16 +102,16 @@ public class NavigationComponent extends CustomComponent {
 					mainLayout.addComponent(errorLabel, "top:20.0px; left:450.0px;");
 					return;
 				} 
-				String startDate = startComboBox.getValue().toString();
-				String endDate = endComboBox.getValue().toString();
-				if (startDate.equals(endDate) || startDate.compareTo(endDate) > 0) {
+				ConvertDate startDate = (ConvertDate) startComboBox.getValue();
+				ConvertDate endDate = (ConvertDate) endComboBox.getValue();
+				if (startDate.getSonarFormat().equals(endDate.getSonarFormat()) || 
+						startDate.getSonarFormat().compareTo(endDate.getSonarFormat()) > 0) {
 					errorLabel = new Label("Date range invalid");
 					mainLayout.addComponent(errorLabel, "top:20.0px; left:450.0px;");
 					return;
 				}
 				layout.removeComponent(1, 1);
-				ComponentController.drawMainComponent(layout, 
-						startDate, endDate);
+				ComponentController.drawMainComponent(layout, startDate, endDate);
 			}
 		});
 		mainLayout.addComponent(button_1, "top:20.0px;left:380.0px;");

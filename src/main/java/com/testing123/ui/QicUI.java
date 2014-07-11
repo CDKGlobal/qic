@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 
 import com.testing123.controller.ComponentController;
 import com.testing123.controller.ComponentThread;
+import com.testing123.vaadin.ConvertDate;
 import com.vaadin.annotations.Push;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
@@ -70,7 +71,8 @@ public class QicUI extends UI {
 		layout.addComponent(l2, 1, 0);
 		
 		//ComponentController.drawMainComponent(layout, DEFAULT_START_DATE, DEFAULT_END_DATE);
-		ComponentController.drawMainComponent(layout, "2014-07-07T06-09-17-0700", "2014-07-10T06-07-56-0700");
+		ComponentController.drawMainComponent(layout, new ConvertDate("2014-07-07T06-09-17-0700"),
+				new ConvertDate("2014-07-10T06-07-56-0700"));
 		
 		NavigationComponent nav = new NavigationComponent(layout);
 		layout.addComponent(nav, 1, 2);
