@@ -1,15 +1,10 @@
 package com.testing123.vaadin;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.ListIterator;
-
 public class FisheyeQuery {
 
 	private String repository;
 	private String dateRange;
 	private String clauses;
-	// private String grouping;
 	private String returns;
 
 	public FisheyeQuery(String repository, ConvertDate startDate, ConvertDate endDate) {
