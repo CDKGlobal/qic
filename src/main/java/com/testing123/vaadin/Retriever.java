@@ -1,6 +1,7 @@
 package com.testing123.vaadin;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -8,7 +9,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Retriever {
@@ -61,12 +64,17 @@ public class Retriever {
 	}
 
 	private static List<WebData> getDataList(String path, String date) {
-		try {
-			return MAPPER.readValue(new File(path + date + "/17271/files.json"), new TypeReference<List<WebData>>() {
-			});
-		} catch (Exception e) {
+			try {
+				return MAPPER.readValue(new File(path + date + "/17271/files.json"), new TypeReference<List<WebData>>() {
+				});
+			} catch (JsonParseException e) {
+				e.printStackTrace();
+			} catch (JsonMappingException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			return new ArrayList<WebData>();
-		}
 	}
 
 }
