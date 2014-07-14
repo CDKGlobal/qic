@@ -19,9 +19,6 @@ public class FisheyeQuery {
 		clauses = "";
 	}
 
-	public void clearReturns() {
-		returns = "";
-	}
 
 	public void addPath(String path) {
 		addClause(" path like " + path);
@@ -44,9 +41,7 @@ public class FisheyeQuery {
 	}
 
 	private String getClauses() {
-		if(clauses.isEmpty())
-			return clauses;
-		return clauses.substring(4);
+		return clauses;
 	}
 
 	private String getReturns() {
