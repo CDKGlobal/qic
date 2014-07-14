@@ -18,7 +18,7 @@ public class UIState {
 		this.start = start;
 		this.end = end;
 		this.isDelta = true;
-		this.grain = "Project";
+		this.grain = "Files";
 	}
 
 	public ConvertDate getStart() {
@@ -32,9 +32,17 @@ public class UIState {
 	public ConvertDate getEnd() {
 		return end;
 	}
-
+	
 	public void setEnd(ConvertDate end) {
 		this.end = end;
+	}
+
+	public boolean getIsDelta() {
+		return isDelta;
+	}
+	
+	public void setIsDelta(boolean isDelta) {
+		this.isDelta = isDelta;
 	}
 
 	public String getGrain() {
@@ -43,6 +51,15 @@ public class UIState {
 
 	public void setGrain(String grain) {
 		this.grain = grain;
+	}
+	
+	public void verifyState() {
+		System.out.println("CURRENT STATE:");
+		System.out.println(start.toString());
+		System.out.println(end.toString());
+		System.out.println(isDelta);
+		System.out.println(grain);
+		System.out.println();
 	}
 	
 	public enum Axis {

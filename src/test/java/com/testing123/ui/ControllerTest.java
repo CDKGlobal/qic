@@ -13,9 +13,4 @@ public class ControllerTest {
 	public static void setUpBeforeClass() throws Exception {
 	}
 
-	@Test
-	public void TestGetAvailableDatesReturnsDates() {
-//		assertEquals(3, AvailableResources.getAvailableDates());
-	}
-
 }
