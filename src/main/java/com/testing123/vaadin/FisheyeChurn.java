@@ -16,12 +16,12 @@ public class FisheyeChurn {
 		FisheyeData querriedData = FisheyeChurnGetJson();
 		
 		for (ItemData i : querriedData.getRow()) {
-			if((Integer)i.getItem()[3]==0){
-				String pathName = (String)i.getItem()[0];
+			if((Integer)i.getItem(3)==0){
+				String pathName = (String)i.getItem(0);
 				String[] split = pathName.split("/");
 			    String name=split[split.length-1].replace(".java", "");
 				
-				dataSet.add(new DataPoint(name,(Integer)i.getItem()[1],(Integer)i.getItem()[2]));
+				dataSet.add(new DataPoint(name,(Integer)i.getItem(1),(Integer)i.getItem(2)));
 			}
 		}
 		System.out.println();System.out.println(dataSet);
