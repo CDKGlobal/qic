@@ -39,10 +39,16 @@ public class FisheyeQueryTest {
 				query.toString());
 		query.addPath("\\Platform/trunk/src/main/**");
 		assertEquals(
-				"http://fisheye.cobalt.com/rest-service-fe/search-v1/queryAsRows/Advertising.Perforce.json?query=select%20revisions%20where%20date%20in%20[2014-07-07,2014-07-10]%20and%20path%20like%20*.java%20and%20path%20like%20\\Platform/trunk/src/main/**%20return%20path",				query.toString());
+				"http://fisheye.cobalt.com/rest-service-fe/search-v1/queryAsRows/Advertising.Perforce.json?query=select%20revisions%20where%20date%20in%20[2014-07-07,2014-07-10]%20and%20path%20like%20*.java%20and%20path%20like%20\\Platform/trunk/src/main/**%20return%20path",
+				query.toString());
 		query.clearClauses();
 		assertEquals(
 				"http://fisheye.cobalt.com/rest-service-fe/search-v1/queryAsRows/Advertising.Perforce.json?query=select%20revisions%20where%20date%20in%20[2014-07-07,2014-07-10]%20return%20path",
+				query.toString());
+		query.addPath("*.java");
+		query.inProject("Platform");
+		assertEquals(
+				"http://fisheye.cobalt.com/rest-service-fe/search-v1/queryAsRows/Advertising.Perforce.json?query=select%20revisions%20where%20date%20in%20[2014-07-07,2014-07-10]%20and%20path%20like%20*.java%20and%20path%20like%20\\Platform/trunk/src/main/**%20return%20path",
 				query.toString());
 	}
 
