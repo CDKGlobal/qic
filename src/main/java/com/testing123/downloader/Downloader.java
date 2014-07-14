@@ -2,6 +2,7 @@ package com.testing123.downloader;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,9 +40,9 @@ public class Downloader {
 			// makes a folder with today's date on it
 			String currentPath = makeFolder("Archives/", projectList.get(0).getDate().replace(":", "-"));
 			
-			
 			// creates projects
 			writeJson(currentPath, projectList, projectList.get(0).getId() + "");
+            writeTxt(currentPath, projectList, projectList.get(0).getId() + "");
 			currentPath = makeFolder(currentPath, projectList.get(0).getId() + "");
 			
 			System.out.println("WRITING FOLDERS");
@@ -49,6 +50,7 @@ public class Downloader {
 			URL folderURL = new URL("http://sonar.cobalt.com/api/resources?resource=com.cobalt.dap:" + projectName + "&depth=-1&metrics=ncloc,complexity&scopes=DIR&format=json");
 			List<WebData> folderList = mapper.readValue(folderURL, new TypeReference<List<WebData>>() {});
 			writeJson(currentPath, folderList, "folders");
+			writeTxt(currentPath, folderList, "folders");
 			
 			System.out.println("WRITING FILES");
 			List<WebData> fileList = new ArrayList<WebData>();
@@ -64,6 +66,8 @@ public class Downloader {
 				}
 			}
 			writeJson(currentPath, fileList, "files");
+            writeTxt(currentPath, fileList, "files");
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -89,6 +93,25 @@ public class Downloader {
 			e.printStackTrace();
 		}
 	}
+	
+    private void writeTxt(String path, List<WebData> data, String name) {
+        String filePath = path + name;
+        try {
+            PrintWriter writer = new PrintWriter(filePath + ".txt");
+            for (WebData file : data) {
+                writer.print(file.getId() + "\t" + file.getKey() + "\t" + file.getName() + "\t" + file.getScope()
+                                + "\t" + file.getQualifier() + "\t" + file.getDate());
+                if (file.getMsr() == null) {
+                    writer.println("\t-1.0 \t -1.0");
+                } else {
+                    writer.println("\t" + file.getMsr().get(0).getVal() + "\t" + file.getMsr().get(1).getVal());
+                }
+            }
+            writer.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 	
 	private String makeFolder(String path, String name) {
 		File folder = new File(path + name);

@@ -1,4 +1,4 @@
-package com.testing123.vaadin;
+package com.testing123.downloader;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,6 +11,7 @@ import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.testing123.vaadin.WebData;
 
 /**
  * Downloader downloads all the metric data available from Sonar at the time of execution.  To use,
@@ -62,7 +63,6 @@ public class DownloadAndToTxt {
                 for (WebData b : currentList) {
                     fileList.add(b);
                 }
-                System.out.println("bang!");
             }
             writeTxt(currentPath, fileList, "files");
             writeJson(currentPath, fileList, "files");

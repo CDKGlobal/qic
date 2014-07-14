@@ -1,4 +1,4 @@
-package com.testing123.vaadin;
+package com.testing123.downloader;
 
 public class DownloaderAndToTxtMain {
 
