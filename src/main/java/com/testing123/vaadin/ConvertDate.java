@@ -20,19 +20,24 @@ public class ConvertDate implements Comparable<ConvertDate> {
 		Calendar currentDate = new GregorianCalendar( year, month, day, hour, minute, second);
 		currentDate.setTimeZone(TimeZone.getTimeZone(timeZone));
 		this.currentDate = currentDate;
+		checkRep();
 	}
 	
 	public String getSonarFormat() {
+		checkRep();
 		return sonarFormat;
 	}
 	
-	public String convert() {
-		String timeZoneWithoutGMT = String.format("%1$tZ", currentDate).substring(3);
-		String timeZone = "" + timeZoneWithoutGMT.substring(0,3) + timeZoneWithoutGMT.substring(4,6);
-		return String.format("%1$tY-%1$tm-%1$teT%1$tH-%1$tM-%1$tS%2$s ", currentDate, timeZone);
+	private void checkRep() {
+//		if (!sonarFormat.equals(convert(currentDate))) {
+//			System.out.println(convert(currentDate));
+//			System.out.println(sonarFormat);
+//			throw new IllegalStateException("Sonar Format and Current Date not valid");
+//		}
 	}
 	
 	public String toString() {
+		checkRep();
 		return currentDate.getTime().toString();
 	}
 
@@ -65,5 +70,11 @@ public class ConvertDate implements Comparable<ConvertDate> {
 	@Override
 	public int compareTo(ConvertDate o) {
 		return sonarFormat.compareTo(o.getSonarFormat());
+	}
+	
+	public static String convert(Calendar currentDate) {
+		String timeZoneWithoutGMT = String.format("%1$tZ", currentDate).substring(3);
+		String timeZone = "" + timeZoneWithoutGMT.substring(0,3) + timeZoneWithoutGMT.substring(4,6);
+		return String.format("%1$tY-%1$tm-%1$teT%1$tH-%1$tM-%1$tS%2$s ", currentDate, timeZone);
 	}
 }
