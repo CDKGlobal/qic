@@ -60,8 +60,6 @@ public class NavigationComponent extends CustomComponent {
 		setWidth("1000px");
 		setHeight("100px");
 		
-		
-		
 		// fileGranularitySlider
 		MenuBar barmenu = new MenuBar();
 		barmenu.setStyleName("mybarmenu");
@@ -79,25 +77,28 @@ public class NavigationComponent extends CustomComponent {
 		        if (previous != null)
 		            previous.setStyleName(null);
 		        selectedItem.setStyleName("highlight");
+		        state.setGrain(selectedItem.toString());
 		        previous = selectedItem;
 		        
 		    }  
 		};
-		        
+		
 		// Put some items in the menu
 		barmenu.addItem("Projects", null, mycommand);
 		barmenu.addItem("Directories", null, mycommand);
 		barmenu.addItem("Files", null, mycommand);
 		barmenu.addItem("Authors", null, mycommand);
 		
+		
+		// gets all the available dates that can be queried
 		List<String> options = AvailableResources.getAvailableDates();
 		
 		// comboBox_1
-	    final ComboBox startComboBox = createStartComboBox(options);	
+	    final ComboBox startComboBox = createComboBox(options, "Start Date");
 		mainLayout.addComponent(startComboBox, "top:" + DATE_GRANULARITY_OFFSET +";");
 		
 		// comboBox_2
-		final ComboBox endComboBox = createEndComboBoc(options);		
+		final ComboBox endComboBox = createComboBox(options, "End Date");
 		mainLayout.addComponent(endComboBox, "top:" + DATE_GRANULARITY_OFFSET + ";left:220.0px;");
 		
 		// button_1
@@ -119,7 +120,6 @@ public class NavigationComponent extends CustomComponent {
 				} 
 				ConvertDate startDate = (ConvertDate) startComboBox.getValue();
 				ConvertDate endDate = (ConvertDate) endComboBox.getValue();
-				
 				if (checkIfStartDateIsNotLessThanEndDate(startDate, endDate)) {
 					errorLabel = new Label("Date range invalid");
 					mainLayout.addComponent(errorLabel, "top:" + DATE_GRANULARITY_OFFSET + "; left:510.0px;");
@@ -127,7 +127,6 @@ public class NavigationComponent extends CustomComponent {
 				}
 				state.setStart(startDate);
 				state.setEnd(endDate);
-				layout.removeComponent(1, 1);
 				ComponentController.drawMainComponent(layout, state);
 			}
 
@@ -142,12 +141,8 @@ public class NavigationComponent extends CustomComponent {
 		return mainLayout;
 	}
 
-	private ComboBox createStartComboBox(List<String> options) {
-		return createComboBoxWithLabel(options, "Start Date");
-	}
-	
-	private ComboBox createEndComboBoc(List<String> options) {
-		return createComboBoxWithLabel(options, "End Date");
+	private ComboBox createComboBox(List<String> options, String tag) {
+		return createComboBoxWithLabel(options, tag);
 	}
 
 	private ComboBox createComboBoxWithLabel(List<String> options, String label) {

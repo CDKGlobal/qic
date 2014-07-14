@@ -2,7 +2,6 @@ package com.testing123.ui;
 
 import javax.servlet.annotation.WebServlet;
 
-import com.testing123.controller.ComponentController;
 import com.testing123.controller.UIState;
 import com.testing123.vaadin.ConvertDate;
 import com.vaadin.annotations.Push;
