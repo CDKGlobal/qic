@@ -62,7 +62,6 @@ public class Downloader {
 				for (WebData b : currentList) {
 					fileList.add(b);
 				}
-				System.out.println("bang!");
 			}
 			writeJson(currentPath, fileList, "files");
 		} catch (Exception e) {
