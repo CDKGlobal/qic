@@ -10,7 +10,10 @@ public class ItemData {
 	}
 
 	public void setItem(Object[] item) {
-		this.item = item;
+		this.item = new Object[item.length];
+		for(int i = 0; i < item.length; i++){
+			this.item[i]=item[i];
+		}
 	}
 	
 }
