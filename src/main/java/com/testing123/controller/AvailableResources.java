@@ -111,7 +111,9 @@ public class AvailableResources {
 	
     private static Connection getConnection() {
         try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://dc2pvpdc00059.vcac.dc2.dsghost.net:3306/dataList?user=chenc&password=password");
+        	String[] home = System.getProperty("user.home").split("/");
+        	String user = home[2];
+            Connection conn = DriverManager.getConnection("jdbc:mysql://dc2pvpdc00059.vcac.dc2.dsghost.net:3306/dataList?user=" + user + "&password=password");
             return conn;
         } catch (SQLException ex) {
             // handle any errors
@@ -125,27 +127,9 @@ public class AvailableResources {
 	public static ResultSet execute(Connection conn, String query) throws Exception {
 		Statement stmt = null;
 		ResultSet rs = null;
-//		try {
-			stmt = conn.createStatement();
-			rs = stmt.executeQuery(query);
-			System.out.println(query);
-			System.out.println(rs == null);
-//		} finally {
-//			if (rs != null) {
-//				try {
-//					rs.close();
-//				} catch (SQLException sqlEx) {
-//					rs = null;
-//				}
-//				if (stmt != null) {
-//					try {
-//						stmt.close();
-//					} catch (SQLException sqlEx) {
-//						stmt = null;
-//					}
-//				}
-//			}
-//		}
+		stmt = conn.createStatement();
+		rs = stmt.executeQuery(query);
+		System.out.println(query);
 		return rs;
 	}
 
