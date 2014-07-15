@@ -47,13 +47,13 @@ public class FisheyeQuery {
 	private String getReturns() {
 		if(returns.isEmpty()){
 			///ERROR
-			addReturn("path");
+			//addReturn("path");
 		}
 		return " return " + returns.substring(1);
 	}
 
 	private String getQuery() {
-		return "select revisions " + dateRange + getClauses() + getReturns();
+		return "select revisions " + dateRange + getClauses() + " group by file "+ getReturns();
 	}
 	
 	private String getDateRange(ConvertDate startDate, ConvertDate endDate) {
@@ -65,6 +65,7 @@ public class FisheyeQuery {
 	public String toString() {
 		String home = "http://fisheye.cobalt.com/rest-service-fe/search-v1/queryAsRows/";
 		String link = home + repository + ".json?query=" + getQuery();
+		System.out.println(link);
 		return link.replaceAll("\\s+", "%20");
 	}
 }

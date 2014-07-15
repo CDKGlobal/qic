@@ -13,11 +13,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class FisheyeChurn {
 
-	public static Set<DataPoint> getData() {
+	public static Set<DataPoint> getData(ConvertDate startDate, ConvertDate endDate) {
 
 		Set<DataPoint> dataSet = new HashSet<DataPoint>();
 
-		FisheyeData querriedData = fisheyeChurnGetJson();
+		FisheyeData querriedData = fisheyeChurnGetJson(startDate, endDate);
 
 		for (ItemData i : querriedData.getRow()) {
 			if ((Integer) i.getItem(3) == 0) {
@@ -33,22 +33,22 @@ public class FisheyeChurn {
 		return dataSet;
 	}
 
-	public static FisheyeData fisheyeChurnGetJson() {
-		return fisheyeChurnGetJson("2013-07-07", "2014-07-08");
-	}
-
-	public static FisheyeData fisheyeChurnGetJson(String startDate, String endDate) {
+	public static FisheyeData fisheyeChurnGetJson(ConvertDate startDate, ConvertDate endDate) {
 
 		ObjectMapper mapper = new ObjectMapper();
 
-		String query = getQuery(startDate, endDate, "Platform");
-		String link = getLink("Advertising", query);
-		FisheyeData querriedData;
+		FisheyeQuery query = new FisheyeQuery("Advertising.Perforce", startDate, endDate);
+		query.inProject("Platform");
+		query.onlyJava();
+		query.addReturn("path");
+		query.addReturn("sum(linesAdded)");
+		query.addReturn("sum(linesRemoved)");
+		query.addReturn("count(isDeleted)");
+		FisheyeData querriedData = new FisheyeData();;
 
 		URL projectURL;
-		querriedData = new FisheyeData();
 		try {
-			projectURL = new URL(link);
+			projectURL = new URL(query.toString());
 			querriedData = mapper.readValue(projectURL, new TypeReference<FisheyeData>() {
 			});
 		} catch (MalformedURLException e) {
