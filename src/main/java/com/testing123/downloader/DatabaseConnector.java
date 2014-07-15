@@ -6,13 +6,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DatabaseConnector {
-    public static void main(String[] args) {
+    public void connectAndExecute(String date) {
         try {
+
             // The newInstance() call is a work around for some
             // broken Java implementations
             // \Class.forName("com.mysql.jdbc.Driver").newInstance();
             Connection conn = getConnection();
-            execute(conn);
+            execute(conn, date);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -24,7 +25,7 @@ public class DatabaseConnector {
             // Properties connectionProps = new Properties();
 
             Connection conn =
-                            DriverManager.getConnection("jdbc:mysql://localhost:3306/dataList?" +
+                            DriverManager.getConnection("jdbc:mysql://localhost/dataList?" +
                                             "user=root&password=password");
             // Do something with the Connection
 
@@ -35,22 +36,25 @@ public class DatabaseConnector {
             System.out.println("SQLState: " + ex.getSQLState());
             System.out.println("VendorError: " + ex.getErrorCode());
         }
-        return null; // ?
+        return null;
 
     }
 
-    public static void execute(Connection conn) throws Exception {
+    public static void execute(Connection conn, String date) throws Exception {
         Statement stmt = null;
         boolean rs = true;
 
         try {
             stmt = conn.createStatement();
-            rs = stmt.execute("CREATE TABLE d07_08(id INT NOT NULL, "
-                            + "the_key VARCHAR(150) NOT NULL, name VARCHAR(70) NOT NULL, "
-                            + "scope VARCHAR(5) NOT NULL, qualifier VARCHAR(5) NOT NULL, date VARCHAR(30) NOT NULL,"
+            // Downloader.today ;
+            // rs = stmt.execute("mysql.server start");
+            rs = stmt.execute("CREATE TABLE " + date.replace("-", "_") + "(id INT NOT NULL, "
+                            + "the_key VARCHAR(160) NOT NULL, name VARCHAR(80) NOT NULL, "
+                            + "scope VARCHAR(5) NOT NULL, qualifier VARCHAR(5) NOT NULL,"
+                            + " date VARCHAR(30) NOT NULL,"
                             + " loc DECIMAL(5,1), complexity DECIMAL(4,1));");
-            rs = stmt.execute("LOAD DATA LOCAL INFILE '/Users/weiyoud/Perforce/"
-                            + "weiyoud_sea-weiyoud_4033/playpen/QIC2/Archives/2014-07-08T06-07-31-0700.txt' INTO TABLE d07_08");
+            rs = stmt.execute("LOAD DATA LOCAL INFILE '/home/dap/Archives/" + date + "/17271/"
+                            + "files.txt' INTO TABLE " + date.replace("-", "_") + ";");
             // rs = stmt.executeQuery("SELECT * FROM d7");
             // System.out.println(rs);
 
