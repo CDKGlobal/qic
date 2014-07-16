@@ -1,11 +1,19 @@
 package com.testing123.vaadin;
-
+/**
+ * 
+ * @author blumbeb
+ *
+ *This class holds the settings or the Flot graph including the scolor scheme and margins and such
+ *It is also where you are able to set the Axis
+ */
 public class FlotOptions {
 	private static String xaxis = "Change in Lines of Code";
 	private static String yaxis = "Cyclomatic Complexity";
 	
-
-	
+	/**
+	 * Creates a string for flot to read as JSON
+	 * @return String representation of your Flot Options
+	 */
 	public static String getString(){
 	String options =
 	"{" + 
@@ -36,11 +44,11 @@ public class FlotOptions {
 	return options;
 	}
 	
-	public static void setXaxis(String xlable){
-		xaxis = xlable;
+	public static void setXaxis(String xlabel){
+		xaxis = xlabel;
 	}
 	
-	public static void setYaxis(String ylable){
-		yaxis = ylable;
+	public static void setYaxis(String ylabel){
+		yaxis = ylabel;
 	}
 }
