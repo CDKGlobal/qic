@@ -1,4 +1,4 @@
-package com.testing123.ui;
+package com.testing123.controller;
 
 import org.junit.Test;
 
