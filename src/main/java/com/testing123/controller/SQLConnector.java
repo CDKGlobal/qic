@@ -15,6 +15,7 @@ public class SQLConnector {
 	public static final String DB_SERVER = "mysql://dc2pvpdc00059.vcac.dc2.dsghost.net:3306";
 	public static final String DB_USER = getUser();
 	public static final String DB_PASS = "password";
+	public static final String DB_NAME = "dataList";
 	
 	public static ResultSet basicQuery(String query) {
 		return querySQL(query);
@@ -38,7 +39,8 @@ public class SQLConnector {
 	
     public static Connection getConnection() {
         try {
-            Connection conn = DriverManager.getConnection("jdbc:" + SQLConnector.DB_SERVER + "/dataList?user=" + DB_USER + "&password=" + DB_PASS);
+            Connection conn = 
+            		DriverManager.getConnection("jdbc:" + SQLConnector.DB_SERVER + "/" + DB_NAME + "?user=" + DB_USER + "&password=" + DB_PASS);
             return conn;
         } catch (SQLException ex) {
         	System.out.println("Could not make Connection:");
@@ -80,6 +82,7 @@ public class SQLConnector {
 				data.setMsr(msrList);
 				processed.add(data);
 			}
+			rs.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
