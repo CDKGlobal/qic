@@ -1,7 +1,11 @@
 package com.testing123.vaadin;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * 
+ * @author blumbeb
+ *A small class that holds "MSR" the data that is retireved from SONAR
+ */
 public class Msr {
     private String key;
     private double val;
