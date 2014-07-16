@@ -41,6 +41,16 @@ public class TestJsonParser {
     }
 
     @Test
+    public void testGetScope() {
+    	assertEquals("FIL", one.getScope());
+    }
+    
+    @Test
+    public void testGetDate() {
+    	assertEquals("2014-07-16T06:07:14-0700", one.getDate());
+    }
+    
+    @Test
     public void testGetMSR() {
         assertEquals(591, (int)one.getMsr().get(0).getVal());
     }
