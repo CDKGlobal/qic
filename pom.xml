@@ -6,7 +6,7 @@
 	<artifactId>QIC2</artifactId>
 	<packaging>war</packaging>
 	<version>7.1.8</version>
-	<name>Vaadin Web Application</name>
+	<name>Advertising / QIC</name>
 	<scm> <connection>scm:perforce:perforce.cobaltgroup.com:1667://Playpen/QIC2/</connection> <developerConnection>scm:perforce:perforce.cobaltgroup.com:1667://Playpen/QIC2/</developerConnection> <url></url> </scm>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
