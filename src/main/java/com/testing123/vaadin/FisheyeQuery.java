@@ -46,10 +46,9 @@ public class FisheyeQuery {
 
 	private String getReturns() {
 		if(returns.isEmpty()){
-			///ERROR
-			//addReturn("path");
+			addReturn(",");
 		}
-		return " return " + returns.substring(1);
+		return " return " + returns;
 	}
 
 	private String getQuery() {
