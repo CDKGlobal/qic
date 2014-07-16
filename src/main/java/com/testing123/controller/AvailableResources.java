@@ -2,10 +2,7 @@ package com.testing123.controller;
 
 import java.sql.Connection;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.TimeZone;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -14,16 +11,16 @@ import com.testing123.vaadin.WebData;
 
 public class AvailableResources {
 	
-	private static Calendar convertToDate(String sonarFormat) {
-		String[] dateAndTime = sonarFormat.split("T");
-        String[] date = dateAndTime[0].split("-");
-        String[] time = dateAndTime[1].split("-");
-		Calendar currentDate = new GregorianCalendar(
-				Integer.parseInt(date[0]), Integer.parseInt(date[1]) - 1, Integer.parseInt(date[2]),
-				Integer.parseInt(time[0]), Integer.parseInt(time[1]), Integer.parseInt(time[2]));
-		currentDate.setTimeZone(TimeZone.getTimeZone("GMT-" + time[3]));
-		return currentDate;
-	}
+//	private static Calendar convertToDate(String sonarFormat) {
+//		String[] dateAndTime = sonarFormat.split("T");
+//        String[] date = dateAndTime[0].split("-");
+//        String[] time = dateAndTime[1].split("-");
+//		Calendar currentDate = new GregorianCalendar(
+//				Integer.parseInt(date[0]), Integer.parseInt(date[1]) - 1, Integer.parseInt(date[2]),
+//				Integer.parseInt(time[0]), Integer.parseInt(time[1]), Integer.parseInt(time[2]));
+//		currentDate.setTimeZone(TimeZone.getTimeZone("GMT-" + time[3]));
+//		return currentDate;
+//	}
 	
 	public static String extractDate(String sonarFormat) {
 		String[] dateAndTime = sonarFormat.split("T");

@@ -27,6 +27,7 @@ public class UIStateTest {
 	public void TestSetUIState() {
 		state.setIsDelta(false);
 		assertEquals(false, state.getIsDelta());
+		state.verifyState();
 	}
 
 }

@@ -16,25 +16,23 @@ public class SQLConnector {
 	//public static final String 
 	
 	public static ResultSet basicQuery(String query) {
-        try {
-        	Class.forName("com.mysql.jdbc.Driver").newInstance();
-            Connection conn = getConnection();
-            return execute(conn, query);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return null;
+		return querySQL(query);
 	}
 	
 	public static ResultSet dataQuery(String date, String query) {
-        try {
+		return querySQL(query);
+	}
+	
+	public static ResultSet querySQL(String query) {
+        Connection conn = null;
+		try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
-            Connection conn = getConnection();
+            conn = getConnection();
             return execute(conn, query);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        return null;
+		return null;
 	}
 	
     public static Connection getConnection() {
