@@ -45,6 +45,22 @@ public class UIState {
 		this.isDelta = isDelta;
 	}
 
+	public String getX() {
+		return x;
+	}
+
+	public void setX(String x) {
+		this.x = x;
+	}
+
+	public String getY() {
+		return y;
+	}
+
+	public void setY(String y) {
+		this.y = y;
+	}
+	
 	public String getGrain() {
 		return grain;
 	}
@@ -55,10 +71,10 @@ public class UIState {
 	
 	public void verifyState() {
 		System.out.println("CURRENT STATE:");
-		System.out.println(start.toString());
-		System.out.println(end.toString());
-		System.out.println(isDelta);
-		System.out.println(grain);
+		System.out.println("Start Date: " + start.toString());
+		System.out.println("End Date: " + end.toString());
+		System.out.println("Displaying Change: " + isDelta);
+		System.out.println("Granularity: " + grain);
 		System.out.println();
 	}
 	

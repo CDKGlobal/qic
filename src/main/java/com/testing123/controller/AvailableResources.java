@@ -77,15 +77,15 @@ public class AvailableResources {
 	}
 	
 	public static void main(String[] args) {
-		queryData("SELECT * FROM d07_07");
+		basicQuery("SELECT * FROM d07_07");
 	}
 	
 	public static List<WebData> getDataList(String date) {
-		ResultSet results = queryData("SELECT * FROM " + date + " WHERE QUALIFIER = 'CLA';");
+		ResultSet results = basicQuery("SELECT * FROM " + date + " WHERE QUALIFIER = 'CLA';");
 		return process(results);
 	}
 	
-	public static ResultSet queryData(String query) {
+	public static ResultSet basicQuery(String query) {
         try {
         	Class.forName("com.mysql.jdbc.Driver").newInstance();
             Connection conn = getConnection();
@@ -96,10 +96,8 @@ public class AvailableResources {
         return null;
 	}
 	
-	public static ResultSet queryData(String date, String query) {
+	public static ResultSet dataQuery(String date, String query) {
         try {
-            // The newInstance() call is a work around for some
-            // broken Java implementations
             Class.forName("com.mysql.jdbc.Driver").newInstance();
             Connection conn = getConnection();
             return execute(conn, query);
@@ -113,10 +111,9 @@ public class AvailableResources {
         try {
         	String[] home = System.getProperty("user.home").split("/");
         	String user = home[2];
-            Connection conn = DriverManager.getConnection("jdbc:mysql://dc2pvpdc00059.vcac.dc2.dsghost.net:3306/dataList?user=" + user + "&password=password");
+            Connection conn = DriverManager.getConnection("jdbc:" + SQLConnector.DATABASE_SERVER + "/dataList?user=" + user + "&password=password");
             return conn;
         } catch (SQLException ex) {
-            // handle any errors
             System.out.println("SQLException: " + ex.getMessage());
             System.out.println("SQLState: " + ex.getSQLState());
             System.out.println("VendorError: " + ex.getErrorCode());
@@ -129,11 +126,10 @@ public class AvailableResources {
 		ResultSet rs = null;
 		stmt = conn.createStatement();
 		rs = stmt.executeQuery(query);
-		System.out.println(query);
 		return rs;
 	}
 
-	private static List<WebData> process(ResultSet rs) {
+	private static List<WebData> process(ResultSet rs, String... msrKeys) {
 		List<WebData> processed = new ArrayList<WebData>();
 		try {
 			while (rs.next()) {
@@ -146,6 +142,8 @@ public class AvailableResources {
 				data.setDate(rs.getString("date"));
 				
 				List<Msr> msr = new ArrayList<Msr>();
+				
+				String[] msrKey = msrKeys;
 				
 				Msr ncloc = new Msr();
 				ncloc.setKey("ncloc");
