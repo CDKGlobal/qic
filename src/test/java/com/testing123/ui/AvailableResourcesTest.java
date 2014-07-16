@@ -1,12 +1,8 @@
 package com.testing123.ui;
 
-import static org.junit.Assert.assertEquals;
-
-import java.sql.Connection;
-
 import org.junit.Test;
 
-import com.testing123.controller.AvailableResources;
+import com.testing123.controller.SQLConnector;
 
 public class AvailableResourcesTest {
 
@@ -15,7 +11,8 @@ public class AvailableResourcesTest {
 ////		assertEquals("2014-07-07T06-09-17-0700", AvailableResources.getAvailableDates().get(0));
 //	}
 	
+	@Test
 	public void TestSQLConnectionThrowsNoException() {
-        AvailableResources.dataQuery("", "");
+        //SQLConnector.dataQuery("", "");
 	}
 }
