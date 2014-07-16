@@ -1,5 +1,8 @@
 package com.testing123.vaadin;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 public class FisheyeQuery {
 
 	private String repository;
@@ -14,25 +17,37 @@ public class FisheyeQuery {
 		returns = "";
 		returns = "";
 	}
-
-	public void clearClauses() {
-		clauses = "";
+	
+	public URL getChurn(){
+		inProject("Platform");//Change how this works later
+		onlyJava();
+		addReturn("path");
+		addReturn("sum(linesAdded)");
+		addReturn("sum(linesRemoved)");
+		addReturn("count(isDeleted)");
+		String link = getString();
+		URL queryUrl = null;
+		try {
+			queryUrl = new URL(link);
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+		return queryUrl;
 	}
 
-
-	public void addPath(String path) {
+	private void addPath(String path) {
 		addClause(" path like " + path);
 	}
 
-	public void inProject(String project) {
+	private void inProject(String project) {
 		addPath("\\" + project + "/trunk/src/main/**");
 	}
 
-	public void onlyJava() {
+	private void onlyJava() {
 		addPath("*.java");
 	}
 	
-	public void addReturn(String returnElement){
+	private void addReturn(String returnElement){
 		returns += ", " + returnElement;
 	}
 	
@@ -45,14 +60,11 @@ public class FisheyeQuery {
 	}
 
 	private String getReturns() {
-		if(returns.isEmpty()){
-			addReturn(",");
-		}
-		return " return " + returns;
+		return " return " + returns.substring(1);
 	}
 
 	private String getQuery() {
-		return "select revisions " + dateRange + getClauses() + " group by file "+ getReturns();
+		return "select revisions " + dateRange + getClauses() + " group by file "+ getReturns();//cannot always group by file
 	}
 	
 	private String getDateRange(ConvertDate startDate, ConvertDate endDate) {
@@ -60,11 +72,9 @@ public class FisheyeQuery {
 				+ "] ";
 	}
 
-	@Override
-	public String toString() {
+	private String getString() {
 		String home = "http://fisheye.cobalt.com/rest-service-fe/search-v1/queryAsRows/";
 		String link = home + repository + ".json?query=" + getQuery();
-		System.out.println(link);
 		return link.replaceAll("\\s+", "%20");
 	}
 }
