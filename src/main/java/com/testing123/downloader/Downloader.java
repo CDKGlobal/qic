@@ -33,7 +33,7 @@ public class Downloader {
      * 
      * @param projectName the project name
      */
-    public void downloadProjects(String projectName) {
+    public void downloadProjects(String projectName, boolean... test) {
         String projectLink = "http://sonar.cobalt.com/api/resources?resource=com.cobalt.dap:" + projectName + "&depth=0&metrics=ncloc,complexity&format=json";
         try {
             URL projectURL = new URL(projectLink);
@@ -41,7 +41,12 @@ public class Downloader {
 
             // makes a folder with today's date on it
             today = projectList.get(0).getDate().replace(":", "-");
-            String currentPath = makeFolder("Archives/", today);
+            String currentPath = null;
+            if (test[0]) {
+            	currentPath = makeFolder("Tester/", today);
+            } else {
+            	currentPath = makeFolder("Archives/", today);
+            }
 
             // creates projects
             writeJson(currentPath, projectList, projectList.get(0).getId() + "");
@@ -64,13 +69,13 @@ public class Downloader {
                                 + "metrics=ncloc,complexity&format=json";
                 URL filesLink = new URL(currentFolder);
                 List<WebData> currentList = mapper.readValue(filesLink, new TypeReference<List<WebData>>() {});
-                for (WebData b : currentList) {
-                    fileList.add(b);
+                for (WebData current : currentList) {
+                    fileList.add(current);
                 }
+                System.out.println("Processing folder: " + folder.getKey());
             }
             writeJson(currentPath, fileList, "files");
             writeTxt(currentPath, fileList, "files");
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -84,7 +89,7 @@ public class Downloader {
                 mapper.writeValue(new File(filePath + ".json"), data);
                 if ("CLA".equals(file.getQualifier())) {
                     i++;
-                    System.out.println("writing file: " + file.getKey());
+                    System.out.println("writing file to json: " + file.getKey());
                 }
             }
             System.out.println(i);
@@ -109,6 +114,7 @@ public class Downloader {
                 } else {
                     writer.println("\t" + file.getMsr().get(0).getVal() + "\t" + file.getMsr().get(1).getVal());
                 }
+                System.out.println("writing file to txt: " + file.getKey());
             }
             writer.close();
         } catch (Exception e) {
