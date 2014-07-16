@@ -12,8 +12,9 @@ import com.testing123.vaadin.Msr;
 import com.testing123.vaadin.WebData;
 
 public class SQLConnector {
-	public static final String DATABASE_SERVER = "mysql://dc2pvpdc00059.vcac.dc2.dsghost.net:3306";
-	//public static final String 
+	public static final String DB_SERVER = "mysql://dc2pvpdc00059.vcac.dc2.dsghost.net:3306";
+	public static final String DB_USER = getUser();
+	public static final String DB_PASS = "password";
 	
 	public static ResultSet basicQuery(String query) {
 		return querySQL(query);
@@ -37,14 +38,12 @@ public class SQLConnector {
 	
     public static Connection getConnection() {
         try {
-        	String[] home = System.getProperty("user.home").split("/");
-        	String user = home[2];
-            Connection conn = DriverManager.getConnection("jdbc:" + SQLConnector.DATABASE_SERVER + "/dataList?user=" + user + "&password=password");
+            Connection conn = DriverManager.getConnection("jdbc:" + SQLConnector.DB_SERVER + "/dataList?user=" + DB_USER + "&password=" + DB_PASS);
             return conn;
         } catch (SQLException ex) {
+        	System.out.println("Could not make Connection:");
             System.out.println("SQLException: " + ex.getMessage());
             System.out.println("SQLState: " + ex.getSQLState());
-            System.out.println("VendorError: " + ex.getErrorCode());
         }
         return null;
     }
@@ -57,7 +56,7 @@ public class SQLConnector {
 		return rs;
 	}
 
-	public static List<WebData> process(ResultSet rs, String... msrKeys) {
+	public static List<WebData> process(ResultSet rs, String... metrics) {
 		List<WebData> processed = new ArrayList<WebData>();
 		try {
 			while (rs.next()) {
@@ -69,27 +68,26 @@ public class SQLConnector {
 				data.setQualifier(rs.getString("qualifier"));
 				data.setDate(rs.getString("date"));
 				
-				List<Msr> msr = new ArrayList<Msr>();
-				
-				String[] msrKey = msrKeys;
-				
-				Msr ncloc = new Msr();
-				ncloc.setKey("ncloc");
-				ncloc.setVal(rs.getDouble("loc"));
-				
-				Msr complexity = new Msr();
-				complexity.setKey("complexity");
-				complexity.setVal(rs.getDouble("complexity"));
-				
-				msr.add(ncloc);
-				msr.add(complexity);
-				data.setMsr(msr);
+				List<Msr> msrList = new ArrayList<Msr>();
+
+				String[] msrKeys = metrics;
+				for (String msrKey : msrKeys) {
+					Msr msr = new Msr();
+					msr.setKey(msrKey);
+					msr.setVal(rs.getDouble(msrKey));
+					msrList.add(msr);
+				}
+				data.setMsr(msrList);
 				processed.add(data);
 			}
-			return processed;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return processed;
+	}
+	
+	private static String getUser() {
+    	String[] home = System.getProperty("user.home").split("/");
+    	return home[2];
 	}
 }

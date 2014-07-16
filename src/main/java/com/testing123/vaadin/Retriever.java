@@ -1,23 +1,16 @@
 package com.testing123.vaadin;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.testing123.controller.AvailableResources;
 
 public class Retriever {
 
-	private static final ObjectMapper MAPPER = new ObjectMapper();;
+	//private static final ObjectMapper MAPPER = new ObjectMapper();;
 
 	public static Set<DataPoint> getData(String startDate, String endDate) {
 		Map<String, Double[]> map = new HashMap<String, Double[]>();
