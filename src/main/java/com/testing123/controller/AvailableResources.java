@@ -64,7 +64,12 @@ public class AvailableResources {
 	}
 	
 	public static List<WebData> getDataList(String date) {
-		ResultSet results = SQLConnector.basicQuery("SELECT * FROM " + date + " WHERE QUALIFIER = 'CLA';");
+		ResultSet results = null;
+		try {
+			results = SQLConnector.basicQuery("SELECT * FROM " + date + " WHERE QUALIFIER = 'CLA';");
+		} catch (Exception e) {
+			return new ArrayList<WebData>();
+		}
 		return SQLConnector.process(results, "ncloc", "complexity");
 	}
 	

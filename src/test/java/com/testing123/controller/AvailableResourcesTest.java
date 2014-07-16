@@ -1,8 +1,13 @@
 package com.testing123.controller;
 
+import static org.junit.Assert.*;
+
+import java.util.List;
+
 import org.junit.Test;
 
 import com.testing123.controller.SQLConnector;
+import com.testing123.vaadin.WebData;
 
 public class AvailableResourcesTest {
 
@@ -14,5 +19,11 @@ public class AvailableResourcesTest {
 	@Test
 	public void TestSQLConnectionThrowsNoException() {
         //SQLConnector.dataQuery("", "");
+	}
+	
+	@Test 
+	public void TestInvalidGetDataListReturnsNonEmptyList() {
+		List<WebData> list = AvailableResources.getDataList("d07_07");
+		assertTrue(list.size() > 0);
 	}
 }
