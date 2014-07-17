@@ -42,7 +42,7 @@ public class SonarMetrics {
 	public static boolean sonarHasMetrics(String metric1, String metric2){
 		Map<String, String> definitions = getSonarMetrics();
 		if(definitions.containsKey(metric1) && definitions.containsKey(metric2)) {
-			setAxes(metric1, metric2, definitions);
+			//setAxes(metric1, metric2, definitions);
 			return true;
 		}
 		return false;
@@ -57,13 +57,13 @@ public class SonarMetrics {
 	 * Sets the axis labels in flotOptions, Y axis is alphabetically lower than X
 	 * 
 	 */
-	public static void setAxes(String metric1, String metric2, Map<String,String> definitions){
-		if(metric1.compareTo(metric2)>0){
-			FlotOptions.setXaxis(definitions.get(metric1));
-			FlotOptions.setYaxis(definitions.get(metric2));
-		}else{
-			FlotOptions.setXaxis(definitions.get(metric2));
-			FlotOptions.setYaxis(definitions.get(metric1));
-		}
-	}
+//	public static void setAxes(String metric1, String metric2, Map<String,String> definitions){
+//		if(metric1.compareTo(metric2)>0){
+//			FlotOptions.setXaxis(definitions.get(metric1));
+//			FlotOptions.setYaxis(definitions.get(metric2));
+//		}else{
+//			FlotOptions.setXaxis(definitions.get(metric2));
+//			FlotOptions.setYaxis(definitions.get(metric1));
+//		}
+//	}
 }

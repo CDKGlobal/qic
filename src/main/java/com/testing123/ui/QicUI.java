@@ -3,6 +3,7 @@ package com.testing123.ui;
 import javax.servlet.annotation.WebServlet;
 
 import com.testing123.controller.UIState;
+import com.testing123.controller.UIState.Axis;
 import com.testing123.vaadin.ConvertDate;
 import com.vaadin.annotations.Push;
 import com.vaadin.annotations.Theme;
@@ -65,7 +66,7 @@ public class QicUI extends UI {
 		layout.addComponent(l1, 0, 0);
 		layout.addComponent(l2, 1, 0);
 		
-		NavigationComponent nav = new NavigationComponent(layout, new UIState(DEFAULT_START_DATE, DEFAULT_END_DATE));
+		NavigationComponent nav = new NavigationComponent(layout, new UIState(DEFAULT_START_DATE, DEFAULT_END_DATE, Axis.DELTA_LINESOFCODE));
 		layout.addComponent(nav, 1, 2);
 	}
 }
