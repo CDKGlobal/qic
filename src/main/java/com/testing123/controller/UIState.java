@@ -1,13 +1,16 @@
 package com.testing123.controller;
 
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.List;
+
 import com.testing123.vaadin.ConvertDate;
 
 public class UIState {
 	private ConvertDate start;
 	private ConvertDate end;
-	private boolean isDelta;
-	private String x;
-	private String y;
+	//private boolean isDelta;
+	private Axis x;
 	private String grain;
 	
 	public UIState() {
@@ -17,7 +20,7 @@ public class UIState {
 	public UIState(ConvertDate start, ConvertDate end) {
 		this.start = start;
 		this.end = end;
-		this.isDelta = true;
+		//this.isDelta = true;
 		this.grain = "Files";
 	}
 
@@ -37,28 +40,20 @@ public class UIState {
 		this.end = end;
 	}
 
-	public boolean getIsDelta() {
-		return isDelta;
-	}
+	//public boolean getIsDelta() {
+	//	return isDelta;
+	//}
 	
-	public void setIsDelta(boolean isDelta) {
-		this.isDelta = isDelta;
-	}
+	//public void setIsDelta(boolean isDelta) {
+	//	this.isDelta = isDelta;
+	//}
 
-	public String getX() {
+	public Axis getX() {
 		return x;
 	}
 
-	public void setX(String x) {
+	public void setX(Axis x) {
 		this.x = x;
-	}
-
-	public String getY() {
-		return y;
-	}
-
-	public void setY(String y) {
-		this.y = y;
 	}
 	
 	public String getGrain() {
@@ -73,16 +68,33 @@ public class UIState {
 		System.out.println("CURRENT STATE:");
 		System.out.println("Start Date: " + start.toString());
 		System.out.println("End Date: " + end.toString());
-		System.out.println("Displaying Change: " + isDelta);
+		System.out.println("XAxis: " + x);
 		System.out.println("Granularity: " + grain);
 		System.out.println();
 	}
 	
 	public enum Axis {
-		COMPLEXITY, LINESOFCODE
+		DELTA_LINESOFCODE("Delta Lines of Codes"), 
+		DELTA_COMPLEXITY("Delta Complexity"), 
+		COMPLEXITY("Complexity");
+		
+		private String detail;
+		
+		private Axis(String detail) {
+			this.detail = detail;
+		}
+		
+		@Override
+		public String toString() {
+			return detail;
+		}
+		
+		public static List<Axis> possibleValues() {
+			return new ArrayList<Axis>(EnumSet.allOf(Axis.class));
+		}
 	}
 	
-	public enum Grain {
+	public enum Grainularity {
 		PROJECT, DIRECTORY, FILE
 	}
 }
