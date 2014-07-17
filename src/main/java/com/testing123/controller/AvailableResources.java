@@ -7,6 +7,7 @@ import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+import com.testing123.vaadin.ConvertDate;
 import com.testing123.vaadin.WebData;
 
 public class AvailableResources {
@@ -21,6 +22,11 @@ public class AvailableResources {
 //		currentDate.setTimeZone(TimeZone.getTimeZone("GMT-" + time[3]));
 //		return currentDate;
 //	}
+	
+	public static List<WebData> getDataList(ConvertDate date){
+		String stringDate = extractDate(date.getSonarFormat());
+		return getDataList(stringDate);
+	}
 	
 	public static String extractDate(String sonarFormat) {
 		String[] dateAndTime = sonarFormat.split("T");
