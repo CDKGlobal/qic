@@ -82,11 +82,11 @@ public class SQLConnector {
 				data.setMsr(msrList);
 				processed.add(data);
 			}
-			rs.close();
+			return processed;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return processed;
+		return null;
 	}
 	
 	private static String getUser() {
