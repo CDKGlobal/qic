@@ -1,4 +1,4 @@
-package com.testing123.vaadin;
+package com.testing123.ui;
 
 import org.json.JSONArray;
 import org.json.JSONException;
