@@ -13,9 +13,13 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class QueryFisheye {
+	
+	public Map<String, Double> getInstantaneousValue(ConvertDate date, String qualifier, String scope, String path, String metric) {
+		return getChurnData(date,date );
+	}
 
-	public Map<String,Integer> getChurnData(ConvertDate startDate, ConvertDate endDate) {
-		Map<String,Integer> churnData = new TreeMap<String,Integer>();
+	public Map<String,Double> getChurnData(ConvertDate startDate, ConvertDate endDate) {
+		Map<String,Double> churnData = new TreeMap<String,Double>();
 		FisheyeData querriedData = getJSONFromFisheye(startDate, endDate);
 		int pathIndex = querriedData.getHeadings().indexOf("path");
 		int sumLinesAddedIndex = querriedData.getHeadings().indexOf("sumLinesAdded");
@@ -26,7 +30,7 @@ public class QueryFisheye {
 			if (isNotDeleted(i, isDeletedIndex)) {
 				String path = formatPath(i,pathIndex);
 				int churn = (Integer) i.getItem(sumLinesAddedIndex) + (Integer) i.getItem(sumLinesRemovedIndex);
-				churnData.put(path, churn);
+				churnData.put(path,(double) churn);
 			}
 		}
 		System.out.println(churnData.entrySet().toString());
@@ -62,5 +66,7 @@ public class QueryFisheye {
 
 		return querriedData;
 	}
+
+
 
 }
