@@ -22,7 +22,7 @@ public class UIState {
 		this.start = start;
 		this.end = end;
 		this.x = x;
-		this.y = Axis.COMPLEXITY;
+		this.y = Axis.FINAL_COMPLEXITY;
 		//this.isDelta = true;
 		this.grain = "Files";
 	}
@@ -87,7 +87,8 @@ public class UIState {
 	public enum Axis {
 		DELTA_LINESOFCODE("Delta Lines of Codes"), 
 		DELTA_COMPLEXITY("Delta Complexity"), 
-		COMPLEXITY("Cyclomatic Complexity");
+		START_COMPLEXITY("Cyclomatic Complexity"),
+		FINAL_COMPLEXITY("Cyclomatic Complexity");
 		
 		private String detail;
 		
