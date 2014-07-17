@@ -7,12 +7,15 @@ import java.util.Map;
 import java.util.Set;
 
 import com.testing123.controller.AvailableResources;
+import com.testing123.controller.UIState;
 
-public class Retriever {
+public class Retriever implements Retrievable {
 
 	//private static final ObjectMapper MAPPER = new ObjectMapper();;
 
-	public static Set<DataPoint> getData(String startDate, String endDate) {
+	public Set<DataPoint> getData(UIState state) {
+		String startDate = state.getStart().getSonarFormat();
+		String endDate = state.getEnd().getSonarFormat();
 		Map<String, Double[]> map = new HashMap<String, Double[]>();
 		List<WebData> dataList;
 		Set<DataPoint> dataSet = new HashSet<DataPoint>();

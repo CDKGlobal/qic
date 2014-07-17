@@ -75,7 +75,7 @@ public class MainComponent extends CustomComponent {
 		chart.setWidth(GRAPH_WIDTH);
 		chart.setHeight(GRAPH_HEIGHT);
 
-		chart.setData("[" + Retriever.getData(state.getStart().getSonarFormat(), state.getEnd().getSonarFormat()) + "]");
+		chart.setData("[" + new Retriever().getData(state) + "]");
 
 		chart.setOptions(FlotOptions.getString(state.getX(), state.getY()));
 		
