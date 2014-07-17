@@ -12,7 +12,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class RetrieveFisheyeData {
+public class QueryFisheye {
 
 	public Map<String,Integer> getChurnData(ConvertDate startDate, ConvertDate endDate) {
 		Map<String,Integer> churnData = new TreeMap<String,Integer>();
