@@ -1,7 +1,9 @@
-package com.testing123.downloader;
+package com.testing123.vaadin;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import com.testing123.downloader.DatabaseConnector;
 
 public class DatabaseConnectorTest {
     private DatabaseConnector dbConnector;
