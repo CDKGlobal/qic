@@ -19,13 +19,13 @@ public class UIStateTest {
 	public void TestInitialUIState() {
 		assertEquals("Mon Jul 07 06:09:17 PDT 2014", state.getStart().toString());
 		assertEquals("Thu Jul 10 06:07:56 PDT 2014", state.getEnd().toString());
-		assertEquals(true, state.getIsDelta());
+		//assertEquals(true, state.getIsDelta());
 	}
 	
 	@Test
 	public void TestSetUIState() {
-		state.setIsDelta(false);
-		assertEquals(false, state.getIsDelta());
+		//state.setIsDelta(false);
+		//assertEquals(false, state.getIsDelta());
 		state.verifyState();
 	}
 
