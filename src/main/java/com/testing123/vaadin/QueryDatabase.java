@@ -10,7 +10,7 @@ import com.testing123.controller.SQLConnector;
 
 public class QueryDatabase {
 
-	public Map<String, Double> getcomplexity(ConvertDate date) {
+	public Map<String, Double> getComplexity(ConvertDate date) {
 
 		Map<String, Double> map = new HashMap<String, Double>();
 		String formattedDate = extractDate(date);
@@ -23,7 +23,21 @@ public class QueryDatabase {
 		}
 		return map;
 	}
-
+	
+	public Map<String, Double> getDeltaLOC(ConvertDate startDate, ConvertDate endDate){
+		
+		Map<String, Double> initialComplexity = getComplexity(startDate);
+		Map<String, Double> finalComplexity = getComplexity(endDate);
+		
+		return null;
+		
+		
+	}
+	
+	
+	
+	
+	
 	private static List<WebData> getDataList(String date) {
 		ResultSet results = null;
 		try {

@@ -26,4 +26,10 @@ public class MockQueryable implements Queryable {
 		complexity.put("c", 3333333.33);
 	}
 
+	@Override
+	public Map<String, Double> getDeltaLOC(ConvertDate startDate, ConvertDate endDate) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

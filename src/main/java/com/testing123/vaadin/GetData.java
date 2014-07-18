@@ -13,6 +13,10 @@ public class GetData implements Retrievable{
 	
 	private UIState state;
 	
+	public GetData(){
+		
+	}
+	
 	@Override
 	public Set<DataPoint> getData(UIState state) {
 		this.state = state;
@@ -36,4 +40,7 @@ public class GetData implements Retrievable{
 		return dataSet;
 
 	}
+	
+	
+	
 }

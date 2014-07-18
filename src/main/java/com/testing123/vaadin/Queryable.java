@@ -7,5 +7,7 @@ public interface Queryable {
 	public Map<String, Double> getChurn(ConvertDate startDate, ConvertDate endDate);
 	
 	public Map<String, Double> getComplexity(ConvertDate date);
+	
+	public Map<String, Double> getDeltaLOC(ConvertDate startDate, ConvertDate endDate);
 
 }
