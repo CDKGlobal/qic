@@ -87,6 +87,7 @@ public class UIState {
 	public enum Axis {
 		DELTA_LINESOFCODE("Delta Lines of Codes"), 
 		DELTA_COMPLEXITY("Delta Complexity"), 
+		LINESOFCODE("Non Commented Lines of Code"),
 		COMPLEXITY("Cyclomatic Complexity");
 		
 		private String detail;
