@@ -15,7 +15,7 @@ public class Query implements Queryable {
 	}
 
 	@Override
-	public Map<String, Double> getDeltaLOC(ConvertDate startDate, ConvertDate endDate) {
+	public Map<String, Double> getNCLOC(ConvertDate startDate, ConvertDate endDate) {
 		//return new QueryDatabase().getDeltaLOC(startDate, endDate);
 		return null;
 	}
