@@ -1,4 +1,4 @@
-com_testing123_vaadin_Graph = function() {
+com_testing123_ui_Graph = function() {
 	var element = $(this.getElement());
 
 	this.onStateChange = function() {
@@ -8,6 +8,13 @@ com_testing123_vaadin_Graph = function() {
 		$.plot(element, data, options);
 	}
 	
+	element.bind("plotclick", function(event, pos, item) {
+        //if (item) {
+        	alert("hello");
+          //  window.notify(item.seriesIndex, item.dataIndex);
+        //}
+    });
+
 	element.bind("plothover", function(event, pos, item) {
 		$("#tooltip").remove();
 		if (item) {
