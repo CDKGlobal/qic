@@ -1,6 +1,5 @@
 package com.testing123.vaadin;
 
-
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
@@ -8,26 +7,52 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import com.testing123.controller.UIState;
+import com.testing123.controller.UIState.Axis;
 
-public class GetData implements Retrievable{
-	
+public class GetData implements Retrievable {
+
 	private UIState state;
-	
-	public GetData(){
-		
+	Queryable query;
+
+	public GetData(Queryable queryInterface) {
+		this.query = queryInterface;
 	}
-	
+
 	@Override
 	public Set<DataPoint> getData(UIState state) {
 		this.state = state;
 		return null;
 	}
-
+	
+	/**
+	 * 
+	 * @return Set of DataPoint with the correct X and Y coordinates and details
+	 */
 	public Set<DataPoint> getData() {
-		Queryable mock = new MockQueryable();
-		Map<String, Double> xMap = mock.getChurn(state.getStart(), state.getEnd());
-		Map<String, Double> yMap = mock.getComplexity(state.getEnd());
+
+		ConvertDate startDate = state.getStart();
+		ConvertDate endDate = state.getEnd();
+		Map<String, Double> xMap;
+		Map<String, Double> yMap;
 		Set<DataPoint> dataSet = new HashSet<DataPoint>();
+
+		Axis xAxis = state.getX();
+		if (xAxis.equals(Axis.DELTA_COMPLEXITY)) {
+			xMap = query.getDeltaComplexity(startDate, endDate);
+			yMap = query.getComplexity(endDate);
+
+		} else if (xAxis.equals(Axis.DELTA_LINESOFCODE)) {
+			xMap = query.getChurn(startDate, endDate);
+			yMap = query.getComplexity(startDate);
+
+		} else if (xAxis.equals(Axis.LINESOFCODE)) {
+			xMap = query.getNCLOC(startDate, endDate);
+			yMap = query.getComplexity(startDate);
+
+		} else {
+			return new HashSet<DataPoint>();
+		}
+
 		Iterator<Entry<String, Double>> it = xMap.entrySet().iterator();
 		while (it.hasNext()) {
 			Map.Entry<String, Double> xValues = it.next();
@@ -38,9 +63,5 @@ public class GetData implements Retrievable{
 			it.remove();
 		}
 		return dataSet;
-
 	}
-	
-	
-	
 }
