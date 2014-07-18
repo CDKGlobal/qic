@@ -2,6 +2,9 @@ package com.testing123.ui;
 
 import javax.servlet.annotation.WebServlet;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import com.testing123.controller.UIState;
 import com.testing123.controller.UIState.Axis;
 import com.testing123.vaadin.ConvertDate;
@@ -14,7 +17,10 @@ import com.vaadin.shared.communication.PushMode;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.GridLayout;
+import com.vaadin.ui.JavaScript;
+import com.vaadin.ui.JavaScriptFunction;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 
 /**
@@ -51,7 +57,7 @@ public class QicUI extends UI {
 		layout.setMargin(true);
 		setContent(layout);
 		
-		AbsoluteLayout l1 = new AbsoluteLayout();
+		final AbsoluteLayout l1 = new AbsoluteLayout();
 		AbsoluteLayout l2 = new AbsoluteLayout();
 		l1.setWidth("150px");
 		l1.setHeight("100px");
@@ -68,5 +74,13 @@ public class QicUI extends UI {
 		
 		NavigationComponent nav = new NavigationComponent(layout, new UIState(DEFAULT_START_DATE, DEFAULT_END_DATE, Axis.DELTA_LINESOFCODE));
 		layout.addComponent(nav, 1, 2);
+		
+		JavaScript.getCurrent().addFunction("notify", new JavaScriptFunction() {
+			@Override
+			public void call(JSONArray arguments) throws JSONException {
+				Notification.show("Index=Data=");
+				layout.removeComponent(l1);
+			}
+		});
 	}
 }

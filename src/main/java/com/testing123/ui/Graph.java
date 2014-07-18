@@ -6,6 +6,7 @@ import org.json.JSONObject;
 
 import com.vaadin.annotations.JavaScript;
 import com.vaadin.ui.AbstractJavaScriptComponent;
+import com.vaadin.ui.JavaScriptFunction;
 
 /**
  * Graph represents a Javascript scatterplot, its options, and data.  
@@ -15,6 +16,16 @@ import com.vaadin.ui.AbstractJavaScriptComponent;
 @SuppressWarnings("serial")
 @JavaScript({"jquery.js","jquery.flot.js", "jquery.flot.axislabels.js", "flot_connector.js"})
 public class Graph extends AbstractJavaScriptComponent {
+	
+	public Graph() {
+		addFunction("notify", new JavaScriptFunction() {
+			
+			@Override
+			public void call(JSONArray arguments) throws JSONException {
+				System.out.println("hit");
+			}
+		});
+	}
 	
 	/**
 	 * Sets properties of the graph (eg. show lines, axis labels, etc)

@@ -9,10 +9,10 @@ com_testing123_ui_Graph = function() {
 	}
 	
 	element.bind("plotclick", function(event, pos, item) {
-        //if (item) {
+        if (item) {
         	alert("hello");
           //  window.notify(item.seriesIndex, item.dataIndex);
-        //}
+        }
     });
 
 	element.bind("plothover", function(event, pos, item) {

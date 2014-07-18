@@ -41,7 +41,8 @@ public class FlotOptions {
 	    "},"
 				+
 			"grid: {" 
-				+ "hoverable: true" +
+				+ "hoverable: true,"
+				+ "clickable: true" +
 			"}" + 
 		"}"; 
 		return options;
