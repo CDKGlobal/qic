@@ -10,7 +10,7 @@ com_testing123_ui_Graph = function() {
 	
 	element.bind("plotclick", function(event, pos, item) {
         if (item) {
-          	window.notify(item.seriesIndex, item.dataIndex);
+          	window.notify(item.series.data[item.dataIndex][2]);
         }
     });
 

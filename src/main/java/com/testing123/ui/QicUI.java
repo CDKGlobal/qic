@@ -79,7 +79,7 @@ public class QicUI extends UI {
 			
 			@Override
 			public void call(JSONArray arguments) throws JSONException {
-				Notification.show("Request recieved");
+				Notification.show(arguments.getString(0));
 			}
 		});
 	}
