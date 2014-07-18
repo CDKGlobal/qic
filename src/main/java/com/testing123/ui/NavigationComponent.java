@@ -27,8 +27,8 @@ public class NavigationComponent extends CustomComponent {
 	private Label errorLabel;
 	private UIState state;
 	
-	private static final String DATE_GRANULARITY_OFFSET = "50px";
-	private static final String AXIS_BOX_OFFSET = "0px";
+	private static final String DATE_GRANULARITY_OFFSET = "70px";
+	private static final String AXIS_BOX_OFFSET = "20px";
 	private static final String COMBOBOX_WIDTH = "200px";
 	private static final String DEFAULT_VALUE = "-1px";
 
