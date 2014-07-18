@@ -76,10 +76,10 @@ public class QicUI extends UI {
 		layout.addComponent(nav, 1, 2);
 		
 		JavaScript.getCurrent().addFunction("notify", new JavaScriptFunction() {
+			
 			@Override
 			public void call(JSONArray arguments) throws JSONException {
-				Notification.show("Index=Data=");
-				layout.removeComponent(l1);
+				Notification.show("Request recieved");
 			}
 		});
 	}
