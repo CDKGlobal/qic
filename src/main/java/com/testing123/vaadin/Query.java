@@ -20,4 +20,10 @@ public class Query implements Queryable {
 		return null;
 	}
 
+	@Override
+	public Map<String, Double> getDeltaComplexity(ConvertDate startDate, ConvertDate endDate) {
+		//return new QueryDatabase().getDeltaComplexity(startDate, endDate);
+		return null;
+	}
+
 }
