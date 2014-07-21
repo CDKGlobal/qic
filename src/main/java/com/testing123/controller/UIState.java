@@ -13,10 +13,10 @@ public class UIState {
 	
 	private ConvertDate start;
 	private ConvertDate end;
-	//private boolean isDelta;
 	private Axis x;
 	private Axis y;
-	private String grain;
+	private String focus;
+	private Granularity grain;
 	
 	public UIState() {
 		this(DEFAULT_START_DATE, DEFAULT_END_DATE, Axis.DELTA_LINESOFCODE);
@@ -26,9 +26,9 @@ public class UIState {
 		this.start = start;
 		this.end = end;
 		this.x = x;
-		this.y = Axis.COMPLEXITY;
-		//this.isDelta = true;
-		this.grain = "Files";
+		this.y = Axis.COMPLEXITY;		// by default and always is the case
+		this.focus = null;
+		this.grain = Granularity.FILE;
 	}
 
 	public ConvertDate getStart() {
@@ -71,11 +71,19 @@ public class UIState {
 		this.y = y;
 	}
 	
-	public String getGrain() {
+	public String getFocus() {
+		return focus;
+	}
+
+	public void setFocus(String focus) {
+		this.focus = focus;
+	}
+	
+	public Granularity getGrain() {
 		return grain;
 	}
 
-	public void setGrain(String grain) {
+	public void setGrain(Granularity grain) {
 		this.grain = grain;
 	}
 	
@@ -110,7 +118,7 @@ public class UIState {
 		}
 	}
 	
-	public enum Grainularity {
+	public enum Granularity {
 		PROJECT, DIRECTORY, FILE
 	}
 }
