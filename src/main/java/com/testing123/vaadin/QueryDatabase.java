@@ -20,7 +20,7 @@ public class QueryDatabase {
 		List<WebData> dataList = getDataList(date);
 		for (WebData file : dataList) {
 			if (!map.containsKey(file.getName())) {
-				map.put(file.getKey(), file.getMsr().get(0).getVal());	//retrieves ncloc
+				map.put(catKey(file.getKey()), file.getMsr().get(0).getVal());	//retrieves ncloc
 			} else {
 				throw new IllegalStateException("Unhandeled duplicate case in: ncloc");
 			}
@@ -33,7 +33,7 @@ public class QueryDatabase {
 		List<WebData> dataList = getDataList(date);
 		for (WebData file : dataList) {
 			if (!dataList.isEmpty()) {
-				map.put(file.getKey(), file.getMsr().get(1).getVal());	//retrieves complexity
+				map.put(catKey(file.getKey()), file.getMsr().get(1).getVal());	//retrieves complexity
 			} else {
 				throw new IllegalStateException("Unhandeled duplicate case in: complexity");
 			}
@@ -47,12 +47,14 @@ public class QueryDatabase {
 		Map<String, Double> deltaComplexity = new HashMap<String, Double>();
 		for (String name : finalComplexity.keySet()) {
 			if (initialComplexity.containsKey(name)) {
-				deltaComplexity.put(name, finalComplexity.get(name) - initialComplexity.get(name));
+				if (finalComplexity.get(name) - initialComplexity.get(name) != 0) {
+					deltaComplexity.put(name, finalComplexity.get(name) - initialComplexity.get(name));
+				}
 			} else {
 				deltaComplexity.put(name, finalComplexity.get(name));
 			}
 		}
-		return null;
+		return deltaComplexity;
 	}
 	
 	private static List<WebData> getDataList(ConvertDate date) {
@@ -73,5 +75,10 @@ public class QueryDatabase {
 		String[] date = dateAndTime[0].split("-");
 		return "d" + date[1] + "_" + date[2];
 	}
-
+	
+	private static String catKey(String longKey) {
+		String[] pack = longKey.split(":");
+		String replacement = pack[1];
+		return longKey.replaceAll("com.cobalt.*:", replacement + ".");
+	}
 }
