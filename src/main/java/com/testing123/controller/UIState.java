@@ -88,6 +88,7 @@ public class UIState {
 		DELTA_LINESOFCODE("Delta Lines of Codes"), 
 		DELTA_COMPLEXITY("Delta Complexity"), 
 		LINESOFCODE("Non Commented Lines of Code"),
+		COMPLEXITY("Complexity");
 		
 		private String detail;
 		

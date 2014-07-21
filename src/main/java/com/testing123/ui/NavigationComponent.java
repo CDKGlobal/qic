@@ -199,8 +199,8 @@ public class NavigationComponent extends CustomComponent {
 
 	private ComboBox createAxisComboBox(List<Axis> options, String tag) {
 		ComboBox box = createComboBoxWithLabel(tag, true);
-		for (Axis option : options) {
-			box.addItem(option);
+		for (int i = 0; i < 3; i++) {
+			box.addItem(options.get(i));
 		}
 		box.select(options.get(0));
 		return box;
