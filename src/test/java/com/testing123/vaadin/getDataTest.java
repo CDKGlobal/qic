@@ -29,16 +29,14 @@ public class getDataTest {
 	public void passInDLOCGetDLOCvsComplexity() {
 		state.setX(Axis.DELTA_LINESOFCODE);
 		System.out.println();
-		//assertEquals("[[8.0, 14.0, \"t\"], [32.0, 13.0, \"c\"], [28.0, 11.0, \"b\"]]",gd.getData(state).toString());
-		//assertEquals("[[32.0, 13.0, \"c\"], [28.0, 11.0, \"b\"], [8.0, 14.0, \"t\"]]", gd.getData(state).toString());
+		assertEquals(3,gd.getData(state).size());
 	}
 	
 	@Test
 	public void passInLOCgetLOCvsComplexity() {
 		state.setX(Axis.LINESOFCODE);
 		System.out.println();
-		//assertEquals("[[6.0, 14.0, \"t\"], [11.0, 54.0, \"p\"], [15.0, 11.0, \"d\"], [13.0, 11.0, \"b\"], [8.0, 11.0, \"i\"]]",gd.getData(state).toString());
-		//assertEquals("[[8.0, 11.0, \"i\"], [15.0, 11.0, \"d\"], [13.0, 11.0, \"b\"], [11.0, 54.0, \"p\"], [6.0, 14.0, \"t\"]]",gd.getData(state).toString());
+		assertEquals(5,gd.getData(state).size());
 	}
 	
 	@Test
