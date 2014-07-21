@@ -33,6 +33,13 @@ public class MockQueryable implements Queryable {
 		complexity.put("i", 11.0);
 		complexity.put("n", 28.0);
 		
+		ncloc.put("a", 1.0);
+		ncloc.put("b", 13.0);
+		ncloc.put("d", 15.0);
+		ncloc.put("p", 11.0);
+		ncloc.put("i", 8.0);
+		ncloc.put("t", 6.0);
+		ncloc.put("w", 1.0);
 		
 	}
 
