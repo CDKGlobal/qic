@@ -67,9 +67,11 @@ public class QueryDatabase {
 
 	private static String extractDate(ConvertDate dateObject) {
 		String sonarFormat = dateObject.getSonarFormat();
-		String[] dateAndTime = sonarFormat.split("T");
-		String[] date = dateAndTime[0].split("-");
-		return "d" + date[1] + "_" + date[2];
+//		String[] dateAndTime = sonarFormat.split("T");
+//		String[] date = dateAndTime[0].split("-");
+//		return "d" + date[1] + "_" + date[2];
+		System.out.println(sonarFormat.replace("-", "_"));
+		return sonarFormat.replace("-", "_");
 	}
 	
 	private static String catKey(String longKey) {

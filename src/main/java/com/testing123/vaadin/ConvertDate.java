@@ -6,10 +6,10 @@ import java.util.TimeZone;
 
 public class ConvertDate implements Comparable<ConvertDate> {
 	private Calendar currentDate;
-	private String sonarFormat;
+	private String adjustedSonarFormat;
 	
 	public ConvertDate(String sonarFormat) {
-		this.sonarFormat = sonarFormat;
+		this.adjustedSonarFormat = sonarFormat.replace(":", "-");
 		int year = Integer.parseInt(sonarFormat.substring(0, 4));
 		int month = Integer.parseInt(sonarFormat.substring(5, 7))-1;
 		int day = Integer.parseInt(sonarFormat.substring(8, 10));
@@ -25,15 +25,14 @@ public class ConvertDate implements Comparable<ConvertDate> {
 	
 	public String getSonarFormat() {
 		checkRep();
-		return sonarFormat;
+		return adjustedSonarFormat;
 	}
 	
 	private void checkRep() {
-//		if (!sonarFormat.equals(convert(currentDate))) {
-//			System.out.println(convert(currentDate));
-//			System.out.println(sonarFormat);
-//			throw new IllegalStateException("Sonar Format and Current Date not valid");
-//		}
+		if (adjustedSonarFormat.contains(":")) {
+			System.out.println(adjustedSonarFormat);
+			throw new IllegalStateException("Sonar Format not valid");
+		}
 	}
 	
 	public String toString() {
@@ -46,7 +45,7 @@ public class ConvertDate implements Comparable<ConvertDate> {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((sonarFormat == null) ? 0 : sonarFormat.hashCode());
+				+ ((adjustedSonarFormat == null) ? 0 : adjustedSonarFormat.hashCode());
 		return result;
 	}
 
@@ -59,17 +58,17 @@ public class ConvertDate implements Comparable<ConvertDate> {
 		if (getClass() != obj.getClass())
 			return false;
 		ConvertDate other = (ConvertDate) obj;
-		if (sonarFormat == null) {
-			if (other.sonarFormat != null)
+		if (adjustedSonarFormat == null) {
+			if (other.adjustedSonarFormat != null)
 				return false;
-		} else if (!sonarFormat.equals(other.sonarFormat))
+		} else if (!adjustedSonarFormat.equals(other.adjustedSonarFormat))
 			return false;
 		return true;
 	}
 
 	@Override
 	public int compareTo(ConvertDate o) {
-		return sonarFormat.compareTo(o.getSonarFormat());
+		return adjustedSonarFormat.compareTo(o.getSonarFormat());
 	}
 	
 	public static String convert(Calendar currentDate) {

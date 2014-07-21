@@ -54,6 +54,7 @@ public class SQLConnector {
 		Statement stmt = null;
 		ResultSet rs = null;
 		stmt = conn.createStatement();
+		System.out.println(query);
 		rs = stmt.executeQuery(query);
 		return rs;
 	}

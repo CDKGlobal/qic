@@ -39,7 +39,7 @@ public class GetData implements Retrievable {
 			yMap = query.getComplexity(endDate);
 
 		} else if (xAxis.equals(Axis.LINESOFCODE)) {
-			xMap = query.getNCLOC(endDate);
+			xMap = query.getNCLOC(startDate);
 			yMap = query.getComplexity(endDate);
 
 		} else {

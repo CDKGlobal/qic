@@ -7,6 +7,10 @@ import java.util.List;
 import com.testing123.vaadin.ConvertDate;
 
 public class UIState {
+	public static final ConvertDate DEFAULT_START_DATE = new ConvertDate("2014-07-15T06-07-55-0700");
+	public static final ConvertDate DEFAULT_END_DATE = new ConvertDate("2014-07-21T06-07-35-0700");
+
+	
 	private ConvertDate start;
 	private ConvertDate end;
 	//private boolean isDelta;
@@ -15,7 +19,7 @@ public class UIState {
 	private String grain;
 	
 	public UIState() {
-		this(new ConvertDate("2014-07-07T06-09-17-0700"), new ConvertDate("2014-07-10T06-07-56-0700"), Axis.DELTA_LINESOFCODE);
+		this(DEFAULT_START_DATE, DEFAULT_END_DATE, Axis.DELTA_LINESOFCODE);
 	}
 	
 	public UIState(ConvertDate start, ConvertDate end, Axis x) {

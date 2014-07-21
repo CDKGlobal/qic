@@ -29,9 +29,10 @@ public class AvailableResources {
 	}
 	
 	public static String extractDate(String sonarFormat) {
-		String[] dateAndTime = sonarFormat.split("T");
-        String[] date = dateAndTime[0].split("-");
-        return "d" + date[1] + "_" + date[2];
+//		String[] dateAndTime = sonarFormat.split("T");
+//        String[] date = dateAndTime[0].split("-");
+//        return "d" + date[1] + "_" + date[2];
+		return sonarFormat.replace("-", "_");
 	}
 	
 	public static List<String> getAvailableDates() {

@@ -17,8 +17,8 @@ public class UIStateTest {
 
 	@Test
 	public void TestInitialUIState() {
-		assertEquals("Mon Jul 07 06:09:17 PDT 2014", state.getStart().toString());
-		assertEquals("Thu Jul 10 06:07:56 PDT 2014", state.getEnd().toString());
+		assertEquals("Tue Jul 15 06:07:55 PDT 2014", state.getStart().toString());
+		assertEquals("Mon Jul 21 06:07:35 PDT 2014", state.getEnd().toString());
 		//assertEquals(true, state.getIsDelta());
 	}
 	
