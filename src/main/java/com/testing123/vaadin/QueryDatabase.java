@@ -6,45 +6,64 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.testing123.controller.AvailableResources;
 import com.testing123.controller.SQLConnector;
 
 public class QueryDatabase {
 
-	public Map<String, Double> getComplexity(ConvertDate date) {
-
+	public Map<String, Double> getChurn(ConvertDate startDate, ConvertDate endDate) {
+		return null;
+	}
+	
+	public Map<String, Double> getNCLOC(ConvertDate date){
 		Map<String, Double> map = new HashMap<String, Double>();
-		String formattedDate = extractDate(date);
-		List<WebData> dataList = getDataList(formattedDate);
-
+		List<WebData> dataList = getDataList(date);
 		for (WebData file : dataList) {
-			if (!dataList.isEmpty() && "CLA".equals(file.getQualifier())) {
-				map.put(file.getName(), file.getMsr().get(1).getVal());//retrieves complexity
+			if (!map.containsKey(file.getName())) {
+				map.put(file.getKey(), file.getMsr().get(0).getVal());	//retrieves ncloc
+			} else {
+				throw new IllegalStateException("Unhandeled duplicate case in: ncloc");
 			}
 		}
 		return map;
 	}
 	
-	public Map<String, Double> getDeltaLOC(ConvertDate startDate, ConvertDate endDate){
-		
-		Map<String, Double> initialComplexity = getComplexity(startDate);
-		Map<String, Double> finalComplexity = getComplexity(endDate);
-		
-		return null;
-		
-		
+	public Map<String, Double> getComplexity(ConvertDate date) {
+		Map<String, Double> map = new HashMap<String, Double>();
+		List<WebData> dataList = getDataList(date);
+		for (WebData file : dataList) {
+			if (!dataList.isEmpty()) {
+				map.put(file.getKey(), file.getMsr().get(1).getVal());	//retrieves complexity
+			} else {
+				throw new IllegalStateException("Unhandeled duplicate case in: complexity");
+			}
+		}
+		return map;
 	}
 	
+	public Map<String, Double> getDeltaComplexity(ConvertDate startDate, ConvertDate endDate) {
+		Map<String, Double> initialComplexity = getComplexity(startDate);
+		Map<String, Double> finalComplexity = getComplexity(endDate);
+		Map<String, Double> deltaComplexity = new HashMap<String, Double>();
+		for (String name : finalComplexity.keySet()) {
+			if (initialComplexity.containsKey(name)) {
+				deltaComplexity.put(name, finalComplexity.get(name) - initialComplexity.get(name));
+			} else {
+				deltaComplexity.put(name, finalComplexity.get(name));
+			}
+		}
+		return null;
+	}
 	
-	
-	
-	
-	private static List<WebData> getDataList(String date) {
+	private static List<WebData> getDataList(ConvertDate date) {
 		ResultSet results = null;
 		try {
-			results = SQLConnector.basicQuery("SELECT * FROM " + date + " WHERE QUALIFIER = 'CLA';");
+			results = SQLConnector.basicQuery("SELECT * FROM " + extractDate(date) + " WHERE QUALIFIER = 'CLA';");
 		} catch (Exception e) {
 			return new ArrayList<WebData>();
 		}
+		
+		// params: process(ResultSet r, metric (0), metric (1))
 		return SQLConnector.process(results, "ncloc", "complexity");
 	}
 
