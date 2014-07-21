@@ -54,7 +54,7 @@ public class MockQueryable implements Queryable {
 	}
 
 	@Override
-	public Map<String, Double> getNCLOC(ConvertDate startDate, ConvertDate endDate) {
+	public Map<String, Double> getNCLOC(ConvertDate date) {
 		return ncloc;
 	}
 
