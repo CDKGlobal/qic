@@ -32,22 +32,18 @@ public class GetData implements Retrievable {
 		
 		Axis xAxis = state.getX();
 		if (xAxis.equals(Axis.DELTA_COMPLEXITY)) {
-			System.out.println("read dcomp?");
 			xMap = query.getDeltaComplexity(startDate, endDate);
 			yMap = query.getComplexity(endDate);
 
 		} else if (xAxis.equals(Axis.DELTA_LINESOFCODE)) {
-			System.out.println("read dloc?");
 			xMap = query.getChurn(startDate, endDate);
 			yMap = query.getComplexity(startDate);
 
 		} else if (xAxis.equals(Axis.LINESOFCODE)) {
-			System.out.println("read loc?");
 			xMap = query.getNCLOC(startDate, endDate);
 			yMap = query.getComplexity(startDate);
 
 		} else {
-			System.out.println("did not read axis");
 			return new HashSet<DataPoint>();
 		}
 		
