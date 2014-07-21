@@ -2,9 +2,7 @@ package com.testing123.vaadin;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
 
 import com.fasterxml.jackson.core.JsonParseException;
@@ -49,12 +47,14 @@ public class QueryFisheye {
 	private String formatPath(ItemData item, int pathIndex){
 		String path = (String) item.getItem(pathIndex);
 		String[] split = path.split("/");
-		String pathName =split[0].toLowerCase();
-		for(int i = 5; i < split.length; i++){
-			pathName+= "." + split[i];
-		}
-		pathName=pathName.replaceAll(".java", "");		
-		//String pathName = split[split.length - 1].replace(".java", "");
+		StringBuffer buf = new StringBuffer();
+		buf.append(split[0].toLowerCase());
+		for (int i = 5; i < split.length; ++i) {
+			buf.append(".");
+		    buf.append(split[i]);
+		  }
+		String pathName = buf.toString();
+		pathName = pathName.substring(0, pathName.length()-5);
 		return pathName;
 	}
 
