@@ -12,6 +12,11 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * 
+ * @author blumbeb
+ *Returns maps from fisheye Queries where the key is a modified version of the path name
+ */
 public class QueryFisheye {
 	
 	public Map<String, Double> getInstantaneousValue(ConvertDate date, String qualifier, String scope, String path, String metric) {
@@ -48,10 +53,7 @@ public class QueryFisheye {
 		for(int i = 5; i < split.length; i++){
 			pathName+= "." + split[i];
 		}
-		pathName=pathName.replaceAll(".java", "");
-		System.out.println(pathName);
-		
-		
+		pathName=pathName.replaceAll(".java", "");		
 		//String pathName = split[split.length - 1].replace(".java", "");
 		return pathName;
 	}
