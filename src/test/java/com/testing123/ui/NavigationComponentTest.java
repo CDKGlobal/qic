@@ -9,6 +9,7 @@ public class NavigationComponentTest {
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
+	
 	}
 
 	@Test

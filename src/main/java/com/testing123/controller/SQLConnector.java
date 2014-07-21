@@ -90,7 +90,7 @@ public class SQLConnector {
 	}
 	
 	private static String getUser() {
-    	String[] home = System.getProperty("user.home").split("/");
-    	return home[2];
+    	String home = System.getProperty("user.home").replace("/Users/", "");
+    	return home;
 	}
 }
