@@ -41,10 +41,18 @@ public class QueryFisheye {
 		return (Integer) i.getItem(isDeletedIndex) == 0 ;
 	}
 	
-	private String formatPath(ItemData i, int pathIndex){
-		String path = (String) i.getItem(pathIndex);
+	private String formatPath(ItemData item, int pathIndex){
+		String path = (String) item.getItem(pathIndex);
 		String[] split = path.split("/");
-		String pathName = split[split.length - 1].replace(".java", "");
+		String pathName =split[0].toLowerCase();
+		for(int i = 5; i < split.length; i++){
+			pathName+= "." + split[i];
+		}
+		pathName=pathName.replaceAll(".java", "");
+		System.out.println(pathName);
+		
+		
+		//String pathName = split[split.length - 1].replace(".java", "");
 		return pathName;
 	}
 
