@@ -37,11 +37,11 @@ public class GetData implements Retrievable {
 
 		} else if (xAxis.equals(Axis.DELTA_LINESOFCODE)) {
 			xMap = query.getChurn(startDate, endDate);
-			yMap = query.getComplexity(startDate);
+			yMap = query.getComplexity(endDate);
 
 		} else if (xAxis.equals(Axis.LINESOFCODE)) {
-			xMap = query.getNCLOC(startDate, endDate);
-			yMap = query.getComplexity(startDate);
+			xMap = query.getNCLOC(endDate);
+			yMap = query.getComplexity(endDate);
 
 		} else {
 			return new HashSet<DataPoint>();

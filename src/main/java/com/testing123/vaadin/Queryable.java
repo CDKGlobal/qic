@@ -8,7 +8,7 @@ public interface Queryable {
 	
 	public Map<String, Double> getComplexity(ConvertDate date);
 	
-	public Map<String, Double> getNCLOC(ConvertDate startDate, ConvertDate endDate);
+	public Map<String, Double> getNCLOC(ConvertDate date);
 	
 	public Map<String, Double> getDeltaComplexity(ConvertDate startDate, ConvertDate endDate);
 

@@ -10,10 +10,6 @@ import com.testing123.controller.AvailableResources;
 import com.testing123.controller.SQLConnector;
 
 public class QueryDatabase {
-
-	public Map<String, Double> getChurn(ConvertDate startDate, ConvertDate endDate) {
-		return null;
-	}
 	
 	public Map<String, Double> getNCLOC(ConvertDate date){
 		Map<String, Double> map = new HashMap<String, Double>();

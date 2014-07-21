@@ -15,15 +15,13 @@ public class Query implements Queryable {
 	}
 
 	@Override
-	public Map<String, Double> getNCLOC(ConvertDate startDate, ConvertDate endDate) {
-		//return new QueryDatabase().getNCLOC(startDate, endDate);
-		return null;
+	public Map<String, Double> getNCLOC(ConvertDate date) {
+		return new QueryDatabase().getNCLOC(date);
 	}
 
 	@Override
 	public Map<String, Double> getDeltaComplexity(ConvertDate startDate, ConvertDate endDate) {
-		//return new QueryDatabase().getDeltaComplexity(startDate, endDate);
-		return null;
+		return new QueryDatabase().getDeltaComplexity(startDate, endDate);
 	}
 
 }
