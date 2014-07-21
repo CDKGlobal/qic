@@ -7,8 +7,8 @@ package com.testing123.vaadin;
  */
 public class DataPoint {
     private String key;
-    private double complexity;
-    private double lineOfCode;
+    private double yValue;
+    private double xValue;
 
     /**
      * Constructs a new DataPoint object with specified parameters
@@ -17,10 +17,10 @@ public class DataPoint {
      * @param complexity the complexity of the file
      * @param lineOfCode the number of lines of code in the file
      */
-    public DataPoint(String key, double lineOfCode, double complexity) {
+    public DataPoint(String key, double xValue, double yValue) {
         this.key = key;
-        this.complexity = complexity;
-        this.lineOfCode = lineOfCode;
+        this.yValue = yValue;
+        this.xValue = xValue;
     }
 
     /**
@@ -34,28 +34,28 @@ public class DataPoint {
         this.key = key;
     }
 
-    public void setComplexity(double complexity) {
-        this.complexity = complexity;
+    public void setYValue(double yValue) {
+        this.yValue = yValue;
     }
 
-    public void setLineOfCode(double lineOfCode) {
-        this.lineOfCode = lineOfCode;
+    public void setXValue(double xValue) {
+        this.xValue = xValue;
     }
 
     public String getKey() {
         return key;
     }
 
-    public double getComplexity() {
-        return complexity;
+    public double getYValue() {
+        return yValue;
     }
 
-    public double getLineOfCode() {
-        return lineOfCode;
+    public double getXValue() {
+        return xValue;
     }
 
     @Override
     public String toString() {
-        return "[" + lineOfCode + ", " + complexity + ", \"" + key + "\"]";
+        return "[" + xValue + ", " + yValue + ", \"" + key + "\"]";
     }
 }

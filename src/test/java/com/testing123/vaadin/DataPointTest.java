@@ -19,8 +19,8 @@ public class DataPointTest {
     public void TestEmptyDataPointReturnsDefaultValues() {
         DataPoint data = dataPointFactory();
         assertEquals(null, data.getKey());
-        assertEquals(-1, (int)data.getComplexity());
-        assertEquals(-1, (int)data.getLineOfCode());
+        assertEquals(-1, (int)data.getYValue());
+        assertEquals(-1, (int)data.getXValue());
     }
 
     @Test
@@ -28,34 +28,34 @@ public class DataPointTest {
         DataPoint data = dataPointFactory();
         data.setKey("key");
         assertEquals("key", data.getKey());
-        assertEquals(-1, (int)data.getComplexity());
-        assertEquals(-1, (int)data.getLineOfCode());
+        assertEquals(-1, (int)data.getYValue());
+        assertEquals(-1, (int)data.getXValue());
     }
 
     @Test
     public void TestSetAndGetComplexity() {
         DataPoint data = dataPointFactory();
-        data.setComplexity(100);
+        data.setYValue(100);
         assertEquals(null, data.getKey());
-        assertEquals(100, (int)data.getComplexity());
-        assertEquals(-1, (int)data.getLineOfCode());
+        assertEquals(100, (int)data.getYValue());
+        assertEquals(-1, (int)data.getXValue());
     }
 
     @Test
     public void TestSetAndGetLineOfCode() {
         DataPoint data = dataPointFactory();
-        data.setLineOfCode(500);
+        data.setXValue(500);
         assertEquals(null, data.getKey());
-        assertEquals(-1, (int)data.getComplexity());
-        assertEquals(500, (int)data.getLineOfCode());
+        assertEquals(-1, (int)data.getYValue());
+        assertEquals(500, (int)data.getXValue());
     }
 
     @Test
     public void TestSetAndToString() {
         DataPoint data = dataPointFactory();
         data.setKey("boy");
-        data.setLineOfCode(500);
-        data.setComplexity(100);
+        data.setXValue(500);
+        data.setYValue(100);
         // System.out.println(data.toString());
         assertEquals("[500.0, 100.0, \"boy\"]", data.toString());
     }
