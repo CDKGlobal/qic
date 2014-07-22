@@ -10,6 +10,9 @@ public class ConvertDate implements Comparable<ConvertDate> {
 	
 	public ConvertDate(String sonarFormat) {
 		this.adjustedSonarFormat = sonarFormat.replace(":", "-");
+		if (!adjustedSonarFormat.matches("[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}00")) {
+			throw new IllegalArgumentException("Passed date into ConvertDate is NOT Sonar format");
+		}
 		int year = Integer.parseInt(sonarFormat.substring(0, 4));
 		int month = Integer.parseInt(sonarFormat.substring(5, 7))-1;
 		int day = Integer.parseInt(sonarFormat.substring(8, 10));
