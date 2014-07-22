@@ -9,7 +9,7 @@ import org.junit.Test;
 import com.testing123.controller.UIState;
 import com.testing123.controller.UIState.Axis;
 
-public class GGetDataTest {
+public class GetDataTest {
 	static Queryable qi;
 	GetData gd;
 	UIState state;
