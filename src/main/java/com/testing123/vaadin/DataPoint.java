@@ -17,6 +17,13 @@ public class DataPoint {
     private List<String> authors;
 
     /**
+     * Constructs a null DataPoint object that represents a file that does not exist.
+     */
+    public DataPoint() {
+        this(null, -1, -1);
+    }
+    
+    /**
      * Constructs a new DataPoint object with specified parameters
      * 
      * @param key the key of the file
@@ -34,14 +41,14 @@ public class DataPoint {
     	this.key = key;
     	this.linesAdded = linesAdded;
     	this.linesRemoved = linesRemoved;
+    	this.xValue = linesAdded + linesRemoved;
     	this.authors = new ArrayList<String>();
     }
 
-    /**
-     * Constructs a null DataPoint object that represents a file that does not exist.
-     */
-    public DataPoint() {
-        this(null, -1, -1);
+    public DataPoint(String key, double xValue) {
+    	this.key = key;
+    	this.xValue = xValue;
+    	this.authors = new ArrayList<String>();
     }
 
     public String getKey() {
