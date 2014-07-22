@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import com.testing123.controller.UIState;
 import com.testing123.controller.UIState.Axis;
+import com.testing123.controller.UIState.Granularity;
 import com.testing123.vaadin.ConvertDate;
 
 public class UIStateTest {
@@ -29,10 +30,16 @@ public class UIStateTest {
 	}
 	
 	@Test
-	public void TestSetUIState() {
+	public void TestSetUIStateFocus() {
 		UIState state = new UIState();
 		state.setFocus("string");
 		assertEquals("string", state.getFocus());
 	}
-
+	
+	@Test
+	public void TestSetUIStateGranularity() {
+		UIState state = new UIState();
+		state.setGranularity(Granularity.PROJECT);
+		assertEquals(Granularity.PROJECT, state.getGranularity());
+	}
 }

@@ -72,7 +72,6 @@ public class Downloader {
                 for (WebData current : currentList) {
                     fileList.add(current);
                 }
-                System.out.println("Processing folder: " + folder.getKey());
             }
             writeJson(currentPath, fileList, "files");
             writeTxt(currentPath, fileList, "files");
@@ -89,7 +88,6 @@ public class Downloader {
                 mapper.writeValue(new File(filePath + ".json"), data);
                 if ("CLA".equals(file.getQualifier())) {
                     i++;
-                    System.out.println("writing file to json: " + file.getKey());
                 }
             }
             System.out.println(i);

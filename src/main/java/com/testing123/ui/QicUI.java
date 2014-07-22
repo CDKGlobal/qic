@@ -78,6 +78,8 @@ public class QicUI extends UI {
 			@Override
 			public void call(JSONArray arguments) throws JSONException {
 				Notification.show(arguments.getString(0));
+				UIState state = new UIState();
+				state.setFocus(arguments.getString(0));
 			}
 		});
 	}

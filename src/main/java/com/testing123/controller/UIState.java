@@ -79,11 +79,11 @@ public class UIState {
 		this.focus = focus;
 	}
 	
-	public Granularity getGrain() {
+	public Granularity getGranularity() {
 		return grain;
 	}
 
-	public void setGrain(Granularity grain) {
+	public void setGranularity(Granularity grain) {
 		this.grain = grain;
 	}
 	
