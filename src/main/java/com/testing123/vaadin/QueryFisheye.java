@@ -2,6 +2,8 @@ package com.testing123.vaadin;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -33,8 +35,31 @@ public class QueryFisheye {
 				churnData.put(path, new DataPoint(path, linesAdded, linesRemoved));
 			}
 		}
-		System.out.println(churnData.entrySet().toString());
+		//System.out.println(churnData.entrySet().toString());
 		return churnData;
+	}
+	
+	public Map<String, List<String>> getAuthorData(ConvertDate startDate, ConvertDate endDate) {
+		Map<String, List<String>> authorListMap = new TreeMap<String, List<String>>();
+		FisheyeData querriedData = getJSONFromFisheye(startDate, endDate);
+		int pathIndex = querriedData.getHeadings().indexOf("path");
+		int authorIndex = querriedData.getHeadings().indexOf("author");
+		int isDeletedIndex = querriedData.getHeadings().indexOf("isDeleted");
+		
+		for (ItemData i : querriedData.getRow()) {
+			if (i.getItem(isDeletedIndex).equals("false")) {///Is that a boolean?
+				String path = formatPath(i,pathIndex);
+				String author =  (String) i.getItem(authorIndex);
+				if(authorListMap.containsKey(path)){
+					authorListMap.get(path).add(author);
+				}else{
+					ArrayList<String> list = new ArrayList<String>();
+					list.add(path);
+					authorListMap.put(path, list);
+				}
+			}
+		}
+		return authorListMap;
 	}
 	
 	private boolean isNotDeleted(ItemData i, int isDeletedIndex){
