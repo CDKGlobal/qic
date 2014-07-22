@@ -17,16 +17,6 @@ import com.vaadin.ui.JavaScriptFunction;
 @JavaScript({"jquery.js","jquery.flot.js", "jquery.flot.axislabels.js", "flot_connector.js"})
 public class Graph extends AbstractJavaScriptComponent {
 	
-	public Graph() {
-		addFunction("notify", new JavaScriptFunction() {
-			
-			@Override
-			public void call(JSONArray arguments) throws JSONException {
-				System.out.println("hit");
-			}
-		});
-	}
-	
 	/**
 	 * Sets properties of the graph (eg. show lines, axis labels, etc)
 	 * 
