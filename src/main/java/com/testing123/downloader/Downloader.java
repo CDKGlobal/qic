@@ -112,7 +112,6 @@ public class Downloader {
                 } else {
                     writer.println("\t" + file.getMsr().get(0).getVal() + "\t" + file.getMsr().get(1).getVal());
                 }
-                System.out.println("writing file to txt: " + file.getKey());
             }
             writer.close();
         } catch (Exception e) {
