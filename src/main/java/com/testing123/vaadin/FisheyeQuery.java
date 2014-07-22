@@ -19,6 +19,10 @@ public class FisheyeQuery {
 	}
 	
 	public URL getChurn(){
+		return getChurnURL("");
+	}
+	
+	public URL getChurnURL(String authors){
 		inProject("Platform");//Change how this works later
 		onlyJava();
 		addReturn("path");
@@ -33,6 +37,10 @@ public class FisheyeQuery {
 			e.printStackTrace();
 		}
 		return queryUrl;
+	}
+	
+	private void addAuthors(String authors){
+		addClause("authors=");
 	}
 
 	private void addPath(String path) {
