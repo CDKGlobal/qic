@@ -57,14 +57,13 @@ public class GetData implements Retrievable {
 	 */
 	private Set<DataPoint> aggregator(Map<String, Double> xMap, Map<String, Double> yMap){
 		Set<DataPoint> dataSet = new HashSet<DataPoint>();
-		Iterator<Entry<String, Double>> it = xMap.entrySet().iterator();
-		while (it.hasNext()) {
-			Map.Entry<String, Double> xValues = it.next();
+		//Iterator<Entry<String, Double>> it = xMap.entrySet().iterator();
+		//while (it.hasNext()) {
+		for (Map.Entry<String, Double> xValues : xMap.entrySet()) {
 			String pathName = xValues.getKey();
 			if (yMap.containsKey(pathName)) {
 				dataSet.add(new DataPoint(pathName, xValues.getValue(), yMap.get(pathName)));
 			}
-			it.remove();
 		}
 		return dataSet;
 	}
