@@ -70,7 +70,6 @@ public class QueryDatabase {
 //		String[] dateAndTime = sonarFormat.split("T");
 //		String[] date = dateAndTime[0].split("-");
 //		return "d" + date[1] + "_" + date[2];
-		System.out.println(sonarFormat.replace("-", "_"));
 		return sonarFormat.replace("-", "_");
 	}
 	
