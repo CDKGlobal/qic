@@ -11,12 +11,12 @@ import com.testing123.controller.SQLConnector;
 
 public class QueryDatabase {
 	
-	public Map<String, Double> getNCLOC(ConvertDate date){
-		Map<String, Double> map = new HashMap<String, Double>();
+	public Map<String, DataPoint> getNCLOC(ConvertDate date){
+		Map<String, DataPoint> map = new HashMap<String, DataPoint>();
 		List<WebData> dataList = getDataList(date);
 		for (WebData file : dataList) {
 			if (!map.containsKey(file.getName())) {
-				map.put(catKey(file.getKey()), file.getMsr().get(0).getVal());	//retrieves ncloc
+				map.put(catKey(file.getKey()), new DataPoint(catKey(file.getKey()), file.getMsr().get(0).getVal()));	//retrieves ncloc
 			} else {
 				throw new IllegalStateException("Unhandeled duplicate case in: ncloc");
 			}
@@ -24,27 +24,29 @@ public class QueryDatabase {
 		return map;
 	}
 	
-	public Map<String, Double> getComplexity(ConvertDate date) {
-		Map<String, Double> map = new HashMap<String, Double>();
+	public Map<String, DataPoint> getComplexity(ConvertDate date) {
+		Map<String, DataPoint> map = new HashMap<String, DataPoint>();
 		List<WebData> dataList = getDataList(date);
 		for (WebData file : dataList) {
 			if (!dataList.isEmpty()) {
-				map.put(catKey(file.getKey()), file.getMsr().get(1).getVal());	//retrieves complexity
+				map.put(catKey(file.getKey()), new DataPoint(catKey(file.getKey()), file.getMsr().get(1).getVal()));	//retrieves complexity
 			} else {
 				throw new IllegalStateException("Unhandeled duplicate case in: complexity");
 			}
 		}
+		
 		return map;
 	}
 	
-	public Map<String, Double> getDeltaComplexity(ConvertDate startDate, ConvertDate endDate) {
-		Map<String, Double> initialComplexity = getComplexity(startDate);
-		Map<String, Double> finalComplexity = getComplexity(endDate);
-		Map<String, Double> deltaComplexity = new HashMap<String, Double>();
+	public Map<String, DataPoint> getDeltaComplexity(ConvertDate startDate, ConvertDate endDate) {
+		Map<String, DataPoint> initialComplexity = getComplexity(startDate);
+		Map<String, DataPoint> finalComplexity = getComplexity(endDate);
+		Map<String, DataPoint> deltaComplexity = new HashMap<String, DataPoint>();
 		for (String name : finalComplexity.keySet()) {
 			if (initialComplexity.containsKey(name)) {
-				if (finalComplexity.get(name) - initialComplexity.get(name) != 0) {
-					deltaComplexity.put(name, finalComplexity.get(name) - initialComplexity.get(name));
+				if (finalComplexity.get(name).getXValue() - initialComplexity.get(name).getXValue() != 0) {
+					double change = finalComplexity.get(name).getXValue() - initialComplexity.get(name).getXValue();
+					deltaComplexity.put(name, new DataPoint(name, change));
 				}
 			} else {
 				deltaComplexity.put(name, finalComplexity.get(name));

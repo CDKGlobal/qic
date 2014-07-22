@@ -26,8 +26,8 @@ public class GetData implements Retrievable {
 		this.state = state;
 		ConvertDate startDate = state.getStart();
 		ConvertDate endDate = state.getEnd();
-		Map<String, Double> xMap;
-		Map<String, Double> yMap;
+		Map<String, DataPoint> xMap;
+		Map<String, DataPoint> yMap;
 		
 		Axis xAxis = state.getX();
 		if (xAxis.equals(Axis.DELTA_COMPLEXITY)) {
@@ -55,14 +55,16 @@ public class GetData implements Retrievable {
 	 * @param yMap
 	 * @return
 	 */
-	private Set<DataPoint> aggregator(Map<String, Double> xMap, Map<String, Double> yMap){
-		Set<DataPoint> dataSet = new HashSet<DataPoint>();
+	private Set<DataPoint> aggregator(Map<String, DataPoint> xMap, Map<String, DataPoint> yMap){
+		Set<DataPoint> dataSet = new HashSet<DataPoint>(xMap.values());
 		//Iterator<Entry<String, Double>> it = xMap.entrySet().iterator();
 		//while (it.hasNext()) {
-		for (Map.Entry<String, Double> xValues : xMap.entrySet()) {
+		for (Map.Entry<String, DataPoint> xValues : xMap.entrySet()) {
 			String pathName = xValues.getKey();
 			if (yMap.containsKey(pathName)) {
-				dataSet.add(new DataPoint(pathName, xValues.getValue(), yMap.get(pathName)));
+				DataPoint current = xValues.getValue();
+				current.setYValue(yMap.get(pathName).getXValue());
+				dataSet.add(current);
 			}
 		}
 		return dataSet;
