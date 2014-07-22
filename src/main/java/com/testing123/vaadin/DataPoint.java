@@ -12,8 +12,8 @@ public class DataPoint {
     private String key;
     private double yValue;
     private double xValue;
-	private double linesAdded;
-    private double linesRemoved;
+	private int linesAdded;
+    private int linesRemoved;
     private List<String> authors;
 
     /**
@@ -28,6 +28,13 @@ public class DataPoint {
         this.yValue = yValue;
         this.xValue = xValue;
         this.authors = new ArrayList<String>();
+    }
+    
+    public DataPoint(String key, int linesAdded, int linesRemoved){
+    	this.key = key;
+    	this.linesAdded = linesAdded;
+    	this.linesRemoved = linesRemoved;
+    	this.authors = new ArrayList<String>();
     }
 
     /**
@@ -65,7 +72,7 @@ public class DataPoint {
 		return linesAdded;
 	}
 
-	public void setLinesAdded(double linesAdded) {
+	public void setLinesAdded(int linesAdded) {
 		this.linesAdded = linesAdded;
 	}
 
@@ -73,7 +80,7 @@ public class DataPoint {
 		return linesRemoved;
 	}
 
-	public void setLinesRemoved(double linesRemoved) {
+	public void setLinesRemoved(int linesRemoved) {
 		this.linesRemoved = linesRemoved;
 	}
     
