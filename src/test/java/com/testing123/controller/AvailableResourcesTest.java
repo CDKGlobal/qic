@@ -18,7 +18,7 @@ public class AvailableResourcesTest {
 	
 	@Test
 	public void TestSQLConnectionThrowsNoException() {
-        SQLConnector.dataQuery("", "");
+//        SQLConnector.dataQuery("", "");
 	}
 	
 	@Test 
