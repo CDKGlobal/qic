@@ -16,13 +16,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  *Returns maps from fisheye Queries where the key is a modified version of the path name
  */
 public class QueryFisheye {
-	
-	public Map<String, Double> getInstantaneousValue(ConvertDate date, String qualifier, String scope, String path, String metric) {
-		return getChurnData(date,date );
-	}
 
-	public Map<String,Double> getChurnData(ConvertDate startDate, ConvertDate endDate) {
-		Map<String,Double> churnData = new TreeMap<String,Double>();
+	public Map<String, DataPoint> getChurnData(ConvertDate startDate, ConvertDate endDate) {
+		Map<String, DataPoint> churnData = new TreeMap<String, DataPoint>();
 		FisheyeData querriedData = getJSONFromFisheye(startDate, endDate);
 		int pathIndex = querriedData.getHeadings().indexOf("path");
 		int sumLinesAddedIndex = querriedData.getHeadings().indexOf("sumLinesAdded");
@@ -32,8 +28,9 @@ public class QueryFisheye {
 		for (ItemData i : querriedData.getRow()) {
 			if (isNotDeleted(i, isDeletedIndex)) {
 				String path = formatPath(i,pathIndex);
-				int churn = (Integer) i.getItem(sumLinesAddedIndex) + (Integer) i.getItem(sumLinesRemovedIndex);
-				churnData.put(path,(double) churn);
+				int linesAdded = (Integer) i.getItem(sumLinesAddedIndex);
+				int linesRemoved = (Integer) i.getItem(sumLinesRemovedIndex);
+				churnData.put(path, new DataPoint(path, linesAdded, linesRemoved));
 			}
 		}
 		System.out.println(churnData.entrySet().toString());
@@ -61,7 +58,7 @@ public class QueryFisheye {
 	public static FisheyeData getJSONFromFisheye(ConvertDate startDate, ConvertDate endDate) {
 
 		ObjectMapper mapper = new ObjectMapper();
-		URL url = new FisheyeQuery("Advertising.Perforce", startDate, endDate).getChurn();
+		URL url = new FisheyeQuery("Advertising.Perforce", startDate, endDate).getChurnURL();
 		FisheyeData querriedData = new FisheyeData();
 		try {
 			querriedData = mapper.readValue(url, new TypeReference<FisheyeData>() {
@@ -73,7 +70,6 @@ public class QueryFisheye {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 		return querriedData;
 	}
 
