@@ -1,5 +1,8 @@
 package com.testing123.vaadin;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * DataPoint represents an object that contains a file's information.  It allows this data
  * to be stored so it can be easily plotted onto a graph
@@ -9,6 +12,9 @@ public class DataPoint {
     private String key;
     private double yValue;
     private double xValue;
+	private double linesAdded;
+    private double linesRemoved;
+    private List<String> authors;
 
     /**
      * Constructs a new DataPoint object with specified parameters
@@ -21,6 +27,7 @@ public class DataPoint {
         this.key = key;
         this.yValue = yValue;
         this.xValue = xValue;
+        this.authors = new ArrayList<String>();
     }
 
     /**
@@ -30,28 +37,48 @@ public class DataPoint {
         this(null, -1, -1);
     }
 
+    public String getKey() {
+        return key;
+    }
+    
     public void setKey(String key) {
         this.key = key;
     }
 
-    public void setYValue(double yValue) {
-        this.yValue = yValue;
+    public double getXValue() {
+        return xValue;
     }
 
     public void setXValue(double xValue) {
         this.xValue = xValue;
     }
 
-    public String getKey() {
-        return key;
-    }
-
     public double getYValue() {
         return yValue;
     }
+    
+    public void setYValue(double yValue) {
+        this.yValue = yValue;
+    }
+    
+    public double getLinesAdded() {
+		return linesAdded;
+	}
 
-    public double getXValue() {
-        return xValue;
+	public void setLinesAdded(double linesAdded) {
+		this.linesAdded = linesAdded;
+	}
+
+	public double getLinesRemoved() {
+		return linesRemoved;
+	}
+
+	public void setLinesRemoved(double linesRemoved) {
+		this.linesRemoved = linesRemoved;
+	}
+    
+    public void addAuthor(String name) {
+    	this.authors.add(name);
     }
 
     @Override
