@@ -47,12 +47,4 @@ public class FlotOptions {
 		"}"; 
 		return options;
 	}
-	
-//	public static void setXaxis(String xlabel){
-//		xaxis = xlabel;
-//	}
-//	
-//	public static void setYaxis(String ylabel){
-//		yaxis = ylabel;
-//	}
 }
