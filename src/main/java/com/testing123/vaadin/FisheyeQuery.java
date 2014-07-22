@@ -18,18 +18,27 @@ public class FisheyeQuery {
 		returns = "";
 	}
 	
-	public URL getChurn(){
-		return getChurnURL("");
+	public URL getAuthorsURL(){
+		inProject("Platform");
+		onlyJava();
+		addReturn("path");
+		addReturn("author");
+		addReturn("isDeleted");
+		return getURL(getString());
 	}
 	
-	public URL getChurnURL(String authors){
-		inProject("Platform");//Change how this works later
+	public URL getChurnURL(){
+		inProject("Platform");
 		onlyJava();
 		addReturn("path");
 		addReturn("sum(linesAdded)");
 		addReturn("sum(linesRemoved)");
 		addReturn("count(isDeleted)");
 		String link = getString();
+		return getURL(link);
+	}
+	
+	private URL getURL(String link){
 		URL queryUrl = null;
 		try {
 			queryUrl = new URL(link);
@@ -39,12 +48,13 @@ public class FisheyeQuery {
 		return queryUrl;
 	}
 	
+	/**
+	 * 
+	 * Top level adds
+	 * 
+	 */
 	private void addAuthors(String authors){
-		addClause("authors=");
-	}
-
-	private void addPath(String path) {
-		addClause(" path like " + path);
+		addClause("authors=" + authors);
 	}
 
 	private void inProject(String project) {
@@ -55,14 +65,28 @@ public class FisheyeQuery {
 		addPath("*.java");
 	}
 	
+	private void addPath(String path) {
+		addClause(" path like " + path);
+	}
+	
+	/**
+	 * 
+	 * Low level adds
+	 * 
+	 */
+	private void addClause(String clause){
+		clauses += " and " + clause;
+	}
+	
 	private void addReturn(String returnElement){
 		returns += ", " + returnElement;
 	}
 	
-	private void addClause(String clause){
-		clauses += " and " + clause;
-	}
-
+	/**
+	 * 
+	 * returns
+	 * 
+	 */
 	private String getClauses() {
 		return clauses;
 	}
@@ -79,6 +103,7 @@ public class FisheyeQuery {
 		return " where date in [" + startDate.getSonarFormat().substring(0, 10) + "," + endDate.getSonarFormat().substring(0, 10)
 				+ "] ";
 	}
+	
 
 	private String getString() {
 		String home = "http://fisheye.cobalt.com/rest-service-fe/search-v1/queryAsRows/";
