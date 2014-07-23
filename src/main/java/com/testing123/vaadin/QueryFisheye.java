@@ -19,19 +19,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public class QueryFisheye {
 
-	public Map<String, Double> getChurnData(ConvertDate startDate, ConvertDate endDate) {
-
-		URL url = new FisheyeQuery("Advertising.Perforce", startDate, endDate).getChurnURL();
-		FisheyeData querriedData = getJSONFromFisheye(startDate, endDate, url);
-
+	public Map<String, Double> getChurnData(FisheyeData querriedData) {
 		int pathIndex = querriedData.getHeadings().indexOf("path");
 		int sumLinesAddedIndex = querriedData.getHeadings().indexOf("sumLinesAdded");
 		int sumLinesRemovedIndex = querriedData.getHeadings().indexOf("sumLinesRemoved");
 		int isDeletedIndex = querriedData.getHeadings().indexOf("countIsDeleted");
-		
-		if(metricsExist(pathIndex,sumLinesAddedIndex,sumLinesRemovedIndex,isDeletedIndex)){
-		return putChurnDataIntoAMap(querriedData, pathIndex, sumLinesAddedIndex, sumLinesRemovedIndex, isDeletedIndex);
-		}
+
+		if (metricsExist(pathIndex, sumLinesAddedIndex, sumLinesRemovedIndex, isDeletedIndex)) 
+			return putChurnDataIntoAMap(querriedData, pathIndex, sumLinesAddedIndex, sumLinesRemovedIndex, isDeletedIndex);
 		return new TreeMap<String, Double>();
 	}
 
@@ -50,16 +45,13 @@ public class QueryFisheye {
 		return churnData;
 	}
 
-	public Map<String, List<String>> getAuthorData(ConvertDate startDate, ConvertDate endDate) {
+	public Map<String, List<String>> getAuthorData(FisheyeData querriedData) {
+		
 		Map<String, List<String>> authorListMap = new TreeMap<String, List<String>>();
-
-		URL url = new FisheyeQuery("Advertising.Perforce", startDate, endDate).getAuthorsURL();
-		FisheyeData querriedData = getJSONFromFisheye(startDate, endDate, url);
-
 		int pathIndex = querriedData.getHeadings().indexOf("path");
 		int authorIndex = querriedData.getHeadings().indexOf("author");
 		int isDeletedIndex = querriedData.getHeadings().indexOf("isDeleted");
-		
+
 		if (metricsExist(pathIndex, authorIndex, isDeletedIndex)) {
 			for (ItemData i : querriedData.getRow()) {
 				if (isNotDeleted(isDeletedIndex, i)) {
@@ -89,7 +81,6 @@ public class QueryFisheye {
 		return true;
 	}
 
-
 	private static boolean isNotDeleted(int isDeletedIndex, ItemData i) {
 		return i.getItem(isDeletedIndex).equals("false");
 	}
@@ -112,7 +103,7 @@ public class QueryFisheye {
 		return pathName;
 	}
 
-	private static FisheyeData getJSONFromFisheye(ConvertDate startDate, ConvertDate endDate, URL url) {
+	public static FisheyeData getJSONFromFisheye(ConvertDate startDate, ConvertDate endDate, URL url) {
 
 		ObjectMapper mapper = new ObjectMapper();
 		FisheyeData querriedData = new FisheyeData();
