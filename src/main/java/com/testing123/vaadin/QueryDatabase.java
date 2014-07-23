@@ -14,6 +14,9 @@ public class QueryDatabase {
 	public Map<String, Double> getNCLOC(ConvertDate date){
 		Map<String, Double> map = new HashMap<String, Double>();
 		List<WebData> dataList = getDataList(date);
+		if (dataList == null) {
+			return map;
+		}
 		for (WebData file : dataList) {
 			if (!map.containsKey(file.getName())) {
 				map.put(formatKey(file.getKey()), file.getMsr().get(0).getVal());	//retrieves ncloc
@@ -25,8 +28,14 @@ public class QueryDatabase {
 	}
 	
 	public Map<String, Double> getComplexity(ConvertDate date) {
+		if (!date.verify()) {
+			throw new IllegalArgumentException("Invalid date");
+		}
 		Map<String, Double> map = new HashMap<String, Double>();
 		List<WebData> dataList = getDataList(date);
+		if (dataList == null) {
+			return map;
+		}
 		for (WebData file : dataList) {
 			if (!dataList.isEmpty()) {
 				map.put(formatKey(file.getKey()), file.getMsr().get(1).getVal());	//retrieves complexity

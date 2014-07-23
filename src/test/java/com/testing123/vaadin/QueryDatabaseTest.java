@@ -14,8 +14,13 @@ public class QueryDatabaseTest {
 	
 	}
 
+	@Test (expected = IllegalArgumentException.class)
+	public void testInvalidDateReturnsException() {
+		Map<String, Double> list = new QueryDatabase().getNCLOC(new ConvertDate("2014-07-7T06-09-17-0700"));
+	}
+	
 	@Test
-	public void testGetNCLOCReturnsNoDuplicates() {
+	public void testGetNCLOCReturnsList() {
 		Map<String, Double> list = new QueryDatabase().getNCLOC(new ConvertDate("2014-07-07T06-09-17-0700"));
 		assertTrue(list.size() > 700);
 	}
