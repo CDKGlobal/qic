@@ -1,6 +1,5 @@
 package com.testing123.vaadin;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -58,7 +57,6 @@ public class GetData implements Retrievable {
 	 */
 	private Set<DataPoint> aggregator(Map<String, Double> xMap, Map<String, Double> yMap, boolean authorRequired){
 		Set<DataPoint> dataSet = new HashSet<DataPoint>();
-		Map<String, List<String>> authors = new HashMap<String, List<String>>();
 		for (Map.Entry<String, Double> xValues : xMap.entrySet()) {
 			String pathName = xValues.getKey();
 			if (yMap.containsKey(pathName)) {
