@@ -64,7 +64,7 @@ public class GetData implements Retrievable {
 		for (Map.Entry<String, Double> xValues : xMap.entrySet()) {
 			String pathName = xValues.getKey();
 			if (yMap.containsKey(pathName)) {
-				DataPoint current = new DataPoint(xValues.getKey(), yMap.get(pathName));
+				DataPoint current = new DataPoint(xValues.getKey(), xValues.getValue(), yMap.get(pathName));
 				current.setAuthors(authors.get(pathName));
 				dataSet.add(current);
 			}

@@ -111,4 +111,3 @@ public class DataPoint {
     	return authorsList;
     }
 }
-//[[[20.0, 0.0, "platform.com.cobalt.dap.wicket.view.packageattribute.PackageAttributeController, "Authors: deyv ], [8.0, 7.0, "platform.com.cobalt.dap.wicket.view.budget.controller.BudgetChangeReportControllerImpl, "Authors: jayapraj ], [23.0, 86.0, "platform.com
