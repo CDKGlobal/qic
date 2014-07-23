@@ -74,8 +74,7 @@ public class GetData implements Retrievable {
 
 
 	private Set<DataPoint> addAuthorsToDataSet(Set<DataPoint> dataSet) {
-		Map<String, List<String>> authors;
-		authors = QueryFisheye.getAuthorData(state.getStart(), state.getEnd());
+		Map<String, List<String>> authors = query.getAuthors(state.getStart(), state.getEnd());
 		for(DataPoint point : dataSet){
 			String pathName = point.getKey();
 			if(authors.containsKey(pathName)){

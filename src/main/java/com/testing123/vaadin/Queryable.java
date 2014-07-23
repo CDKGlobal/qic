@@ -1,5 +1,6 @@
 package com.testing123.vaadin;
 
+import java.util.List;
 import java.util.Map;
 
 public interface Queryable {
@@ -11,5 +12,7 @@ public interface Queryable {
 	public Map<String, Double> getNCLOC(ConvertDate date);
 	
 	public Map<String, Double> getDeltaComplexity(ConvertDate startDate, ConvertDate endDate);
+	
+	public Map<String, List<String>> getAuthors(ConvertDate startDate, ConvertDate endDate);
 
 }

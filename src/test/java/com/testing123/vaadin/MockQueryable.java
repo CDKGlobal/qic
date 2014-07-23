@@ -1,6 +1,7 @@
 package com.testing123.vaadin;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MockQueryable implements Queryable {
@@ -61,6 +62,12 @@ public class MockQueryable implements Queryable {
 	@Override
 	public Map<String, Double> getDeltaComplexity(ConvertDate startDate, ConvertDate endDate) {
 		return dComplexity;
+	}
+
+	@Override
+	public Map<String, List<String>> getAuthors(ConvertDate startDate, ConvertDate endDate) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

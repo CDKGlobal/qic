@@ -50,7 +50,7 @@ public class QueryFisheye {
 		return churnData;
 	}
 
-	public static Map<String, List<String>> getAuthorData(ConvertDate startDate, ConvertDate endDate) {
+	public Map<String, List<String>> getAuthorData(ConvertDate startDate, ConvertDate endDate) {
 		Map<String, List<String>> authorListMap = new TreeMap<String, List<String>>();
 
 		URL url = new FisheyeQuery("Advertising.Perforce", startDate, endDate).getAuthorsURL();
@@ -90,7 +90,6 @@ public class QueryFisheye {
 	}
 
 
-
 	private static boolean isNotDeleted(int isDeletedIndex, ItemData i) {
 		return i.getItem(isDeletedIndex).equals("false");
 	}
@@ -113,7 +112,7 @@ public class QueryFisheye {
 		return pathName;
 	}
 
-	public static FisheyeData getJSONFromFisheye(ConvertDate startDate, ConvertDate endDate, URL url) {
+	private static FisheyeData getJSONFromFisheye(ConvertDate startDate, ConvertDate endDate, URL url) {
 
 		ObjectMapper mapper = new ObjectMapper();
 		FisheyeData querriedData = new FisheyeData();
