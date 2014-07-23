@@ -36,6 +36,7 @@ public class NewDownloader {
      */
     public List<Integer> downloadProjects(String projectName, boolean... test) {
         List<Integer> idList = new ArrayList<Integer>();
+
         String projectLink = "http://sonar.cobalt.com/api/resources?resource=com.cobalt.dap:" + projectName + "&depth=0&metrics=ncloc,complexity&format=json";
         try {
             URL projectURL = new URL(projectLink);
@@ -95,7 +96,8 @@ public class NewDownloader {
                 mapper.writeValue(new File(filePath + ".json"), data);
                 if ("CLA".equals(file.getQualifier())) {
                     i++;
-                    System.out.println("writing file to json: " + file.getKey());
+                    // System.out.println("writing file to json: " + file.getKey());
+
                     idList.add(file.getId());
                 }
             }
@@ -124,7 +126,7 @@ public class NewDownloader {
                 } else {
                     writer.println("\t" + file.getMsr().get(0).getVal() + "\t" + file.getMsr().get(1).getVal());
                 }
-                System.out.println("writing file to txt: " + file.getKey());
+                // System.out.println("writing file to txt: " + file.getKey());
             }
             writer.close();
         } catch (Exception e) {
