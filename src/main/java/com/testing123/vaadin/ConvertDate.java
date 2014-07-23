@@ -31,6 +31,16 @@ public class ConvertDate implements Comparable<ConvertDate> {
 		return adjustedSonarFormat;
 	}
 	
+	public boolean verify() {
+		if (!adjustedSonarFormat.matches("[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}00")) {
+			return false;
+		}
+		if (adjustedSonarFormat.contains(":")) {
+			return false;
+		}
+		return true;
+	}
+	
 	private void checkRep() {
 		if (adjustedSonarFormat.contains(":")) {
 			System.out.println(adjustedSonarFormat);
