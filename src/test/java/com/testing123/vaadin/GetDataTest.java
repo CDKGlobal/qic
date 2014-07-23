@@ -34,7 +34,7 @@ public class GetDataTest {
 		state.setX(Axis.DELTA_LINESOFCODE);
 		Set<DataPoint> set = gd.getData(state);
 		assertEquals(3, set.size());
-		assertEquals("[[28.0, 11.0, \"b\", \"Authors: \"], [32.0, 13.0, \"c\", \"Authors: \"], [8.0, 14.0, \"t\", \"Authors: \"]]",
+		assertEquals("[[28.0, 11.0, \"b\", \"Authors: Test Real Here \"], [32.0, 13.0, \"c\", \"Authors: \"], [8.0, 14.0, \"t\", \"Authors: \"]]",
 				HashSetToTreeSet(set).toString());
 	}
 

@@ -1,6 +1,9 @@
 package com.testing123.vaadin;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -9,12 +12,14 @@ public class MockQueryable implements Queryable {
 	private Map<String,Double> complexity;
 	private Map<String, Double> ncloc;
 	private Map<String,Double> dComplexity;
+	private Map<String, List<String>> authors;
 	
 	public MockQueryable(){
 		churn = new HashMap<String, Double>();
 		complexity = new HashMap<String, Double>();
 		ncloc = new HashMap<String, Double>();
 		dComplexity = new HashMap<String, Double>();
+		authors = new HashMap<String, List<String>>();
 		
 		churn.put("a", 13.0);
 		churn.put("b", 28.0);
@@ -42,6 +47,9 @@ public class MockQueryable implements Queryable {
 		ncloc.put("t", 6.0);
 		ncloc.put("w", 1.0);
 		
+		authors.put("a", new ArrayList<String>(Arrays.asList("Me", "Myself", "I")));
+		authors.put("b", new ArrayList<String>(Arrays.asList("Real", "Test", "Here")));
+		
 	}
 
 	@Override
@@ -66,8 +74,7 @@ public class MockQueryable implements Queryable {
 
 	@Override
 	public Map<String, List<String>> getAuthors(ConvertDate startDate, ConvertDate endDate) {
-		// TODO Auto-generated method stub
-		return null;
+		return authors;
 	}
 
 
