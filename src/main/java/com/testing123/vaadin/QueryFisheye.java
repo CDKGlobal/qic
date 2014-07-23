@@ -14,77 +14,101 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * 
- * @author blumbeb
- *Returns maps from fisheye Queries where the key is a modified version of the path name
+ * @author blumbeb Returns maps from fisheye Queries where the key is a modified
+ *         version of the path name
  */
 public class QueryFisheye {
 
 	public Map<String, DataPoint> getChurnData(ConvertDate startDate, ConvertDate endDate) {
 		Map<String, DataPoint> churnData = new TreeMap<String, DataPoint>();
-		FisheyeData querriedData = getJSONFromFisheye(startDate, endDate);
+
+		URL url = new FisheyeQuery("Advertising.Perforce", startDate, endDate).getChurnURL();
+		FisheyeData querriedData = getJSONFromFisheye(startDate, endDate, url);
+
 		int pathIndex = querriedData.getHeadings().indexOf("path");
 		int sumLinesAddedIndex = querriedData.getHeadings().indexOf("sumLinesAdded");
 		int sumLinesRemovedIndex = querriedData.getHeadings().indexOf("sumLinesRemoved");
 		int isDeletedIndex = querriedData.getHeadings().indexOf("countIsDeleted");
-		
+
 		for (ItemData i : querriedData.getRow()) {
 			if (isNotDeleted(i, isDeletedIndex)) {
-				String path = formatPath(i,pathIndex);
+				String path = formatPath(i, pathIndex);
 				int linesAdded = (Integer) i.getItem(sumLinesAddedIndex);
 				int linesRemoved = (Integer) i.getItem(sumLinesRemovedIndex);
 				churnData.put(path, new DataPoint(path, linesAdded, linesRemoved));
 			}
 		}
-		//System.out.println(churnData.entrySet().toString());
+		// System.out.println(churnData.entrySet().toString());
 		return churnData;
 	}
-	
-	public Map<String, List<String>> getAuthorData(ConvertDate startDate, ConvertDate endDate) {
+
+	public static Map<String, List<String>> getAuthorData(ConvertDate startDate, ConvertDate endDate) {
 		Map<String, List<String>> authorListMap = new TreeMap<String, List<String>>();
-		FisheyeData querriedData = getJSONFromFisheye(startDate, endDate);
+
+		URL url = new FisheyeQuery("Advertising.Perforce", startDate, endDate).getAuthorsURL();
+		FisheyeData querriedData = getJSONFromFisheye(startDate, endDate, url);
+
 		int pathIndex = querriedData.getHeadings().indexOf("path");
 		int authorIndex = querriedData.getHeadings().indexOf("author");
 		int isDeletedIndex = querriedData.getHeadings().indexOf("isDeleted");
-		
-		for (ItemData i : querriedData.getRow()) {
-			if (i.getItem(isDeletedIndex).equals("false")) {///Is that a boolean?
-				String path = formatPath(i,pathIndex);
-				String author =  (String) i.getItem(authorIndex);
-				if(authorListMap.containsKey(path)){
-					authorListMap.get(path).add(author);
-				}else{
-					ArrayList<String> list = new ArrayList<String>();
-					list.add(path);
-					authorListMap.put(path, list);
+		if (metricsExist(pathIndex, authorIndex, isDeletedIndex)) {
+			for (ItemData i : querriedData.getRow()) {
+				if (isNotDeleted(isDeletedIndex, i)) {
+					addAuthorToMap(authorListMap, pathIndex, authorIndex, i);
 				}
 			}
 		}
 		return authorListMap;
 	}
-	
-	private boolean isNotDeleted(ItemData i, int isDeletedIndex){
-		return (Integer) i.getItem(isDeletedIndex) == 0 ;
+
+	private static void addAuthorToMap(Map<String, List<String>> authorListMap, int pathIndex, int authorIndex, ItemData i) {
+		String path = formatPath(i, pathIndex);
+		String author = (String) i.getItem(authorIndex);
+		if (authorListMap.containsKey(path)) {
+			authorListMap.get(path).add(author);
+		} else {
+			ArrayList<String> list = new ArrayList<String>();
+			list.add(author);
+			authorListMap.put(path, list);
+		}
 	}
-	
-	private String formatPath(ItemData item, int pathIndex){
+
+	private static boolean metricsExist(int... i) {
+		for (int j : i)
+			if (j == -1)
+				return false;
+		return true;
+	}
+
+
+
+	private static boolean isNotDeleted(int isDeletedIndex, ItemData i) {
+		return i.getItem(isDeletedIndex).equals("false");
+	}
+
+	private boolean isNotDeleted(ItemData i, int isDeletedIndex) {
+		return (Integer) i.getItem(isDeletedIndex) == 0;
+	}
+
+	private static String formatPath(ItemData item, int pathIndex) {
 		String path = (String) item.getItem(pathIndex);
 		String[] split = path.split("/");
 		StringBuffer buf = new StringBuffer();
 		buf.append(split[0].toLowerCase());
 		for (int i = 5; i < split.length; ++i) {
 			buf.append(".");
-		    buf.append(split[i]);
-		  }
+			buf.append(split[i]);
+		}
 		String pathName = buf.toString();
-		pathName = pathName.substring(0, pathName.length()-5);
+		pathName = pathName.substring(0, pathName.length() - 5);
 		return pathName;
 	}
 
-	public static FisheyeData getJSONFromFisheye(ConvertDate startDate, ConvertDate endDate) {
+	public static FisheyeData getJSONFromFisheye(ConvertDate startDate, ConvertDate endDate, URL url) {
 
 		ObjectMapper mapper = new ObjectMapper();
-		URL url = new FisheyeQuery("Advertising.Perforce", startDate, endDate).getChurnURL();
 		FisheyeData querriedData = new FisheyeData();
+
 		try {
 			querriedData = mapper.readValue(url, new TypeReference<FisheyeData>() {
 			});
@@ -97,7 +121,5 @@ public class QueryFisheye {
 		}
 		return querriedData;
 	}
-
-
 
 }
