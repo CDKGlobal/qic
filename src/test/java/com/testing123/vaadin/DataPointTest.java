@@ -19,8 +19,8 @@ public class DataPointTest {
     public void TestEmptyDataPointReturnsDefaultValues() {
         DataPoint data = dataPointFactory();
         assertEquals(null, data.getKey());
-        assertEquals(0, (int)data.getYValue());
-        assertEquals(-2, (int)data.getXValue());
+        assertEquals(-1, (int)data.getYValue());
+        assertEquals(-1, (int)data.getXValue());
     }
 
     @Test
@@ -28,8 +28,8 @@ public class DataPointTest {
         DataPoint data = dataPointFactory();
         data.setKey("key");
         assertEquals("key", data.getKey());
-        assertEquals(0, (int)data.getYValue());
-        assertEquals(-2, (int)data.getXValue());
+        assertEquals(-1, (int)data.getYValue());
+        assertEquals(-1, (int)data.getXValue());
     }
 
     @Test
@@ -38,7 +38,7 @@ public class DataPointTest {
         data.setYValue(100);
         assertEquals(null, data.getKey());
         assertEquals(100, (int)data.getYValue());
-        assertEquals(-2, (int)data.getXValue());
+        assertEquals(-1, (int)data.getXValue());
     }
 
     @Test
@@ -46,7 +46,7 @@ public class DataPointTest {
         DataPoint data = dataPointFactory();
         data.setXValue(500);
         assertEquals(null, data.getKey());
-        assertEquals(0, (int)data.getYValue());
+        assertEquals(-1, (int)data.getYValue());
         assertEquals(500, (int)data.getXValue());
     }
 
