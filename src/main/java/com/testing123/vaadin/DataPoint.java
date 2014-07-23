@@ -1,6 +1,5 @@
 package com.testing123.vaadin;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -10,12 +9,10 @@ import java.util.Set;
  * to be stored so it can be easily plotted onto a graph
  * 
  */
-public class DataPoint {
+public class DataPoint implements Comparable<DataPoint>{
     private String key;
     private double yValue;
     private double xValue;
-	private int linesAdded;
-    private int linesRemoved;
     private Set<String> authors;
 
     /**
@@ -23,12 +20,6 @@ public class DataPoint {
      */
     public DataPoint() {
         this(null, -1, -1);
-    }
-    
-    public DataPoint(String key, double xValue) {
-    	this.key = key;
-    	this.xValue = xValue;
-    	this.authors = new HashSet<String>();
     }
     
     /**
@@ -39,14 +30,10 @@ public class DataPoint {
      * @param lineOfCode the number of lines of code in the file
      */
     public DataPoint(String key, double xValue, double yValue) {
-        this(key, xValue);
-        this.yValue = yValue;
-    }
-    
-    public DataPoint(String key, int linesAdded, int linesRemoved){
-    	this(key, linesAdded + linesRemoved);
-    	this.linesAdded = linesAdded;
-    	this.linesRemoved = linesRemoved;
+    	this.key = key;
+    	this.xValue = xValue;
+    	this.authors = new HashSet<String>();
+    	this.yValue = yValue;
     }
 
     public String getKey() {
@@ -73,22 +60,6 @@ public class DataPoint {
         this.yValue = yValue;
     }
     
-    public double getLinesAdded() {
-		return linesAdded;
-	}
-
-	public void setLinesAdded(int linesAdded) {
-		this.linesAdded = linesAdded;
-	}
-
-	public double getLinesRemoved() {
-		return linesRemoved;
-	}
-
-	public void setLinesRemoved(int linesRemoved) {
-		this.linesRemoved = linesRemoved;
-	}
-    
     public void addAuthor(String name) {
     	this.authors.add(name);
     }
@@ -110,4 +81,16 @@ public class DataPoint {
     	}
     	return authorsList;
     }
+
+	@Override
+	public int compareTo(DataPoint other) {
+		int compare = this.key.compareTo(other.key);
+		if(compare == 0){
+			compare = (int) (this.xValue - other.xValue);
+		}
+		if(compare == 0){
+			compare = (int) (this.yValue - other.yValue);
+		}
+		return compare;
+	}
 }
