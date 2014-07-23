@@ -19,8 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public class QueryFisheye {
 
-	public Map<String, DataPoint> getChurnData(ConvertDate startDate, ConvertDate endDate) {
-		Map<String, DataPoint> churnData = new TreeMap<String, DataPoint>();
+	public Map<String, Double> getChurnData(ConvertDate startDate, ConvertDate endDate) {
 
 		URL url = new FisheyeQuery("Advertising.Perforce", startDate, endDate).getChurnURL();
 		FisheyeData querriedData = getJSONFromFisheye(startDate, endDate, url);
@@ -29,16 +28,25 @@ public class QueryFisheye {
 		int sumLinesAddedIndex = querriedData.getHeadings().indexOf("sumLinesAdded");
 		int sumLinesRemovedIndex = querriedData.getHeadings().indexOf("sumLinesRemoved");
 		int isDeletedIndex = querriedData.getHeadings().indexOf("countIsDeleted");
+		
+		if(metricsExist(pathIndex,sumLinesAddedIndex,sumLinesRemovedIndex,isDeletedIndex)){
+		return putChurnDataIntoAMap(querriedData, pathIndex, sumLinesAddedIndex, sumLinesRemovedIndex, isDeletedIndex);
+		}
+		return new TreeMap<String, Double>();
+	}
 
+	private Map<String, Double> putChurnDataIntoAMap(FisheyeData querriedData, int pathIndex, int sumLinesAddedIndex,
+			int sumLinesRemovedIndex, int isDeletedIndex) {
+		Map<String, Double> churnData = new TreeMap<String, Double>();
 		for (ItemData i : querriedData.getRow()) {
 			if (isNotDeleted(i, isDeletedIndex)) {
 				String path = formatPath(i, pathIndex);
 				int linesAdded = (Integer) i.getItem(sumLinesAddedIndex);
 				int linesRemoved = (Integer) i.getItem(sumLinesRemovedIndex);
-				churnData.put(path, new DataPoint(path, linesAdded, linesRemoved));
+				double churn = linesAdded + linesRemoved;
+				churnData.put(path, churn);
 			}
 		}
-		// System.out.println(churnData.entrySet().toString());
 		return churnData;
 	}
 
@@ -51,6 +59,7 @@ public class QueryFisheye {
 		int pathIndex = querriedData.getHeadings().indexOf("path");
 		int authorIndex = querriedData.getHeadings().indexOf("author");
 		int isDeletedIndex = querriedData.getHeadings().indexOf("isDeleted");
+		
 		if (metricsExist(pathIndex, authorIndex, isDeletedIndex)) {
 			for (ItemData i : querriedData.getRow()) {
 				if (isNotDeleted(isDeletedIndex, i)) {
