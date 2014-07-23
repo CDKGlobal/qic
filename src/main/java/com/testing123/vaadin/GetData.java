@@ -27,8 +27,8 @@ public class GetData implements Retrievable {
 		this.state = state;
 		ConvertDate startDate = state.getStart();
 		ConvertDate endDate = state.getEnd();
-		Map<String, DataPoint> xMap;
-		Map<String, DataPoint> yMap;
+		Map<String, Double> xMap;
+		Map<String, Double> yMap;
 		
 		Axis xAxis = state.getX();
 		if (xAxis.equals(Axis.DELTA_COMPLEXITY)) {
@@ -56,16 +56,15 @@ public class GetData implements Retrievable {
 	 * @param yMap
 	 * @return
 	 */
-	private Set<DataPoint> aggregator(Map<String, DataPoint> xMap, Map<String, DataPoint> yMap){
-		Set<DataPoint> dataSet = new HashSet<DataPoint>(xMap.values());
+	private Set<DataPoint> aggregator(Map<String, Double> xMap, Map<String, Double> yMap){
+		Set<DataPoint> dataSet = new HashSet<DataPoint>();
 		Map<String, List<String>> authors = new QueryFisheye().getAuthorData(state.getStart(), state.getEnd());
 		//Iterator<Entry<String, Double>> it = xMap.entrySet().iterator();
 		//while (it.hasNext()) {
-		for (Map.Entry<String, DataPoint> xValues : xMap.entrySet()) {
+		for (Map.Entry<String, Double> xValues : xMap.entrySet()) {
 			String pathName = xValues.getKey();
 			if (yMap.containsKey(pathName)) {
-				DataPoint current = xValues.getValue();
-				current.setYValue(yMap.get(pathName).getXValue());
+				DataPoint current = new DataPoint(xValues.getKey(), yMap.get(pathName));
 				current.setAuthors(authors.get(pathName));
 				dataSet.add(current);
 			}

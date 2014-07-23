@@ -11,12 +11,12 @@ import com.testing123.controller.SQLConnector;
 
 public class QueryDatabase {
 	
-	public Map<String, DataPoint> getNCLOC(ConvertDate date){
-		Map<String, DataPoint> map = new HashMap<String, DataPoint>();
+	public Map<String, Double> getNCLOC(ConvertDate date){
+		Map<String, Double> map = new HashMap<String, Double>();
 		List<WebData> dataList = getDataList(date);
 		for (WebData file : dataList) {
 			if (!map.containsKey(file.getName())) {
-				map.put(catKey(file.getKey()), new DataPoint(catKey(file.getKey()), file.getMsr().get(0).getVal()));	//retrieves ncloc
+				map.put(formatKey(file.getKey()), file.getMsr().get(0).getVal());	//retrieves ncloc
 			} else {
 				throw new IllegalStateException("Unhandeled duplicate case in: ncloc");
 			}
@@ -24,12 +24,12 @@ public class QueryDatabase {
 		return map;
 	}
 	
-	public Map<String, DataPoint> getComplexity(ConvertDate date) {
-		Map<String, DataPoint> map = new HashMap<String, DataPoint>();
+	public Map<String, Double> getComplexity(ConvertDate date) {
+		Map<String, Double> map = new HashMap<String, Double>();
 		List<WebData> dataList = getDataList(date);
 		for (WebData file : dataList) {
 			if (!dataList.isEmpty()) {
-				map.put(catKey(file.getKey()), new DataPoint(catKey(file.getKey()), file.getMsr().get(1).getVal()));	//retrieves complexity
+				map.put(formatKey(file.getKey()), file.getMsr().get(1).getVal());	//retrieves complexity
 			} else {
 				throw new IllegalStateException("Unhandeled duplicate case in: complexity");
 			}
@@ -38,15 +38,15 @@ public class QueryDatabase {
 		return map;
 	}
 	
-	public Map<String, DataPoint> getDeltaComplexity(ConvertDate startDate, ConvertDate endDate) {
-		Map<String, DataPoint> initialComplexity = getComplexity(startDate);
-		Map<String, DataPoint> finalComplexity = getComplexity(endDate);
-		Map<String, DataPoint> deltaComplexity = new HashMap<String, DataPoint>();
+	public Map<String, Double> getDeltaComplexity(ConvertDate startDate, ConvertDate endDate) {
+		Map<String, Double> initialComplexity = getComplexity(startDate);
+		Map<String, Double> finalComplexity = getComplexity(endDate);
+		Map<String, Double> deltaComplexity = new HashMap<String, Double>();
 		for (String name : finalComplexity.keySet()) {
 			if (initialComplexity.containsKey(name)) {
-				if (finalComplexity.get(name).getXValue() - initialComplexity.get(name).getXValue() != 0) {
-					double change = finalComplexity.get(name).getXValue() - initialComplexity.get(name).getXValue();
-					deltaComplexity.put(name, new DataPoint(name, change));
+				double change = finalComplexity.get(name) - initialComplexity.get(name);
+				if (change != 0) {
+					deltaComplexity.put(name, change);
 				}
 			} else {
 				deltaComplexity.put(name, finalComplexity.get(name));
@@ -69,13 +69,10 @@ public class QueryDatabase {
 
 	private static String extractDate(ConvertDate dateObject) {
 		String sonarFormat = dateObject.getSonarFormat();
-//		String[] dateAndTime = sonarFormat.split("T");
-//		String[] date = dateAndTime[0].split("-");
-//		return "d" + date[1] + "_" + date[2];
 		return sonarFormat.replace("-", "_");
 	}
 	
-	private static String catKey(String longKey) {
+	private static String formatKey(String longKey) {
 		String[] pack = longKey.split(":");
 		String replacement = pack[1];
 		return longKey.replaceAll("com.cobalt.*:", replacement + ".");

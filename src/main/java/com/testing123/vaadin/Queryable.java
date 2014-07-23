@@ -4,12 +4,12 @@ import java.util.Map;
 
 public interface Queryable {
 	
-	public Map<String, DataPoint> getChurn(ConvertDate startDate, ConvertDate endDate);
+	public Map<String, Double> getChurn(ConvertDate startDate, ConvertDate endDate);
 	
-	public Map<String, DataPoint> getComplexity(ConvertDate date);
+	public Map<String, Double> getComplexity(ConvertDate date);
 	
-	public Map<String, DataPoint> getNCLOC(ConvertDate date);
+	public Map<String, Double> getNCLOC(ConvertDate date);
 	
-	public Map<String, DataPoint> getDeltaComplexity(ConvertDate startDate, ConvertDate endDate);
+	public Map<String, Double> getDeltaComplexity(ConvertDate startDate, ConvertDate endDate);
 
 }
