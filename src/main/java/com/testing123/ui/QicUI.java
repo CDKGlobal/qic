@@ -5,6 +5,7 @@ import javax.servlet.annotation.WebServlet;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import com.testing123.controller.ComponentController;
 import com.testing123.controller.UIState;
 import com.testing123.controller.UIState.Axis;
 import com.testing123.vaadin.ConvertDate;
@@ -72,15 +73,5 @@ public class QicUI extends UI {
 		
 		NavigationComponent nav = new NavigationComponent(layout, new UIState());
 		layout.addComponent(nav, 1, 2);
-		
-		JavaScript.getCurrent().addFunction("notify", new JavaScriptFunction() {
-			
-			@Override
-			public void call(JSONArray arguments) throws JSONException {
-				Notification.show(arguments.getString(0));
-				UIState state = new UIState();
-				state.setFocus(arguments.getString(0));
-			}
-		});
 	}
 }

@@ -92,6 +92,7 @@ public class UIState {
 		System.out.println("Start Date: " + start.toString());
 		System.out.println("End Date: " + end.toString());
 		System.out.println("XAxis: " + x);
+		System.out.println("Focus: " + focus);
 		System.out.println("Granularity: " + grain);
 		System.out.println();
 	}

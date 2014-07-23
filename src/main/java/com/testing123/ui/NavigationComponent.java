@@ -2,6 +2,9 @@ package com.testing123.ui;
 
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import com.testing123.controller.AvailableResources;
 import com.testing123.controller.ComponentController;
 import com.testing123.controller.UIState;
@@ -15,7 +18,10 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.GridLayout;
+import com.vaadin.ui.JavaScript;
+import com.vaadin.ui.JavaScriptFunction;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Notification;
 
 public class NavigationComponent extends CustomComponent {
 
@@ -36,14 +42,23 @@ public class NavigationComponent extends CustomComponent {
 	 * root and then do any custom initialization.
 	 * 
 	 */
-	public NavigationComponent(GridLayout layout, UIState state) {
+	public NavigationComponent(final GridLayout layout, final UIState state) {
 		this.state = state;
 		this.layout = layout;
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
 		ComponentController.drawMainComponent(layout, state);
+	
+		JavaScript.getCurrent().addFunction("notify", new JavaScriptFunction() {
+			@Override
+			public void call(JSONArray arguments) throws JSONException {
+				Notification.show(arguments.getString(0));
+				state.setFocus(arguments.getString(0));
+				ComponentController.drawMainComponent(layout, state);
+			}
+		});
 	}
-
+	
 	private AbsoluteLayout buildMainLayout() {
 		createNavComponentLayout();
 		
@@ -52,7 +67,7 @@ public class NavigationComponent extends CustomComponent {
 		List<Axis> xAxisOptions = Axis.possibleValues();
 		
 		final ComboBox xAxisComboBox = createAxisComboBox(xAxisOptions, "X-Axis");
-		mainLayout.addComponent(xAxisComboBox, "top:" + AXIS_BOX_OFFSET + "left:500px;");
+		mainLayout.addComponent(xAxisComboBox, "top:" + AXIS_BOX_OFFSET);
 		
 		xAxisComboBox.addValueChangeListener(new Property.ValueChangeListener() {
 			

@@ -1,10 +1,9 @@
 package com.testing123.vaadin;
 
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import com.testing123.controller.UIState;
@@ -29,6 +28,7 @@ public class GetData implements Retrievable {
 		ConvertDate endDate = state.getEnd();
 		Map<String, Double> xMap;
 		Map<String, Double> yMap;
+		boolean authorsRequired = true;
 		
 		Axis xAxis = state.getX();
 		if (xAxis.equals(Axis.DELTA_COMPLEXITY)) {
@@ -42,12 +42,13 @@ public class GetData implements Retrievable {
 		} else if (xAxis.equals(Axis.LINESOFCODE)) {
 			xMap = query.getNCLOC(startDate);
 			yMap = query.getComplexity(endDate);
+			authorsRequired = false;
 
 		} else {
 			return new HashSet<DataPoint>();
 		}
 		
-		return aggregator(xMap, yMap);
+		return aggregator(xMap, yMap, authorsRequired);
 	}
 	
 	/**
@@ -56,16 +57,22 @@ public class GetData implements Retrievable {
 	 * @param yMap
 	 * @return
 	 */
-	private Set<DataPoint> aggregator(Map<String, Double> xMap, Map<String, Double> yMap){
+	private Set<DataPoint> aggregator(Map<String, Double> xMap, Map<String, Double> yMap, boolean authorRequired){
 		Set<DataPoint> dataSet = new HashSet<DataPoint>();
-		Map<String, List<String>> authors = new QueryFisheye().getAuthorData(state.getStart(), state.getEnd());
+		Map<String, List<String>> authors = new HashMap<String, List<String>>();
+		if (authorRequired) {
+			authors = QueryFisheye.getAuthorData(state.getStart(), state.getEnd());
+		}
+
 		//Iterator<Entry<String, Double>> it = xMap.entrySet().iterator();
 		//while (it.hasNext()) {
 		for (Map.Entry<String, Double> xValues : xMap.entrySet()) {
 			String pathName = xValues.getKey();
 			if (yMap.containsKey(pathName)) {
 				DataPoint current = new DataPoint(xValues.getKey(), xValues.getValue(), yMap.get(pathName));
-				current.setAuthors(authors.get(pathName));
+				if (authorRequired) {
+					current.setAuthors(authors.get(pathName));
+				}
 				dataSet.add(current);
 			}
 		}
