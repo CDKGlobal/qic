@@ -2,6 +2,7 @@ package com.testing123.vaadin;
 
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -57,6 +58,7 @@ public class GetData implements Retrievable {
 	 */
 	private Set<DataPoint> aggregator(Map<String, DataPoint> xMap, Map<String, DataPoint> yMap){
 		Set<DataPoint> dataSet = new HashSet<DataPoint>(xMap.values());
+		Map<String, List<String>> authors = new QueryFisheye().getAuthorData(state.getStart(), state.getEnd());
 		//Iterator<Entry<String, Double>> it = xMap.entrySet().iterator();
 		//while (it.hasNext()) {
 		for (Map.Entry<String, DataPoint> xValues : xMap.entrySet()) {
@@ -64,6 +66,7 @@ public class GetData implements Retrievable {
 			if (yMap.containsKey(pathName)) {
 				DataPoint current = xValues.getValue();
 				current.setYValue(yMap.get(pathName).getXValue());
+				current.setAuthors(authors.get(pathName));
 				dataSet.add(current);
 			}
 		}

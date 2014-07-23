@@ -1,7 +1,9 @@
 package com.testing123.vaadin;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * DataPoint represents an object that contains a file's information.  It allows this data
@@ -14,13 +16,19 @@ public class DataPoint {
     private double xValue;
 	private int linesAdded;
     private int linesRemoved;
-    private List<String> authors;
+    private Set<String> authors;
 
     /**
      * Constructs a null DataPoint object that represents a file that does not exist.
      */
     public DataPoint() {
         this(null, -1, -1);
+    }
+    
+    public DataPoint(String key, double xValue) {
+    	this.key = key;
+    	this.xValue = xValue;
+    	this.authors = new HashSet<String>();
     }
     
     /**
@@ -31,24 +39,14 @@ public class DataPoint {
      * @param lineOfCode the number of lines of code in the file
      */
     public DataPoint(String key, double xValue, double yValue) {
-        this.key = key;
+        this(key, xValue);
         this.yValue = yValue;
-        this.xValue = xValue;
-        this.authors = new ArrayList<String>();
     }
     
     public DataPoint(String key, int linesAdded, int linesRemoved){
-    	this.key = key;
+    	this(key, linesAdded + linesRemoved);
     	this.linesAdded = linesAdded;
     	this.linesRemoved = linesRemoved;
-    	this.xValue = linesAdded + linesRemoved;
-    	this.authors = new ArrayList<String>();
-    }
-
-    public DataPoint(String key, double xValue) {
-    	this.key = key;
-    	this.xValue = xValue;
-    	this.authors = new ArrayList<String>();
     }
 
     public String getKey() {
@@ -94,9 +92,23 @@ public class DataPoint {
     public void addAuthor(String name) {
     	this.authors.add(name);
     }
+    
+    public void setAuthors(List<String> authors) {
+    	this.authors.addAll(authors);
+    }
 
     @Override
     public String toString() {
-        return "[" + xValue + ", " + yValue + ", \"" + key + "\"]";
+        return "[" + xValue + ", " + yValue + ", \"" + key + "\", \"" + formattedAuthors() + "\"]";
+
+    }
+    
+    private String formattedAuthors() {
+    	String authorsList = "Authors: ";
+    	for (String name : authors) {
+    		authorsList += name + " ";
+    	}
+    	return authorsList;
     }
 }
+//[[[20.0, 0.0, "platform.com.cobalt.dap.wicket.view.packageattribute.PackageAttributeController, "Authors: deyv ], [8.0, 7.0, "platform.com.cobalt.dap.wicket.view.budget.controller.BudgetChangeReportControllerImpl, "Authors: jayapraj ], [23.0, 86.0, "platform.com
