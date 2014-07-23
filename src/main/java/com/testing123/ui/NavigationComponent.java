@@ -225,7 +225,7 @@ public class NavigationComponent extends CustomComponent {
 		for (String option : options) {
 			box.addItem(new ConvertDate(option));
 		}
-		box.select(new ConvertDate(options.get(0)));
+		//box.select(new ConvertDate(options.get(0)));
 		return box;
 	}
 
