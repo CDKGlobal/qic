@@ -68,17 +68,22 @@ public class GetData implements Retrievable {
 		}
 		
 		if (authorRequired) {
-			authors = QueryFisheye.getAuthorData(state.getStart(), state.getEnd());
-			for(DataPoint point : dataSet){
-				String pathName = point.getKey();
-				if(authors.containsKey(pathName)){
-					point.setAuthors(authors.get(pathName));
-				}
-			}
+			dataSet = addAuthorsToDataSet(dataSet);
 		}
 		
-		
-		
+		return dataSet;
+	}
+
+
+	private Set<DataPoint> addAuthorsToDataSet(Set<DataPoint> dataSet) {
+		Map<String, List<String>> authors;
+		authors = QueryFisheye.getAuthorData(state.getStart(), state.getEnd());
+		for(DataPoint point : dataSet){
+			String pathName = point.getKey();
+			if(authors.containsKey(pathName)){
+				point.setAuthors(authors.get(pathName));
+			}
+		}
 		return dataSet;
 	}
 	
