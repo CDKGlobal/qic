@@ -41,9 +41,8 @@ public class GetData implements Retrievable {
 
 		} else if (xAxis.equals(Axis.LINESOFCODE)) {
 			xMap = query.getNCLOC(startDate);
-			yMap = query.getComplexity(endDate);
+			yMap = query.getComplexity(startDate);
 			authorsRequired = false;
-
 		} else {
 			return new HashSet<DataPoint>();
 		}
@@ -60,22 +59,26 @@ public class GetData implements Retrievable {
 	private Set<DataPoint> aggregator(Map<String, Double> xMap, Map<String, Double> yMap, boolean authorRequired){
 		Set<DataPoint> dataSet = new HashSet<DataPoint>();
 		Map<String, List<String>> authors = new HashMap<String, List<String>>();
-		if (authorRequired) {
-			authors = QueryFisheye.getAuthorData(state.getStart(), state.getEnd());
-		}
-
-		//Iterator<Entry<String, Double>> it = xMap.entrySet().iterator();
-		//while (it.hasNext()) {
 		for (Map.Entry<String, Double> xValues : xMap.entrySet()) {
 			String pathName = xValues.getKey();
 			if (yMap.containsKey(pathName)) {
 				DataPoint current = new DataPoint(xValues.getKey(), xValues.getValue(), yMap.get(pathName));
-				if (authorRequired) {
-					current.setAuthors(authors.get(pathName));
-				}
 				dataSet.add(current);
 			}
 		}
+		
+		if (authorRequired) {
+			authors = QueryFisheye.getAuthorData(state.getStart(), state.getEnd());
+			for(DataPoint point : dataSet){
+				String pathName = point.getKey();
+				if(authors.containsKey(pathName)){
+					point.setAuthors(authors.get(pathName));
+				}
+			}
+		}
+		
+		
+		
 		return dataSet;
 	}
 	
