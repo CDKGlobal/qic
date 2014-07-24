@@ -16,6 +16,7 @@ import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.JavaScript;
@@ -67,7 +68,7 @@ public class NavigationComponent extends CustomComponent {
 		List<Axis> xAxisOptions = Axis.possibleValues();
 		
 		final ComboBox xAxisComboBox = createAxisComboBox(xAxisOptions, "X-Axis");
-		mainLayout.addComponent(xAxisComboBox, "top:" + AXIS_BOX_OFFSET);
+		mainLayout.addComponent(xAxisComboBox, "top:" + AXIS_BOX_OFFSET + "; left: 325.0px");
 		
 		xAxisComboBox.addValueChangeListener(new Property.ValueChangeListener() {
 			
@@ -80,73 +81,6 @@ public class NavigationComponent extends CustomComponent {
 		
 		
 		// File Granularity Menu
-//		MenuBar barmenu = new MenuBar();
-//		barmenu.setStyleName("mybarmenu");
-		
-//		       
-//		// A feedback component
-//		final Label selection = new Label("");
-//		mainLayout.addComponent(selection);
-//
-//		// Define a common menu command for all the menu items.
-//		MenuBar.Command mycommand = new MenuBar.Command() {
-//			MenuItem previous = null;
-//
-//		    public void menuSelected(MenuItem selectedItem) {
-//		        if (previous != null) {
-//		            previous.setStyleName(null);
-//		        }
-//		        selectedItem.setStyleName("highlight");
-//		        state.setGrain(selectedItem.getText());
-//		        previous = selectedItem;
-//		        ComponentController.drawMainComponent(layout, state);
-//		    }
-//		};
-//		
-//		// Put some items in the menu
-//		barmenu.addItem("Projects", null, mycommand);
-//		barmenu.addItem("Directories", null, mycommand);
-//		barmenu.addItem("Files", null, mycommand);
-//		barmenu.addItem("Authors", null, mycommand);
-
-//		List<String> isDelta = Arrays.asList(new String[] { "Show Change", "Show Absolute"});
-		
-		// 'Shorthand' constructor - also supports data binding using Containers
-//		OptionGroup citySelect = new OptionGroup("Please select a view", isDelta);
-//		citySelect.setNullSelectionAllowed(false); // user can not 'unselect'
-//	    citySelect.select("Show Change"); // select this by default
-//	    citySelect.setImmediate(true); // send the change to the server at once
-	    //citySelect.addListener(this); // react when the user selects something
-//
-//	        addComponent(citySelect);
-//
-//	        addComponent(new Label("<h3>Multi-selection</h3>", Label.CONTENT_XHTML));
-//
-//	        // Create the multiselect option group
-//	        // 'Shorthand' constructor - also supports data binding using Containers
-//	        citySelect = new OptionGroup("Please select cities", cities);
-
-//	        // Set disabled items
-//	        citySelect.setItemEnabled("Helsinki", false);
-//	        citySelect.setItemEnabled("Oslo", false);
-
-//	        citySelect.setMultiSelect(true);
-//	        citySelect.setNullSelectionAllowed(false); // user can not 'unselect'
-//	        citySelect.select("Berlin"); // select this by default
-//	        citySelect.setImmediate(true); // send the change to the server at once
-//	        citySelect.addListener(this); // react when the user selects something
-
-	        //addComponent(citySelect);
-//
-//	    /*
-//	     * Shows a notification when a selection is made. The listener will be
-//	     * called whenever the value of the component changes, i.e when the user
-//	     * makes a new selection.
-//	     */
-//	    public void valueChange(ValueChangeEvent event) {
-//	        getWindow().showNotification("Selected city: " + event.getProperty());
-//
-//	    }
 		
 		// gets all the available dates that can be queried
 		List<String> dateOptions = AvailableResources.getAvailableDates();
@@ -222,8 +156,8 @@ public class NavigationComponent extends CustomComponent {
 	
 	private ComboBox createDateComboBox(List<String> options, String tag) {
 		ComboBox box = createComboBoxWithLabel(tag, false);
-		for (String option : options) {
-			box.addItem(new ConvertDate(option));
+		for (int i = options.size() - 3; i >= 0; i--) {
+			box.addItem(new ConvertDate(options.get(i)));
 		}
 		//box.select(new ConvertDate(options.get(0)));
 		return box;
