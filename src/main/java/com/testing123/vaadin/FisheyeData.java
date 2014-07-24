@@ -1,11 +1,17 @@
 package com.testing123.vaadin;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 public class FisheyeData {
+
+	public FisheyeData() {
+		this.headings = new ArrayList<String>();
+		this.row = new ArrayList<ItemData>();
+	}
 
 	private List<String> headings;
 	

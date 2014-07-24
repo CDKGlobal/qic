@@ -58,7 +58,7 @@ public class FisheyeQuery {
 	}
 
 	private void inProject(String project) {
-		addPath("\\" + project + "/trunk/src/main/**");
+		addPath("/" + project + "/trunk/src/main/**");
 	}
 
 	private void onlyJava() {
