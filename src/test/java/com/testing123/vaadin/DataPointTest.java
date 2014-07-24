@@ -89,4 +89,11 @@ public class DataPointTest {
 				"[[12.0, 18.5, \"AString\", \"Authors: \"], [11.0, 18.5, \"NotString\", \"Authors: \"], [11.0, 20.0, \"NotString\", \"Authors: \"], [12.0, 18.5, \"NotString\", \"Authors: \"]]",
 				set.toString());
 	}
+	
+	@Test
+	public void test(){
+		DataPoint d = new DataPoint();
+		System.out.println(d.getClass());
+		System.out.println(d.getClass().equals(new DataPoint().getClass()));
+	}
 }
