@@ -9,7 +9,7 @@ public class Query implements Queryable {
 	@Override
 	public Map<String, Double> getChurn(ConvertDate startDate, ConvertDate endDate) {
 		URL url = new FisheyeQuery("Advertising.Perforce", startDate, endDate).getChurnURL();
-		FisheyeData querriedData = new QueryFisheye().getJSONFromFisheye(startDate, endDate, url);
+		FisheyeData querriedData = new QueryFisheye().getJSONFromFisheye(url);
 		return new QueryFisheye().getChurnData(querriedData);
 	}
 
@@ -31,7 +31,7 @@ public class Query implements Queryable {
 	@Override
 	public Map<String, List<String>> getAuthors(ConvertDate startDate, ConvertDate endDate) {
 		URL url = new FisheyeQuery("Advertising.Perforce", startDate, endDate).getAuthorsURL();
-		FisheyeData querriedData = new QueryFisheye().getJSONFromFisheye(startDate, endDate, url);
+		FisheyeData querriedData = new QueryFisheye().getJSONFromFisheye(url);
 		return new QueryFisheye().getAuthorData(querriedData);
 	}
 

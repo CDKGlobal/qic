@@ -103,7 +103,7 @@ public class QueryFisheye {
 		return pathName;
 	}
 
-	public FisheyeData getJSONFromFisheye(ConvertDate startDate, ConvertDate endDate, URL url) {
+	public FisheyeData getJSONFromFisheye(URL url) {
 
 		ObjectMapper mapper = new ObjectMapper();
 		FisheyeData querriedData = new FisheyeData();
