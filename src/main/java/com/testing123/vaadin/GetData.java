@@ -83,6 +83,12 @@ public class GetData implements Retrievable {
 		}
 		return dataSet;
 	}
+
+	@Override
+	public Set<DataPoint> getData(UIState state, List<String> projects, List<String> authors) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	/**
 	private Set<DataPoint> useTolerances(Set<DataPoint> dataSet){

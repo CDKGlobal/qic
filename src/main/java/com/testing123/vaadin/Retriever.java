@@ -69,4 +69,10 @@ public class Retriever implements Retrievable {
 //			}
 //			return new ArrayList<WebData>();
 //	}
+
+	@Override
+	public Set<DataPoint> getData(UIState state, List<String> projects, List<String> authors) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
