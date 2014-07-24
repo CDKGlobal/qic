@@ -53,9 +53,6 @@ public class FisheyeQuery {
 	 * Top level adds
 	 * 
 	 */
-	private void addAuthors(String authors){
-		addClause("authors=" + authors);
-	}
 
 	private void inProject(String project) {
 		addPath("/" + project + "/trunk/src/main/**");
