@@ -2,10 +2,10 @@ package com.testing123.controller;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.testing123.ui.FilterComponent;
 import com.testing123.vaadin.ConvertDate;
 import com.testing123.vaadin.ConvertProject;
 
@@ -30,6 +30,8 @@ public class UIState {
 		this.end = end;
 		this.x = x;
 		this.y = Axis.COMPLEXITY;		// by default and always is the case
+		this.projects = new HashSet<ConvertProject>();
+		this.authors = new HashSet<String>();
 	}
 
 	public ConvertDate getStart() {
@@ -76,7 +78,7 @@ public class UIState {
 		return authors;
 	}
 	
-	public void setAuthorsFilter(Set<String> authorss) {
+	public void setAuthorsFilter(Set<String> authors) {
 		this.authors = authors;
 	}
 	

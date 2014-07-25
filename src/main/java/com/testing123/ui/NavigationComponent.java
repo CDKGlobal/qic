@@ -1,5 +1,6 @@
 package com.testing123.ui;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -123,8 +124,9 @@ public class NavigationComponent extends CustomComponent {
 					navLayout.addComponent(errorLabel, "top:" + DATE_GRANULARITY_OFFSET + "; left:510.0px;");
 					return;
 				}
-						
+				
 				state.setProjects((Set<ConvertProject>) filter.projectFilter.getValue());
+				state.setAuthorsFilter(new HashSet<String>());
 				state.setStart(startDate);
 				state.setEnd(endDate);
 				fireChangeAction();
