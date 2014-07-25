@@ -34,7 +34,7 @@ public class GetDataTest {
 		state.setX(Axis.DELTA_LINESOFCODE);
 		Set<DataPoint> set = gd.getData(state);
 		assertEquals(3, set.size());
-		assertEquals("[[28.0, 11.0, \"b\", \"Authors: Test Real Here \"], [32.0, 13.0, \"c\", \"Authors: \"], [8.0, 14.0, \"t\", \"Authors: \"]]",
+		assertEquals("[[28.0, 11.0, \"b\", \"Authors: Test Real Here \"], [32.0, 13.0, \"c\", \"\"], [8.0, 14.0, \"t\", \"\"]]",
 				HashSetToTreeSet(set).toString());
 	}
 
@@ -44,7 +44,7 @@ public class GetDataTest {
 		Set<DataPoint> set = gd.getData(state);
 		assertEquals(5, set.size());
 		assertEquals(
-"[[13.0, 11.0, \"b\", \"Authors: \"], [15.0, 11.0, \"d\", \"Authors: \"], [8.0, 11.0, \"i\", \"Authors: \"], [11.0, 54.0, \"p\", \"Authors: \"], [6.0, 14.0, \"t\", \"Authors: \"]]",
+"[[13.0, 11.0, \"b\", \"\"], [15.0, 11.0, \"d\", \"\"], [8.0, 11.0, \"i\", \"\"], [11.0, 54.0, \"p\", \"\"], [6.0, 14.0, \"t\", \"\"]]",
 HashSetToTreeSet(set).toString());
 
 	}
