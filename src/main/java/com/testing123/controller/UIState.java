@@ -3,8 +3,11 @@ package com.testing123.controller;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Set;
 
+import com.testing123.ui.FilterComponent;
 import com.testing123.vaadin.ConvertDate;
+import com.testing123.vaadin.ConvertProject;
 
 public class UIState {
 	public static final ConvertDate DEFAULT_START_DATE = new ConvertDate("2014-07-15T06-07-55-0700");
@@ -17,6 +20,7 @@ public class UIState {
 	private Axis y;
 	private String focus;
 	private Granularity grain;
+	private Set<ConvertProject> projects;
 	
 	public UIState() {
 		this(DEFAULT_START_DATE, DEFAULT_END_DATE, Axis.DELTA_LINESOFCODE);
@@ -85,6 +89,14 @@ public class UIState {
 
 	public void setGranularity(Granularity grain) {
 		this.grain = grain;
+	}
+	
+	public Set<ConvertProject> getProjects() {
+		return projects;
+	}
+	
+	public void setProjects(Set<ConvertProject> projects) {
+		this.projects = projects;
 	}
 	
 	public void verifyState() {
