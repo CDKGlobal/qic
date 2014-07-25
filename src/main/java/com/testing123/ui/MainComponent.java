@@ -18,8 +18,8 @@ import com.vaadin.ui.Notification;
 
 @SuppressWarnings("serial")
 public class MainComponent extends CustomComponent {
-	private static final String PANEL_WIDTH = "1000px";
-	private static final String PANEL_HEIGHT = "500px";
+	private static final String PANEL_WIDTH = "800px";
+	private static final String PANEL_HEIGHT = "450px";
 	private static final String GRAPH_WIDTH = "800px";
 	private static final String GRAPH_HEIGHT = "400px";
 
