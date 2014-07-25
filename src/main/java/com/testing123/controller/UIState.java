@@ -106,7 +106,7 @@ public class UIState {
 		System.out.println("XAxis: " + x);
 		System.out.println("Focus: " + focus);
 		System.out.println("Granularity: " + grain);
-		System.out.println();
+		System.out.println("Projects: " + projects);
 	}
 	
 	public enum Axis {
