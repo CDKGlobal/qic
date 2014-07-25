@@ -80,7 +80,8 @@ public class DataPoint implements Comparable<DataPoint> {
 
 	private String formattedAuthors() {
 		StringBuffer buf = new StringBuffer();
-		buf.append("Authors: ");
+		if(!authors.isEmpty())
+			buf.append("Authors: ");
 		for (String name : authors) {
 			buf.append(name);
 			buf.append(" ");
