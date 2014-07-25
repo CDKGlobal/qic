@@ -33,7 +33,7 @@ public class Downloader {
      * 
      * @param projectName the project name
      */
-    public void downloadProjects(String projectName, boolean... test) {
+    public void downloadProjects(String projectName, ArrayList<Integer> idList, boolean... test) {
         String projectLink = "http://sonar.cobalt.com/api/resources?resource=com.cobalt.dap:" + projectName + "&depth=0&metrics=ncloc,complexity&format=json";
         try {
             URL projectURL = new URL(projectLink);
@@ -42,11 +42,12 @@ public class Downloader {
             // makes a folder with today's date on it
             today = projectList.get(0).getDate().replace(":", "-");
             String currentPath = null;
-            if (test[0]) {
-            	currentPath = makeFolder("Tester/", today);
-            } else {
-            	currentPath = makeFolder("Archives/", today);
-            }
+            // if (test[0]) {
+            // currentPath = makeFolder("Tester/", today);
+            // } else {
+            currentPath = makeFolder("Archives/", today);
+            // }
+
 
             // creates projects
             writeJson(currentPath, projectList, projectList.get(0).getId() + "");
@@ -61,7 +62,10 @@ public class Downloader {
             writeTxt(currentPath, folderList, "folders");
 
             System.out.println("WRITING FILES");
+
             List<WebData> fileList = new ArrayList<WebData>();
+            PrintWriter writerToFileList = new PrintWriter(currentPath + "files.txt");
+            PrintWriter writerToFileHistory = new PrintWriter(currentPath + "filesHistory.txt");
             for (WebData folder : folderList) {
                 String currentFolder = "http://sonar.cobalt.com/api/resources?resource="
                                 + folder.getKey()
@@ -69,12 +73,38 @@ public class Downloader {
                                 + "metrics=ncloc,complexity&format=json";
                 URL filesLink = new URL(currentFolder);
                 List<WebData> currentList = mapper.readValue(filesLink, new TypeReference<List<WebData>>() {});
-                for (WebData current : currentList) {
-                    fileList.add(current);
+
+                // PrintWriter writerToFileList = new PrintWriter(currentPath + "files.txt");
+                // PrintWriter writerToFileHistory = new PrintWriter(currentPath + "filesHistory.txt");
+
+                for (WebData file : currentList) {
+                    fileList.add(file);
+                    // System.out.println(file.getId());
+                    if (!idList.contains(file.getId())) {
+                        System.out.println(file.getId());
+                        writerToFileList.println(file.getId() + "\t" + file.getKey() + "\t" + file.getName() + "\t" + file.getScope()
+                                        + "\t" + file.getQualifier());
+                        writerToFileHistory.print(file.getId() + "\t" + file.getDate());
+                        if (file.getMsr() == null) {
+                            writerToFileHistory.println("\t-1.0 \t -1.0");
+                        } else {
+                            writerToFileHistory.println("\t" + file.getMsr().get(0).getVal() + "\t" + file.getMsr().get(1).getVal());
+                        }
+                    } else {
+                        writerToFileHistory.print(file.getId() + "\t" + file.getDate());
+                        if (file.getMsr() == null) {
+                            writerToFileHistory.println("\t-1.0 \t-1.0");
+                        } else {
+                            writerToFileHistory.println("\t" + file.getMsr().get(0).getVal() + "\t" + file.getMsr().get(1).getVal());
+                        }
+                    }
                 }
+
             }
+            writerToFileList.close();
+            writerToFileHistory.close();
+            // System.out.println("writer done, starts writing json");
             writeJson(currentPath, fileList, "files");
-            writeTxt(currentPath, fileList, "files");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -90,7 +120,7 @@ public class Downloader {
                     i++;
                 }
             }
-            System.out.println(i);
+            // System.out.println(i);
         } catch (JsonGenerationException e) {
             e.printStackTrace();
         } catch (JsonMappingException e) {
