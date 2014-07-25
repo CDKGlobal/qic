@@ -73,14 +73,16 @@ public class GetData implements Retrievable {
 
 
 	private Set<DataPoint> addAuthorsToDataSet(Set<DataPoint> dataSet) {
-		Map<String, List<String>> authors = query.getAuthors(state.getStart(), state.getEnd(), null);
+		Map<String, List<String>> authors = query.getAuthors(state.getStart(), state.getEnd(), state.getAuthorsFilter());
+		Set<DataPoint> filteredDataSet = new HashSet<DataPoint>();
 		for(DataPoint point : dataSet){
 			String pathName = point.getKey();
 			if(authors.containsKey(pathName)){
 				point.setAuthors(authors.get(pathName));
+				filteredDataSet.add(point);
 			}
 		}
-		return dataSet;
+		return filteredDataSet;
 	}
 
 
