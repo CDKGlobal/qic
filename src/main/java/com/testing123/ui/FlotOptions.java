@@ -35,8 +35,8 @@ public class FlotOptions {
 	        "position: 'left'" + 
 	    "}, " +
 	    "xaxis : {" +
-	        "show : true," + 
-	        "axisLabel : \'" + xaxis.toString() + "\'," +
+	        //"show : false," + 
+	        //"axisLabel : \'" + xaxis.toString() + "\'," +
 	        "autoscaleMargin : .02" +
 	    "},"
 				+

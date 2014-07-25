@@ -29,7 +29,7 @@ public class SQLConnector {
         Connection conn = null;
 		try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
-            conn = getConnection();
+            conn = getConnection(DB_NAME);
             return execute(conn, query);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -37,10 +37,10 @@ public class SQLConnector {
 		return null;
 	}
 	
-    public static Connection getConnection() {
+    public static Connection getConnection(String dbName) {
         try {
             Connection conn = 
-            		DriverManager.getConnection("jdbc:" + SQLConnector.DB_SERVER + "/" + DB_NAME + "?user=" + DB_USER + "&password=" + DB_PASS);
+            		DriverManager.getConnection("jdbc:" + SQLConnector.DB_SERVER + "/" + dbName + "?user=" + DB_USER + "&password=" + DB_PASS);
             return conn;
         } catch (SQLException ex) {
         	System.out.println("Could not make Connection:");
@@ -55,6 +55,7 @@ public class SQLConnector {
 		ResultSet rs = null;
 		stmt = conn.createStatement();
 		System.out.println(query);
+		System.out.println();
 		rs = stmt.executeQuery(query);
 		return rs;
 	}

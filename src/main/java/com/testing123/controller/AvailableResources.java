@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 import com.testing123.vaadin.ConvertDate;
+import com.testing123.vaadin.ConvertProject;
 import com.testing123.vaadin.WebData;
 
 public class AvailableResources {
@@ -35,9 +36,24 @@ public class AvailableResources {
 		return sonarFormat.replace("-", "_");
 	}
 	
+	public static List<ConvertProject> getAvailableProjects() {
+		List<ConvertProject> projects = new ArrayList<ConvertProject>();
+		try {
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			Connection conn = SQLConnector.getConnection("dataList2");
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT name, the_key FROM projectList ORDER BY name ASC");
+			while (rs.next()) {
+				projects.add(new ConvertProject(rs.getString(1), rs.getString(2)));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return projects;
+	}
+	
 	public static List<String> getAvailableDates() {
 		List<String> dates = new ArrayList<String>();
-		
 		try {
 //			String home = System.getProperty("user.home");
 //			String absolutePath = home
@@ -53,7 +69,7 @@ public class AvailableResources {
 //			    }
 //			}
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			Connection conn = SQLConnector.getConnection();
+			Connection conn = SQLConnector.getConnection("dataList");
 			DatabaseMetaData md = conn.getMetaData();
 			ResultSet rs = md.getTables(null, null, "%", null);
 			while (rs.next()) {

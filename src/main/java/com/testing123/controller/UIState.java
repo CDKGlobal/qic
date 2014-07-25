@@ -18,9 +18,8 @@ public class UIState {
 	private ConvertDate end;
 	private Axis x;
 	private Axis y;
-	private String focus;
-	private Granularity grain;
 	private Set<ConvertProject> projects;
+	private Set<String> authors;
 	
 	public UIState() {
 		this(DEFAULT_START_DATE, DEFAULT_END_DATE, Axis.DELTA_LINESOFCODE);
@@ -31,8 +30,6 @@ public class UIState {
 		this.end = end;
 		this.x = x;
 		this.y = Axis.COMPLEXITY;		// by default and always is the case
-		this.focus = null;
-		this.grain = Granularity.FILE;
 	}
 
 	public ConvertDate getStart() {
@@ -51,14 +48,6 @@ public class UIState {
 		this.end = end;
 	}
 
-	//public boolean getIsDelta() {
-	//	return isDelta;
-	//}
-	
-	//public void setIsDelta(boolean isDelta) {
-	//	this.isDelta = isDelta;
-	//}
-
 	public Axis getX() {
 		return x;
 	}
@@ -74,23 +63,7 @@ public class UIState {
 	public void setY(Axis y) {
 		this.y = y;
 	}
-	
-	public String getFocus() {
-		return focus;
-	}
-
-	public void setFocus(String focus) {
-		this.focus = focus;
-	}
-	
-	public Granularity getGranularity() {
-		return grain;
-	}
-
-	public void setGranularity(Granularity grain) {
-		this.grain = grain;
-	}
-	
+		
 	public Set<ConvertProject> getProjects() {
 		return projects;
 	}
@@ -99,13 +72,19 @@ public class UIState {
 		this.projects = projects;
 	}
 	
+	public Set<String> getAuthorsFilter() {
+		return authors;
+	}
+	
+	public void setAuthorsFilter(Set<String> authorss) {
+		this.authors = authors;
+	}
+	
 	public void verifyState() {
 		System.out.println("CURRENT STATE:");
 		System.out.println("Start Date: " + start.toString());
 		System.out.println("End Date: " + end.toString());
 		System.out.println("XAxis: " + x);
-		System.out.println("Focus: " + focus);
-		System.out.println("Granularity: " + grain);
 		System.out.println("Projects: " + projects);
 	}
 	

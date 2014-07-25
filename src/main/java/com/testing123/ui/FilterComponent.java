@@ -2,6 +2,7 @@ package com.testing123.ui;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import com.testing123.controller.AvailableResources;
 import com.testing123.vaadin.ConvertProject;
@@ -14,7 +15,7 @@ import com.vaadin.ui.TwinColSelect;
 
 public class FilterComponent extends CustomComponent {
 	protected AbsoluteLayout mainLayout;
-	public static ListSelect projectFilter;
+	protected ListSelect projectFilter;
 	
 	protected static final String[] cities = new String[] { "Berlin", "Brussels",
         "Helsinki", "Madrid", "Oslo", "Paris", "Stockholm" };
@@ -29,14 +30,6 @@ public class FilterComponent extends CustomComponent {
 		
 		List<ConvertProject> projectOptions = AvailableResources.getAvailableProjects();
         projectFilter = createListSelect("projects", projectOptions);
-        projectFilter.addValueChangeListener(new ValueChangeListener() {
-
-			@Override
-			public void valueChange(ValueChangeEvent event) {
-				
-			}
-        });
-        
         mainLayout.addComponent(projectFilter, "top: 50px; left: 20px;");
         
         //List<String> authorOptions = AvailableResrounces.getAvail
