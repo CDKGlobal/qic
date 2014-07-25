@@ -80,11 +80,12 @@ public class DataPoint implements Comparable<DataPoint> {
 
 	private String formattedAuthors() {
 		StringBuffer buf = new StringBuffer();
-		if(!authors.isEmpty())
+		if (!authors.isEmpty()) {
 			buf.append("Authors: ");
-		for (String name : authors) {
-			buf.append(name);
-			buf.append(" ");
+			for (String name : authors) {
+				buf.append(name);
+				buf.append(" ");
+			}
 		}
 		return buf.toString();
 	}
@@ -100,12 +101,12 @@ public class DataPoint implements Comparable<DataPoint> {
 		}
 		return compare;
 	}
-	
+
 	@Override
-	  public boolean equals(Object obj) { 
-		if(obj.getClass().equals(new DataPoint().getClass()))
-			return this.compareTo((DataPoint)obj)==0;
+	public boolean equals(Object obj) {
+		if (obj.getClass().equals(new DataPoint().getClass()))
+			return this.compareTo((DataPoint) obj) == 0;
 		return false;
 	}
-	
+
 }
