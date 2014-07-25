@@ -36,18 +36,24 @@ public class DatabaseConnector {
         return null;
     }
 
-    public void createDbAndLoadTable(Connection conn, String date) {
+    public void createDbAndLoadTable(Connection conn, String date, String projectName) {
         Statement stmt = null;
         boolean rs = true;
         try {
             stmt = conn.createStatement();
-            rs = stmt.execute("CREATE TABLE " + date.replace("-", "_") + "(id INT NOT NULL, "
-                            + "the_key VARCHAR(160) NOT NULL, name VARCHAR(80) NOT NULL, "
-                            + "scope VARCHAR(5) NOT NULL, qualifier VARCHAR(5) NOT NULL,"
-                            + " date VARCHAR(30) NOT NULL,"
-                            + " ncloc DECIMAL(5,1), complexity DECIMAL(4,1));");
-            rs = stmt.execute("LOAD DATA LOCAL INFILE '/home/dap/Archives/" + date + "/17271/"
-                            + "files.txt' INTO TABLE " + date.replace("-", "_") + ";");
+            /*
+             * rs = stmt.execute("CREATE TABLE " + date.replace("-", "_") + "(id INT NOT NULL, "
+             * + "the_key VARCHAR(160) NOT NULL, name VARCHAR(80) NOT NULL, "
+             * + "scope VARCHAR(5) NOT NULL, qualifier VARCHAR(5) NOT NULL,"
+             * + " date VARCHAR(30) NOT NULL,"
+             * + " ncloc DECIMAL(5,1), complexity DECIMAL(4,1));");
+             */
+
+            rs = stmt.execute("LOAD DATA LOCAL INFILE '//Users/weiyoud/Perforce/weiyoud_sea-weiyoud_4033/Playpen/QIC2/Archives/"
+                            + date + "/17271/files.txt' INTO TABLE " + projectName + ";");// date.replace("-",
+            // "_") + ";");
+            rs = stmt.execute("LOAD DATA LOCAL INFILE '//Users/weiyoud/Perforce/weiyoud_sea-weiyoud_4033/Playpen/QIC2/Archives/"
+                            + date + "/17271/filesHistory.txt' INTO TABLE " + projectName + "History" + ";");
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
