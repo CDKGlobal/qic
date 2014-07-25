@@ -21,6 +21,7 @@ public class GetData implements Retrievable {
 	 * 
 	 * @return Set of DataPoint with the correct X and Y coordinates and details
 	 */
+	@Override
 	public Set<DataPoint> getData(UIState state) {
 		this.state = state;
 		ConvertDate startDate = state.getStart();
@@ -45,8 +46,11 @@ public class GetData implements Retrievable {
 		} else {
 			return new HashSet<DataPoint>();
 		}
+		Set<DataPoint> dataSet = aggregator(xMap, yMap);
+		if (authorsRequired) 
+			dataSet = addAuthorsToDataSet(dataSet);
 		
-		return aggregator(xMap, yMap, authorsRequired);
+		return dataSet;
 	}
 	
 	/**
@@ -55,7 +59,7 @@ public class GetData implements Retrievable {
 	 * @param yMap
 	 * @return
 	 */
-	private Set<DataPoint> aggregator(Map<String, Double> xMap, Map<String, Double> yMap, boolean authorRequired){
+	private Set<DataPoint> aggregator(Map<String, Double> xMap, Map<String, Double> yMap){
 		Set<DataPoint> dataSet = new HashSet<DataPoint>();
 		for (Map.Entry<String, Double> xValues : xMap.entrySet()) {
 			String pathName = xValues.getKey();
@@ -64,17 +68,12 @@ public class GetData implements Retrievable {
 				dataSet.add(current);
 			}
 		}
-		
-		if (authorRequired) {
-			dataSet = addAuthorsToDataSet(dataSet);
-		}
-		
 		return dataSet;
 	}
 
 
 	private Set<DataPoint> addAuthorsToDataSet(Set<DataPoint> dataSet) {
-		Map<String, List<String>> authors = query.getAuthors(state.getStart(), state.getEnd());
+		Map<String, List<String>> authors = query.getAuthors(state.getStart(), state.getEnd(), null);
 		for(DataPoint point : dataSet){
 			String pathName = point.getKey();
 			if(authors.containsKey(pathName)){
@@ -84,11 +83,7 @@ public class GetData implements Retrievable {
 		return dataSet;
 	}
 
-	@Override
-	public Set<DataPoint> getData(UIState state, List<String> projects, List<String> authors) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 	
 	/**
 	private Set<DataPoint> useTolerances(Set<DataPoint> dataSet){

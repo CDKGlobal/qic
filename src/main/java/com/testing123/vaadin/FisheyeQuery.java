@@ -2,6 +2,7 @@ package com.testing123.vaadin;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Set;
 
 public class FisheyeQuery {
 
@@ -15,15 +16,13 @@ public class FisheyeQuery {
 		dateRange = getDateRange(startDate, endDate);
 		clauses = "";
 		returns = "";
-		returns = "";
 	}
 	
-	public URL getAuthorsURL(){
-		inProject("Platform");
-		onlyJava();
-		addReturn("path");
-		addReturn("author");
-		addReturn("isDeleted");
+	public URL getAuthorsURL(Set<String> setOfAuthorNames){
+		getAuthorsState();
+		if(!setOfAuthorNames.isEmpty()){
+			addAuthorFilter(setOfAuthorNames);
+		}
 		return getURL(getString());
 	}
 	
@@ -36,6 +35,14 @@ public class FisheyeQuery {
 		addReturn("count(isDeleted)");
 		String link = getString();
 		return getURL(link);
+	}
+	
+	private void getAuthorsState(){
+		inProject("Platform");
+		onlyJava();
+		addReturn("path");
+		addReturn("author");
+		addReturn("isDeleted");
 	}
 	
 	private URL getURL(String link){
@@ -53,7 +60,13 @@ public class FisheyeQuery {
 	 * Top level adds
 	 * 
 	 */
-
+	private void addAuthorFilter(Set<String> setOfAuthorNames){
+		String stringOfSet = setOfAuthorNames.toString();
+		stringOfSet = stringOfSet.substring(1, stringOfSet.length()-1);
+		addClause("author in ( " + stringOfSet + " ) ");
+	}
+	
+	
 	private void inProject(String project) {
 		addPath("/" + project + "/trunk/src/main/**");
 	}

@@ -3,6 +3,7 @@ package com.testing123.vaadin;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class Query implements Queryable {
 
@@ -29,8 +30,8 @@ public class Query implements Queryable {
 	}
 
 	@Override
-	public Map<String, List<String>> getAuthors(ConvertDate startDate, ConvertDate endDate) {
-		URL url = new FisheyeQuery("Advertising.Perforce", startDate, endDate).getAuthorsURL();
+	public Map<String, List<String>> getAuthors(ConvertDate startDate, ConvertDate endDate, Set<String> setOfAuthorNames) {
+		URL url = new FisheyeQuery("Advertising.Perforce", startDate, endDate).getAuthorsURL(setOfAuthorNames);
 		FisheyeData querriedData = new QueryFisheye().getJSONFromFisheye(url);
 		return new QueryFisheye().getAuthorData(querriedData);
 	}
