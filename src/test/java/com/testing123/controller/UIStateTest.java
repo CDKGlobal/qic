@@ -28,18 +28,4 @@ public class UIStateTest {
 		assertEquals("Mon Jul 21 06:07:35 PDT 2014", state.getEnd().toString());
 		assertEquals(Axis.COMPLEXITY, state.getX());
 	}
-	
-	@Test
-	public void TestSetUIStateFocus() {
-		UIState state = new UIState();
-		state.setFocus("string");
-		assertEquals("string", state.getFocus());
-	}
-	
-	@Test
-	public void TestSetUIStateGranularity() {
-		UIState state = new UIState();
-		state.setGranularity(Granularity.PROJECT);
-		assertEquals(Granularity.PROJECT, state.getGranularity());
-	}
 }
