@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class MockQueryable implements Queryable {
 	private Map<String, Double> churn;
@@ -73,7 +74,7 @@ public class MockQueryable implements Queryable {
 	}
 
 	@Override
-	public Map<String, List<String>> getAuthors(ConvertDate startDate, ConvertDate endDate) {
+	public Map<String, List<String>> getAuthors(ConvertDate startDate, ConvertDate endDate, Set<String> setOAuthorNames) {
 		return authors;
 	}
 
