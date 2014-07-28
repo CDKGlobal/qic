@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -33,12 +34,96 @@ public class Downloader {
      * 
      * @param projectName the project name
      */
-    public void downloadProjects(String projectName, ArrayList<Integer> idList, boolean... test) {
-        String projectLink = "http://sonar.cobalt.com/api/resources?resource=com.cobalt.dap:" + projectName + "&depth=0&metrics=ncloc,complexity&format=json";
-        try {
-            URL projectURL = new URL(projectLink);
-            List<WebData> projectList = mapper.readValue(projectURL, new TypeReference<List<WebData>>() {});
 
+    public List<WebData> downloadProjectsAndWrite(boolean... test) {
+        String projectLink = "http://sonar.cobalt.com/api/resources?&depth=0&metrics=ncloc,complexity&format=json";
+
+        URL projectURL;
+        try {
+            projectURL = new URL(projectLink);
+
+            List<WebData> projectList = mapper.readValue(projectURL, new TypeReference<List<WebData>>() {
+            });
+
+            // makes a folder with today's date on it
+            // today = projectList.get(0).getDate().replace(":", "-");
+            String currentPath = null;
+            // if (test[0]) {
+            // currentPath = makeFolder("Tester/", today);
+            // } else {
+            currentPath = makeFolder("Archives/", "projectList");
+            // }
+            // creates projects
+            writeJson(currentPath, projectList, projectList.get(0).getId() + "");
+            writeTxt(currentPath, projectList, projectList.get(0).getId() + "");
+
+            ArrayList<Integer> formerProjectList = new ArrayList<Integer>();
+            Scanner inputFromFormerProjectList = new Scanner(new File("/Users/weiyoud/Perforce/weiyoud_sea-weiyoud_4033/Playpen/QIC2/null6031.txt"));
+            while (inputFromFormerProjectList.hasNextLine()) {
+                String lineFromFormerProjectList = inputFromFormerProjectList.nextLine();
+                Scanner lineScanner = new Scanner(lineFromFormerProjectList);
+                int id = lineScanner.nextInt();
+                formerProjectList.add(id);
+            }
+
+            System.out.println("Ok before processing projects");
+
+            for (WebData project : projectList) {
+                String projectOwnLink = "http://sonar.cobalt.com/api/resources?resource=" + project.getKey() + "&depth=2&metrics=ncloc,complexity&format=json";
+                URL projectOwnURL = new URL(projectOwnLink);
+                List<WebData> fileList = mapper.readValue(projectOwnURL, new TypeReference<List<WebData>>() {
+                });
+
+                PrintWriter writerToFile = new PrintWriter(currentPath + project.getId() + ".txt");
+                PrintWriter writerToFileHistory = new PrintWriter(currentPath + project.getId() + "History.txt");
+                for (WebData file : fileList) {
+                    // fileList.add(file);
+                    // System.out.println(file.getId());
+                    ArrayList<Integer> idList = new ArrayList<Integer>();
+                    Scanner input = new Scanner(new File("Archives/projectList/" + file.getId() + ".txt"));
+                    while (input.hasNextLine()) {
+                        String line = input.nextLine();
+                        Scanner lineScanner = new Scanner(line);
+                        int id = lineScanner.nextInt();
+                        idList.add(id);
+                    }
+                    if (!idList.contains(file.getId())) {
+                        System.out.println(file.getId());
+                        writerToFile.println(file.getId() + "\t" + file.getKey() + "\t" + file.getName() + "\t" + file.getScope()
+                                        + "\t" + file.getQualifier());
+                        writerToFileHistory.print(file.getId() + "\t" + file.getDate());
+                        if (file.getMsr() == null) {
+                            writerToFileHistory.println("\t-1.0 \t -1.0");
+                        } else {
+                            writerToFileHistory.println("\t" + file.getMsr().get(0).getVal() + "\t" + file.getMsr().get(1).getVal());
+                        }
+                    } else {
+                        writerToFileHistory.print(file.getId() + "\t" + file.getDate());
+                        if (file.getMsr() == null) {
+                            writerToFileHistory.println("\t-1.0 \t-1.0");
+                        } else {
+                            writerToFileHistory.println("\t" + file.getMsr().get(0).getVal() + "\t" + file.getMsr().get(1).getVal());
+                        }
+                    }
+                }
+                // writeJson(currentPath, fileList, project.getId() + "");
+                // writeTxt(currentPath, fileList, project.getId() + "");
+            }
+            return projectList;
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void downloadProjects(String projectName, ArrayList<Integer> idList, boolean... test) {
+        try {
+            String projectLink = "http://sonar.cobalt.com/api/resources?resource=com.cobalt.dap:" + projectName +
+                            "&depth=0&metrics=ncloc,complexity&format=json";
+            URL projectURL = new URL(projectLink);
+            List<WebData> projectList = mapper.readValue(projectURL, new TypeReference<List<WebData>>() {
+            });
             // makes a folder with today's date on it
             today = projectList.get(0).getDate().replace(":", "-");
             String currentPath = null;
@@ -47,22 +132,16 @@ public class Downloader {
             // } else {
             currentPath = makeFolder("Archives/", today);
             // }
-
-
-            // creates projects
-            writeJson(currentPath, projectList, projectList.get(0).getId() + "");
-            writeTxt(currentPath, projectList, projectList.get(0).getId() + "");
             currentPath = makeFolder(currentPath, projectList.get(0).getId() + "");
-
             System.out.println("WRITING FOLDERS");
             // creates directories
-            URL folderURL = new URL("http://sonar.cobalt.com/api/resources?resource=com.cobalt.dap:" + projectName + "&depth=-1&metrics=ncloc,complexity&scopes=DIR&format=json");
-            List<WebData> folderList = mapper.readValue(folderURL, new TypeReference<List<WebData>>() {});
+            URL folderURL = new URL("http://sonar.cobalt.com/api/resources?resource=com.cobalt.dap:" + projectName +
+                            "&depth=-1&metrics=ncloc,complexity&scopes=DIR&format=json");
+            List<WebData> folderList = mapper.readValue(folderURL, new TypeReference<List<WebData>>() {
+            });
             writeJson(currentPath, folderList, "folders");
             writeTxt(currentPath, folderList, "folders");
-
             System.out.println("WRITING FILES");
-
             List<WebData> fileList = new ArrayList<WebData>();
             PrintWriter writerToFileList = new PrintWriter(currentPath + "files.txt");
             PrintWriter writerToFileHistory = new PrintWriter(currentPath + "filesHistory.txt");
@@ -72,11 +151,10 @@ public class Downloader {
                                 + "&depth=1&"
                                 + "metrics=ncloc,complexity&format=json";
                 URL filesLink = new URL(currentFolder);
-                List<WebData> currentList = mapper.readValue(filesLink, new TypeReference<List<WebData>>() {});
-
+                List<WebData> currentList = mapper.readValue(filesLink, new TypeReference<List<WebData>>() {
+                });
                 // PrintWriter writerToFileList = new PrintWriter(currentPath + "files.txt");
                 // PrintWriter writerToFileHistory = new PrintWriter(currentPath + "filesHistory.txt");
-
                 for (WebData file : currentList) {
                     fileList.add(file);
                     // System.out.println(file.getId());
@@ -99,7 +177,6 @@ public class Downloader {
                         }
                     }
                 }
-
             }
             writerToFileList.close();
             writerToFileHistory.close();
