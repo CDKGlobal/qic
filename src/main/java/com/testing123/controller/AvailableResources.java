@@ -13,26 +13,12 @@ import com.testing123.vaadin.WebData;
 
 public class AvailableResources {
 	
-//	private static Calendar convertToDate(String sonarFormat) {
-//		String[] dateAndTime = sonarFormat.split("T");
-//        String[] date = dateAndTime[0].split("-");
-//        String[] time = dateAndTime[1].split("-");
-//		Calendar currentDate = new GregorianCalendar(
-//				Integer.parseInt(date[0]), Integer.parseInt(date[1]) - 1, Integer.parseInt(date[2]),
-//				Integer.parseInt(time[0]), Integer.parseInt(time[1]), Integer.parseInt(time[2]));
-//		currentDate.setTimeZone(TimeZone.getTimeZone("GMT-" + time[3]));
-//		return currentDate;
-//	}
-	
 	public static List<WebData> getDataList(ConvertDate date){
 		String stringDate = extractDate(date.getSonarFormat());
 		return getDataList(stringDate);
 	}
 	
 	public static String extractDate(String sonarFormat) {
-//		String[] dateAndTime = sonarFormat.split("T");
-//        String[] date = dateAndTime[0].split("-");
-//        return "d" + date[1] + "_" + date[2];
 		return sonarFormat.replace("-", "_");
 	}
 	
@@ -52,22 +38,25 @@ public class AvailableResources {
 		return projects;
 	}
 	
+	public static List<String> getAvailableAuthors() {
+		List<String> authors = new ArrayList<String>();
+		try {
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			Connection conn = SQLConnector.getConnection("dataList2");
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT user FROM authors ORDER BY name ASC");
+			while (rs.next()) {
+				authors.add(rs.getString(1));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return authors;
+	}
+	
 	public static List<String> getAvailableDates() {
 		List<String> dates = new ArrayList<String>();
 		try {
-//			String home = System.getProperty("user.home");
-//			String absolutePath = home
-//				+ "/Perforce/chenc_sea-chenc-m_qic/Playpen/QIC2/Archives/";
-//			File folder = new File(absolutePath);
-//			String[] names = folder.list();
-//			List<Calendar> availDates = new ArrayList<Calendar>();
-//			for(String name : names) {
-//			    if (new File(absolutePath + name).isDirectory()) {
-//			    	Calendar convertedDate = convertToDate(name);
-//			        availDates.add(convertedDate);
-//			    	dates.add(name);
-//			    }
-//			}
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			Connection conn = SQLConnector.getConnection("dataList");
 			DatabaseMetaData md = conn.getMetaData();

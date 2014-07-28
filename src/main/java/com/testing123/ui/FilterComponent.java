@@ -17,9 +17,6 @@ public class FilterComponent extends CustomComponent {
 	protected AbsoluteLayout mainLayout;
 	protected ListSelect projectFilter;
 	
-	protected static final String[] cities = new String[] { "Berlin", "Brussels",
-        "Helsinki", "Madrid", "Oslo", "Paris", "Stockholm" };
-	
 	public FilterComponent() {
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
@@ -32,9 +29,9 @@ public class FilterComponent extends CustomComponent {
         projectFilter = createListSelect("projects", projectOptions);
         mainLayout.addComponent(projectFilter, "top: 50px; left: 20px;");
         
-        //List<String> authorOptions = AvailableResrounces.getAvail
+        List<String> authorOptions = AvailableResources.getAvailableAuthors();
         
-		TwinColSelect authorsFilter = createTwinColSelect(Arrays.asList(cities));
+		TwinColSelect authorsFilter = createTwinColSelect(authorOptions);
 		mainLayout.addComponent(authorsFilter, "top: 220px; left: 20px;");
 		
 		return mainLayout;
@@ -42,8 +39,8 @@ public class FilterComponent extends CustomComponent {
 	
 	private TwinColSelect createTwinColSelect(List<String> options) {
 		TwinColSelect filter = new TwinColSelect();
-		for (int i = 0; i < cities.length; i++) {
-            filter.addItem(cities[i]);
+		for (String author : options) {
+            filter.addItem(author);
         }
         filter.setRows(7);
         filter.setNullSelectionAllowed(true);
