@@ -36,7 +36,7 @@ public class GetData implements Retrievable {
 			yMap = query.getComplexity(endDate);
 
 		} else if (xAxis.equals(Axis.DELTA_LINESOFCODE)) {
-			xMap = query.getChurn(startDate, endDate);
+			xMap = query.getChurn(startDate, endDate, "Platform");
 			yMap = query.getComplexity(endDate);
 
 		} else if (xAxis.equals(Axis.LINESOFCODE)) {
@@ -73,7 +73,7 @@ public class GetData implements Retrievable {
 
 
 	private Set<DataPoint> addAuthorsToDataSet(Set<DataPoint> dataSet) {
-		Map<String, List<String>> authors = query.getAuthors(state.getStart(), state.getEnd(), state.getAuthorsFilter());
+		Map<String, List<String>> authors = query.getAuthors(state.getStart(), state.getEnd(), state.getAuthorsFilter(), "Platform");
 		Set<DataPoint> filteredDataSet = new HashSet<DataPoint>();
 		for(DataPoint point : dataSet){
 			String pathName = point.getKey();
@@ -84,19 +84,4 @@ public class GetData implements Retrievable {
 		}
 		return filteredDataSet;
 	}
-
-
-	
-	/**
-	private Set<DataPoint> useTolerances(Set<DataPoint> dataSet){
-		
-		Iterator<DataPoint> iter = s.iterator();
-		while (iter.hasNext()){
-			DataPoint point = iter.next();
-			if(point.getLineOfCode()<xTolerance || point.getComplexity() < yTolerance){
-				iter.remove();
-			}
-		}**/
-	
-
 }
