@@ -54,7 +54,7 @@ public class MockQueryable implements Queryable {
 	}
 
 	@Override
-	public Map<String, Double> getChurn(ConvertDate startDate, ConvertDate endDate) {
+	public Map<String, Double> getChurn(String s, ConvertDate startDate, ConvertDate endDate, String p) {
 		return churn;
 	}
 
@@ -74,7 +74,7 @@ public class MockQueryable implements Queryable {
 	}
 
 	@Override
-	public Map<String, List<String>> getAuthors(ConvertDate startDate, ConvertDate endDate, Set<String> setOAuthorNames) {
+	public Map<String, List<String>> getAuthors(String s, ConvertDate startDate, ConvertDate endDate, Set<String> setOAuthorNames, String p) {
 		return authors;
 	}
 
