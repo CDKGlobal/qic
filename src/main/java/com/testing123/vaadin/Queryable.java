@@ -6,7 +6,7 @@ import java.util.Set;
 
 public interface Queryable {
 	
-	public Map<String, Double> getChurn(ConvertDate startDate, ConvertDate endDate, String project);
+	public Map<String, Double> getChurn(String repository, ConvertDate startDate, ConvertDate endDate, String project);
 	
 	public Map<String, Double> getComplexity(ConvertDate date);
 	
@@ -14,6 +14,6 @@ public interface Queryable {
 	
 	public Map<String, Double> getDeltaComplexity(ConvertDate startDate, ConvertDate endDate);
 	
-	public Map<String, List<String>> getAuthors(ConvertDate startDate, ConvertDate endDate, Set<String> setOAuthorNames, String project);
+	public Map<String, List<String>> getAuthors(String repository, ConvertDate startDate, ConvertDate endDate, Set<String> setOAuthorNames, String project);
 
 }

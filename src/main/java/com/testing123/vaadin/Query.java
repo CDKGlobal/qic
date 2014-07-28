@@ -8,8 +8,8 @@ import java.util.Set;
 public class Query implements Queryable {
 
 	@Override
-	public Map<String, Double> getChurn(ConvertDate startDate, ConvertDate endDate, String project) {
-		URL url = new FisheyeQuery("Advertising.Perforce", startDate, endDate).getChurnURL(project);
+	public Map<String, Double> getChurn(String repository, ConvertDate startDate, ConvertDate endDate, String project) {
+		URL url = new FisheyeQuery(repository, startDate, endDate).getChurnURL(project);
 		FisheyeData querriedData = new QueryFisheye().getJSONFromFisheye(url);
 		return new QueryFisheye().getChurnData(querriedData);
 	}
@@ -30,8 +30,8 @@ public class Query implements Queryable {
 	}
 
 	@Override
-	public Map<String, List<String>> getAuthors(ConvertDate startDate, ConvertDate endDate, Set<String> setOfAuthorNames, String project) {
-		URL url = new FisheyeQuery("Advertising.Perforce", startDate, endDate).getAuthorsURL(project, setOfAuthorNames);
+	public Map<String, List<String>> getAuthors(String repository, ConvertDate startDate, ConvertDate endDate, Set<String> setOfAuthorNames, String project) {
+		URL url = new FisheyeQuery(repository, startDate, endDate).getAuthorsURL(project, setOfAuthorNames);
 		FisheyeData querriedData = new QueryFisheye().getJSONFromFisheye(url);
 		return new QueryFisheye().getAuthorData(querriedData);
 	}

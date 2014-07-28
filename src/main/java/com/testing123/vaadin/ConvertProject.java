@@ -21,8 +21,4 @@ public class ConvertProject {
 	public String getKey() {
 		return key;
 	}
-	
-	public String getRepository(){
-		return name.split("/")[0];
-	}
 }

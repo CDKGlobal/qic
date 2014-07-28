@@ -1,5 +1,6 @@
 package com.testing123.vaadin;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -12,9 +13,17 @@ public class GetData implements Retrievable {
 
 	private UIState state;
 	private Queryable query;
+	
+	private Set<String> repositories = new HashSet<String>();
+
 
 	public GetData(Queryable queryInterface) {
 		this.query = queryInterface;
+		repositories.addAll( Arrays.asList(new 	String[] {
+				"Advertising.Perforce", "Core.Perforce", "Intelligence.Perforce",
+				"OpenPlatform.Perforce", "Owner.Perforce",
+				"ProfessionalServices.Perforce", "ReleaseEngineering.Perforce",
+				"Social.Perforce" }));
 	}
 	
 	/**
@@ -36,7 +45,7 @@ public class GetData implements Retrievable {
 			yMap = query.getComplexity(endDate);
 
 		} else if (xAxis.equals(Axis.DELTA_LINESOFCODE)) {
-			xMap = query.getChurn(startDate, endDate, "Platform");
+			xMap = query.getChurn("Advertising.Perforce", startDate, endDate, "Platform");
 			yMap = query.getComplexity(endDate);
 
 		} else if (xAxis.equals(Axis.LINESOFCODE)) {
@@ -73,7 +82,7 @@ public class GetData implements Retrievable {
 
 
 	private Set<DataPoint> addAuthorsToDataSet(Set<DataPoint> dataSet) {
-		Map<String, List<String>> authors = query.getAuthors(state.getStart(), state.getEnd(), state.getAuthorsFilter(), "Platform");
+		Map<String, List<String>> authors = query.getAuthors("Advertising.Perforce", state.getStart(), state.getEnd(), state.getAuthorsFilter(), "Platform");
 		Set<DataPoint> filteredDataSet = new HashSet<DataPoint>();
 		for(DataPoint point : dataSet){
 			String pathName = point.getKey();
@@ -83,5 +92,15 @@ public class GetData implements Retrievable {
 			}
 		}
 		return filteredDataSet;
+	}
+	
+	private String getRepository(ConvertProject project){
+		String name = project.getName();
+		String repo = name.split("/")[0] + ".Perforce";
+		if(repositories.contains(repo)){
+			return repo;
+		}else{
+			return "Advertising.Perforce";
+		}
 	}
 }
