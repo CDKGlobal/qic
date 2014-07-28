@@ -1,12 +1,11 @@
 package com.testing123.ui;
 
-import com.testing123.controller.SQLConnector;
 import com.testing123.vaadin.ConvertDate;
 
 public class Preferences {
 	
 	public static final String DB_SERVER = "mysql://dc2pvpdc00059.vcac.dc2.dsghost.net:3306";
-	public static final String DB_USER = SQLConnector.getUser();
+	public static final String DB_USER = "root";
 	public static final String DB_PASS = "password";
 	public static final String DB_NAME = "dataList";
 

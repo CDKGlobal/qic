@@ -89,7 +89,6 @@ public class NavigationComponent extends CustomComponent {
 			public void valueChange(ValueChangeEvent event) {
 				state.setX((Axis) xAxisComboBox.getValue());
 				if (state.getX() == Axis.LINESOFCODE) {
-					System.out.println("disabled!");
 					startComboBox.setEnabled(false);
 				} else {
 					startComboBox.setEnabled(true);
