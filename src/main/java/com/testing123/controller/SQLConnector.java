@@ -8,14 +8,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.testing123.ui.Preferences;
 import com.testing123.vaadin.Msr;
 import com.testing123.vaadin.WebData;
 
 public class SQLConnector {
-	public static final String DB_SERVER = "mysql://dc2pvpdc00059.vcac.dc2.dsghost.net:3306";
-	public static final String DB_USER = getUser();
-	public static final String DB_PASS = "password";
-	public static final String DB_NAME = "dataList";
 	
 	public static ResultSet basicQuery(String query) {
 		return querySQL(query);
@@ -29,7 +26,7 @@ public class SQLConnector {
         Connection conn = null;
 		try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
-            conn = getConnection(DB_NAME);
+            conn = getConnection(Preferences.DB_NAME);
             return execute(conn, query);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -40,7 +37,8 @@ public class SQLConnector {
     public static Connection getConnection(String dbName) {
         try {
             Connection conn = 
-            		DriverManager.getConnection("jdbc:" + SQLConnector.DB_SERVER + "/" + dbName + "?user=" + DB_USER + "&password=" + DB_PASS);
+            		DriverManager.getConnection("jdbc:" + Preferences.DB_SERVER + "/" + dbName 
+            				+ "?user=" + Preferences.DB_USER + "&password=" + Preferences.DB_PASS);
             return conn;
         } catch (SQLException ex) {
         	System.out.println("Could not make Connection:");
@@ -91,7 +89,7 @@ public class SQLConnector {
 		return null;
 	}
 	
-	private static String getUser() {
+	public static String getUser() {
     	String home = System.getProperty("user.home").replace("/Users/", "");
     	return home;
 	}

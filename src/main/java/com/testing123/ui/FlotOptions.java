@@ -25,10 +25,10 @@ public class FlotOptions {
 			"points: { " +
 				"show: true, " + 
 				"fill: true, " + 
-				"fillColor: \"#033F8D\"" +
+				"fillColor: \"" + Preferences.FILL_COLOR + "\"" +
 			"} " + 
 		"}, " +		
-		"colors : [\"#033F8D\", \"#033F8D\"]," +
+		"colors : [\"" + Preferences.GRPAH_COLOR + "\", \"" + Preferences.GRPAH_COLOR + "\"]," +
 		"yaxis : {" + 
 	        "show : true," + 
 	        "axisLabel : \'" + yaxis.toString() + "\'," + 

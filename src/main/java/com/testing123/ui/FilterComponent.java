@@ -39,7 +39,7 @@ public class FilterComponent extends CustomComponent {
 		for (String author : options) {
             filter.addItem(author);
         }
-        filter.setRows(7);
+        filter.setRows(14);
         filter.setNullSelectionAllowed(true);
         filter.setMultiSelect(true);
         filter.setImmediate(true);

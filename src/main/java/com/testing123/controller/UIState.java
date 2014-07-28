@@ -6,13 +6,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.testing123.ui.Preferences;
 import com.testing123.vaadin.ConvertDate;
 import com.testing123.vaadin.ConvertProject;
 
 public class UIState {
-	public static final ConvertDate DEFAULT_START_DATE = new ConvertDate("2014-07-15T06-07-55-0700");
-	public static final ConvertDate DEFAULT_END_DATE = new ConvertDate("2014-07-21T06-07-35-0700");
-
 	
 	private ConvertDate start;
 	private ConvertDate end;
@@ -22,7 +20,7 @@ public class UIState {
 	private Set<String> authors;
 	
 	public UIState() {
-		this(DEFAULT_START_DATE, DEFAULT_END_DATE, Axis.DELTA_LINESOFCODE);
+		this(Preferences.DEFAULT_START_DATE, Preferences.DEFAULT_END_DATE, Axis.DELTA_LINESOFCODE);
 	}
 	
 	public UIState(ConvertDate start, ConvertDate end, Axis x) {

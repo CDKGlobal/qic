@@ -14,22 +14,18 @@ import java.util.Set;
 import org.joda.time.DateTime;
 
 import com.testing123.controller.SQLConnector;
+import com.testing123.ui.Preferences;
 
 public class DownloadAuthors {
-	private static String[] repositories = new String[] {
-			"Advertising.Perforce", "Core.Perforce", "Intelligence.Perforce",
-			"OpenPlatform.Perforce", "Owner.Perforce",
-			"ProfessionalServices.Perforce", "ReleaseEngineering.Perforce",
-			"Social.Perforce" };
 
 	public static void main(String[] args) {
 		addAuthors();
 	}
-
+	
 	private static void addAuthors() {
 		Set<String> all = new HashSet<String>();
 		int k = 0;
-		for (String repository : repositories) {
+		for (String repository : Preferences.FISHEYE_REPOS) {
 			String home = "http://fisheye.cobalt.com/search/";
 			String link = home + repository + "/?ql=" + getQuery();
 			link = link.replaceAll("\\s+", "%20");
