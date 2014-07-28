@@ -9,6 +9,7 @@ import java.util.Set;
 
 import com.testing123.controller.UIState;
 import com.testing123.controller.UIState.Axis;
+import com.testing123.ui.Preferences;
 
 public class GetData implements Retrievable {
 
@@ -19,9 +20,7 @@ public class GetData implements Retrievable {
 
 	public GetData(Queryable queryInterface) {
 		this.query = queryInterface;
-		repositories.addAll(Arrays.asList(new String[] { "Advertising.Perforce", "Core.Perforce", "Intelligence.Perforce",
-				"OpenPlatform.Perforce", "Owner.Perforce", "ProfessionalServices.Perforce", "ReleaseEngineering.Perforce",
-				"Social.Perforce" }));
+		repositories.addAll(Arrays.asList(Preferences.FISHEYE_REPOS));
 	}
 
 	/**
@@ -48,14 +47,14 @@ public class GetData implements Retrievable {
 			yMap = query.getComplexity(endDate);
 
 		} else if (xAxis.equals(Axis.LINESOFCODE)) {
-			xMap = query.getNCLOC(startDate);
-			yMap = query.getComplexity(startDate);
+			xMap = query.getNCLOC(endDate);
+			yMap = query.getComplexity(endDate);
 			authorsRequired = false;
 		} else {
 			return new HashSet<DataPoint>();
 		}
 		Set<DataPoint> dataSet = aggregator(xMap, yMap);
-		System.out.println("dataSet sixe = " + dataSet.size());
+		System.out.println("dataSet size = " + dataSet.size());
 		if (authorsRequired)
 			dataSet = addAuthorsToDataSet(dataSet);
 

@@ -115,7 +115,6 @@ public class QicUI extends UI {
 		layout.addComponent(l2, 1, 0);
 		
 		NavigationComponent nav = new NavigationComponent(layout, new UIState());
-		Button godButton = nav.buildNavigationLayout();
 		layout.addComponent(nav, 1, 2);
 	}
 }

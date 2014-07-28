@@ -11,6 +11,8 @@ import com.testing123.vaadin.ConvertDate;
 import com.testing123.vaadin.ConvertProject;
 
 public class UIState {
+	public static final ConvertDate DEFAULT_START_DATE = new ConvertDate("2014-07-15T06-07-55-0700");
+	public static final ConvertDate DEFAULT_END_DATE = new ConvertDate("2014-07-21T06-07-35-0700");
 	
 	private ConvertDate start;
 	private ConvertDate end;
@@ -38,7 +40,7 @@ public class UIState {
 	}
 
 	public UIState() {
-		this(Preferences.DEFAULT_START_DATE, Preferences.DEFAULT_END_DATE, Axis.DELTA_LINESOFCODE);
+		this(DEFAULT_START_DATE, DEFAULT_END_DATE, Axis.DELTA_LINESOFCODE);
 	}
 	
 	public UIState(ConvertDate start, ConvertDate end, Axis x) {
@@ -105,8 +107,6 @@ public class UIState {
 		System.out.println("XAxis: " + x);
 		System.out.println("Projects: " + projects);
 		System.out.println("Authors: " + authors);
-		System.out.println("minX = " + minX);
-		System.out.println("minY = " + minY);
 	}
 	
 	public enum Axis {

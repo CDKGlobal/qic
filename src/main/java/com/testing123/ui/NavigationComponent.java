@@ -1,6 +1,5 @@
 package com.testing123.ui;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -29,6 +28,8 @@ import com.vaadin.ui.Notification;
 public class NavigationComponent extends CustomComponent {
 	private FilterComponent  filter;
 	private AbsoluteLayout navLayout;
+	private ComboBox startComboBox;
+	private ComboBox endComboBox;
 	private Button button_1;
 	private GridLayout layout;
 	private Label errorLabel;
@@ -87,6 +88,12 @@ public class NavigationComponent extends CustomComponent {
 			@Override
 			public void valueChange(ValueChangeEvent event) {
 				state.setX((Axis) xAxisComboBox.getValue());
+//				if (state.getX() == Axis.LINESOFCODE) {
+//					System.out.println("disabled!");
+//					startComboBox.setEnabled(false);
+//				} else {
+//					startComboBox.setEnabled(true);
+//				}
 				fireChangeAction();
 			}
 		});
@@ -95,13 +102,13 @@ public class NavigationComponent extends CustomComponent {
 		List<ConvertDate> dateOptions = AvailableResources.getAvailableDates();
 		
 		// start date combo box
-	    final ComboBox startComboBox = createDateComboBox(dateOptions, "Start Date");
-	    startComboBox.setValue(state.getStart());
+	    startComboBox = createDateComboBox(dateOptions, "Start Date");
+	    startComboBox.select(state.getStart());
 		navLayout.addComponent(startComboBox, "top:" + DATE_GRANULARITY_OFFSET +";");
 		
 		// end date combo box
-		final ComboBox endComboBox = createDateComboBox(dateOptions, "End Date");
-		endComboBox.setValue(state.getEnd());
+		endComboBox = createDateComboBox(dateOptions, "End Date");
+		endComboBox.select(state.getEnd());
 		navLayout.addComponent(endComboBox, "top:" + DATE_GRANULARITY_OFFSET + ";left:220.0px;");
 		
 		// go button
@@ -128,7 +135,6 @@ public class NavigationComponent extends CustomComponent {
 					navLayout.addComponent(errorLabel, "top:" + DATE_GRANULARITY_OFFSET + "; left:510.0px;");
 					return;
 				}
-				
 				state.setProjects((Set<ConvertProject>) filter.projectFilter.getValue());
 				state.setAuthorsFilter((Set<String>) filter.authorsFilter.getValue()); 
 				state.setStart(startDate);

@@ -9,9 +9,9 @@ public class Preferences {
 	public static final String DB_USER = SQLConnector.getUser();
 	public static final String DB_PASS = "password";
 	public static final String DB_NAME = "dataList";
-	
-	public static final ConvertDate DEFAULT_START_DATE = new ConvertDate("2014-07-15T06-07-55-0700");
-	public static final ConvertDate DEFAULT_END_DATE = new ConvertDate("2014-07-21T06-07-35-0700");
+
+	// Set Default Start Date in UIState
+	// Set Default End Date in UIState
 	
 	public static final String GRPAH_COLOR = "#033F8D";
 	public static final String FILL_COLOR = "#033F8D";
