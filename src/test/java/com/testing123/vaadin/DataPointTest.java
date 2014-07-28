@@ -60,7 +60,7 @@ public class DataPointTest {
 		data.setKey("boy");
 		data.setXValue(500);
 		data.setYValue(100);
-		assertEquals("[500.0, 100.0, \"boy\", \"Authors: \"]", data.toString());
+		assertEquals("[500.0, 100.0, \"boy\", \"\"]", data.toString());
 	}
 
 	@Test
@@ -86,7 +86,7 @@ public class DataPointTest {
 		set.add(new DataPoint("NotString", 11.0, 18.5));
 		set.add(new DataPoint("NotString", 11.0, 20));
 		assertEquals(
-				"[[12.0, 18.5, \"AString\", \"Authors: \"], [11.0, 18.5, \"NotString\", \"Authors: \"], [11.0, 20.0, \"NotString\", \"Authors: \"], [12.0, 18.5, \"NotString\", \"Authors: \"]]",
+				"[[12.0, 18.5, \"AString\", \"\"], [11.0, 18.5, \"NotString\", \"\"], [11.0, 20.0, \"NotString\", \"\"], [12.0, 18.5, \"NotString\", \"\"]]",
 				set.toString());
 	}
 	
