@@ -24,14 +24,14 @@ public class FisheyeQueryTest {
 	public void TestSimpleChurnQuery() throws MalformedURLException {
 		assertEquals(
 				new URL("http://fisheye.cobalt.com/rest-service-fe/search-v1/queryAsRows/Advertising.Perforce.json?query=select%20revisions%20where%20date%20in%20[2014-07-07T07:00:00,2014-07-10T07:00:00]%20and%20path%20like%20/Platform/trunk/src/main/**%20and%20path%20like%20*.java%20group%20by%20file%20return%20path,%20sum(linesAdded),%20sum(linesRemoved),%20count(isDeleted)"),
-				query.getChurnURL());
+				query.getChurnURL("Platform"));
 	}
 	
 	@Test
 	public void TestSimpleAuthorsQuery() throws MalformedURLException {
 		assertEquals(
 				new URL("http://fisheye.cobalt.com/rest-service-fe/search-v1/queryAsRows/Advertising.Perforce.json?query=select%20revisions%20where%20date%20in%20[2014-07-07T07:00:00,2014-07-10T07:00:00]%20and%20path%20like%20/Platform/trunk/src/main/**%20and%20path%20like%20*.java%20group%20by%20file%20return%20path,%20author,%20isDeleted"),
-				query.getAuthorsURL(new HashSet<String>()));
+				query.getAuthorsURL("Platform",new HashSet<String>()));
 	}
 
 
