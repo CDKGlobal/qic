@@ -88,6 +88,7 @@ public class UIState {
 		System.out.println("End Date: " + end.toString());
 		System.out.println("XAxis: " + x);
 		System.out.println("Projects: " + projects);
+		System.out.println("Authors: " + authors);
 	}
 	
 	public enum Axis {
