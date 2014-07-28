@@ -18,11 +18,6 @@ public class DownloaderTest {
 		File folder = new File("Tester");
 		folder.mkdir();
 	}
-
-	@Test
-	public void TestDownloadProjects() {
-		dl.downloadProjects("platform", true);
-	}
 	
 	@AfterClass
 	public static void cleanUpAfterClass() throws Exception {
