@@ -40,7 +40,8 @@ public class DownloadAuthors {
 		        URLConnection urlConn = url.openConnection();
 		        InputStreamReader inStream = new InputStreamReader(urlConn.getInputStream());
 		        BufferedReader buff= new BufferedReader(inStream);
-		        String content = buff.readLine();
+		        String junk = buff.readLine();
+		        String content = buff.readLine();		        
 		        while (content != null){
 		        	all.add(content);
 		            System.out.println(content);

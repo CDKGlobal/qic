@@ -20,7 +20,7 @@ public class ConvertDate implements Comparable<ConvertDate> {
 		int minute = Integer.parseInt(sonarFormat.substring(14, 16));
 		int second = Integer.parseInt(sonarFormat.substring(17, 19));
 		String timeZone = "GMT" + sonarFormat.substring(19);
-		Calendar currentDate = new GregorianCalendar( year, month, day, hour, minute, second);
+		Calendar currentDate = new GregorianCalendar(year, month, day, hour, minute, second);
 		currentDate.setTimeZone(TimeZone.getTimeZone(timeZone));
 		this.currentDate = currentDate;
 		checkRep();
@@ -42,6 +42,7 @@ public class ConvertDate implements Comparable<ConvertDate> {
 	}
 	
 	private void checkRep() {
+		verify();
 		if (adjustedSonarFormat.contains(":")) {
 			System.out.println(adjustedSonarFormat);
 			throw new IllegalStateException("Sonar Format not valid");
@@ -51,6 +52,30 @@ public class ConvertDate implements Comparable<ConvertDate> {
 	public String toString() {
 		checkRep();
 		return currentDate.getTime().toString();
+	}
+
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime
+				* result
+				+ ((adjustedSonarFormat == null) ? 0 : adjustedSonarFormat
+						.hashCode());
+		result = prime * result
+				+ ((currentDate == null) ? 0 : currentDate.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (!(o instanceof ConvertDate)) {
+			return false;
+		}
+		ConvertDate other = (ConvertDate) o;
+		return getSonarFormat().equals(other.getSonarFormat()) && toString().equals(other.toString());
 	}
 
 	@Override

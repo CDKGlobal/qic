@@ -68,7 +68,7 @@ public class MainComponent extends CustomComponent {
 		absoluteLayout_2.setWidth(PANEL_WIDTH);
 		absoluteLayout_2.setHeight(PANEL_HEIGHT);
 		
-		Label graphName = new Label("<b>Platform Project</b>", ContentMode.HTML);
+		Label graphName = new Label("<b>" + state.getY() + " vs " + state.getX() + "</b>", ContentMode.HTML);
 		graphName.setStyleName("h2");
 		absoluteLayout_2.addComponent(graphName);
 		Label dateRange = new Label(state.getStart()

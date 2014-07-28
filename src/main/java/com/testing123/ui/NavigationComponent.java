@@ -92,14 +92,16 @@ public class NavigationComponent extends CustomComponent {
 		});
 		
 		// gets all the available dates that can be queried
-		List<String> dateOptions = AvailableResources.getAvailableDates();
+		List<ConvertDate> dateOptions = AvailableResources.getAvailableDates();
 		
 		// start date combo box
 	    final ComboBox startComboBox = createDateComboBox(dateOptions, "Start Date");
+	    startComboBox.setValue(state.getStart());
 		navLayout.addComponent(startComboBox, "top:" + DATE_GRANULARITY_OFFSET +";");
 		
 		// end date combo box
 		final ComboBox endComboBox = createDateComboBox(dateOptions, "End Date");
+		endComboBox.setValue(state.getEnd());
 		navLayout.addComponent(endComboBox, "top:" + DATE_GRANULARITY_OFFSET + ";left:220.0px;");
 		
 		// go button
@@ -128,8 +130,7 @@ public class NavigationComponent extends CustomComponent {
 				}
 				
 				state.setProjects((Set<ConvertProject>) filter.projectFilter.getValue());
-				state.setAuthorsFilter((Set<String>) filter.projectFilter.getValue()); 
-				state.setAuthorsFilter(new HashSet<String>());
+				state.setAuthorsFilter((Set<String>) filter.authorsFilter.getValue()); 
 				state.setStart(startDate);
 				state.setEnd(endDate);
 				fireChangeAction();
@@ -141,8 +142,7 @@ public class NavigationComponent extends CustomComponent {
 						startDate.getSonarFormat().compareTo(endDate.getSonarFormat()) > 0;
 			}
 		});
-		navLayout.addComponent(button_1, "top:" + DATE_GRANULARITY_OFFSET + ";left:440.0px;");
-		
+		navLayout.addComponent(button_1, "top:" + DATE_GRANULARITY_OFFSET + "; left:440.0px;");
 		return button_1;
 	}
 
@@ -167,12 +167,11 @@ public class NavigationComponent extends CustomComponent {
 		return box;
 	}
 	
-	private ComboBox createDateComboBox(List<String> options, String tag) {
-		ComboBox box = createComboBoxWithLabel(tag, false);
+	private ComboBox createDateComboBox(List<ConvertDate> options, String tag) {
+		ComboBox box = createComboBoxWithLabel(tag, true);
 		for (int i = options.size() - 3; i >= 0; i--) {
-			box.addItem(new ConvertDate(options.get(i)));
+			box.addItem(options.get(i));
 		}
-		//box.select(new ConvertDate(options.get(0)));
 		return box;
 	}
 

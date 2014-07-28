@@ -7,6 +7,7 @@ import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+import com.testing123.vaadin.ConvertDate;
 import com.testing123.vaadin.ConvertProject;
 import com.testing123.vaadin.WebData;
 
@@ -68,8 +69,8 @@ public class AvailableResources {
 	 * 
 	 * @return a list of all the available dates that have been stored in the database
 	 */
-	public static List<String> getAvailableDates() {
-		List<String> dates = new ArrayList<String>();
+	public static List<ConvertDate> getAvailableDates() {
+		List<ConvertDate> dates = new ArrayList<ConvertDate>();
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			Connection conn = SQLConnector.getConnection("dataList");
@@ -80,7 +81,7 @@ public class AvailableResources {
 				Statement stmt = conn.createStatement();
 				ResultSet rs1 = stmt.executeQuery("SELECT * FROM " + date + " LIMIT 1;");
 				if (rs1.next()) {
-					dates.add(rs1.getString("date"));
+					dates.add(new ConvertDate(rs1.getString("date")));
 				}
 			}
 		} catch (Exception e) {

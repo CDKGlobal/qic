@@ -22,4 +22,13 @@ public class ConvertDateTest {
 	public void TestToStringReturnsReadableFormat() {
 		assertEquals("Mon Jul 07 06:09:17 PDT 2014", date.toString());
 	}
+	
+	@Test
+	public void TestEqualsWithSameDateRepresentation() {
+		ConvertDate date1 = new ConvertDate("2014-07-07T06-09-17-0700");
+		ConvertDate date2 = new ConvertDate("2014-07-07T06:09:17-0700");
+		assertEquals(date1.toString(), date2.toString());
+		assertEquals(date1.getSonarFormat(), date2.getSonarFormat());
+		assertTrue(date1.equals(date2));
+	}
 }

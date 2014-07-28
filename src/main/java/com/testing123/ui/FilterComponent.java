@@ -12,6 +12,7 @@ import com.vaadin.ui.TwinColSelect;
 public class FilterComponent extends CustomComponent {
 	protected AbsoluteLayout mainLayout;
 	protected ListSelect projectFilter;
+	protected TwinColSelect authorsFilter;
 	
 	public FilterComponent() {
 		buildMainLayout();
@@ -27,7 +28,7 @@ public class FilterComponent extends CustomComponent {
         
         List<String> authorOptions = AvailableResources.getAvailableAuthors();
         
-		TwinColSelect authorsFilter = createTwinColSelect(authorOptions);
+		authorsFilter = createTwinColSelect(authorOptions);
 		mainLayout.addComponent(authorsFilter, "top: 220px; left: 20px;");
 		
 		return mainLayout;
