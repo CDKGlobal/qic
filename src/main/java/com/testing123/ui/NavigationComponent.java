@@ -88,12 +88,12 @@ public class NavigationComponent extends CustomComponent {
 			@Override
 			public void valueChange(ValueChangeEvent event) {
 				state.setX((Axis) xAxisComboBox.getValue());
-//				if (state.getX() == Axis.LINESOFCODE) {
-//					System.out.println("disabled!");
-//					startComboBox.setEnabled(false);
-//				} else {
-//					startComboBox.setEnabled(true);
-//				}
+				if (state.getX() == Axis.LINESOFCODE) {
+					System.out.println("disabled!");
+					startComboBox.setEnabled(false);
+				} else {
+					startComboBox.setEnabled(true);
+				}
 				fireChangeAction();
 			}
 		});

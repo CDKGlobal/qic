@@ -11,8 +11,8 @@ import com.testing123.vaadin.ConvertDate;
 import com.testing123.vaadin.ConvertProject;
 
 public class UIState {
-	public static final ConvertDate DEFAULT_START_DATE = new ConvertDate("2014-07-15T06-07-55-0700");
-	public static final ConvertDate DEFAULT_END_DATE = new ConvertDate("2014-07-21T06-07-35-0700");
+	public static ConvertDate default_start = Preferences.DEFAULT_START_DATE;
+	public static ConvertDate default_end = Preferences.DEFAULT_END_DATE;
 	
 	private ConvertDate start;
 	private ConvertDate end;
@@ -22,25 +22,9 @@ public class UIState {
 	private Set<String> authors;
 	private int minX;
 	private int minY;
-	
-	public int getMinX() {
-		return minX;
-	}
-
-	public void setMinX(int minX) {
-		this.minX = minX;
-	}
-
-	public int getMinY() {
-		return minY;
-	}
-
-	public void setMinY(int minY) {
-		this.minY = minY;
-	}
 
 	public UIState() {
-		this(DEFAULT_START_DATE, DEFAULT_END_DATE, Axis.DELTA_LINESOFCODE);
+		this(default_start, default_end, Axis.DELTA_LINESOFCODE);
 	}
 	
 	public UIState(ConvertDate start, ConvertDate end, Axis x) {
@@ -98,6 +82,22 @@ public class UIState {
 	
 	public void setAuthorsFilter(Set<String> authors) {
 		this.authors = authors;
+	}
+	
+	public int getMinX() {
+		return minX;
+	}
+
+	public void setMinX(int minX) {
+		this.minX = minX;
+	}
+
+	public int getMinY() {
+		return minY;
+	}
+
+	public void setMinY(int minY) {
+		this.minY = minY;
 	}
 	
 	public void verifyState() {
