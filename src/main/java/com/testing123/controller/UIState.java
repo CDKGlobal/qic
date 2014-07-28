@@ -18,7 +18,25 @@ public class UIState {
 	private Axis y;
 	private Set<ConvertProject> projects;
 	private Set<String> authors;
+	private int minX;
+	private int minY;
 	
+	public int getMinX() {
+		return minX;
+	}
+
+	public void setMinX(int minX) {
+		this.minX = minX;
+	}
+
+	public int getMinY() {
+		return minY;
+	}
+
+	public void setMinY(int minY) {
+		this.minY = minY;
+	}
+
 	public UIState() {
 		this(Preferences.DEFAULT_START_DATE, Preferences.DEFAULT_END_DATE, Axis.DELTA_LINESOFCODE);
 	}
@@ -87,6 +105,8 @@ public class UIState {
 		System.out.println("XAxis: " + x);
 		System.out.println("Projects: " + projects);
 		System.out.println("Authors: " + authors);
+		System.out.println("minX = " + minX);
+		System.out.println("minY = " + minY);
 	}
 	
 	public enum Axis {
