@@ -18,16 +18,16 @@ public class FisheyeQuery {
 		returns = "";
 	}
 	
-	public URL getAuthorsURL(Set<String> setOfAuthorNames){
-		getAuthorsState();
+	public URL getAuthorsURL(String project, Set<String> setOfAuthorNames){
+		getAuthorsState(project);
 		if(!setOfAuthorNames.isEmpty()){
 			addAuthorFilter(setOfAuthorNames);
 		}
 		return getURL(getString());
 	}
 	
-	public URL getChurnURL(){
-		inProject("Platform");
+	public URL getChurnURL(String project){
+		inProject(project);
 		onlyJava();
 		addReturn("path");
 		addReturn("sum(linesAdded)");
@@ -37,8 +37,8 @@ public class FisheyeQuery {
 		return getURL(link);
 	}
 	
-	private void getAuthorsState(){
-		inProject("Platform");
+	private void getAuthorsState(String project){
+		inProject(project);
 		onlyJava();
 		addReturn("path");
 		addReturn("author");
