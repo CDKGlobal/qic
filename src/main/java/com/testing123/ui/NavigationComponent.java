@@ -24,7 +24,6 @@ import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.JavaScript;
 import com.vaadin.ui.JavaScriptFunction;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.ListSelect;
 import com.vaadin.ui.Notification;
 
 public class NavigationComponent extends CustomComponent {
@@ -66,6 +65,10 @@ public class NavigationComponent extends CustomComponent {
 		layout.addComponent(filter, 2, 1);
 	}
 	
+	/**
+	 * Fires the event that will repaint the graph
+	 * 
+	 */
 	public void fireChangeAction() {
 		ComponentController.drawMainComponent(layout, state);
 	}
@@ -73,8 +76,7 @@ public class NavigationComponent extends CustomComponent {
 	public Button buildNavigationLayout() {
 		createNavComponentLayout();
 		
-		// XAxis combobox
-		
+		// XAxis combo box
 		List<Axis> xAxisOptions = Axis.possibleValues();
 		
 		final ComboBox xAxisComboBox = createAxisComboBox(xAxisOptions, "");
@@ -92,15 +94,15 @@ public class NavigationComponent extends CustomComponent {
 		// gets all the available dates that can be queried
 		List<String> dateOptions = AvailableResources.getAvailableDates();
 		
-		// comboBox_1
+		// start date combo box
 	    final ComboBox startComboBox = createDateComboBox(dateOptions, "Start Date");
 		navLayout.addComponent(startComboBox, "top:" + DATE_GRANULARITY_OFFSET +";");
 		
-		// comboBox_2
+		// end date combo box
 		final ComboBox endComboBox = createDateComboBox(dateOptions, "End Date");
 		navLayout.addComponent(endComboBox, "top:" + DATE_GRANULARITY_OFFSET + ";left:220.0px;");
 		
-		// button_1
+		// go button
 		button_1 = new Button();
 		button_1.setCaption("Go");
 		button_1.setImmediate(false);
@@ -126,6 +128,7 @@ public class NavigationComponent extends CustomComponent {
 				}
 				
 				state.setProjects((Set<ConvertProject>) filter.projectFilter.getValue());
+				state.setAuthorsFilter((Set<String>) filter.projectFilter.getValue()); 
 				state.setAuthorsFilter(new HashSet<String>());
 				state.setStart(startDate);
 				state.setEnd(endDate);

@@ -1,13 +1,9 @@
 package com.testing123.ui;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 
 import com.testing123.controller.AvailableResources;
 import com.testing123.vaadin.ConvertProject;
-import com.vaadin.data.Property.ValueChangeEvent;
-import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.ListSelect;

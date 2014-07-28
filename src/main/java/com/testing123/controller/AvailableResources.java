@@ -7,21 +7,25 @@ import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-import com.testing123.vaadin.ConvertDate;
 import com.testing123.vaadin.ConvertProject;
 import com.testing123.vaadin.WebData;
 
 public class AvailableResources {
 	
-	public static List<WebData> getDataList(ConvertDate date){
-		String stringDate = extractDate(date.getSonarFormat());
-		return getDataList(stringDate);
-	}
+//	public static List<WebData> getDataList(ConvertDate date){
+//		String stringDate = extractDate(date.getSonarFormat());
+//		return getDataList(stringDate);
+//	}
 	
-	public static String extractDate(String sonarFormat) {
-		return sonarFormat.replace("-", "_");
-	}
+//	private static String extractDate(String sonarFormat) {
+//		return sonarFormat.replace("-", "_");
+//	}
 	
+	/**
+	 * Fetches the available list of projects from the database
+	 * 
+	 * @return a list of all the available projects that are stored in the database
+	 */
 	public static List<ConvertProject> getAvailableProjects() {
 		List<ConvertProject> projects = new ArrayList<ConvertProject>();
 		try {
@@ -38,13 +42,18 @@ public class AvailableResources {
 		return projects;
 	}
 	
+	/**
+	 * Fetches the available list of authors from the database
+	 * 
+	 * @return a list of all the available authors that have made edits
+	 */
 	public static List<String> getAvailableAuthors() {
 		List<String> authors = new ArrayList<String>();
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			Connection conn = SQLConnector.getConnection("dataList2");
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT user FROM authors ORDER BY name ASC");
+			ResultSet rs = stmt.executeQuery("SELECT user FROM authors ORDER BY user ASC");
 			while (rs.next()) {
 				authors.add(rs.getString(1));
 			}
@@ -54,6 +63,11 @@ public class AvailableResources {
 		return authors;
 	}
 	
+	/**
+	 * Fetches the available list of dates from the database
+	 * 
+	 * @return a list of all the available dates that have been stored in the database
+	 */
 	public static List<String> getAvailableDates() {
 		List<String> dates = new ArrayList<String>();
 		try {
@@ -74,6 +88,7 @@ public class AvailableResources {
 		} 
 		return dates;
 	}
+	
 	
 	public static List<WebData> getDataList(String date) {
 		ResultSet results = null;

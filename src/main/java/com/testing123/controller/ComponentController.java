@@ -7,7 +7,6 @@ public class ComponentController {
 	
 	public static void drawMainComponent(GridLayout layout, UIState state) {
 		state.verifyState();
-		
 		if (layout.getComponent(1, 1) != null) {
 			layout.removeComponent(1, 1);
 		}
