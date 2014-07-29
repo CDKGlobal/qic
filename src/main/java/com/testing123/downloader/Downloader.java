@@ -89,7 +89,8 @@ public class Downloader {
 
             System.out.println("Ok before processing projects");
             PrintWriter writerToProjectList = new PrintWriter(currentPath + "projectList.txt");
-
+            PrintWriter writerToFile = new PrintWriter(currentPath + "allFileList.txt");
+            PrintWriter writerToFileHistory = new PrintWriter(currentPath + "allFileHistory.txt");
             for (WebData project : projectList) {
                 System.out.println("Ok before making folder");
                 currentPath = makeFolder("Archives/projectList/", project.getId() + "");
@@ -98,8 +99,6 @@ public class Downloader {
                 List<WebData> fileList = mapper.readValue(projectOwnURL, new TypeReference<List<WebData>>() {
                 });
 
-                PrintWriter writerToFile = new PrintWriter(currentPath + project.getId() + ".txt");
-                PrintWriter writerToFileHistory = new PrintWriter(currentPath + project.getId() + "History.txt");
                 List<WebData> currentList = new ArrayList<WebData>();
 
                 // if (!previousProjectList.contains(project.getId())) {
@@ -137,13 +136,14 @@ public class Downloader {
                         }
                     }*/
                 }
-                writerToFile.close();
-                writerToFileHistory.close();
+
                 // writeJson(currentPath, currentList, project.getId() + "");
                 // writeTxt(currentPath, currentList, project.getId() + "");
             }
 
             writerToProjectList.close();
+            writerToFile.close();
+            writerToFileHistory.close();
             return projectList;
         } catch (Exception e) {
             // TODO Auto-generated catch block
