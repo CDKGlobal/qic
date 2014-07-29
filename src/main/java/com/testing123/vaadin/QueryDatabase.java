@@ -47,8 +47,7 @@ public class QueryDatabase {
 			} else {
 				throw new IllegalStateException("Unhandeled duplicate case in: complexity");
 			}
-		}
-		
+		}	
 		return map;
 	}
 	
@@ -79,9 +78,18 @@ public class QueryDatabase {
 		} catch (Exception e) {
 			return new ArrayList<WebData>();
 		}
-		
 		// params: process(ResultSet r, metric (0), metric (1))
 		return SQLConnector.process(results, "ncloc", "complexity");
+	}
+	
+	private static String projectSet(Set<ConvertProject> projects) {
+		List<ConvertProject> projectsList = new ArrayList<ConvertProject>(projects);
+		String set = " (" + projectsList.get(0).getKey();
+		for (int i = 1; i < projectsList.size(); i++) {
+			set = set + "," + projectsList.get(i).getKey();
+		}
+		set = set + ")";
+		return set;
 	}
 	
 	private static String formatKey(String longKey) {
