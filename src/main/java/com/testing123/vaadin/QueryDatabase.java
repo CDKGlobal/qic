@@ -3,17 +3,22 @@ package com.testing123.vaadin;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.testing123.controller.AvailableResources;
 import com.testing123.controller.SQLConnector;
 
 public class QueryDatabase {
 	
-	public Map<String, Double> getNCLOC(ConvertDate date){
+	public Map<String, Double> getNCLOC(ConvertDate date, Set<String> authors, Set<ConvertProject> projects) {
+		if (authors.size() == 0 || projects.size() == 0) {
+			return new HashMap<String, Double>();
+		}
 		Map<String, Double> map = new HashMap<String, Double>();
-		List<WebData> dataList = getDataList(date);
+		List<WebData> dataList = getDataList(date, projects);
 		if (dataList == null) {
 			return map;
 		}
@@ -27,12 +32,12 @@ public class QueryDatabase {
 		return map;
 	}
 	
-	public Map<String, Double> getComplexity(ConvertDate date) {
-		if (!date.verify()) {
-			throw new IllegalArgumentException("Invalid date");
+	public Map<String, Double> getComplexity(ConvertDate date, Set<String> authors, Set<ConvertProject> projects) {
+		if (authors.size() == 0 || projects.size() == 0) {
+			return new HashMap<String, Double>();
 		}
 		Map<String, Double> map = new HashMap<String, Double>();
-		List<WebData> dataList = getDataList(date);
+		List<WebData> dataList = getDataList(date, projects);
 		if (dataList == null) {
 			return map;
 		}
@@ -47,9 +52,12 @@ public class QueryDatabase {
 		return map;
 	}
 	
-	public Map<String, Double> getDeltaComplexity(ConvertDate startDate, ConvertDate endDate) {
-		Map<String, Double> initialComplexity = getComplexity(startDate);
-		Map<String, Double> finalComplexity = getComplexity(endDate);
+	public Map<String, Double> getDeltaComplexity(ConvertDate startDate, ConvertDate endDate, Set<String> authors, Set<ConvertProject> projects) {
+		if (authors.size() == 0 || projects.size() == 0) {
+			return new HashMap<String, Double>();
+		}
+		Map<String, Double> initialComplexity = getComplexity(startDate, authors, projects);
+		Map<String, Double> finalComplexity = getComplexity(endDate, authors, projects);
 		Map<String, Double> deltaComplexity = new HashMap<String, Double>();
 		for (String name : finalComplexity.keySet()) {
 			if (initialComplexity.containsKey(name)) {
@@ -64,7 +72,7 @@ public class QueryDatabase {
 		return deltaComplexity;
 	}
 	
-	private static List<WebData> getDataList(ConvertDate date) {
+	private static List<WebData> getDataList(ConvertDate date, Set<ConvertProject> projects) {
 		ResultSet results = null;
 		try {
 			results = SQLConnector.basicQuery("SELECT * FROM " + date.getDBFormat() + " WHERE QUALIFIER = 'CLA';");

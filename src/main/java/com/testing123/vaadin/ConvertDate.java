@@ -47,18 +47,10 @@ public class ConvertDate implements Comparable<ConvertDate> {
 		return adjustedSonarFormat.replace("-", "_");
 	}
 	
-	public boolean verify() {
-		if (!adjustedSonarFormat.matches("[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}00")) {
-			return false;
-		}
-		if (adjustedSonarFormat.contains(":")) {
-			return false;
-		}
-		return true;
-	}
-	
 	private void checkRep() {
-		verify();
+		if (!adjustedSonarFormat.matches("[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}00")) {
+			throw new IllegalStateException("Invalid date");
+		}
 		if (adjustedSonarFormat.contains(":")) {
 			System.out.println(adjustedSonarFormat);
 			throw new IllegalStateException("Sonar Format not valid");
