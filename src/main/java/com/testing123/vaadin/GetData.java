@@ -34,21 +34,19 @@ public class GetData implements Retrievable {
 		ConvertDate endDate = state.getEnd();
 		Map<String, Double> xMap;
 		Map<String, Double> yMap;
+		Set<String> authors = state.getAuthorsFilter();
+		Set<ConvertProject> projects = state.getProjects();
 		boolean authorsRequired = true;
-
+		yMap = query.getComplexity(endDate, authors, projects);
 		Axis xAxis = state.getX();
 		if (xAxis.equals(Axis.DELTA_COMPLEXITY)) {
-			xMap = query.getDeltaComplexity(startDate, endDate);
-			yMap = query.getComplexity(endDate);
-
+			xMap = query.getDeltaComplexity(startDate, endDate, authors, projects);
 		} else if (xAxis.equals(Axis.DELTA_LINESOFCODE)) {
 			xMap = getChurn(state, startDate, endDate);
 			//xMap = query.getChurn("Advertising.Perforce", startDate, endDate, "Platform");
-			yMap = query.getComplexity(endDate);
 
 		} else if (xAxis.equals(Axis.LINESOFCODE)) {
-			xMap = query.getNCLOC(endDate);
-			yMap = query.getComplexity(endDate);
+			xMap = query.getNCLOC(endDate, authors, projects);
 			authorsRequired = false;
 		} else {
 			return new HashSet<DataPoint>();
