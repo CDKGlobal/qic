@@ -8,11 +8,11 @@ com_testing123_ui_Graph = function() {
 		$.plot(element, data, options);
 	}
 	
-	element.bind("plotclick", function(event, pos, item) {
-        if (item) {
-          	window.notify(item.series.data[item.dataIndex][2]);
-        }
-    });
+	//element.bind("plotclick", function(event, pos, item) {
+        //if (item) {
+        //  	window.notify(item.series.data[item.dataIndex][2]);
+        //}
+    //});
 
 	element.bind("plothover", function(event, pos, item) {
 		$("#tooltip").remove();

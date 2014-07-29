@@ -1,6 +1,5 @@
 package com.testing123.ui;
 
-import com.testing123.controller.UIState;
 import com.testing123.controller.UIState.Axis;
 
 /**
@@ -11,8 +10,6 @@ import com.testing123.controller.UIState.Axis;
  *It is also where you are able to set the Axis
  */
 public class FlotOptions {
-//	private static String xaxis = new UIState().getX().toString();
-//	private static String yaxis = "Cyclomatic Complexity";
 	
 	/**
 	 * Creates a string for flot to read as JSON
@@ -44,8 +41,8 @@ public class FlotOptions {
 				+ "clickable: true" +
 		"}," + 
 		"zoom: { interactive: true }," +
-		"pan: { interactive: true }," +
-		"selection: { mode: \"xy\" }" +
+		"pan: { interactive: true }" +
+		//"selection: { mode: \"xy\" }" +
 		"}";
 		return options;
 	}
