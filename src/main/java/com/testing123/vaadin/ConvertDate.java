@@ -26,9 +26,25 @@ public class ConvertDate implements Comparable<ConvertDate> {
 		checkRep();
 	}
 	
+	/**
+	 * Returns the adjusted string representation of this date from sonar
+	 * 
+	 * The adjustments made were changing all occurences of ':' to '-'
+	 * 
+	 * @return
+	 */
 	public String getSonarFormat() {
 		checkRep();
 		return adjustedSonarFormat;
+	}
+	
+	/**
+	 * Returns the string representation of this date from the database
+	 * 
+	 * @return
+	 */
+	public String getDBFormat() {
+		return adjustedSonarFormat.replace("-", "_");
 	}
 	
 	public boolean verify() {
@@ -54,8 +70,10 @@ public class ConvertDate implements Comparable<ConvertDate> {
 		return currentDate.getTime().toString();
 	}
 
-
-
+	/**
+	 * HashCode override required for the Vaadin UI
+	 * 
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;

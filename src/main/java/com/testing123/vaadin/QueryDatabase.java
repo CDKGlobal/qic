@@ -67,18 +67,13 @@ public class QueryDatabase {
 	private static List<WebData> getDataList(ConvertDate date) {
 		ResultSet results = null;
 		try {
-			results = SQLConnector.basicQuery("SELECT * FROM " + extractDate(date) + " WHERE QUALIFIER = 'CLA';");
+			results = SQLConnector.basicQuery("SELECT * FROM " + date.getDBFormat() + " WHERE QUALIFIER = 'CLA';");
 		} catch (Exception e) {
 			return new ArrayList<WebData>();
 		}
 		
 		// params: process(ResultSet r, metric (0), metric (1))
 		return SQLConnector.process(results, "ncloc", "complexity");
-	}
-
-	private static String extractDate(ConvertDate dateObject) {
-		String sonarFormat = dateObject.getSonarFormat();
-		return sonarFormat.replace("-", "_");
 	}
 	
 	private static String formatKey(String longKey) {
