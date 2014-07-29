@@ -59,17 +59,17 @@ public class MockQueryable implements Queryable {
 	}
 
 	@Override
-	public Map<String, Double> getComplexity(ConvertDate date) {
+	public Map<String, Double> getComplexity(ConvertDate date, Set<String> authors, Set<ConvertProject> projects) {
 		return complexity;
 	}
 
 	@Override
-	public Map<String, Double> getNCLOC(ConvertDate date) {
+	public Map<String, Double> getNCLOC(ConvertDate date, Set<String> authors, Set<ConvertProject> projects) {
 		return ncloc;
 	}
 
 	@Override
-	public Map<String, Double> getDeltaComplexity(ConvertDate startDate, ConvertDate endDate) {
+	public Map<String, Double> getDeltaComplexity(ConvertDate startDate, ConvertDate endDate, Set<String> authors, Set<ConvertProject> projects) {
 		return dComplexity;
 	}
 
