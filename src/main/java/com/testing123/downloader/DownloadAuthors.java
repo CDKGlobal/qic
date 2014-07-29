@@ -29,7 +29,7 @@ public class DownloadAuthors {
 			String home = "http://fisheye.cobalt.com/search/";
 			String link = home + repository + "/?ql=" + getQuery();
 			link = link.replaceAll("\\s+", "%20");
-			Connection conn = SQLConnector.getConnection("dataList2");
+			Connection conn = SQLConnector.getConnection("dataList4");
 			try {
 				URL url  = new URL(link);
 				System.out.println(link);
