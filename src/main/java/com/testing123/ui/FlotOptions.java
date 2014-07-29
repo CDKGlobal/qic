@@ -31,20 +31,22 @@ public class FlotOptions {
 		"colors : [\"" + Preferences.GRPAH_COLOR + "\", \"" + Preferences.GRPAH_COLOR + "\"]," +
 		"yaxis : {" + 
 	        "show : true," + 
-	        "axisLabel : \'" + yaxis.toString() + "\'," + 
+	        "axisLabel: \'" + yaxis.toString() + "\'," + 
 	        "position: 'left'" + 
 	    "}, " +
 	    "xaxis : {" +
 	        //"show : false," + 
 	        //"axisLabel : \'" + xaxis.toString() + "\'," +
-	        "autoscaleMargin : .02" +
-	    "},"
-				+
-			"grid: {" 
+	        "autoscaleMargin: .02" +
+	    "}," +
+		"grid: {" 
 				+ "hoverable: true,"
 				+ "clickable: true" +
-			"}" + 
-		"}"; 
+		"}," + 
+		"zoom: { interactive: true }," +
+		"pan: { interactive: true }," +
+		"selection: { mode: \"xy\" }" +
+		"}";
 		return options;
 	}
 }

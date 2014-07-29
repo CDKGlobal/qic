@@ -14,7 +14,8 @@ import com.vaadin.ui.JavaScriptFunction;
  * @author chenc
  */
 @SuppressWarnings("serial")
-@JavaScript({"jquery.js","jquery.flot.js", "jquery.flot.axislabels.js", "flot_connector.js"})
+@JavaScript({"jquery.js", "jquery.flot.js", "jquery.flot.axislabels.js", "jquery.flot.selection.js",
+		"jquery.flot.navigate.js", "flot_connector.js"})
 public class Graph extends AbstractJavaScriptComponent {
 	
 	/**
