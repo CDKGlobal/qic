@@ -26,7 +26,7 @@ public class DatabaseConnector {
         try {
             // Properties connectionProps = new Properties();
             Connection conn =
-                            DriverManager.getConnection("jdbc:mysql://localhost/dataList2?" +
+                            DriverManager.getConnection("jdbc:mysql://localhost/dataList3?" +
                                             "user=root&password=password");
             // Do something with the Connection
             return conn;
@@ -43,19 +43,35 @@ public class DatabaseConnector {
         Statement stmt = null;
         boolean rs = true;
         System.out.println("Ok before conn.createStatement");
+        int i = 0;
         try {
             stmt = conn.createStatement();
+            rs = stmt.execute("CREATE TABLE projectList (project_id INT NOT NULL,"
+                            + "project_key VARCHAR(170) NOT NULL, name VARCHAR(80) NOT NULL, "
+                            + "scope VARCHAR(5) NOT NULL, qualifier VARCHAR(5) NOT NULL, date VARCHAR(30) NOT NULL,"
+                            + " ncloc DECIMAL(8,1), complexity DECIMAL(8,1));");
+            rs = stmt.execute("LOAD DATA LOCAL INFILE '//home/dap/Archives/"
+                            + "projectList/projectList.txt' INTO TABLE projectList;");
+            i = 1;
             for (WebData project : projectList) {
                 System.out.println(project.getId() + "_id");
-                rs = stmt.execute("CREATE TABLE id_" + project.getId() + " (id INT NOT NULL, "
-                                + "the_key VARCHAR(160) NOT NULL, name VARCHAR(80) NOT NULL, "
-                                + "scope VARCHAR(5) NOT NULL, qualifier VARCHAR(5) NOT NULL," +
-                                "date VARCHAR(30) NOT NULL,"
+
+                rs = stmt.execute("CREATE TABLE " + project.getId() + "_id (project_id INT NOT NULL, file_id INT NOT NULL,"
+                                + "file_key VARCHAR(170) NOT NULL, name VARCHAR(80) NOT NULL, "
+                                + "scope VARCHAR(5) NOT NULL, qualifier VARCHAR(5) NOT NULL);");
+
+                rs = stmt.execute("CREATE TABLE " + project.getId() + "_id_History (file_id INT NOT NULL, file_key VARCHAR(160) NOT NULL, date VARCHAR(30) NOT NULL,"
                                 + " ncloc DECIMAL(8,1), complexity DECIMAL(8,1));");
-                rs = stmt.execute("LOAD DATA LOCAL INFILE '//Users/weiyoud/Perforce/weiyoud_sea-weiyoud_4033/Playpen/QIC2/Archives/"
-                                + "projectList/" + project.getId() + ".txt' INTO TABLE id_" + project.getId() + ";");
+                rs = stmt.execute("LOAD DATA LOCAL INFILE '//home/dap/Archives/"
+                                + "projectList/" + project.getId() + "/" + project.getId() + ".txt' INTO TABLE " + project.getId() + "_id;");
+
+                rs = stmt.execute("LOAD DATA LOCAL INFILE '//home/dap/Archives/"
+                                + "projectList/" + project.getId() + "/" + project.getId() + "History.txt' INTO TABLE " + project.getId() + "_id_History;");
+                i++;
             }
+            System.out.println(i);
         } catch (Exception e) {
+            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
