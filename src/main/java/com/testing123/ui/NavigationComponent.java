@@ -24,12 +24,15 @@ import com.vaadin.ui.JavaScript;
 import com.vaadin.ui.JavaScriptFunction;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.TextField;
 
 public class NavigationComponent extends CustomComponent {
 	private FilterComponent  filter;
 	private AbsoluteLayout navLayout;
 	private ComboBox startComboBox;
 	private ComboBox endComboBox;
+	private TextField minX;
+	private TextField minY;
 	private Button button_1;
 	private GridLayout layout;
 	private Label errorLabel;
@@ -124,14 +127,14 @@ public class NavigationComponent extends CustomComponent {
 				navLayout.removeComponent(errorLabel);
 				if (startComboBox.getValue() == null || endComboBox.getValue() == null) {
 					errorLabel = new Label("No date range entered");
-					navLayout.addComponent(errorLabel, "top:" + DATE_GRANULARITY_OFFSET + "; left:510.0px;");
+					navLayout.addComponent(errorLabel, "top:" + DATE_GRANULARITY_OFFSET + "; left:710.0px;");
 					return;
 				} 
 				ConvertDate startDate = (ConvertDate) startComboBox.getValue();
 				ConvertDate endDate = (ConvertDate) endComboBox.getValue();
 				if (checkIfStartDateIsNotLessThanEndDate(startDate, endDate)) {
 					errorLabel = new Label("Date range invalid");
-					navLayout.addComponent(errorLabel, "top:" + DATE_GRANULARITY_OFFSET + "; left:510.0px;");
+					navLayout.addComponent(errorLabel, "top:" + DATE_GRANULARITY_OFFSET + "; left:710.0px;");
 					return;
 				}
 				state.setProjects((Set<ConvertProject>) filter.projectFilter.getValue());
@@ -147,7 +150,34 @@ public class NavigationComponent extends CustomComponent {
 						startDate.getSonarFormat().compareTo(endDate.getSonarFormat()) > 0;
 			}
 		});
-		navLayout.addComponent(button_1, "top:" + DATE_GRANULARITY_OFFSET + "; left:440.0px;");
+		navLayout.addComponent(button_1, "top:" + DATE_GRANULARITY_OFFSET + "; left:640.0px;");
+		
+		minX = new TextField("Min X");
+		minX.setConverter(Integer.class);
+		
+		minY = new TextField("Min Y");
+		minY.setConverter(Integer.class);
+		
+//		Button submitButton = new Button("Submit value", new ClickListener() {
+//		    public void buttonClick(ClickEvent event) {
+//		        String uiValue = textField.getValue();
+//		        try {
+//		            Integer convertedValue = (Integer) textField
+//		                    .getConvertedValue();
+//		            Notification.show(
+//		                    "UI value (String): " + uiValue
+//		                            + "<br />Converted value (Integer): "
+//		                            + convertedValue);
+//		        } catch (ConversionException e) {
+//		            Notification.show(
+//		                    "Could not convert value: " + uiValue);
+//		        }
+//		    }
+//		});
+		
+		navLayout.addComponent(minX, "top: " + DATE_GRANULARITY_OFFSET + "; left: 440.0px");
+		navLayout.addComponent(minY, "top: " + DATE_GRANULARITY_OFFSET + "; left: 540.0px");
+		
 		return button_1;
 	}
 
