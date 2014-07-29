@@ -3,10 +3,12 @@ package com.testing123.vaadin;
 public class ConvertProject {
 	private String name;
 	private String key;
+	private int id;
 
-	public ConvertProject(String name, String key) {
+	public ConvertProject(String name, String key, int id) {
 		this.name = name;
 		this.key = key;
+		this.id = id;
 	}
 	
 	@Override
@@ -20,5 +22,9 @@ public class ConvertProject {
 
 	public String getKey() {
 		return key;
+	}
+	
+	public int getID() {
+		return id;
 	}
 }

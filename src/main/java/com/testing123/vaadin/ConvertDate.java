@@ -47,6 +47,12 @@ public class ConvertDate implements Comparable<ConvertDate> {
 		return adjustedSonarFormat.replace("-", "_");
 	}
 	
+	public String getDBQueryFormat() {
+		String date = getDBFormat();
+		String[] front = date.split("T");
+		return front[0] + "T%";
+	}
+	
 	private void checkRep() {
 		if (!adjustedSonarFormat.matches("[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}00")) {
 			throw new IllegalStateException("Invalid date");

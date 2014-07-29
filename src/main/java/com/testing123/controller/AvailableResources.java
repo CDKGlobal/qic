@@ -30,12 +30,9 @@ public class AvailableResources {
 	public static List<ConvertProject> getAvailableProjects() {
 		List<ConvertProject> projects = new ArrayList<ConvertProject>();
 		try {
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			Connection conn = SQLConnector.getConnection("dataList2");
-			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT name, the_key FROM projectList ORDER BY name ASC");
+			ResultSet rs = SQLConnector.basicQuery("SELECT name, project_key, project_id FROM projectList ORDER BY name ASC");
 			while (rs.next()) {
-				projects.add(new ConvertProject(rs.getString(1), rs.getString(2)));
+				projects.add(new ConvertProject(rs.getString(1), rs.getString(2), rs.getInt(3)));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -90,14 +87,13 @@ public class AvailableResources {
 		return dates;
 	}
 	
-	
-	public static List<WebData> getDataList(String date) {
-		ResultSet results = null;
-		try {
-			results = SQLConnector.dataQuery("", "SELECT * FROM " + date + " WHERE QUALIFIER = 'CLA';");
-			return SQLConnector.process(results, "ncloc", "complexity");
-		} catch (Exception e) {
-			return new ArrayList<WebData>();
-		}
-	}
+//	public static List<WebData> getDataList(String date) {
+//		ResultSet results = null;
+//		try {
+//			results = SQLConnector.dataQuery("", "SELECT * FROM " + date + " WHERE QUALIFIER = 'CLA';");
+//			return SQLConnector.process(results, "ncloc", "complexity");
+//		} catch (Exception e) {
+//			return new ArrayList<WebData>();
+//		}
+//	}
 }

@@ -35,7 +35,7 @@ public class SQLConnectorTest {
 	
 	@Test
 	public void TestProcessReturnsNonEmptyList() {
-		ResultSet rs = SQLConnector.basicQuery("SELECT * FROM 2014_07_08T06_07_31_0700");
-		SQLConnector.process(rs);
+//		ResultSet rs = SQLConnector.basicQuery("SELECT * FROM 2014_07_08T06_07_31_0700");
+//		SQLConnector.process(rs);
 	}
 }

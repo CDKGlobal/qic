@@ -57,38 +57,6 @@ public class SQLConnector {
 		rs = stmt.executeQuery(query);
 		return rs;
 	}
-
-	public static List<WebData> process(ResultSet rs, String... metrics) {
-		List<WebData> processed = new ArrayList<WebData>();
-		try {
-			while (rs.next()) {
-				WebData data = new WebData();
-				data.setId(rs.getInt("id"));
-				data.setKey(rs.getString("the_key"));
-				data.setName(rs.getString("name"));
-				data.setScope(rs.getString("scope"));
-				data.setQualifier(rs.getString("qualifier"));
-				data.setDate(rs.getString("date"));
-				
-				List<Msr> msrList = new ArrayList<Msr>();
-
-				String[] msrKeys = metrics;
-				for (String msrKey : msrKeys) {
-					Msr msr = new Msr();
-					msr.setKey(msrKey);
-					msr.setVal(rs.getDouble(msrKey));
-					msrList.add(msr);
-				}
-				data.setMsr(msrList);
-				processed.add(data);
-			}
-			rs.close();
-			return processed;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
 	
 	public static void close(Connection conn) {
 		try {
