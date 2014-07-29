@@ -1,5 +1,6 @@
 package com.testing123.ui;
 
+import com.testing123.controller.UIState;
 import com.testing123.controller.UIState.Axis;
 
 /**
@@ -15,7 +16,7 @@ public class FlotOptions {
 	 * Creates a string for flot to read as JSON
 	 * @return String representation of your Flot Options
 	 */
-	public static String getString(Axis xaxis, Axis yaxis){
+	public static String getString(UIState state){
 	String options =
 		"{" + 
 		"series : {" + 
@@ -28,13 +29,17 @@ public class FlotOptions {
 		"colors : [\"" + Preferences.GRPAH_COLOR + "\", \"" + Preferences.GRPAH_COLOR + "\"]," +
 		"yaxis : {" + 
 	        "show : true," + 
-	        "axisLabel: \'" + yaxis.toString() + "\'," + 
+	        "axisLabel: \'" + state.getY().toString() + "\'," + 
 	        "position: 'left'" + 
+	        //"zoomRange: [-10, 10000]," +
+			//"panRange: [-10, 10000]" +
 	    "}, " +
 	    "xaxis : {" +
 	        //"show : false," + 
 	        //"axisLabel : \'" + xaxis.toString() + "\'," +
 	        "autoscaleMargin: .02" +
+	        //"zoomRange: " + getXRange(state) + "," +
+			//"panRange: " + getXRange(state) +
 	    "}," +
 		"grid: {" 
 				+ "hoverable: true,"
@@ -45,5 +50,17 @@ public class FlotOptions {
 		//"selection: { mode: \"xy\" }" +
 		"}";
 		return options;
+	}
+	
+	private static String getXRange(UIState state) {
+		if (state.getX() == Axis.LINESOFCODE) {
+			return "[-10, 60000]";
+		} else if (state.getX() == Axis.DELTA_COMPLEXITY) {
+			return "[-200, 200]";
+		} else if (state.getX() == Axis.DELTA_LINESOFCODE) {
+			return "[-10, 4000]";
+		} else {
+			return "[-100000, 100000]";
+		}
 	}
 }

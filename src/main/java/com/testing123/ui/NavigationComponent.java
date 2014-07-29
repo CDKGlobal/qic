@@ -31,8 +31,6 @@ public class NavigationComponent extends CustomComponent {
 	private AbsoluteLayout navLayout;
 	private ComboBox startComboBox;
 	private ComboBox endComboBox;
-	private TextField minX;
-	private TextField minY;
 	private Button button_1;
 	private GridLayout layout;
 	private Label errorLabel;
@@ -115,7 +113,7 @@ public class NavigationComponent extends CustomComponent {
 		
 		// go button
 		button_1 = new Button();
-		button_1.setCaption("Go");
+		button_1.setCaption("Go / Reset");
 		button_1.setImmediate(false);
 		button_1.setWidth(DEFAULT_VALUE);
 		button_1.setHeight(DEFAULT_VALUE);

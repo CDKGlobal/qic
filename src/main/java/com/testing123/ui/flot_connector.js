@@ -29,4 +29,32 @@ com_testing123_ui_Graph = function() {
 			}).appendTo("body").fadeIn(200); 
 		}
 	});
+
+		// add zoom out button 
+
+	$("<div class='button' style='right:20px;top:20px'>zoom out</div>")
+		.appendTo(element)
+		.click(function (event) {
+			event.preventDefault();
+			plot.zoomOut();
+		});
+
+	// and add panning buttons
+
+	// little helper for taking the repetitive work out of placing
+	// panning arrows
+
+	function addArrow(dir, right, top, offset) {
+		$("<img class='button' src='arrow-" + dir + ".gif' style='right:" + right + "px;top:" + top + "px'>")
+			.appendTo(element)
+			.click(function (e) {
+				e.preventDefault();
+				plot.pan(offset);
+			});
+	}
+
+	addArrow("left", 55, 60, { left: -100 });
+	addArrow("right", 25, 60, { left: 100 });
+	addArrow("up", 40, 45, { top: -100 });
+	addArrow("down", 40, 75, { top: 100 });
 }

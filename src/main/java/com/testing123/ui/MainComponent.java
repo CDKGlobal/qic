@@ -82,7 +82,7 @@ public class MainComponent extends CustomComponent {
 
 		chart.setData("[" + new GetData(new Query()).getData(state) + "]");
 
-		chart.setOptions(FlotOptions.getString(state.getX(), state.getY()));
+		chart.setOptions(FlotOptions.getString(state));
 		
 		absoluteLayout_2.addComponent(chart, "top: 50px;");
 		return absoluteLayout_2;
