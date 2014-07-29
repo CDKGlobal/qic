@@ -4,14 +4,16 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URL;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.testing123.controller.SQLConnector;
 import com.testing123.vaadin.WebData;
 
 /**
@@ -35,9 +37,37 @@ public class Downloader {
      * @param projectName the project name
      */
 
+    public static ResultSet getConnectionFromDB(String name) {
+        ResultSet results = null;
+        try {
+            results = SQLConnector.dataQuery("", "SELECT id FROM " + name + ";");
+
+            return results;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<Integer> gerPreviousProjectList(String name) {
+        ResultSet rs = Downloader.getConnectionFromDB(name);
+        List<Integer> previousProjectList = new ArrayList<Integer>();
+        try {
+            while (rs.next()) {
+                System.out.println(rs.getInt(1));
+                previousProjectList.add(rs.getInt(1));
+            }
+            return previousProjectList;
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public List<WebData> downloadProjectsAndWrite(boolean... test) {
         String projectLink = "http://sonar.cobalt.com/api/resources?&depth=0&metrics=ncloc,complexity&format=json";
-
+        // List<Integer> previousProjectList = gerPreviousProjectList("projectList");
         URL projectURL;
         try {
             projectURL = new URL(projectLink);
@@ -54,21 +84,15 @@ public class Downloader {
             currentPath = makeFolder("Archives/", "projectList");
             // }
             // creates projects
-            writeJson(currentPath, projectList, projectList.get(0).getId() + "");
-            writeTxt(currentPath, projectList, projectList.get(0).getId() + "");
-
-            ArrayList<Integer> formerProjectList = new ArrayList<Integer>();
-            Scanner inputFromFormerProjectList = new Scanner(new File("/Users/weiyoud/Perforce/weiyoud_sea-weiyoud_4033/Playpen/QIC2/null6031.txt"));
-            while (inputFromFormerProjectList.hasNextLine()) {
-                String lineFromFormerProjectList = inputFromFormerProjectList.nextLine();
-                Scanner lineScanner = new Scanner(lineFromFormerProjectList);
-                int id = lineScanner.nextInt();
-                formerProjectList.add(id);
-            }
+            // writeJson(currentPath, projectList, "projectList");
+            // writeTxt(currentPath, projectList, "projectList");
 
             System.out.println("Ok before processing projects");
+            PrintWriter writerToProjectList = new PrintWriter(currentPath + "projectList.txt");
 
             for (WebData project : projectList) {
+                System.out.println("Ok before making folder");
+                currentPath = makeFolder("Archives/projectList/", project.getId() + "");
                 String projectOwnLink = "http://sonar.cobalt.com/api/resources?resource=" + project.getKey() + "&depth=2&metrics=ncloc,complexity&format=json";
                 URL projectOwnURL = new URL(projectOwnLink);
                 List<WebData> fileList = mapper.readValue(projectOwnURL, new TypeReference<List<WebData>>() {
@@ -76,39 +100,50 @@ public class Downloader {
 
                 PrintWriter writerToFile = new PrintWriter(currentPath + project.getId() + ".txt");
                 PrintWriter writerToFileHistory = new PrintWriter(currentPath + project.getId() + "History.txt");
+                List<WebData> currentList = new ArrayList<WebData>();
+
+                // if (!previousProjectList.contains(project.getId())) {
+                writerToProjectList.print(project.getId() + "\t" + project.getKey() + "\t" + project.getName() + "\t" + project.getScope()
+                                + "\t" + project.getQualifier() + "\t" + project.getDate());
+                if (project.getMsr() == null) {
+                    writerToProjectList.println("\t-1.0 \t -1.0");
+                } else {
+                    writerToProjectList.println("\t" + project.getMsr().get(0).getVal() + "\t" + project.getMsr().get(1).getVal());
+                }
+                // }
+
                 for (WebData file : fileList) {
-                    // fileList.add(file);
-                    // System.out.println(file.getId());
-                    ArrayList<Integer> idList = new ArrayList<Integer>();
-                    Scanner input = new Scanner(new File("Archives/projectList/" + file.getId() + ".txt"));
-                    while (input.hasNextLine()) {
-                        String line = input.nextLine();
-                        Scanner lineScanner = new Scanner(line);
-                        int id = lineScanner.nextInt();
-                        idList.add(id);
-                    }
-                    if (!idList.contains(file.getId())) {
-                        System.out.println(file.getId());
-                        writerToFile.println(file.getId() + "\t" + file.getKey() + "\t" + file.getName() + "\t" + file.getScope()
-                                        + "\t" + file.getQualifier());
-                        writerToFileHistory.print(file.getId() + "\t" + file.getDate());
-                        if (file.getMsr() == null) {
-                            writerToFileHistory.println("\t-1.0 \t -1.0");
-                        } else {
-                            writerToFileHistory.println("\t" + file.getMsr().get(0).getVal() + "\t" + file.getMsr().get(1).getVal());
-                        }
+                    currentList.add(file);
+                    System.out.println(file.getId());
+
+                    // gerPreviousProjectList("");
+
+                    //       if (!idList.contains(file.getId())) {
+                    System.out.println(file.getId());
+                    writerToFile.println(project.getId() + "\t" + file.getId() + "\t" + file.getKey() + "\t" + file.getName() + "\t" + file.getScope()
+                                    + "\t" + file.getQualifier());
+                    writerToFileHistory.print(file.getId() + "\t" + file.getKey() + "\t" + file.getDate());
+                    if (file.getMsr() == null) {
+                        writerToFileHistory.println("\t-1.0 \t -1.0");
                     } else {
+                        writerToFileHistory.println("\t" + file.getMsr().get(0).getVal() + "\t" + file.getMsr().get(1).getVal());
+                    }
+                    /*   } else {
                         writerToFileHistory.print(file.getId() + "\t" + file.getDate());
                         if (file.getMsr() == null) {
                             writerToFileHistory.println("\t-1.0 \t-1.0");
                         } else {
                             writerToFileHistory.println("\t" + file.getMsr().get(0).getVal() + "\t" + file.getMsr().get(1).getVal());
                         }
-                    }
+                    }*/
                 }
-                // writeJson(currentPath, fileList, project.getId() + "");
-                // writeTxt(currentPath, fileList, project.getId() + "");
+                writerToFile.close();
+                writerToFileHistory.close();
+                // writeJson(currentPath, currentList, project.getId() + "");
+                // writeTxt(currentPath, currentList, project.getId() + "");
             }
+
+            writerToProjectList.close();
             return projectList;
         } catch (Exception e) {
             // TODO Auto-generated catch block
@@ -116,6 +151,8 @@ public class Downloader {
         }
         return null;
     }
+
+
 
     public void downloadProjects(String projectName, ArrayList<Integer> idList, boolean... test) {
         try {
