@@ -42,8 +42,8 @@ public class GetData implements Retrievable {
 			yMap = query.getComplexity(endDate);
 
 		} else if (xAxis.equals(Axis.DELTA_LINESOFCODE)) {
-			xMap = getChurn(state);
-			xMap = query.getChurn("Advertising.Perforce", startDate, endDate, "Platform");
+			xMap = getChurn(state, startDate, endDate);
+			//xMap = query.getChurn("Advertising.Perforce", startDate, endDate, "Platform");
 			yMap = query.getComplexity(endDate);
 
 		} else if (xAxis.equals(Axis.LINESOFCODE)) {
@@ -61,13 +61,11 @@ public class GetData implements Retrievable {
 		return dataSet;
 	}
 
-	private Map<String, Double> getChurn(UIState state) {
+	private Map<String, Double> getChurn(UIState state, ConvertDate startDate, ConvertDate endDate) {
 		Map<String, Double> allMaps = new HashMap<String, Double>();
-		ConvertDate startDate = state.getStart();
-		ConvertDate endDate = state.getEnd();
 		for (ConvertProject project : state.getProjects()) {
-			String repo = getRepository(project);
-			if (!repo.isEmpty()) {
+			String repo = getRepositoryName(project);
+			if (repositories.contains(repo)) {
 				String projectName = "Platform";
 				Map<String, Double> xMap = query.getChurn(repo, startDate, endDate, projectName);
 				allMaps.putAll(xMap);
@@ -101,10 +99,11 @@ public class GetData implements Retrievable {
 		ConvertDate end = state.getEnd();
 		Set<String> authorsSet = state.getAuthorsFilter();
 		for (ConvertProject project : state.getProjects()) {
-			String repo = getRepository(project);
-			if (!repo.isEmpty()) {
-				String projectName = "Platform";
-				Map<String, List<String>> authors = query.getAuthors(repo, start, end, authorsSet, projectName);
+			String repo = getRepositoryName(project);
+			if (repositories.contains(repo)) {
+				String projectName = getProjectName(project);
+				System.out.println(projectName);
+				Map<String, List<String>> authors = query.getAuthors(repo, start, end, authorsSet, "Platform");
 				for (DataPoint point : dataSet) {
 					String pathName = point.getKey();
 					if (authors.containsKey(pathName)) {
@@ -117,14 +116,17 @@ public class GetData implements Retrievable {
 		return filteredDataSet;
 	}
 
-	private String getRepository(ConvertProject project) {
+	private String getRepositoryName(ConvertProject project) {
 		String name = project.getName();
 		String repo = name.split("/")[0].trim() + ".Perforce";
 		System.out.println("repo = " + repo);
-		if (repositories.contains(repo)) {
-			return repo;
-		} else {
-			return "";
-		}
+		return repo.replaceAll(" ", "");
+	}
+	
+	private String getProjectName(ConvertProject project){
+		String key = project.getKey();
+		String[] split = key.split(":");
+		String projectName = split[1];
+		return projectName.replaceAll("-","");
 	}
 }

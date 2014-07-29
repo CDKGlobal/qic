@@ -30,15 +30,6 @@ public class GetDataTest {
 	}
 
 	@Test
-	public void passInDLOCGetDLOCvsComplexity() {
-		state.setX(Axis.DELTA_LINESOFCODE);
-		Set<DataPoint> set = gd.getData(state);
-		//assertEquals(1, set.size());
-		//assertEquals("[[28.0, 11.0, \"b\", \"Authors: Test Real Here \"], [32.0, 13.0, \"c\", \"\"], [8.0, 14.0, \"t\", \"\"]]",
-				//HashSetToTreeSet(set).toString());
-	}
-
-	@Test
 	public void passInLOCgetLOCvsComplexity() {
 		state.setX(Axis.LINESOFCODE);
 		Set<DataPoint> set = gd.getData(state);
@@ -53,6 +44,11 @@ HashSetToTreeSet(set).toString());
 	public void passInEmptyDComplexReturnEmpty() {
 		state.setX(Axis.DELTA_COMPLEXITY);
 		assertEquals("[]", gd.getData(state).toString());
+	}
+	
+	@Test
+	public void passInEmptyStringToGetRepositoryNameReturnEmptyString(){
+		//String repoName = gd.getRepositoryName(new ConvertProject("",""));
 	}
 
 	public TreeSet<DataPoint> HashSetToTreeSet(Set<DataPoint> set) {
