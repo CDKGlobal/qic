@@ -64,7 +64,7 @@ public class GetData implements Retrievable {
 		for (ConvertProject project : state.getProjects()) {
 			String repo = getRepositoryName(project);
 			if (repositories.contains(repo)) {
-				String projectName = "Platform";
+				String projectName = getProjectName(project);
 				Map<String, Double> xMap = query.getChurn(repo, startDate, endDate, projectName);
 				allMaps.putAll(xMap);
 			}
@@ -100,7 +100,7 @@ public class GetData implements Retrievable {
 			String repo = getRepositoryName(project);
 			if (repositories.contains(repo)) {
 				String projectName = getProjectName(project);
-				System.out.println(projectName);
+				//System.out.println(projectName);
 				Map<String, List<String>> authors = query.getAuthors(repo, start, end, authorsSet, projectName);
 				for (DataPoint point : dataSet) {
 					String pathName = point.getKey();
