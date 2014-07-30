@@ -6,8 +6,7 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.sql.Connection;
-import java.sql.Statement;
+import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,17 +18,38 @@ import com.testing123.ui.Preferences;
 public class DownloadAuthors {
 
 	public static void main(String[] args) {
+		addDateStamp();
 		addAuthors();
 	}
 	
+	public static void addDateStamp() {
+		SQLConnector connector = new SQLConnector("dataList4");
+		DateTime today = new DateTime();
+		String query = null;
+		if (today.getMonthOfYear() < 10) {
+			query = "INSERT INTO dates (display) VALUES ('" + today.getYear() + "-" + 
+					0 + today.getMonthOfYear() + "-" + today.getDayOfMonth() + "')";
+		} else {
+			query = "INSERT INTO dates (display) VALUES ('" + today.getYear() + "-" + 
+				today.getMonthOfYear() + "-" + today.getDayOfMonth() + "')";
+		}
+		System.out.println(query);
+		try {
+			connector.updateQuery(query);
+		} catch (SQLException e) {
+			System.out.println("today's date already exists");
+		}
+		connector.close();
+	}
+	
 	private static void addAuthors() {
+		SQLConnector connector = new SQLConnector("dataList4");
 		Set<String> all = new HashSet<String>();
 		int k = 0;
 		for (String repository : Preferences.FISHEYE_REPOS) {
 			String home = "http://fisheye.cobalt.com/search/";
 			String link = home + repository + "/?ql=" + getQuery();
 			link = link.replaceAll("\\s+", "%20");
-			SQLConnector connector = new SQLConnector("dataList4");
 			try {
 				URL url  = new URL(link);
 				System.out.println(link);
@@ -56,6 +76,7 @@ public class DownloadAuthors {
 			}
 		}
 		System.out.println(k + " rows added total!");
+		connector.close();
 	}
 
 	private static int upload(SQLConnector connector, String vals) {
