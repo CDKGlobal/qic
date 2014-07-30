@@ -4,18 +4,21 @@ import static org.junit.Assert.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class SQLConnectorTest {
+	private static SQLConnector conn;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
+		conn = new SQLConnector();
 	}
 
 	private void testQuery(String query) {
-		ResultSet rs = new SQLConnector().basicQuery(query);
+		ResultSet rs = conn.basicQuery(query);
 		try {
 			assertTrue(rs.next());
 		} catch (SQLException e) {
@@ -34,7 +37,8 @@ public class SQLConnectorTest {
 	}
 	
 	@Test
-	public void TestInvalidQueryReturnsNull() {
-//		testQuery();
+	public void TestEmptyResultQueryReturnsNull() {
+		ResultSet rs = conn.basicQuery("SELECT * FROM authors LIMIT 0");
+		assertEquals(null, rs);
 	}
 }

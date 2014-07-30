@@ -30,7 +30,8 @@ public class AvailableResources {
 	public static List<ConvertProject> getAvailableProjects() {
 		List<ConvertProject> projects = new ArrayList<ConvertProject>();
 		try {
-			ResultSet rs = SQLConnector.basicQuery("SELECT name, project_key, project_id FROM projectList ORDER BY name ASC");
+			SQLConnector connector = new SQLConnector();
+			ResultSet rs = connector.basicQuery("SELECT name, project_key, project_id FROM projectList ORDER BY name ASC");
 			while (rs.next()) {
 				projects.add(new ConvertProject(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getString(4)));
 			}
@@ -48,10 +49,8 @@ public class AvailableResources {
 	public static List<String> getAvailableAuthors() {
 		List<String> authors = new ArrayList<String>();
 		try {
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			Connection conn = SQLConnector.getConnection("dataList2");
-			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT user FROM authors ORDER BY user ASC");
+			SQLConnector connector = new SQLConnector("dataList2");
+			ResultSet rs = connector.basicQuery("SELECT user FROM authors ORDER BY user ASC");
 			while (rs.next()) {
 				authors.add(rs.getString(1));
 			}
@@ -70,7 +69,7 @@ public class AvailableResources {
 		List<ConvertDate> dates = new ArrayList<ConvertDate>();
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			Connection conn = SQLConnector.getConnection("dataList");
+			Connection conn = new SQLConnector("dataList").getConn();
 			DatabaseMetaData md = conn.getMetaData();
 			ResultSet rs = md.getTables(null, null, "%", null);
 			while (rs.next()) {
@@ -86,14 +85,4 @@ public class AvailableResources {
 		} 
 		return dates;
 	}
-	
-//	public static List<WebData> getDataList(String date) {
-//		ResultSet results = null;
-//		try {
-//			results = SQLConnector.dataQuery("", "SELECT * FROM " + date + " WHERE QUALIFIER = 'CLA';");
-//			return SQLConnector.process(results, "ncloc", "complexity");
-//		} catch (Exception e) {
-//			return new ArrayList<WebData>();
-//		}
-//	}
 }
