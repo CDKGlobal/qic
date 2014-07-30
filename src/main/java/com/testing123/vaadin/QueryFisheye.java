@@ -102,6 +102,8 @@ public class QueryFisheye {
 //		pathName = pathName.substring(0, pathName.length() - 5);
 		int length = split.length;
 		String pathName = split[length-2] + "." + split[length-1];
+		pathName = pathName.substring(0, pathName.length() - 5);
+
 		return pathName;
 	}
 
