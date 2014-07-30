@@ -15,7 +15,7 @@ public class SQLConnectorTest {
 	}
 
 	private void testQuery(String query) {
-		ResultSet rs = SQLConnector.basicQuery(query);
+		ResultSet rs = new SQLConnector().basicQuery(query);
 		try {
 			assertTrue(rs.next());
 		} catch (SQLException e) {
@@ -24,18 +24,17 @@ public class SQLConnectorTest {
 	}
 	
 	@Test
-	public void TestBasicQueryReturnsNonNullResult() {
+	public void TestSQLQueryReturnsNonNullResult() {
 		testQuery("SHOW TABLES");
 	}
 	
 	@Test
-	public void TestBasicDataQueryReturnsNonNullResult() {
-		testQuery("SELECT * FROM 2014_07_08T06_07_31_0700");
+	public void TestSelectQueryReturnsNonNullResult() {
+		testQuery("SELECT * FROM authors");
 	}
 	
 	@Test
-	public void TestProcessReturnsNonEmptyList() {
-//		ResultSet rs = SQLConnector.basicQuery("SELECT * FROM 2014_07_08T06_07_31_0700");
-//		SQLConnector.process(rs);
+	public void TestInvalidQueryReturnsNull() {
+//		testQuery();
 	}
 }

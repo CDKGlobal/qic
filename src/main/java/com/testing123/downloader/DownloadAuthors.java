@@ -29,7 +29,7 @@ public class DownloadAuthors {
 			String home = "http://fisheye.cobalt.com/search/";
 			String link = home + repository + "/?ql=" + getQuery();
 			link = link.replaceAll("\\s+", "%20");
-			Connection conn = SQLConnector.getConnection("dataList4");
+			SQLConnector connector = new SQLConnector("dataList4");
 			try {
 				URL url  = new URL(link);
 				System.out.println(link);
@@ -45,7 +45,7 @@ public class DownloadAuthors {
 		        }
 		        int i = 0;
 				for (String auth : all) {
-					i += upload(conn, auth);
+					i += upload(connector, auth);
 				}
 				System.out.println(i + " rows added");
 				k += i;
@@ -58,12 +58,11 @@ public class DownloadAuthors {
 		System.out.println(k + " rows added total!");
 	}
 
-	private static int upload(Connection conn, String vals) {
+	private static int upload(SQLConnector connector, String vals) {
 		try {
-			Statement stmt = conn.createStatement();
 			String query = "INSERT INTO authors (user) VALUES (" + vals + ")";
 			System.out.println(query);
-			stmt.executeUpdate(query);
+			connector.updateQuery(query);
 			return 1;
 		} catch (Exception e) {
 			System.out.println(vals + " already exists");

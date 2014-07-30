@@ -40,7 +40,7 @@ public class Downloader {
     public static ResultSet getConnectionFromDB(String name) {
         ResultSet results = null;
         try {
-            results = new SQLConnector().dataQuery("", "SELECT id FROM " + name + ";");
+            results = new SQLConnector().basicQuery("SELECT id FROM " + name + ";");
 
             return results;
         } catch (Exception e) {

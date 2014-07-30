@@ -75,7 +75,7 @@ public class QueryDatabase {
 	private static List<WebData> getDataList(ConvertDate date, Set<ConvertProject> projects) {
 		ResultSet results = null;
 		try {
-			results = SQLConnector.basicQuery("SELECT project_id, allFileList.file_id, allFileList.file_key, name, scope, qualifier, date," + 
+			results = new SQLConnector().basicQuery("SELECT project_id, allFileList.file_id, allFileList.file_key, name, scope, qualifier, date," + 
 				" ncloc, complexity FROM allFileList JOIN allFileHistory ON allFileList.file_key = allFileHistory.file_key WHERE project_id IN" 
 				+ projectSet(projects) +  " AND allFileHistory.date LIKE '" + date.getDBQueryFormat() + "' AND qualifier = 'CLA';");
 //			if (!results.isBeforeFirst()) {    
