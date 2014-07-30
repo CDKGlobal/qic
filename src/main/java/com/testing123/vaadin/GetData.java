@@ -52,7 +52,7 @@ public class GetData implements Retrievable {
 			return new HashSet<DataPoint>();
 		}
 		Set<DataPoint> dataSet = aggregator(xMap, yMap);
-		System.out.println("dataSet size = " + dataSet.size());
+		//System.out.println("dataSet size = " + dataSet.size());
 		if (authorsRequired)
 			dataSet = addAuthorsToDataSet(dataSet);
 
@@ -101,7 +101,7 @@ public class GetData implements Retrievable {
 			if (repositories.contains(repo)) {
 				String projectName = getProjectName(project);
 				System.out.println(projectName);
-				Map<String, List<String>> authors = query.getAuthors(repo, start, end, authorsSet, "Platform");
+				Map<String, List<String>> authors = query.getAuthors(repo, start, end, authorsSet, projectName);
 				for (DataPoint point : dataSet) {
 					String pathName = point.getKey();
 					if (authors.containsKey(pathName)) {
@@ -115,16 +115,21 @@ public class GetData implements Retrievable {
 	}
 
 	private String getRepositoryName(ConvertProject project) {
-		String name = project.getName();
-		String repo = name.split("/")[0].trim() + ".Perforce";
-		System.out.println("repo = " + repo);
-		return repo.replaceAll(" ", "");
+		String path = project.getPath();
+		String[] split = path.split("/");
+		if(split.length>1){
+			return split[1] + ".Perforce";
+		}
+		return "";
 	}
 	
 	private String getProjectName(ConvertProject project){
-		String key = project.getKey();
-		String[] split = key.split(":");
-		String projectName = split[1];
-		return projectName.replaceAll("-","");
+		String path = project.getPath();
+		String[] split = path.split("/");
+		if(split.length>2){
+			int index = path.indexOf('/', 1);
+			return path.substring(index+1);
+		}
+		return "";
 	}
 }

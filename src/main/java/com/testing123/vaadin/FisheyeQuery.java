@@ -7,12 +7,14 @@ import java.util.Set;
 public class FisheyeQuery {
 
 	private String repository;
+	private String directory;
 	private String dateRange;
 	private String clauses;
 	private String returns;
 
 	public FisheyeQuery(String repository, ConvertDate startDate, ConvertDate endDate) {
 		this.repository = repository;
+		directory = "";
 		dateRange = getDateRange(startDate, endDate);
 		clauses = "";
 		returns = "";
@@ -28,6 +30,7 @@ public class FisheyeQuery {
 	
 	public URL getChurnURL(String project){
 		inProject(project);
+		addPath("**/src/main/**");
 		onlyJava();
 		addReturn("path");
 		addReturn("sum(linesAdded)");
@@ -39,6 +42,7 @@ public class FisheyeQuery {
 	
 	private void getAuthorsState(String project){
 		inProject(project);
+		inSrcMain();
 		onlyJava();
 		addReturn("path");
 		addReturn("author");
@@ -68,11 +72,15 @@ public class FisheyeQuery {
 	
 	
 	private void inProject(String project) {
-		addPath("/" + project + "/trunk/src/main/**");
+		directory = "from dir \"" + project + "\"";
 	}
 
 	private void onlyJava() {
 		addPath("*.java");
+	}
+	
+	private void inSrcMain(){
+		addPath("**/src/main/**");
 	}
 	
 	private void addPath(String path) {
@@ -106,7 +114,7 @@ public class FisheyeQuery {
 	}
 
 	private String getQuery() {
-		return "select revisions " + dateRange + getClauses() + " group by file "+ getReturns();//cannot always group by file
+		return "select revisions " + directory + dateRange + getClauses() + " group by file "+ getReturns();//cannot always group by file
 	}
 	
 	private String getDateRange(ConvertDate startDate, ConvertDate endDate) {
