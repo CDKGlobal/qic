@@ -91,6 +91,41 @@ public class DataPoint implements Comparable<DataPoint> {
 	}
 
 	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((authors == null) ? 0 : authors.hashCode());
+		result = prime * result + ((key == null) ? 0 : key.hashCode());
+		long temp;
+		temp = Double.doubleToLongBits(xValue);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(yValue);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		DataPoint other = (DataPoint) obj;
+		if (key == null) {
+			if (other.key != null)
+				return false;
+		} else if (!key.equals(other.key))
+			return false;
+		if (Double.doubleToLongBits(xValue) != Double.doubleToLongBits(other.xValue))
+			return false;
+		if (Double.doubleToLongBits(yValue) != Double.doubleToLongBits(other.yValue))
+			return false;
+		return true;
+	}
+
+	@Override
 	public int compareTo(DataPoint other) {
 		int compare = this.key.compareTo(other.key);
 		if (compare == 0) {
@@ -100,13 +135,6 @@ public class DataPoint implements Comparable<DataPoint> {
 			compare = (int) (this.yValue - other.yValue);
 		}
 		return compare;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (obj.getClass().equals(new DataPoint().getClass()))
-			return this.compareTo((DataPoint) obj) == 0;
-		return false;
 	}
 
 }
