@@ -1,15 +1,11 @@
 package com.testing123.controller;
 
-import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
-import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
-import java.sql.Statement;
 
 import com.testing123.vaadin.ConvertDate;
 import com.testing123.vaadin.ConvertProject;
-import com.testing123.vaadin.WebData;
 
 public class AvailableResources {
 	
@@ -31,7 +27,7 @@ public class AvailableResources {
 		List<ConvertProject> projects = new ArrayList<ConvertProject>();
 		try {
 			SQLConnector connector = new SQLConnector();
-			ResultSet rs = connector.basicQuery("SELECT name, project_key, project_id FROM projectList ORDER BY name ASC");
+			ResultSet rs = connector.basicQuery("SELECT name, project_key, project_id, path FROM projectList ORDER BY name ASC");
 			while (rs.next()) {
 				if (rs.getString(4) != null && rs.getString(4).length() > 1) {
 					projects.add(new ConvertProject(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getString(4)));
@@ -70,17 +66,10 @@ public class AvailableResources {
 	public static List<ConvertDate> getAvailableDates() {
 		List<ConvertDate> dates = new ArrayList<ConvertDate>();
 		try {
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			Connection conn = new SQLConnector("dataList").getConn();
-			DatabaseMetaData md = conn.getMetaData();
-			ResultSet rs = md.getTables(null, null, "%", null);
+			SQLConnector conn = new SQLConnector();
+			ResultSet rs = conn.basicQuery("SELECT * FROM dates");
 			while (rs.next()) {
-				String date = rs.getString(3);
-				Statement stmt = conn.createStatement();
-				ResultSet rs1 = stmt.executeQuery("SELECT * FROM " + date + " LIMIT 1;");
-				if (rs1.next()) {
-					dates.add(new ConvertDate(rs1.getString("date")));
-				}
+				dates.add(new ConvertDate(rs.getString("display")));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

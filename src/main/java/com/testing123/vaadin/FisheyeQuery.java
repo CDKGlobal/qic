@@ -118,7 +118,7 @@ public class FisheyeQuery {
 	}
 	
 	private String getDateRange(ConvertDate startDate, ConvertDate endDate) {
-		return " where date in [" + startDate.getSonarFormat().substring(0, 10) + "T07:00:00," + endDate.getSonarFormat().substring(0, 10)
+		return " where date in [" + startDate.getShort() + "T07:00:00," + endDate.getShort()
 				+ "T07:00:00] ";
 	}
 	

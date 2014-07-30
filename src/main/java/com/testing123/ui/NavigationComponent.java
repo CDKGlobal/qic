@@ -132,7 +132,7 @@ public class NavigationComponent extends CustomComponent {
 				ConvertDate endDate = (ConvertDate) endComboBox.getValue();
 				if (checkIfStartDateIsNotLessThanEndDate(startDate, endDate)) {
 					errorLabel = new Label("Date range invalid");
-					navLayout.addComponent(errorLabel, "top:" + DATE_GRANULARITY_OFFSET + "; left:510.0px;");
+					navLayout.addComponent(errorLabel, "top:" + DATE_GRANULARITY_OFFSET + "; left:570.0px;");
 					return;
 				}
 				state.setProjects((Set<ConvertProject>) filter.projectFilter.getValue());
@@ -144,8 +144,8 @@ public class NavigationComponent extends CustomComponent {
 
 			private boolean checkIfStartDateIsNotLessThanEndDate(
 					ConvertDate startDate, ConvertDate endDate) {
-				return startDate.getSonarFormat().equals(endDate.getSonarFormat()) || 
-						startDate.getSonarFormat().compareTo(endDate.getSonarFormat()) > 0;
+				return startDate.toString().equals(endDate.toString()) || 
+						startDate.toString().compareTo(endDate.toString()) > 0;
 			}
 		});
 		navLayout.addComponent(button_1, "top:" + DATE_GRANULARITY_OFFSET + "; left:440.0px;");
@@ -175,7 +175,7 @@ public class NavigationComponent extends CustomComponent {
 	
 	private ComboBox createDateComboBox(List<ConvertDate> options, String tag) {
 		ComboBox box = createComboBoxWithLabel(tag, true);
-		for (int i = options.size() - 3; i >= 0; i--) {
+		for (int i = 0; i < options.size(); i++) {
 			box.addItem(options.get(i));
 		}
 		return box;

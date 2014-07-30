@@ -12,8 +12,8 @@ public class Preferences {
 	public static final String STATIC_TABLE = "allFileList"; 
 	public static final String DATA_TABLE = "allFileHistory";
 	
-	public static final ConvertDate DEFAULT_START_DATE = new ConvertDate("2014-07-15T06-07-55-0700");
-	public static final ConvertDate DEFAULT_END_DATE = new ConvertDate("2014-07-21T06-07-35-0700");
+	public static final ConvertDate DEFAULT_START_DATE = new ConvertDate("2014-07-29");
+	public static final ConvertDate DEFAULT_END_DATE = new ConvertDate("2014-07-30");
 	
 	public static final String GRPAH_COLOR = "#033F8D";
 	public static final String FILL_COLOR = "#033F8D";

@@ -102,8 +102,8 @@ public class UIState {
 	
 	public void verifyState() {
 		System.out.println("CURRENT STATE:");
-		System.out.println("Start Date: " + start.toString());
-		System.out.println("End Date: " + end.toString());
+		System.out.println("Start Date: " + start.getShort());
+		System.out.println("End Date: " + end.getShort());
 		System.out.println("XAxis: " + x);
 		System.out.println("Projects: " + projects);
 		System.out.println("Authors: " + authors);
