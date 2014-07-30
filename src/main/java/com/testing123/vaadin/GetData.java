@@ -49,12 +49,8 @@ public class GetData implements Retrievable {
 		} else {
 			return new HashSet<DataPoint>();
 		}
-		System.out.println("xMap size = " + xMap.size());
-		System.out.println("yMap size = " + yMap.size());
 
 		Set<DataPoint> dataSet = aggregator(xMap, yMap);
-		//System.out.println("dataSet size = " + dataSet.size());
-		System.out.println("dataSetSize = " + dataSet.size());
 		if (authorsRequired)
 			dataSet = addAuthorsToDataSet(dataSet);
 
@@ -63,13 +59,10 @@ public class GetData implements Retrievable {
 
 	private Map<String, Double> getChurn(UIState state, ConvertDate startDate, ConvertDate endDate) {
 		Map<String, Double> allMaps = new HashMap<String, Double>();
-		System.out.println("# of projects = " + state.getProjects().size());
 		for (ConvertProject project : state.getProjects()) {
 			String repo = getRepositoryName(project);
 			if (repositories.contains(repo)) {
-				System.out.println("repo exists");
 				String projectName = getProjectName(project);
-				System.out.println("proj name = " + projectName);
 				Map<String, Double> xMap = query.getChurn(repo, startDate, endDate, projectName);
 				allMaps.putAll(xMap);
 			}
@@ -137,9 +130,7 @@ public class GetData implements Retrievable {
 	
 	private String getProjectName(ConvertProject project){
 		String path = project.getPath();
-		System.out.println("path = " + path);
 		String[] split = path.split("/");
-		System.out.println("split length = " + split.length);
 		if(split.length>2){
 			int index = path.indexOf('/', 1);
 			return path.substring(index+1);
