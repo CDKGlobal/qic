@@ -78,11 +78,14 @@ public class QueryDatabase {
 			results = new SQLConnector().basicQuery("SELECT project_id, allFileList.file_id, allFileList.file_key, name, scope, qualifier, date," + 
 				" ncloc, complexity FROM allFileList JOIN allFileHistory ON allFileList.file_key = allFileHistory.file_key WHERE project_id IN" 
 				+ projectSet(projects) +  " AND allFileHistory.date LIKE '" + date.getDBQueryFormat() + "' AND qualifier = 'CLA';");
-			if (!results.isBeforeFirst()) {    
+			if (results == null || !results.isBeforeFirst()) {    
 				results = new SQLConnector().basicQuery("SELECT project_id, allFileList.file_id, allFileList.file_key, name, scope, qualifier, date," + 
 						" ncloc, complexity FROM allFileList JOIN allFileHistory ON allFileList.file_key = allFileHistory.file_key WHERE project_id IN" 
 						+ projectSet(projects) +  " AND qualifier = 'CLA';");
 			} 
+			if (results == null) {
+				return new ArrayList<WebData>();
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ArrayList<WebData>();
@@ -93,7 +96,9 @@ public class QueryDatabase {
 	private static List<WebData> processTwo(ResultSet rs, String... metrics) {
 		List<WebData> processed = new ArrayList<WebData>();
 		try {
+			int counts = 0;
 			while (rs.next()) {
+				counts++;
 				WebData data = new WebData();
 				data.setProjectId(rs.getInt("project_id"));
 				data.setId(rs.getInt("file_id"));
@@ -115,6 +120,7 @@ public class QueryDatabase {
 				data.setMsr(msrList);
 				processed.add(data);
 			}
+			System.out.println(counts + " processed");
 			rs.close();
 			return processed;
 		} catch (SQLException e) {
@@ -134,8 +140,13 @@ public class QueryDatabase {
 	}
 	
 	private static String formatKey(String longKey) {
-		String[] pack = longKey.split(":");
-		String replacement = pack[1];
-		return longKey.replaceAll("com.cobalt.*:", replacement + ".");
+		String[] pack = longKey.split(".");
+		int length = pack.length;
+		if (length < 2) {
+			return longKey;
+		}
+		//String replacement = pack[1];
+		//return longKey.replaceAll("com.cobalt.*:", replacement + ".");
+		return pack[length - 1] + "." + pack[length - 2];
 	}
 }

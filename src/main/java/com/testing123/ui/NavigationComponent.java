@@ -135,6 +135,12 @@ public class NavigationComponent extends CustomComponent {
 					navLayout.addComponent(errorLabel, "top:" + DATE_GRANULARITY_OFFSET + "; left:570.0px;");
 					return;
 				}
+				if (state.getProjects().equals((Set<ConvertProject>) filter.projectFilter.getValue()) 
+						&& state.getAuthorsFilter().equals((Set<String>) filter.authorsFilter.getValue())
+						&& state.getStart().equals(startDate)
+						&& state.getEnd().equals(endDate)) {
+					return;
+				}
 				state.setProjects((Set<ConvertProject>) filter.projectFilter.getValue());
 				state.setAuthorsFilter((Set<String>) filter.authorsFilter.getValue()); 
 				state.setStart(startDate);
