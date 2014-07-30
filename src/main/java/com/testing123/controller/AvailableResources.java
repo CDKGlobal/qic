@@ -32,7 +32,7 @@ public class AvailableResources {
 		try {
 			ResultSet rs = SQLConnector.basicQuery("SELECT name, project_key, project_id FROM projectList ORDER BY name ASC");
 			while (rs.next()) {
-				projects.add(new ConvertProject(rs.getString(1), rs.getString(2), rs.getInt(3)));
+				projects.add(new ConvertProject(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getString(4)));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
