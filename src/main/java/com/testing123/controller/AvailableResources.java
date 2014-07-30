@@ -33,7 +33,9 @@ public class AvailableResources {
 			SQLConnector connector = new SQLConnector();
 			ResultSet rs = connector.basicQuery("SELECT name, project_key, project_id FROM projectList ORDER BY name ASC");
 			while (rs.next()) {
-				projects.add(new ConvertProject(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getString(4)));
+				if (rs.getString(4) != null && rs.getString(4).length() > 1) {
+					projects.add(new ConvertProject(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getString(4)));
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -49,7 +51,7 @@ public class AvailableResources {
 	public static List<String> getAvailableAuthors() {
 		List<String> authors = new ArrayList<String>();
 		try {
-			SQLConnector connector = new SQLConnector("dataList2");
+			SQLConnector connector = new SQLConnector("dataList4");
 			ResultSet rs = connector.basicQuery("SELECT user FROM authors ORDER BY user ASC");
 			while (rs.next()) {
 				authors.add(rs.getString(1));
