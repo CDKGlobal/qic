@@ -126,6 +126,7 @@ public class FisheyeQuery {
 	private String getString() {
 		String home = "http://fisheye.cobalt.com/rest-service-fe/search-v1/queryAsRows/";
 		String link = home + repository + ".json?query=" + getQuery();
+		System.out.println(link);
 		return link.replaceAll("\\s+", "%20");
 	}
 }

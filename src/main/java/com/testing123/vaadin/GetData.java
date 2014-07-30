@@ -43,16 +43,18 @@ public class GetData implements Retrievable {
 			xMap = query.getDeltaComplexity(startDate, endDate, authors, projects);
 		} else if (xAxis.equals(Axis.DELTA_LINESOFCODE)) {
 			xMap = getChurn(state, startDate, endDate);
-			//xMap = query.getChurn("Advertising.Perforce", startDate, endDate, "Platform");
-
 		} else if (xAxis.equals(Axis.LINESOFCODE)) {
 			xMap = query.getNCLOC(endDate, authors, projects);
 			authorsRequired = false;
 		} else {
 			return new HashSet<DataPoint>();
 		}
+		System.out.println("xMap size = " + xMap.size());
+		System.out.println("yMap size = " + yMap.size());
+
 		Set<DataPoint> dataSet = aggregator(xMap, yMap);
 		//System.out.println("dataSet size = " + dataSet.size());
+		System.out.println("dataSetSize = " + dataSet.size());
 		if (authorsRequired)
 			dataSet = addAuthorsToDataSet(dataSet);
 
@@ -61,10 +63,13 @@ public class GetData implements Retrievable {
 
 	private Map<String, Double> getChurn(UIState state, ConvertDate startDate, ConvertDate endDate) {
 		Map<String, Double> allMaps = new HashMap<String, Double>();
+		System.out.println("# of projects = " + state.getProjects().size());
 		for (ConvertProject project : state.getProjects()) {
 			String repo = getRepositoryName(project);
 			if (repositories.contains(repo)) {
+				System.out.println("repo exists");
 				String projectName = getProjectName(project);
+				System.out.println("proj name = " + projectName);
 				Map<String, Double> xMap = query.getChurn(repo, startDate, endDate, projectName);
 				allMaps.putAll(xMap);
 			}
@@ -83,11 +88,18 @@ public class GetData implements Retrievable {
 		Set<DataPoint> dataSet = new HashSet<DataPoint>();
 		for (Map.Entry<String, Double> xValues : xMap.entrySet()) {
 			String pathName = xValues.getKey();
+			System.out.println("X = " + pathName);
 			if (yMap.containsKey(pathName)) {
 				DataPoint current = new DataPoint(xValues.getKey(), xValues.getValue(), yMap.get(pathName));
 				dataSet.add(current);
 			}
 		}
+		for (Map.Entry<String, Double> yValues : yMap.entrySet()) {
+			String pathName = yValues.getKey();
+			System.out.println("Y = " + pathName);
+
+		}
+
 		return dataSet;
 	}
 
@@ -125,7 +137,9 @@ public class GetData implements Retrievable {
 	
 	private String getProjectName(ConvertProject project){
 		String path = project.getPath();
+		System.out.println("path = " + path);
 		String[] split = path.split("/");
+		System.out.println("split length = " + split.length);
 		if(split.length>2){
 			int index = path.indexOf('/', 1);
 			return path.substring(index+1);
