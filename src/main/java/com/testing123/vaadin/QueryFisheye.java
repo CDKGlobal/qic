@@ -92,14 +92,16 @@ public class QueryFisheye {
 	private static String formatPath(ItemData item, int pathIndex) {
 		String path = (String) item.getItem(pathIndex);
 		String[] split = path.split("/");
-		StringBuffer buf = new StringBuffer();
-		buf.append(split[0].toLowerCase());
-		for (int i = 5; i < split.length; ++i) {
-			buf.append(".");
-			buf.append(split[i]);
-		}
-		String pathName = buf.toString();
-		pathName = pathName.substring(0, pathName.length() - 5);
+//		StringBuffer buf = new StringBuffer();
+//		buf.append(split[0].toLowerCase());
+//		for (int i = 5; i < split.length; ++i) {
+//			buf.append(".");
+//			buf.append(split[i]);
+//		}
+//		String pathName = buf.toString();
+//		pathName = pathName.substring(0, pathName.length() - 5);
+		int length = split.length;
+		String pathName = split[length-2] + "." + split[length-1];
 		return pathName;
 	}
 
