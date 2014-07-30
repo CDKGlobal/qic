@@ -33,6 +33,7 @@ public class AvailableResources {
 					projects.add(new ConvertProject(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getString(4)));
 				}
 			}
+			connector.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -47,11 +48,12 @@ public class AvailableResources {
 	public static List<String> getAvailableAuthors() {
 		List<String> authors = new ArrayList<String>();
 		try {
-			SQLConnector connector = new SQLConnector("dataList4");
+			SQLConnector connector = new SQLConnector();
 			ResultSet rs = connector.basicQuery("SELECT user FROM authors ORDER BY user ASC");
 			while (rs.next()) {
 				authors.add(rs.getString(1));
 			}
+			connector.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -71,6 +73,7 @@ public class AvailableResources {
 			while (rs.next()) {
 				dates.add(new ConvertDate(rs.getString("display")));
 			}
+			conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 

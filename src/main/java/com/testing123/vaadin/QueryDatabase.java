@@ -78,11 +78,11 @@ public class QueryDatabase {
 			results = new SQLConnector().basicQuery("SELECT project_id, allFileList.file_id, allFileList.file_key, name, scope, qualifier, date," + 
 				" ncloc, complexity FROM allFileList JOIN allFileHistory ON allFileList.file_key = allFileHistory.file_key WHERE project_id IN" 
 				+ projectSet(projects) +  " AND allFileHistory.date LIKE '" + date.getDBQueryFormat() + "' AND qualifier = 'CLA';");
-//			if (!results.isBeforeFirst()) {    
-//				results = SQLConnector.basicQuery("SELECT project_id, allFileList.file_id, allFileList.file_key, name, scope, qualifier, date," + 
-//						" ncloc, complexity FROM allFileList JOIN allFileHistory ON allFileList.file_key = allFileHistory.file_key WHERE project_id IN" 
-//						+ projectSet(projects) +  " AND qualifier = 'CLA';");
-//			} 
+			if (!results.isBeforeFirst()) {    
+				results = new SQLConnector().basicQuery("SELECT project_id, allFileList.file_id, allFileList.file_key, name, scope, qualifier, date," + 
+						" ncloc, complexity FROM allFileList JOIN allFileHistory ON allFileList.file_key = allFileHistory.file_key WHERE project_id IN" 
+						+ projectSet(projects) +  " AND qualifier = 'CLA';");
+			} 
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ArrayList<WebData>();
