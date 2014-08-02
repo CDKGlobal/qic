@@ -9,9 +9,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class WebData {
-	
-	@JsonIgnoreProperties({"lname","lang","creationDate, projectId"})
-	private int projectId;
+
+    @JsonIgnoreProperties({"lname","lang","creationDate, projectId"})
+    private int projectId;
     private int id;
     private String key;
     private String name;
@@ -23,7 +23,7 @@ public class WebData {
     public void setProjectId(int projectId) {
         this.projectId = projectId;
     }
-    
+
     public void setId(int id) {
         this.id = id;
     }
@@ -35,9 +35,9 @@ public class WebData {
     public void setName(String name) {
         this.name = name;
     }
-    
+
     public void setScope(String scope) {
-    	this.scope = scope;
+        this.scope = scope;
     }
 
     public void setQualifier(String qualifier) {
@@ -45,9 +45,9 @@ public class WebData {
     }
 
     public void setDate(String date) {
-    	this.date = date;
+        this.date = date;
     }
-    
+
     public void setMsr(List<Msr> msr) {
         this.msr = msr;
     }
@@ -55,7 +55,7 @@ public class WebData {
     public int getProjectId() {
         return projectId;
     }
-    
+
     public int getId() {
         return id;
     }
@@ -67,9 +67,9 @@ public class WebData {
     public String getName() {
         return name;
     }
-    
+
     public String getScope() {
-    	return scope;
+        return scope;
     }
 
     public String getQualifier() {
@@ -77,10 +77,15 @@ public class WebData {
     }
 
     public String getDate() {
-    	return date;
+        return date;
     }
-    
+
+    public String getDBDate() {
+        String[] shortDate = date.split("T");
+        return shortDate[0];
+    }
+
     public List<Msr> getMsr() {
-    	return msr;
+        return msr;
     }
 }
