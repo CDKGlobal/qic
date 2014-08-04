@@ -100,6 +100,13 @@ public class SQLConnector {
 		}
 	}
     
+	/**
+	 * Executes a query 
+	 * 
+	 * @param query the string format of the query to be executed
+	 * @return a ResultSet representing all the rows returned by the table
+	 * @throws SQLException
+	 */
 	private ResultSet execute(String query) throws SQLException {
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -108,10 +115,5 @@ public class SQLConnector {
 		System.out.println();
 		rs = stmt.executeQuery(query);
 		return rs;
-	}
-	
-	public static String getUser() {
-    	String home = System.getProperty("user.home").replace("/Users/", "");
-    	return home;
 	}
 }
