@@ -33,7 +33,7 @@ public class DownloadFisheyeData {
 				continue;
 			}
 			
-			System.out.println("Project ID = " + project.getProjectID());
+			//System.out.println("Project ID = " + project.getProjectID());
 			
 			Map<String, Integer> mapForDatabase = getMapToID(project.getProjectID());
 			
@@ -41,18 +41,19 @@ public class DownloadFisheyeData {
 			setOfFilesInDatabase.addAll(mapForDatabase.keySet());
 			
 			Set<RevisionData> revisionSet = getRevisionsFromProject(projectPath.getRepository(), projectPath.getDirectory());
-			Set<RevisionData> aggregatedRevisionsSet = aggregateRevisions(revisionSet);
+			Set<RevisionData> aggregatedRevisionSet = aggregateRevisions(revisionSet);
 			
-			for (RevisionData r : revisionSet) {
+			for (RevisionData r : aggregatedRevisionSet) {
 				String path = formatFisheyePath(r.getFisheyePath());
 				boolean b = false;
 				for(String sonarPath: setOfFilesInDatabase){
-					if(path.contains(sonarPath)){
+					if(path.endsWith(sonarPath)){
 						if(!b){
 							b=true;
 						}else{
 							System.out.println("There are two that fit = " + sonarPath);
 						}
+						System.out.println(project.getProjectID() + "\t" + sonarPath + "\t" + r.getChurn() + "\t" + r.getAuthor());
 					}
 				}
 				if(!b){System.out.println(b + "=\t" + path);}
@@ -81,10 +82,9 @@ public class DownloadFisheyeData {
 	}
 	
 	private static String formatFisheyePath(String path) {
-		System.out.println(path);
 		path = path.substring(0, path.length() - 5);
 		path = path.replaceAll("/", "\\.");
-		System.out.println(path);
+		//System.out.println(path);
 		return path;
 	}
 
