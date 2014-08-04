@@ -28,10 +28,10 @@ public class DownloadAuthors {
 		String query = null;
 		if (today.getMonthOfYear() < 10) {
 			query = "INSERT INTO dates (display) VALUES ('" + today.getYear() + "-" + 
-					0 + today.getMonthOfYear() + "-" + today.getDayOfMonth() + "')";
+				frmtDigit(today.getMonthOfYear()) + "-" + frmtDigit(today.getDayOfMonth()) + "')";
 		} else {
 			query = "INSERT INTO dates (display) VALUES ('" + today.getYear() + "-" + 
-				today.getMonthOfYear() + "-" + today.getDayOfMonth() + "')";
+				frmtDigit(today.getMonthOfYear()) + "-" + frmtDigit(today.getDayOfMonth()) + "')";
 		}
 		System.out.println(query);
 		try {
@@ -60,7 +60,6 @@ public class DownloadAuthors {
 		        String content = buff.readLine();		        
 		        while (content != null){
 		        	all.add(content);
-		            System.out.println(content);
 		            content = buff.readLine();
 		        }
 		        int i = 0;
@@ -91,6 +90,14 @@ public class DownloadAuthors {
 		return 0;
 	}
 
+	private static String frmtDigit(int a) {
+		if (a < 10) {
+			return "0" + a;
+		} else {
+			return a + "";
+		}
+	}
+	
 	private static String getQuery() {
 		DateTime today = new DateTime();
         DateTime past = new DateTime().minusDays(3);
