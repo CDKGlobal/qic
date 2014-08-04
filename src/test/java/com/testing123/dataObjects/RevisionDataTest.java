@@ -30,5 +30,6 @@ public class RevisionDataTest {
 		assertEquals("ui/vaadin-ui/fake.java", rd.getFisheyePath());
 		assertEquals("blum", rd.getAuthor());
 		assertEquals(444,rd.getChurn());
+		assertEquals("RevisionData [Fisheyepath=ui/vaadin-ui/fake.java, churn=444, author=blum]",rd.toString());
 	}
 }
