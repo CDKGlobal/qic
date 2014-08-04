@@ -16,22 +16,20 @@ public class UIState {
 	
 	private ConvertDate start;
 	private ConvertDate end;
-	private Axis x;
-	private Axis y;
+	private XAxis x;
+	private YAxis y;
 	private Set<ConvertProject> projects;
 	private Set<String> authors;
-	private int minX;
-	private int minY;
 
 	public UIState() {
-		this(default_start, default_end, Axis.DELTA_LINESOFCODE);
+		this(default_start, default_end, XAxis.DELTA_LINESOFCODE);
 	}
 	
-	public UIState(ConvertDate start, ConvertDate end, Axis x) {
+	public UIState(ConvertDate start, ConvertDate end, XAxis x) {
 		this.start = start;
 		this.end = end;
 		this.x = x;
-		this.y = Axis.COMPLEXITY;		// by default and always is the case
+		this.y = YAxis.COMPLEXITY;		// by default and always is the case
 		this.projects = new HashSet<ConvertProject>();
 		this.authors = new HashSet<String>();
 	}
@@ -52,19 +50,19 @@ public class UIState {
 		this.end = end;
 	}
 
-	public Axis getX() {
+	public XAxis getX() {
 		return x;
 	}
 
-	public void setX(Axis x) {
+	public void setX(XAxis x) {
 		this.x = x;
 	}
 	
-	public Axis getY() {
+	public YAxis getY() {
 		return y;
 	}
 
-	public void setY(Axis y) {
+	public void setY(YAxis y) {
 		this.y = y;
 	}
 		
@@ -84,22 +82,6 @@ public class UIState {
 		this.authors = authors;
 	}
 	
-	public int getMinX() {
-		return minX;
-	}
-
-	public void setMinX(int minX) {
-		this.minX = minX;
-	}
-
-	public int getMinY() {
-		return minY;
-	}
-
-	public void setMinY(int minY) {
-		this.minY = minY;
-	}
-	
 	public void verifyState() {
 		System.out.println("CURRENT STATE:");
 		System.out.println("Start Date: " + start.getShort());
@@ -109,16 +91,23 @@ public class UIState {
 		System.out.println("Authors: " + authors);
 	}
 	
-	public enum Axis {
-		DELTA_LINESOFCODE("Delta Lines of Codes"), 
-		DELTA_COMPLEXITY("Delta Complexity"), 
-		LINESOFCODE("Non Commented Lines of Code"),
-		COMPLEXITY("Complexity");
+	public interface Axis {
+		
+		public String getColName();
+		
+	}
+	
+	public enum XAxis implements Axis {
+		DELTA_LINESOFCODE("Delta Lines of Codes", "churn"), 
+		DELTA_COMPLEXITY("Delta Complexity", "delta_complexity"), 
+		LINESOFCODE("Non Commented Lines of Code", "ncloc");
 		
 		private String detail;
+		private String dbCol;
 		
-		private Axis(String detail) {
+		private XAxis(String detail, String dbCol) {
 			this.detail = detail;
+			this.dbCol = dbCol;
 		}
 		
 		@Override
@@ -126,12 +115,39 @@ public class UIState {
 			return detail;
 		}
 		
-		public static List<Axis> possibleValues() {
-			return new ArrayList<Axis>(EnumSet.allOf(Axis.class));
+		@Override
+		public String getColName() {
+			return dbCol;
+		}
+		
+		public static List<XAxis> possibleValues() {
+			return new ArrayList<XAxis>(EnumSet.allOf(XAxis.class));
 		}
 	}
 	
-	public enum Granularity {
-		PROJECT, DIRECTORY, FILE
+	public enum YAxis implements Axis {
+		COMPLEXITY("Complexity", "complexity");
+		
+		private String detail;
+		private String dbCol;
+		
+		private YAxis(String detail, String dbCol) {
+			this.detail = detail;
+			this.dbCol = dbCol;
+		}
+		
+		@Override
+		public String toString() {
+			return detail;
+		}
+		
+		@Override
+		public String getColName() {
+			return dbCol;
+		}
+		
+		public static List<YAxis> possibleValues() {
+			return new ArrayList<YAxis>(EnumSet.allOf(YAxis.class));
+		}
 	}
 }
