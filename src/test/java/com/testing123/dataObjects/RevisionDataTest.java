@@ -2,6 +2,8 @@ package com.testing123.dataObjects;
 
 import static org.junit.Assert.*;
 
+import java.util.HashSet;
+
 import org.junit.Test;
 
 public class RevisionDataTest {
@@ -9,7 +11,7 @@ public class RevisionDataTest {
 	@Test
 	public void testCreatable() {
 		RevisionData rd = new RevisionData();
-		assertEquals(null,rd.getAuthor());
+		assertTrue(rd.getAuthor().isEmpty());
 		assertEquals(-1,rd.getChurn());
 		assertEquals(null,rd.getFisheyePath());
 	}
@@ -18,7 +20,7 @@ public class RevisionDataTest {
 	public void testSampleInput(){
 		String text = "\"Websites/Tetra/trunk/modules/dealer-service/src/main/java/com/cobaltgroup/websites/dealerservice/util/LayoutXmlParser.java\",\"ghoshs\",142,9";
 		RevisionData rd = new RevisionData(text);
-		assertEquals("ghoshs",rd.getAuthor());
+		assertEquals("[ghoshs]",rd.getAuthor().toString());
 		assertEquals(151,rd.getChurn());
 		assertEquals("Websites/Tetra/trunk/modules/dealer-service/src/main/java/com/cobaltgroup/websites/dealerservice/util/LayoutXmlParser.java",rd.getFisheyePath());
 	}
@@ -28,9 +30,9 @@ public class RevisionDataTest {
 		String text = "\"ui/vaadin-ui/fake.java\",\"blum\",123,321";
 		RevisionData rd = new RevisionData(text);
 		assertEquals("ui/vaadin-ui/fake.java", rd.getFisheyePath());
-		assertEquals("blum", rd.getAuthor());
+		assertEquals("[blum]", rd.getAuthor().toString());
 		assertEquals(444,rd.getChurn());
-		assertEquals("RevisionData [Fisheyepath=ui/vaadin-ui/fake.java, churn=444, author=blum]",rd.toString());
+		assertEquals("RevisionData [Fisheyepath=ui/vaadin-ui/fake.java, churn=444, author=[blum]]",rd.toString());
 	}
 	
 	@Test
@@ -41,7 +43,7 @@ public class RevisionDataTest {
 		RevisionData rd2 = new RevisionData(text);
 		assertFalse(rd.combine(rd2));
 		assertEquals("ui/vaadin-ui/fake.java", rd.getFisheyePath());
-		assertEquals("blum", rd.getAuthor());
+		assertEquals("[blum]", rd.getAuthor().toString());
 		assertEquals(444,rd.getChurn());
 	}
 	
@@ -50,7 +52,7 @@ public class RevisionDataTest {
 		RevisionData rd = new RevisionData();
 		RevisionData rd2 = new RevisionData();
 		assertFalse(rd.combine(rd2));
-		assertEquals(null,rd.getAuthor());
+		assertTrue(rd.getAuthor().isEmpty());
 		assertEquals(-1,rd.getChurn());
 		assertEquals(null,rd.getFisheyePath());
 	}
