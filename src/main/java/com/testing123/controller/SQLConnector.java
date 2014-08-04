@@ -18,20 +18,6 @@ public class SQLConnector {
 		this(Preferences.DB_NAME);
 	}
 	
-    private Connection getConnection(String dbName) {
-        try {
-            Connection conn = 
-            		DriverManager.getConnection("jdbc:" + Preferences.DB_SERVER + "/" + dbName 
-            				+ "?user=" + Preferences.DB_USER + "&password=" + Preferences.DB_PASS);
-            return conn;
-        } catch (SQLException ex) {
-        	System.out.println("Could not make Connection:");
-            System.out.println("SQLException: " + ex.getMessage());
-            System.out.println("SQLState: " + ex.getSQLState());
-        }
-        return null;
-    }
-	
 	/**
 	 * Constructs a connection to the database
 	 * 
@@ -40,15 +26,24 @@ public class SQLConnector {
 	public SQLConnector(String dbName) {
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			System.out.println("Failed to initialize SQLConnector");
+			this.conn = null;
 		}
         this.conn = getConnection(dbName);
 	}
+	
+    private Connection getConnection(String dbName) {
+        try {
+            Connection conn = 
+            		DriverManager.getConnection("jdbc:" + Preferences.DB_SERVER + "/" + dbName 
+            				+ "?user=" + Preferences.DB_USER + "&password=" + Preferences.DB_PASS);
+            return conn;
+        } catch (SQLException ex) {
+        	System.out.println("Could not make connection");
+        }
+        return null;
+    }
 	
 	/**
 	 * Returns the connection made to the database
@@ -84,7 +79,8 @@ public class SQLConnector {
 				return results;
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("Badly Formatted Query: " + query);
+			System.out.println();
 		}
 		return null;
 	}

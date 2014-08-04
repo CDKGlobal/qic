@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -39,6 +38,24 @@ public class SQLConnectorTest {
 	@Test
 	public void TestEmptyResultQueryReturnsNull() {
 		ResultSet rs = conn.basicQuery("SELECT * FROM authors LIMIT 0");
+		assertEquals(null, rs);
+	}
+	
+	@Test
+	public void TestBadConnectionReturnsNull() {
+		SQLConnector conn = new SQLConnector("dogs");
+		assertEquals(null, conn.getConn());
+	}
+	
+	@Test
+	public void TestBadQueryReturnsNull() {
+		ResultSet rs = conn.basicQuery("SELECT dogs FROM authors LIMIT 0");
+		assertEquals(null, rs);
+	}
+	
+	@Test
+	public void TestBadFormatQueryReturnsNull() {
+		ResultSet rs = conn.basicQuery("SELECT dogs FM authors LIMIT 0");
 		assertEquals(null, rs);
 	}
 }
