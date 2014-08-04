@@ -35,4 +35,14 @@ public class RevisionData {
 	public String toString() {
 		return "RevisionData [Fisheyepath=" + fisheyePath + ", churn=" + churn + ", author=" + author + "]";
 	}
+	
+	public boolean combine(RevisionData other){
+		if(this.fisheyePath!=null && this.fisheyePath.equals(other.getFisheyePath())){
+			this.churn += other.getChurn();
+			this.author += "," + other.getAuthor();
+			return true;
+		}else{
+			return false;
+		}
+	}
 }
