@@ -2,30 +2,98 @@ package com.testing123.controller;
 
 import static org.junit.Assert.*;
 
-import org.junit.Before;
+import java.util.HashSet;
+import java.util.Set;
+
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.testing123.controller.UIState;
-import com.testing123.controller.UIState.Axis;
-import com.testing123.controller.UIState.Granularity;
+import com.testing123.controller.UIState.XAxis;
+import com.testing123.controller.UIState.YAxis;
 import com.testing123.vaadin.ConvertDate;
+import com.testing123.vaadin.ConvertProject;
 
 public class UIStateTest {
+	private static ConvertDate date1;
+	private static ConvertDate date2;
+	private static ConvertProject proj1;
+	private static ConvertProject proj2;
+	
+	@BeforeClass
+	public static void setUp() {
+		date1 = new ConvertDate("2014-07-01");
+		date2 = new ConvertDate("2014-07-03");
+		proj1 = new ConvertProject("proj1", "1", 1, "1.1");
+		proj2 = new ConvertProject("proj2", "2", 2, "2.2");
+	}
 
 	@Test
 	public void TestInitialUIState() {
 		UIState state = new UIState();
-		assertEquals("Tue Jul 15 06:07:55 PDT 2014", state.getStart().toString());
-		assertEquals("Mon Jul 21 06:07:35 PDT 2014", state.getEnd().toString());
-		assertEquals(Axis.DELTA_LINESOFCODE, state.getX());
+		state.verifyState();
+		assertEquals("07/29/2014", state.getStart().toString());
+		assertEquals("07/30/2014", state.getEnd().toString());
+		assertEquals(XAxis.DELTA_LINESOFCODE, state.getX());
 	}
 	
 	@Test
 	public void TestInitialUIStateWithArgs() {
-		UIState state = new UIState(new ConvertDate("2014-07-15T06-07-55-0700"), 
-				new ConvertDate("2014-07-21T06-07-35-0700"), Axis.COMPLEXITY);
-		assertEquals("Tue Jul 15 06:07:55 PDT 2014", state.getStart().toString());
-		assertEquals("Mon Jul 21 06:07:35 PDT 2014", state.getEnd().toString());
-		assertEquals(Axis.COMPLEXITY, state.getX());
+		UIState state = new UIState(new ConvertDate("2014-07-15"), 
+				new ConvertDate("2014-07-21"), XAxis.LINESOFCODE);
+		assertEquals("07/15/2014", state.getStart().toString());
+		assertEquals("07/21/2014", state.getEnd().toString());
+		assertEquals(XAxis.LINESOFCODE, state.getX());
+	}
+	
+	@Test
+	public void TestDateSetters() {
+		UIState state = new UIState(new ConvertDate("2014-07-15"), 
+				new ConvertDate("2014-07-21"), XAxis.LINESOFCODE);
+		state.setStart(date1);
+		state.setEnd(date2);
+		assertEquals("07/01/2014", state.getStart().toString());
+		assertEquals("07/03/2014", state.getEnd().toString());
+		assertEquals(XAxis.LINESOFCODE, state.getX());
+	}
+	
+	@Test
+	public void TestXAxisSetter() {
+		UIState state = new UIState();
+		state.setX(XAxis.DELTA_COMPLEXITY);
+		assertEquals("Delta Complexity", state.getX().toString());
+		assertEquals(XAxis.DELTA_COMPLEXITY, state.getX());
+		assertEquals(3, XAxis.possibleValues().size());
+		assertEquals("delta_complexity", state.getX().getColName());
+	}
+	
+	@Test
+	public void TestYAxisSetter() {
+		UIState state = new UIState();
+		state.setY(YAxis.COMPLEXITY);
+		assertEquals("Complexity", state.getY().toString());
+		assertEquals(YAxis.COMPLEXITY, state.getY());
+		assertEquals(1, YAxis.possibleValues().size());
+		assertEquals("complexity", state.getY().getColName());
+	}
+	
+	@Test
+	public void TestAuthorsSetter() {
+		UIState state = new UIState();
+		Set<String> auths = new HashSet<String>();
+		auths.add("boil");
+		auths.add("crab");
+		state.setAuthorsFilter(auths);
+		assertEquals(auths, state.getAuthorsFilter());
+	}
+	
+	@Test
+	public void TestProjectSetter() {
+		UIState state = new UIState();
+		Set<ConvertProject> projs = new HashSet<ConvertProject>();
+		projs.add(proj1);
+		projs.add(proj2);
+		state.setProjects(projs);
+		assertEquals(projs, state.getProjects());
 	}
 }
