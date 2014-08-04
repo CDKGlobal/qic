@@ -13,29 +13,9 @@ public class ConvertDate implements Comparable<ConvertDate> {
 	private int day;
 	
 	public ConvertDate(String format) {
-//		this.adjustedSonarFormat = format.replace(":", "-");
-//		if (!adjustedSonarFormat.matches("[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}00")) {
-//			tryShortFormat(format);
-//		}
-//		int year = Integer.parseInt(format.substring(0, 4));
-//		int month = Integer.parseInt(format.substring(5, 7))-1;
-//		int day = Integer.parseInt(format.substring(8, 10));
-//		int hour = Integer.parseInt(format.substring(11, 13));
-//		int minute = Integer.parseInt(format.substring(14, 16));
-//		int second = Integer.parseInt(format.substring(17, 19));
-//		String timeZone = "GMT" + format.substring(19);
-//		Calendar currentDate = new GregorianCalendar(year, month, day, hour, minute, second);
-//		currentDate.setTimeZone(TimeZone.getTimeZone(timeZone));
-		//this.currentDate = currentDate;
 		String[] date = format.split("-");
 		this.shortFormat = date[0] + "-" + date[1] + "-" + date[2];
 		//checkRep();
-	}
-	
-	private void tryShortFormat(String format) {
-//		this.shortFormat = format;
-//		this.adjustedSonarFormat = null;
-//		this.currentDate = null;
 	}
 	
 	/**

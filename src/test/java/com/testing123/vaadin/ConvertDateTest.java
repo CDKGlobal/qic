@@ -10,25 +10,20 @@ public class ConvertDateTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		date = new ConvertDate("2014-07-07T06-09-17-0700");
-	}
-	
-	@Test
-	public void TestGetSonarFormatReturnsOriginalFormat() {
-		assertEquals("2014-07-07T06-09-17-0700", date.getSonarFormat());
+		date = new ConvertDate("2014-07-07");
 	}
 	
 	@Test
 	public void TestToStringReturnsReadableFormat() {
-		assertEquals("Mon Jul 07 06:09:17 PDT 2014", date.toString());
+		assertEquals("07/07/2014", date.toString());
 	}
 	
 	@Test
 	public void TestEqualsWithSameDateRepresentation() {
-		ConvertDate date1 = new ConvertDate("2014-07-07T06-09-17-0700");
-		ConvertDate date2 = new ConvertDate("2014-07-07T06:09:17-0700");
+		ConvertDate date1 = new ConvertDate("2014-07-07");
+		ConvertDate date2 = new ConvertDate("2014-07-07");
 		assertEquals(date1.toString(), date2.toString());
-		assertEquals(date1.getSonarFormat(), date2.getSonarFormat());
+		assertEquals(date1.toString(), date2.toString());
 		assertTrue(date1.equals(date2));
 	}
 }
