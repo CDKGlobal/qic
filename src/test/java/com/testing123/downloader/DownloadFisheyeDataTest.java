@@ -41,6 +41,7 @@ public class DownloadFisheyeDataTest {
 		Iterator<RevisionData> i = test.iterator();
 		RevisionData combined = i.next();
 		assertEquals(10,combined.getChurn());
-		assertEquals("name1,name2",combined.getAuthor());
+		assertEquals("[name1, name2]",combined.getAuthor().toString());
 	}
+	
 }
