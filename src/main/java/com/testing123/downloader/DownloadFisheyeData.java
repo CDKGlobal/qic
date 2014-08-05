@@ -10,58 +10,62 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.joda.time.DateTime;
 
+import com.testing123.controller.AvailableResources;
 import com.testing123.controller.SQLConnector;
 import com.testing123.dataObjects.ProjectListData;
 import com.testing123.dataObjects.RepositoryAndDirectoryData;
 import com.testing123.dataObjects.RevisionData;
+import com.testing123.vaadin.ConvertProject;
 import com.testing123.vaadin.RegexUtil;
 
 public class DownloadFisheyeData {
 
 	public static void main(String[] args) {
 
-		Set<ProjectListData> setOfProjects = getProjectsSet();
-		for (ProjectListData project : setOfProjects) {
-			
+		List<ConvertProject> setOfProjects = AvailableResources.getAvailableProjects();
+		System.out.println(2);
+		for (ConvertProject project : setOfProjects) {
 			RepositoryAndDirectoryData projectPath = getRepositoryAndDirectoryNameFromPath(project.getPath());
-			if(!"Advertising.Perforce".equals(projectPath.getRepository())){
-				continue;
-			}
-			
-			//System.out.println("Project ID = " + project.getProjectID());
-			
-			Map<String, Integer> mapForDatabase = getMapToID(project.getProjectID());
+//			if(!"Advertising.Perforce".equals(projectPath.getRepository())){
+//				continue;
+//			}		
+			System.out.println("Project ID = " + project.getID());			
+			Map<String, Integer> mapForDatabase = getMapToID(project.getID());
 			
 			Set<String> setOfFilesInDatabase = new HashSet<String>();
-			setOfFilesInDatabase.addAll(mapForDatabase.keySet());
-			
+			setOfFilesInDatabase.addAll(mapForDatabase.keySet());		
 			Set<RevisionData> revisionSet = getRevisionsFromProject(projectPath.getRepository(), projectPath.getDirectory());
-			Set<RevisionData> aggregatedRevisionSet = aggregateRevisions(revisionSet);
-			
+			Set<RevisionData> aggregatedRevisionSet = aggregateRevisions(revisionSet);		
 			for (RevisionData r : aggregatedRevisionSet) {
-				String path = formatFisheyePath(r.getFisheyePath());
-				boolean b = false;
-				for(String sonarPath: setOfFilesInDatabase){
-					if(path.endsWith(sonarPath)){
-						if(!b){
-							b=true;
-						}else{
-							System.out.println("There are two that fit = " + sonarPath);
-						}
-						System.out.println(project.getProjectID() + "\t" + sonarPath + "\t" + r.getChurn() + "\t" + r.getAuthor());
-					}
-				}
-				if(!b){System.out.println(b + "=\t" + path);}
+				printUpdates(project, setOfFilesInDatabase, r, projectPath);
 			}
 		}
 
 		System.out.println("Done");
+	}
+	
 
+	private static void printUpdates(ConvertProject project, Set<String> setOfFilesInDatabase, RevisionData r, RepositoryAndDirectoryData projectPath) {
+		String path = formatFisheyePath(r.getFisheyePath());
+		boolean b = false;
+		for(String sonarPath: setOfFilesInDatabase){
+			if(path.endsWith(sonarPath)){
+				if(!b){
+					b=true;
+				}else{
+					System.out.println("There are two that fit = " + sonarPath);
+					System.out.println("Two files exist in \t" + project.getID() + "\t" + projectPath.toString());
+				}
+				//System.out.println(project.getProjectID() + "\t" + sonarPath + "\t" + r.getChurn() + "\t" + r.getAuthor());
+			}
+		}
+		//if(!b){System.out.println(b + "=\t" + path);}
 	}
 	
 	public static Set<RevisionData> aggregateRevisions(Set<RevisionData> revisionSet){
@@ -99,7 +103,7 @@ public class DownloadFisheyeData {
 					String fileKey = results.getString("file_key");
 					String formattedName = nameFormat(fileKey);
 					if (mapNameToID.containsKey(formattedName)) {
-						System.out.println("two files names of " + formattedName + " exist");
+						//System.out.println("two files names of " + formattedName + " exist");
 					} else {
 						
 						mapNameToID.put(formattedName, fileID);
@@ -125,7 +129,8 @@ public class DownloadFisheyeData {
 		String directory = getDirectoryName(path);
 		return new RepositoryAndDirectoryData(repository, directory);
 	}
-
+	
+	//Replace with availableReasources
 	private static Set<ProjectListData> getProjectsSet() {
 		SQLConnector connector = new SQLConnector();
 		ResultSet results = connector.basicQuery("SELECT project_id, project_key, path FROM projectList;");
@@ -202,7 +207,7 @@ public class DownloadFisheyeData {
 	private static String getQueryAsString(String repository, String directory) {
 		String linkHome = "http://fisheye.cobalt.com/search/";
 		String dateRange = getDateRange();
-		dateRange = "[2014-07-30,2014-08-03]";
+		dateRange = "[2014-07-01,2014-08-03]";
 		return linkHome + repository + "/?ql=" + " select revisions from dir \"" + directory + "\" where date in " + dateRange
 				+ "and path like **.java and path like **/src/main/** return path,author,linesAdded,linesRemoved &csv=true";
 	}
