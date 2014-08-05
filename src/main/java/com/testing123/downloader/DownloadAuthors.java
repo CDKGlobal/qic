@@ -69,13 +69,11 @@ public class DownloadAuthors {
 	private static int upload(SQLConnector connector, String vals) {
 		try {
 			String query = "INSERT INTO authors (user) VALUES (" + vals + ")";
-			System.out.println(query);
 			connector.updateQuery(query);
 			return 1;
 		} catch (Exception e) {
-			System.out.println(vals + " already exists");
+			return 0;
 		}
-		return 0;
 	}
 	
 	private static String getQuery() {
