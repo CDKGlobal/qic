@@ -25,12 +25,16 @@ public class AvailableResources {
 	 */
 	public static List<ConvertProject> getAvailableProjects() {
 		List<ConvertProject> projects = new ArrayList<ConvertProject>();
+		SQLConnector connector = new SQLConnector();
+		ResultSet results = connector.basicQuery("SELECT name, project_key, project_id, path FROM projectList ORDER BY name ASC");
 		try {
-			SQLConnector connector = new SQLConnector();
-			ResultSet rs = connector.basicQuery("SELECT name, project_key, project_id, path FROM projectList ORDER BY name ASC");
-			while (rs.next()) {
-				if (rs.getString(4) != null && rs.getString(4).length() > 1) {
-					projects.add(new ConvertProject(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getString(4)));
+			while (results.next()) {
+				String name = results.getString("name");
+				String projectKey = results.getString("project_key");
+				int projectID = results.getInt("project_id");
+				String path = results.getString("path");
+				if (path != null && path.length() > 1) {
+					projects.add(new ConvertProject(name, projectKey, projectID, path));
 				}
 			}
 			connector.close();
