@@ -138,18 +138,6 @@ public class NavigationComponent extends CustomComponent {
 					navLayout.addComponent(errorLabel, "top:" + DATE_GRANULARITY_OFFSET + "; left:570.0px;");
 					return;
 				}
-				if (state.getProjects().equals((Set<ConvertProject>) filter.projectFilter.getValue()) 
-						&& state.getAuthorsFilter().equals((Set<String>) filter.authorsFilter.getValue())
-						&& state.getStart().equals(startDate)
-						&& state.getEnd().equals(endDate)) {
-					return;
-				}
-				Set<ConvertProject> projs = (Set<ConvertProject>) filter.projectFilter.getValue();
-				if (projs.size() > 5) {
-					errorLabel = new Label("Please select 5 or less projects");
-					navLayout.addComponent(errorLabel, "top:" + DATE_GRANULARITY_OFFSET + "; left:570.0px;");
-					return;
-				}
 				state.setProjects((Set<ConvertProject>) filter.projectFilter.getValue());
 				state.setAuthorsFilter((Set<String>) filter.authorsFilter.getValue()); 
 				state.setStart(startDate);
@@ -181,7 +169,7 @@ public class NavigationComponent extends CustomComponent {
 
 	private ComboBox createAxisComboBox(List<XAxis> options, String tag) {
 		ComboBox box = createComboBoxWithLabel(tag, true);
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < options.size(); i++) {
 			box.addItem(options.get(i));
 		}
 		box.select(options.get(0));

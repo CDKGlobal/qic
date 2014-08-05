@@ -22,7 +22,7 @@ public class GetData {
 		this.repositories = new HashSet<String>((Arrays.asList(Preferences.FISHEYE_REPOS)));
 		Set<ConvertProject> emptyProjects = new HashSet<ConvertProject>();
 		emptyProjects.add(new ConvertProject("", "", -1, ""));
-		this.tag = new CacheTag(new ConvertDate("0000-00-00"), new ConvertDate("0000-00-00"), emptyProjects);
+		this.tag = new CacheTag(new ConvertDate("0000-00-00"), new ConvertDate("0000-00-00"), emptyProjects, false);
 	}
 
 	/**
@@ -31,7 +31,7 @@ public class GetData {
 	 * @return Set of DataPoint with the correct X and Y coordinates and details
 	 */
 	public Set<DataPoint> requestData(UIState state) {
-		CacheTag requested = new CacheTag(state.getStart(), state.getEnd(), state.getProjects());
+		CacheTag requested = new CacheTag(state.getStart(), state.getEnd(), state.getProjects(), state.getX() == XAxis.LINESOFCODE);
 		return getDataFromBlock(state.getX(), state.getY(), state.getAuthorsFilter(), updateDataInCache(requested));
 	}
 
@@ -41,7 +41,7 @@ public class GetData {
 		} else {
 			System.out.println("Cache Miss");
 			this.tag = requested;
-			this.cache = query.getDataSet(requested.startDate, requested.endDate, requested.projects);
+			this.cache = query.getDataSet(requested.getStartDate(), requested.getEndDate(), requested.getProjects());
 		}
 		return this.cache;
 	}

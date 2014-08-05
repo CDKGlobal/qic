@@ -3,6 +3,7 @@ package com.testing123.vaadin;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -90,17 +91,24 @@ public class QueryDatabase {
 		SQLConnector conn = new SQLConnector();
 		ResultSet results = null;
 		try {
-			results = conn.basicQuery("SELECT allFileHistory3.file_key, allFileList.name, ncloc, complexity, SUM(delta_complexity) AS delta_complexity FROM allFileHistory3 JOIN allFileList ON allFileList.file_id = allFileHistory3.file_id WHERE qualifier = 'CLA' AND allFileList.project_id IN " + projectIDSet(projects) + " AND dbdate < '" + endDate.getDBFormat() + "' AND dbdate > '" + startDate.getDBFormat() + "' GROUP BY file_key;");
-			if (results == null || !results.isBeforeFirst()) {
-//				results = new SQLConnector().basicQuery("SELECT DISTINCT project_id, allFileList.file_id, allFileList.file_key, name, scope, qualifier, date," + 
-//						" ncloc, complexity FROM allFileList JOIN allFileHistory ON allFileList.file_key = allFileHistory.file_key WHERE project_id IN" 
-//						+ projectIDSet(projects) +  " AND qualifier = 'CLA';");
-			} 
-			if (results == null || !results.isBeforeFirst()) {
+			results = conn.basicQuery("SELECT allFileHistory3.file_key, allFileList.name, ncloc, complexity, SUM(delta_complexity) "
+					+ "AS delta_complexity FROM allFileHistory3 JOIN allFileList ON allFileList.file_id = allFileHistory3.file_id "
+					+ "WHERE qualifier = 'CLA' AND allFileList.project_id IN " + projectIDSet(projects) + " AND dbdate < '" + 
+					endDate.getDBFormat() + "' AND dbdate > '" + startDate.getDBFormat() + "' GROUP BY file_key;");
+			if (results == null) {
+				results = new SQLConnector()
+						.basicQuery("SELECT a1.file_id, a1.file_key, afl.name, ncloc, complexity, delta_complexity FROM "
+								+ "allFileHistory3 a1 "
+								+ "JOIN allFileList afl ON afl.file_id = a1.file_id WHERE qualifier = 'CLA' "
+								+ "AND afl.project_id IN " + projectIDSet(projects)
+								+ " AND a1.dbdate = (SELECT MAX(a2.dbdate) FROM allFileHistory3 a2 "
+								+ "WHERE a1.file_id = a2.file_id) GROUP BY a1.file_id;");
+			}
+			if (results == null) {
 				return new HashSet<QueryData>();
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("Exception thrown in Query Database");
 			return new HashSet<QueryData>();
 		}
 		return processDBResults(results);
@@ -127,11 +135,14 @@ public class QueryDatabase {
 
 	private QueryData populateQueryData(ResultSet rs) throws SQLException {
 		QueryData data = new QueryData();
+		Set<String> columns = new HashSet<String>(Arrays.asList(new String[]{"file_key", "name", "ncloc", "churn", 
+				"complexity", "delta_complexity", /*"issues", "delta_issues", "coverage", "delta_coverage"*/}));
+				
 		try {
 			data.setKey(rs.getString("file_key"));
 			data.setName(rs.getString("name"));
 			data.setNcloc(rs.getDouble("ncloc"));
-//			data.setChurn(rs.getDouble("churn"));
+			//data.setChurn(rs.getDouble("churn"));
 			data.setComplexity(rs.getDouble("complexity"));
 			data.setDeltaComplexity(rs.getDouble("delta_complexity"));
 //			data.setIssues(rs.getDouble("issues"));
@@ -139,11 +150,42 @@ public class QueryDatabase {
 //			data.setCoverage(rs.getDouble("coverage"));
 //			data.setDeltaCoverage(rs.getDouble("deltaCoverage"));
 		} catch (Exception e) {
+			e.printStackTrace();
+			//System.out.println("Exception thrown when populating QueryData");
 			return null;
+		}
+		for (String column : columns) {
+			populateSingleMetric(column);
 		}
 		return data;
 	}
+	
+	
 		
+	private void populateSingleMetric(String column) {
+//		try {
+//			data.setKey(rs.getString("file_key"));
+//			data.setName(rs.getString("name"));
+//			data.setNcloc(rs.getDouble("ncloc"));
+//			data.setChurn(rs.getDouble("churn"));
+//			data.setComplexity(rs.getDouble("complexity"));
+//			data.setDeltaComplexity(rs.getDouble("delta_complexity"));
+//			// data.setIssues(rs.getDouble("issues"));
+//			// data.setDeltaIssues(rs.getDouble("deltaIssues"));
+//			// data.setCoverage(rs.getDouble("coverage"));
+//			// data.setDeltaCoverage(rs.getDouble("deltaCoverage"));
+//		} catch (Exception e) {
+//			System.out.println("Exception thrown when populating QueryData");
+//			return null;
+//		}
+	}
+
+	/**
+	 * Converts the projects into a database readable format
+	 * 
+	 * @param projects
+	 * @return a String representation of the set of projects
+	 */
 	private String projectIDSet(Set<ConvertProject> projects) {
 		List<ConvertProject> projectsList = new ArrayList<ConvertProject>(projects);
 		if (projects.size() == 0) {
