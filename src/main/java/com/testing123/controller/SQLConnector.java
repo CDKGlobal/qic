@@ -2,6 +2,7 @@ package com.testing123.controller;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -61,20 +62,22 @@ public class SQLConnector {
 	 * @throws SQLException
 	 */
 	public void updateQuery(String query) throws SQLException {
-		Statement stmt = conn.createStatement();
-		stmt.executeUpdate(query);
+		PreparedStatement stmt = conn.prepareStatement(query);
+		stmt.executeUpdate();
 	}
 	
 	/**
 	 * A query used to fetch data
 	 * 
 	 * @param query
-	 * @return a ResultSet with all the data
+	 * @return a ResultSet with all the data, null if it was a badly formatted query or it returned an empty ResultSet
 	 */
 	public ResultSet basicQuery(String query) {
 		ResultSet results = null;
 		try {
-			results = execute(query);
+			PreparedStatement stmt = conn.prepareStatement(query);
+			System.out.println(query);
+			results = stmt.executeQuery();
 			if (results.isBeforeFirst()) { 
 				return results;
 			}
@@ -95,21 +98,5 @@ public class SQLConnector {
 			System.out.println("Close error");
 		}
 	}
-    
-	/**
-	 * Executes a query 
-	 * 
-	 * @param query the string format of the query to be executed
-	 * @return a ResultSet representing all the rows returned by the table
-	 * @throws SQLException
-	 */
-	private ResultSet execute(String query) throws SQLException {
-		Statement stmt = null;
-		ResultSet rs = null;
-		stmt = conn.createStatement();
-		System.out.println(query);
-		System.out.println();
-		rs = stmt.executeQuery(query);
-		return rs;
-	}
+
 }
