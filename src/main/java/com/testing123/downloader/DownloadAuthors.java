@@ -16,19 +16,17 @@ import com.testing123.controller.SQLConnector;
 import com.testing123.ui.Preferences;
 
 public class DownloadAuthors {
+	private SQLConnector connector;
 
-	public static void main(String[] args) {
-		addDateStamp();
-		addAuthors();
+	public DownloadAuthors() {
+		connector = new SQLConnector();
 	}
 	
-	public static void addDateStamp() {
-		SQLConnector connector = new SQLConnector("dataList4");
+	public void addDateStamp() {
 		DateTime today = new DateTime();
 		String query = null;
-		query = "INSERT INTO dates (display, datescol) VALUES ('" + today.getYear() + "-" + 
-			frmtDigit(today.getMonthOfYear()) + "-" + frmtDigit(today.getDayOfMonth()) + ", " + today.getYear() + "-" + 
-			frmtDigit(today.getMonthOfYear()) + "-" + frmtDigit(today.getDayOfMonth()) + "')";
+		query = "INSERT INTO dates (display, datescol) VALUES ('" + DataSupportMain.getFrmtDate(today) + "', '" 
+			 + DataSupportMain.getFrmtDate(today) + "')";
 		System.out.println(query);
 		try {
 			connector.updateQuery(query);
@@ -38,17 +36,14 @@ public class DownloadAuthors {
 		connector.close();
 	}
 	
-	private static void addAuthors() {
-		SQLConnector connector = new SQLConnector("dataList4");
+	public void addAuthors() {
 		Set<String> all = new HashSet<String>();
-		int k = 0;
 		for (String repository : Preferences.FISHEYE_REPOS) {
 			String home = "http://fisheye.cobalt.com/search/";
 			String link = home + repository + "/?ql=" + getQuery();
 			link = link.replaceAll("\\s+", "%20");
 			try {
 				URL url  = new URL(link);
-				System.out.println(link);
 		        URLConnection urlConn = url.openConnection();
 		        InputStreamReader inStream = new InputStreamReader(urlConn.getInputStream());
 		        BufferedReader buff= new BufferedReader(inStream);
@@ -62,15 +57,12 @@ public class DownloadAuthors {
 				for (String auth : all) {
 					i += upload(connector, auth);
 				}
-				System.out.println(i + " rows added");
-				k += i;
 			} catch (MalformedURLException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
-		System.out.println(k + " rows added total!");
 		connector.close();
 	}
 
@@ -84,14 +76,6 @@ public class DownloadAuthors {
 			System.out.println(vals + " already exists");
 		}
 		return 0;
-	}
-
-	private static String frmtDigit(int a) {
-		if (a < 10) {
-			return "0" + a;
-		} else {
-			return a + "";
-		}
 	}
 	
 	private static String getQuery() {
