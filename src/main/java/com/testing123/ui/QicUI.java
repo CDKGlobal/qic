@@ -2,13 +2,7 @@ package com.testing123.ui;
 
 import javax.servlet.annotation.WebServlet;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
-import com.testing123.controller.ComponentController;
 import com.testing123.controller.UIState;
-import com.testing123.controller.UIState.Axis;
-import com.testing123.vaadin.ConvertDate;
 import com.vaadin.annotations.Push;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
@@ -22,12 +16,8 @@ import com.vaadin.server.VaadinServletService;
 import com.vaadin.shared.communication.PushMode;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.AbsoluteLayout;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.JavaScript;
-import com.vaadin.ui.JavaScriptFunction;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 
 /**
@@ -113,6 +103,7 @@ public class QicUI extends UI {
 		
 		layout.addComponent(l1, 0, 0);
 		layout.addComponent(l2, 1, 0);
+		
 		
 		NavigationComponent nav = new NavigationComponent(layout, new UIState());
 		layout.addComponent(nav, 1, 2);

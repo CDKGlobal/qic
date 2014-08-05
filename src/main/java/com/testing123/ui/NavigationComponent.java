@@ -9,9 +9,10 @@ import org.json.JSONException;
 import com.testing123.controller.AvailableResources;
 import com.testing123.controller.ComponentController;
 import com.testing123.controller.UIState;
-import com.testing123.controller.UIState.Axis;
+import com.testing123.controller.UIState.XAxis;
 import com.testing123.vaadin.ConvertDate;
 import com.testing123.vaadin.ConvertProject;
+import com.testing123.vaadin.GetData;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.ui.AbsoluteLayout;
@@ -34,6 +35,7 @@ public class NavigationComponent extends CustomComponent {
 	private Button button_1;
 	private GridLayout layout;
 	private Label errorLabel;
+	private GetData data;
 	private UIState state;
 	
 	private static final String DATE_GRANULARITY_OFFSET = "70px";
@@ -47,13 +49,14 @@ public class NavigationComponent extends CustomComponent {
 	 * 
 	 */
 	public NavigationComponent(final GridLayout layout, final UIState state) {
+		this.data = new GetData();
 		this.state = state;
 		this.layout = layout;
 		createNavComponentLayout();
 		buildNavigationLayout();
 		setCompositionRoot(navLayout);
 		
-		ComponentController.drawMainComponent(layout, state);
+		ComponentController.drawMainComponent(layout, state, data);
 	
 		JavaScript.getCurrent().addFunction("notify", new JavaScriptFunction() {
 			@Override
@@ -72,14 +75,14 @@ public class NavigationComponent extends CustomComponent {
 	 * 
 	 */
 	public void fireChangeAction() {
-		ComponentController.drawMainComponent(layout, state);
+		ComponentController.drawMainComponent(layout, state, data);
 	}
 	
 	public Button buildNavigationLayout() {
 		createNavComponentLayout();
 		
 		// XAxis combo box
-		List<Axis> xAxisOptions = Axis.possibleValues();
+		List<XAxis> xAxisOptions = XAxis.possibleValues();
 		
 		final ComboBox xAxisComboBox = createAxisComboBox(xAxisOptions, "");
 		navLayout.addComponent(xAxisComboBox, "top:" + AXIS_BOX_OFFSET + "; left: 340px;");
@@ -88,8 +91,8 @@ public class NavigationComponent extends CustomComponent {
 			
 			@Override
 			public void valueChange(ValueChangeEvent event) {
-				state.setX((Axis) xAxisComboBox.getValue());
-				if (state.getX() == Axis.LINESOFCODE) {
+				state.setX((XAxis) xAxisComboBox.getValue());
+				if (state.getX() == XAxis.LINESOFCODE) {
 					startComboBox.setEnabled(false);
 				} else {
 					startComboBox.setEnabled(true);
@@ -125,7 +128,7 @@ public class NavigationComponent extends CustomComponent {
 				navLayout.removeComponent(errorLabel);
 				if (startComboBox.getValue() == null || endComboBox.getValue() == null) {
 					errorLabel = new Label("No date range entered");
-					navLayout.addComponent(errorLabel, "top:" + DATE_GRANULARITY_OFFSET + "; left:710.0px;");
+					navLayout.addComponent(errorLabel, "top:" + DATE_GRANULARITY_OFFSET + "; left:570.0px;");
 					return;
 				} 
 				ConvertDate startDate = (ConvertDate) startComboBox.getValue();
@@ -139,6 +142,12 @@ public class NavigationComponent extends CustomComponent {
 						&& state.getAuthorsFilter().equals((Set<String>) filter.authorsFilter.getValue())
 						&& state.getStart().equals(startDate)
 						&& state.getEnd().equals(endDate)) {
+					return;
+				}
+				Set<ConvertProject> projs = (Set<ConvertProject>) filter.projectFilter.getValue();
+				if (projs.size() > 5) {
+					errorLabel = new Label("Please select 5 or less projects");
+					navLayout.addComponent(errorLabel, "top:" + DATE_GRANULARITY_OFFSET + "; left:570.0px;");
 					return;
 				}
 				state.setProjects((Set<ConvertProject>) filter.projectFilter.getValue());
@@ -170,7 +179,7 @@ public class NavigationComponent extends CustomComponent {
 		setHeight("100px");
 	}
 
-	private ComboBox createAxisComboBox(List<Axis> options, String tag) {
+	private ComboBox createAxisComboBox(List<XAxis> options, String tag) {
 		ComboBox box = createComboBoxWithLabel(tag, true);
 		for (int i = 0; i < 3; i++) {
 			box.addItem(options.get(i));

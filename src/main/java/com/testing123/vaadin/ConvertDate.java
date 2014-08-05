@@ -30,7 +30,7 @@ public class ConvertDate implements Comparable<ConvertDate> {
 //		return adjustedSonarFormat;
 //	}
 	
-	public String getShort() {
+	public String getDBFormat() {
 		return shortFormat;
 	}
 	
@@ -42,12 +42,6 @@ public class ConvertDate implements Comparable<ConvertDate> {
 //	private String getDBFormat() {
 //		return adjustedSonarFormat.replace("-", "_");
 //	}
-	
-	public String getDBQueryFormat() {
-		//String date = getDBFormat();
-		//String[] front = date.split("T");
-		return getShort() + "T%";
-	}
 	
 	private void checkRep() {
 		String[] date = shortFormat.split("-");
