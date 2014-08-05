@@ -1,7 +1,6 @@
 package com.testing123.ui;
 
 import com.testing123.controller.UIState;
-import com.testing123.controller.UIState.Axis;
 
 /**
  * 
@@ -50,17 +49,5 @@ public class FlotOptions {
 		//"selection: { mode: \"xy\" }" +
 		"}";
 		return options;
-	}
-	
-	private static String getXRange(UIState state) {
-		if (state.getX() == Axis.LINESOFCODE) {
-			return "[-10, 60000]";
-		} else if (state.getX() == Axis.DELTA_COMPLEXITY) {
-			return "[-200, 200]";
-		} else if (state.getX() == Axis.DELTA_LINESOFCODE) {
-			return "[-10, 4000]";
-		} else {
-			return "[-100000, 100000]";
-		}
 	}
 }
