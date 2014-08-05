@@ -26,13 +26,9 @@ public class DownloadAuthors {
 		SQLConnector connector = new SQLConnector("dataList4");
 		DateTime today = new DateTime();
 		String query = null;
-		if (today.getMonthOfYear() < 10) {
-			query = "INSERT INTO dates (display) VALUES ('" + today.getYear() + "-" + 
-				frmtDigit(today.getMonthOfYear()) + "-" + frmtDigit(today.getDayOfMonth()) + "')";
-		} else {
-			query = "INSERT INTO dates (display) VALUES ('" + today.getYear() + "-" + 
-				frmtDigit(today.getMonthOfYear()) + "-" + frmtDigit(today.getDayOfMonth()) + "')";
-		}
+		query = "INSERT INTO dates (display, datescol) VALUES ('" + today.getYear() + "-" + 
+			frmtDigit(today.getMonthOfYear()) + "-" + frmtDigit(today.getDayOfMonth()) + ", " + today.getYear() + "-" + 
+			frmtDigit(today.getMonthOfYear()) + "-" + frmtDigit(today.getDayOfMonth()) + "')";
 		System.out.println(query);
 		try {
 			connector.updateQuery(query);
