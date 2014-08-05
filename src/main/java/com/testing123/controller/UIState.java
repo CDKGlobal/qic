@@ -11,8 +11,8 @@ import com.testing123.vaadin.ConvertDate;
 import com.testing123.vaadin.ConvertProject;
 
 public class UIState {
-	public static ConvertDate default_start = Preferences.DEFAULT_START_DATE;
-	public static ConvertDate default_end = Preferences.DEFAULT_END_DATE;
+	public static ConvertDate defaultStart = Preferences.DEFAULT_START_DATE;
+	public static ConvertDate defaultEnd = Preferences.DEFAULT_END_DATE;
 	
 	private ConvertDate start;
 	private ConvertDate end;
@@ -22,7 +22,7 @@ public class UIState {
 	private Set<String> authors;
 
 	public UIState() {
-		this(default_start, default_end, XAxis.DELTA_LINESOFCODE);
+		this(defaultStart, defaultEnd, XAxis.DELTA_LINESOFCODE);
 	}
 	
 	public UIState(ConvertDate start, ConvertDate end, XAxis x) {
@@ -98,8 +98,10 @@ public class UIState {
 	}
 	
 	public enum XAxis implements Axis {
-		DELTA_LINESOFCODE("Delta Lines of Codes", "churn"), 
-		DELTA_COMPLEXITY("Delta Complexity", "delta_complexity"), 
+		DELTA_LINESOFCODE("Churn", "churn"), 
+		DELTA_COMPLEXITY("Change in Complexity", "delta_complexity"), 
+		DELTA_ISSUES("Change in Issues", "delta_issues"),
+		DELTA_COVERAGE("Delta Coverage", "delta_coverage"),
 		LINESOFCODE("Non Commented Lines of Code", "ncloc");
 		
 		private String detail;
@@ -126,7 +128,10 @@ public class UIState {
 	}
 	
 	public enum YAxis implements Axis {
-		COMPLEXITY("Complexity", "complexity");
+		COMPLEXITY("Complexity", "complexity"),
+		ISSUES("Issues", "issues"),
+		COVERAGE("Branch Coverage", "coverage");
+		
 		
 		private String detail;
 		private String dbCol;
