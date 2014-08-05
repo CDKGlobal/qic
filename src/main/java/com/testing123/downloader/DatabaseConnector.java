@@ -1,11 +1,15 @@
 package com.testing123.downloader;
 
+import java.io.File;
+import java.io.PrintWriter;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,27 +26,11 @@ public class DatabaseConnector {
         mapper = new ObjectMapper();
     }
 
-    /*   public void connectAndExecute(String date) {
-        try {
-
-            // The newInstance() call is a work around for some
-            // broken Java implementations
-            // \Class.forName("com.mysql.jdbc.Driver").newInstance();
-            Connection conn = getConnection();
-            execute(conn, date);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }*/
-
-
     public static Connection getConnection() {
         try {
-            // Properties connectionProps = new Properties();
             Connection conn =
                             DriverManager.getConnection("jdbc:mysql://localhost/dataList4?" +
                                             "user=root&password=password");
-            // Do something with the Connection
             return conn;
         } catch (SQLException ex) {
             // handle any errors
@@ -65,7 +53,6 @@ public class DatabaseConnector {
             }
             return previousProjectMap;
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return null;
@@ -77,8 +64,13 @@ public class DatabaseConnector {
         List<WebData> projectList = Downloader.downloadProjectsAndStoreInList();
         Map<Integer, String> previousProjects = getPreviousProjects();
         System.out.println("Ok before conn.createStatement");
-        int i = 0;
+        String currentPath = makeFolder("Archives/", "projectList");
         try {
+            Date nowDate = new Date();
+            SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
+            PrintWriter writer = new PrintWriter(currentPath + ft.format(nowDate) + ".txt");
+            int i = 0;
+
             for (WebData project : projectList) {
                 stmt = conn.createStatement();
                 /*  rs = stmt.execute("CREATE TABLE projectList (project_id INT NOT NULL,"
@@ -94,8 +86,7 @@ public class DatabaseConnector {
 
             rs = stmt.execute("CREATE TABLE allFileHistory (file_id INT NOT NULL, file_key VARCHAR(160) NOT NULL, date VARCHAR(30) NOT NULL,"
                             + " ncloc DECIMAL(8,1), complexity DECIMAL(8,1));");*/
-                //    List<Integer> previousProjectList = Downloader.gerPreviousProjectList("project_id", "projectList");
-                //    if (!previousProjectList.contains(project.getId())) {
+
                 rs = stmt.execute("INSERT INTO projectList(project_id, project_key, name, scope, qualifier, date, path) VALUES ("
                                 + project.getId() + ", '"
                                 + project.getKey() + "', '"
@@ -114,6 +105,7 @@ public class DatabaseConnector {
                 List<WebData> fileList = mapper.readValue(projectOwnURL, new TypeReference<List<WebData>>() {
                 });
                 System.out.println("project id" + project.getId());
+
                 if (fileList.size() != 0) {
                     while (!fileList.get(0).getScope().equals("FIL")) {
                         depth ++;
@@ -122,7 +114,9 @@ public class DatabaseConnector {
                         fileList = mapper.readValue(projectOwnURL, new TypeReference<List<WebData>>() {
                         });
                     }
+
                     for (WebData file : fileList) {
+
                         rs = stmt.execute("INSERT INTO allFileList("
                                         + "project_Id, "
                                         + "file_id, "
@@ -159,14 +153,47 @@ public class DatabaseConnector {
                                         + "dbdate = values(dbdate);";
                         rs = stmt.execute(query);
                         i++;
+                        writeTxt(writer, file);
                     }
                 }
             }
+            writer.close();
             System.out.println(i + "  all done");
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
+
+    private static String makeFolder(String path, String name) {
+        File folder = new File(path + name);
+        System.out.println(path + name);
+
+        if (!folder.exists()) {
+            System.out.println("creating directory: " + folder.getAbsolutePath());
+            try {
+                folder.mkdir();
+            } catch (SecurityException se) {
+                se.printStackTrace();
+            }
+        }
+        return path + name + "/";
+    }
+
+    private void writeTxt(PrintWriter writer, WebData file) {
+        try {
+            writer.print(file.getId() + "\t" + file.getKey() + "\t" + file.getName() + "\t" + file.getScope()
+                            + "\t" + file.getQualifier() + "\t" + file.getDate() + "\t" + file.getDBDate());
+            if (file.getMsr() == null) {
+                writer.println("\t-1.0 \t -1.0");
+            } else {
+                writer.println("\t" + file.getMsr().get(0).getVal() + "\t" + file.getMsr().get(1).getVal());
+            }
+            System.out.println("writing file to txt: " + file.getKey());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }
