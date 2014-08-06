@@ -71,14 +71,15 @@ public class DownloadFisheyeData {
 	
 
 	private ChangedData printUpdates(ConvertProject project, Set<String> setOfFilesInDatabase, RevisionData r, Map<String, Integer> mapForDatabase) {
-		String path = formatFisheyePath(r.getFisheyePath());
+		String formattedPath = formatFisheyePath(r.getFisheyePath());
+		String path = r.getFisheyePath();
 		for(String sonarPath: setOfFilesInDatabase){
-			if(path.endsWith(sonarPath)){
+			if(path.endsWith(sonarPath) || formattedPath.endsWith(sonarPath)){
 				//System.out.print(sonarPath +","+ getCurrentDate() +","+ r.getChurn() +","+ r.getAuthor().toString());
 				return new ChangedData(sonarPath, getCurrentDate(), r.getChurn(), r.getAuthor().toString());
 			}
 		}
-			System.out.println(false + "=\t" + r.getFisheyePath());
+			//System.out.println(false + "=\t" + r.getFisheyePath());
 			return null;
 	}
 	
