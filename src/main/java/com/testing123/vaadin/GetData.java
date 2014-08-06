@@ -27,7 +27,7 @@ public class GetData {
 		this.repositories = new HashSet<String>((Arrays.asList(Preferences.FISHEYE_REPOS)));
 		Set<ConvertProject> emptyProjects = new HashSet<ConvertProject>();
 		emptyProjects.add(new ConvertProject("", "", -1, ""));
-		this.tag = new CacheTag(new ConvertDate("0000-00-00"), new ConvertDate("0000-00-00"), emptyProjects, false);
+		this.tag = new CacheTag(new ConvertDate("0000-01-01"), new ConvertDate("0000-01-01"), emptyProjects, false);
 	}
 
 	/**

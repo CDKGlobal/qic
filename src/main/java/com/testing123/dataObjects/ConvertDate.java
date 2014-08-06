@@ -30,10 +30,10 @@ public class ConvertDate implements Comparable<ConvertDate> {
 			throw new IllegalStateException("Date format corrupted");
 		}
 		if (month < 1 || month > 12) {
-			throw new IllegalStateException("Date format corrupted");
+			throw new IllegalStateException("Date format corrupted: month - " + month);
 		}
 		if (day < 1 || day > 31) {
-			throw new IllegalStateException("Date format corrupted");
+			throw new IllegalStateException("Date format corrupted: day - " + day);
 		}
 	}
 	

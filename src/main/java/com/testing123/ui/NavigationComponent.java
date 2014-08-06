@@ -7,7 +7,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import com.testing123.controller.AvailableResources;
-import com.testing123.controller.ComponentController;
 import com.testing123.controller.UIState;
 import com.testing123.controller.UIState.XAxis;
 import com.testing123.dataObjects.ConvertDate;
