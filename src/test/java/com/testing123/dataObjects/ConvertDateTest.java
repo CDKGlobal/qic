@@ -1,4 +1,4 @@
-package com.testing123.vaadin;
+package com.testing123.dataObjects;
 
 import static org.junit.Assert.*;
 
