@@ -1,8 +1,6 @@
 package com.testing123.dataObjects;
 
 public class ConvertDate implements Comparable<ConvertDate> {
-	//private Calendar currentDate;
-	//private String adjustedSonarFormat;
 	private String shortFormat;
 	private int year;
 	private int month;
@@ -78,10 +76,4 @@ public class ConvertDate implements Comparable<ConvertDate> {
 			return ((Integer) day).compareTo((Integer) o.day);
 		}
 	}
-	
-//	public static String convert(Calendar currentDate) {
-//		String timeZoneWithoutGMT = String.format("%1$tZ", currentDate).substring(3);
-//		String timeZone = "" + timeZoneWithoutGMT.substring(0,3) + timeZoneWithoutGMT.substring(4,6);
-//		return String.format("%1$tY-%1$tm-%1$teT%1$tH-%1$tM-%1$tS%2$s ", currentDate, timeZone);
-//	}
 }
