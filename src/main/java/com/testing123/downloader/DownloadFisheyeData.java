@@ -11,9 +11,9 @@ import java.util.Set;
 import org.joda.time.DateTime;
 
 import com.testing123.controller.AvailableResources;
+import com.testing123.dataObjects.ChangedData;
 import com.testing123.dataObjects.RevisionData;
 import com.testing123.ui.Preferences;
-import com.testing123.vaadin.ChangedData;
 import com.testing123.vaadin.ConvertProject;
 import com.testing123.vaadin.DatabaseInterface;
 import com.testing123.vaadin.TemporaryDBI;
@@ -74,6 +74,7 @@ public class DownloadFisheyeData {
 		String path = formatFisheyePath(r.getFisheyePath());
 		for(String sonarPath: setOfFilesInDatabase){
 			if(path.endsWith(sonarPath)){
+				//System.out.print(sonarPath +","+ getCurrentDate() +","+ r.getChurn() +","+ r.getAuthor().toString());
 				return new ChangedData(sonarPath, getCurrentDate(), r.getChurn(), r.getAuthor().toString());
 			}
 		}

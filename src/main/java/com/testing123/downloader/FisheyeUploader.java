@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
-import com.testing123.vaadin.ChangedData;
+import com.testing123.dataObjects.ChangedData;
 
 public class FisheyeUploader {
 
