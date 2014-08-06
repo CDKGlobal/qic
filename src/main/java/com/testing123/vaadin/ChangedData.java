@@ -1,24 +1,27 @@
 package com.testing123.vaadin;
 
+import java.util.List;
+
 public class ChangedData {
-    private String sonarPath;
+    private String file_key;
     private String date;
     private int churn;
     private String authors;
 
-    public ChangedData(String sonarPath, String date, int churn, String authors) {
-        this.sonarPath = sonarPath;
+
+    public ChangedData(String file_key, String date, int churn, String authors) {
+        this.file_key = file_key;
         this.date = date;
         this.churn = churn;
         this.authors = authors;
     }
 
-    public String getSonarPath() {
-        return sonarPath;
+    public String getFile_key() {
+        return file_key;
     }
 
-    public void setSonarPath(String sonarPath) {
-        this.sonarPath = sonarPath;
+    public void setFile_key(String file_key) {
+        this.file_key = file_key;
     }
 
     public String getDate() {
@@ -39,6 +42,16 @@ public class ChangedData {
 
     public String getAuthors() {
         return authors;
+    }
+
+    public String getAuthors(List<String> authorsList) {
+
+        StringBuffer buff = new StringBuffer();
+        for (String auth : authorsList) {
+            buff.append(",");
+            buff.append(auth);
+        }
+        return buff.toString();
     }
 
     public void setAuthors(String authors) {
