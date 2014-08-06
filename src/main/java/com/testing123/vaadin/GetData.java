@@ -37,7 +37,24 @@ public class GetData {
 	 */
 	public Set<DataPoint> requestData(UIState state) {
 		CacheTag requested = new CacheTag(state.getStart(), state.getEnd(), state.getProjects(), state.getX() == XAxis.LINESOFCODE);
-		return getDataFromBlock(state.getX(), state.getY(), state.getAuthorsFilter(), updateDataInCache(requested));
+		Set<DataPoint> points = getDataFromBlock(state.getX(), state.getY(), state.getAuthorsFilter(), updateDataInCache(requested));
+		if (state.getAuthorsFilter().size() == 0 || state.getX() == XAxis.LINESOFCODE) {
+			return points;
+		} else {
+			return filterAuthors(points, state.getAuthorsFilter());
+		}
+	}
+	
+	public Set<DataPoint> filterAuthors(Set<DataPoint> points, Set<String> authors) {
+		Set<DataPoint> filteredPoints = new HashSet<DataPoint>();
+		for (DataPoint point : points) {
+			for (String editedAuthor : point.getAuthors()) {
+				if (authors.contains(editedAuthor)) {
+					filteredPoints.add(point);
+				}
+			}
+		}
+		return filteredPoints;
 	}
 
 	private Set<QueryData> updateDataInCache(CacheTag requested) {

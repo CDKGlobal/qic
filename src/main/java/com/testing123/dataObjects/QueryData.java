@@ -5,9 +5,6 @@ import java.util.List;
 public class QueryData {
 	private String key;
 	private String name;
-//	private String scope;
-//	private String qualifier;
-//	private String date;
 	private double ncloc;
 	private double churn;
 	private double complexity;
@@ -49,6 +46,28 @@ public class QueryData {
 			return deltaCoverage;
 		} else {
 			return 0.0;
+		}
+	}
+	
+	public void setMetric(String metric, double val) {
+		if (metric.equals("ncloc")) {
+			this.ncloc = val;
+		} else if (metric.equals("churn")) {
+			this.churn = val;
+		} else if (metric.equals("complexity")) {
+			this.complexity = val;
+		} else if (metric.equals("delta_complexity")) {
+			this.deltaComplexity = val;
+		} else if (metric.equals("issues")) {
+			this.issues = val;
+		} else if (metric.equals("deltaIssues")) {
+			this.deltaIssues = val;
+		} else if (metric.equals("coverage")) {
+			this.coverage = val;
+		} else if (metric.equals("deltaCoverage")) {
+			this.deltaCoverage = val;
+		} else {
+			return;
 		}
 	}
 	

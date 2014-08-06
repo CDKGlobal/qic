@@ -47,7 +47,7 @@ public class DBDeltaCalculator {
 			e.printStackTrace();
 		}
 		conn.updateQuery("UPDATE allFileHistory3 SET delta_complexity = 0 WHERE dbdate = '" 
-				+ DataSupportMain.getFrmtDate(new DateTime()) + "' AND delta_complexity IS NULL;");
+				+ DataSupportMain.getFrmtDate(new DateTime()) + "' AND delta_complexity IS NULL AND complexity = -1;");
 		conn.close();
 	}
 

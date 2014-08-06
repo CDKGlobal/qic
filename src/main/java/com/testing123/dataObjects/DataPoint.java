@@ -71,6 +71,10 @@ public class DataPoint implements Comparable<DataPoint> {
 	public void setAuthors(List<String> authors) {
 		this.authors.addAll(authors);
 	}
+	
+	public Set<String> getAuthors() {
+		return new HashSet<String>(authors);
+	}
 
 	@Override
 	public String toString() {

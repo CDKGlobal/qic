@@ -4,16 +4,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
-import com.testing123.controller.AvailableResources;
 import com.testing123.controller.SQLConnector;
-import com.testing123.controller.UIState.Axis;
-import com.testing123.controller.UIState.YAxis;
 import com.testing123.dataObjects.ConvertDate;
 import com.testing123.dataObjects.ConvertProject;
 import com.testing123.dataObjects.QueryData;
@@ -138,49 +133,42 @@ public class QueryDatabase {
 
 	private QueryData populateQueryData(ResultSet rs) throws SQLException {
 		QueryData data = new QueryData();
-		Set<String> columns = new HashSet<String>(Arrays.asList(new String[]{"file_key", "name", "ncloc", "churn", 
+		Set<String> columns = new HashSet<String>(Arrays.asList(new String[]{"ncloc", "churn", 
 				"complexity", "delta_complexity", /*"issues", "delta_issues", "coverage", "delta_coverage"*/}));
-				
 		try {
 			data.setKey(rs.getString("file_key"));
 			data.setName(rs.getString("name"));
-			data.setNcloc(rs.getDouble("ncloc"));
-			//data.setChurn(rs.getDouble("churn"));
-			data.setComplexity(rs.getDouble("complexity"));
-			data.setDeltaComplexity(rs.getDouble("delta_complexity"));
+			extractAuthors(data, rs);
 //			data.setIssues(rs.getDouble("issues"));
 //			data.setDeltaIssues(rs.getDouble("deltaIssues"));
 //			data.setCoverage(rs.getDouble("coverage"));
 //			data.setDeltaCoverage(rs.getDouble("deltaCoverage"));
 		} catch (Exception e) {
-			e.printStackTrace();
-			//System.out.println("Exception thrown when populating QueryData");
+			System.out.println("Exception thrown when populating QueryData string fields");
 			return null;
 		}
 		for (String column : columns) {
-			populateSingleMetric(column);
+			populateSingleMetric(data, column, rs);
 		}
 		return data;
 	}
 	
-	
-		
-	private void populateSingleMetric(String column) {
-//		try {
-//			data.setKey(rs.getString("file_key"));
-//			data.setName(rs.getString("name"));
-//			data.setNcloc(rs.getDouble("ncloc"));
-//			data.setChurn(rs.getDouble("churn"));
-//			data.setComplexity(rs.getDouble("complexity"));
-//			data.setDeltaComplexity(rs.getDouble("delta_complexity"));
-//			// data.setIssues(rs.getDouble("issues"));
-//			// data.setDeltaIssues(rs.getDouble("deltaIssues"));
-//			// data.setCoverage(rs.getDouble("coverage"));
-//			// data.setDeltaCoverage(rs.getDouble("deltaCoverage"));
-//		} catch (Exception e) {
-//			System.out.println("Exception thrown when populating QueryData");
-//			return null;
-//		}
+	private void extractAuthors(QueryData data, ResultSet rs) {
+		try {
+			String authors = rs.getString("authors");
+			String[] authorArray = authors.split(",");
+			data.setAuthors(Arrays.asList(authorArray));
+		} catch (SQLException e) {
+			System.out.println("Authors could not be retrieved from the database");
+		}
+	}
+
+	private void populateSingleMetric(QueryData data, String metric, ResultSet rs) {
+		try {
+			data.setMetric(metric, rs.getDouble(metric));
+		} catch (Exception e) {
+			System.out.println("Exception thrown when populating QueryData: " + metric);
+		}
 	}
 
 	/**
