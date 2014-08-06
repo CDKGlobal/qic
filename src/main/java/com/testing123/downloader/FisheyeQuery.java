@@ -57,7 +57,7 @@ public class FisheyeQuery implements FisheyeInterface {
 	private static String getQueryAsString(String repository, String directory) {
 		String linkHome = "http://fisheye.cobalt.com/search/";
 		String dateRange = getDateRange();
-		dateRange = "[2014-07-01,2014-08-03]";
+		//dateRange = "[2014-07-01,2014-08-03]";
 		return linkHome + repository + "/?ql=" + " select revisions from dir \"" + directory + "\" where date in " + dateRange
 				+ "and path like **.java and path like **/src/main/** return path,author,linesAdded,linesRemoved &csv=true";
 	}
