@@ -61,10 +61,14 @@ public class UIStateTest {
 	public void TestXAxisSetter() {
 		UIState state = new UIState();
 		state.setX(XAxis.DELTA_COMPLEXITY);
-		assertEquals("Delta Complexity", state.getX().toString());
+		assertEquals("Change in Complexity", state.getX().toString());
 		assertEquals(XAxis.DELTA_COMPLEXITY, state.getX());
-		assertEquals(3, XAxis.possibleValues().size());
 		assertEquals("delta_complexity", state.getX().getColName());
+	}
+	
+	@Test
+	public void TestPossibleXAxisValuesIsConsistent() {
+		assertEquals(5, XAxis.possibleValues().size());
 	}
 	
 	@Test
@@ -73,8 +77,12 @@ public class UIStateTest {
 		state.setY(YAxis.COMPLEXITY);
 		assertEquals("Complexity", state.getY().toString());
 		assertEquals(YAxis.COMPLEXITY, state.getY());
-		assertEquals(1, YAxis.possibleValues().size());
 		assertEquals("complexity", state.getY().getColName());
+	}
+	
+	@Test
+	public void TestPossibleYAxisValuesIsConsistent() {
+		assertEquals(3, YAxis.possibleValues().size());
 	}
 	
 	@Test
