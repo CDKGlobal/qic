@@ -1,9 +1,5 @@
 package com.testing123.dataObjects;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.TimeZone;
-
 public class ConvertDate implements Comparable<ConvertDate> {
 	//private Calendar currentDate;
 	//private String adjustedSonarFormat;
@@ -15,36 +11,21 @@ public class ConvertDate implements Comparable<ConvertDate> {
 	public ConvertDate(String format) {
 		String[] date = format.split("-");
 		this.shortFormat = date[0] + "-" + date[1] + "-" + date[2];
-		//checkRep();
+		this.year = Integer.parseInt(date[0]);
+		this.month = Integer.parseInt(date[1]);
+		this.day = Integer.parseInt(date[2]);
+		checkRep();
 	}
-	
-	/**
-	 * Returns the adjusted string representation of this date from sonar
-	 * 
-	 * The adjustments made were changing all occurences of ':' to '-'
-	 * 
-	 * @return
-	 */
-//	public String getSonarFormat() {
-//		//checkRep();
-//		return adjustedSonarFormat;
-//	}
 	
 	public String getDBFormat() {
 		return shortFormat;
 	}
 	
-	/**
-	 * Returns the string representation of this date from the database
-	 * 
-	 * @return
-	 */
-//	private String getDBFormat() {
-//		return adjustedSonarFormat.replace("-", "_");
-//	}
-	
 	private void checkRep() {
 		String[] date = shortFormat.split("-");
+		if (date.length != 3) {
+			throw new IllegalStateException("Date format corrupted");
+		}
 		if (date[0] == null || date[1] == null || date[2] == null) {
 			throw new IllegalStateException("Date format corrupted");
 		}
@@ -89,7 +70,13 @@ public class ConvertDate implements Comparable<ConvertDate> {
 
 	@Override
 	public int compareTo(ConvertDate o) {
-		return toString().compareTo(o.toString());
+		if (year != o.year) {
+			return ((Integer) year).compareTo((Integer) o.year);
+		} else if (month != o.month) {
+			return ((Integer) month).compareTo((Integer) o.month);
+		} else {
+			return ((Integer) day).compareTo((Integer) o.day);
+		}
 	}
 	
 //	public static String convert(Calendar currentDate) {

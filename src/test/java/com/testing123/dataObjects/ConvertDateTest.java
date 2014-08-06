@@ -21,11 +21,39 @@ public class ConvertDateTest {
 	}
 	
 	@Test
+	public void TestCompareDatesSameMonth() {
+		ConvertDate date1 = new ConvertDate("2014-07-07");
+		ConvertDate date2 = new ConvertDate("2014-07-08");
+		assertTrue(date1.compareTo(date2) == -1);
+	}
+	
+	@Test
+	public void TestCompareDatesDifferentMonth() {
+		ConvertDate date1 = new ConvertDate("2014-06-07");
+		ConvertDate date2 = new ConvertDate("2014-07-03");
+		assertTrue(date1.compareTo(date2) == -1);
+	}
+	
+	@Test
+	public void TestCompareDatesDifferentYear() {
+		ConvertDate date1 = new ConvertDate("2013-12-12");
+		ConvertDate date2 = new ConvertDate("2014-07-03");
+		assertTrue(date1.compareTo(date2) == -1);
+	}
+	
+	@Test
+	public void TestEqualityMethodsWithSameDateRepresentation() {
+		ConvertDate date1 = new ConvertDate("2014-07-07");
+		ConvertDate date2 = new ConvertDate("2014-07-07");
+		assertEquals(date1.hashCode(), date2.hashCode());
+		assertTrue(date1.equals(date2));
+	}
+	
+	@Test
 	public void TestEqualsWithSameDateRepresentation() {
 		ConvertDate date1 = new ConvertDate("2014-07-07");
 		ConvertDate date2 = new ConvertDate("2014-07-07");
 		assertEquals(date1.toString(), date2.toString());
 		assertEquals(date1.toString(), date2.toString());
-		assertTrue(date1.equals(date2));
 	}
 }
