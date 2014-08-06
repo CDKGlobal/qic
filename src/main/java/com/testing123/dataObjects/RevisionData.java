@@ -41,15 +41,6 @@ public class RevisionData {
 	public Set<String> getAuthor() {
 		return author;
 	}
-	
-	public String getAuthorsAsString(){
-		StringBuffer buff = new StringBuffer();
-		for(String auth : author){
-			buff.append(",");
-			buff.append(auth);
-		}
-		return buff.toString();
-	}
 
 	@Override
 	public String toString() {

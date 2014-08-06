@@ -1,13 +1,7 @@
 package com.testing123.downloader;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -17,58 +11,76 @@ import java.util.Set;
 import org.joda.time.DateTime;
 
 import com.testing123.controller.AvailableResources;
-import com.testing123.controller.SQLConnector;
-import com.testing123.dataObjects.ProjectListData;
-import com.testing123.dataObjects.RepositoryAndDirectoryData;
 import com.testing123.dataObjects.RevisionData;
+import com.testing123.ui.Preferences;
+import com.testing123.vaadin.ChangedData;
 import com.testing123.vaadin.ConvertProject;
-import com.testing123.vaadin.RegexUtil;
+import com.testing123.vaadin.DatabaseInterface;
+import com.testing123.vaadin.TemporaryDBI;
 
 public class DownloadFisheyeData {
 
-	public static void main(String[] args) {
-
-		List<ConvertProject> setOfProjects = AvailableResources.getAvailableProjects();
-		System.out.println(2);
-		for (ConvertProject project : setOfProjects) {
-			RepositoryAndDirectoryData projectPath = getRepositoryAndDirectoryNameFromPath(project.getPath());
-//			if(!"Advertising.Perforce".equals(projectPath.getRepository())){
-//				continue;
-//			}		
-			System.out.println("Project ID = " + project.getID());			
-			Map<String, Integer> mapForDatabase = getMapToID(project.getID());
-			
-			Set<String> setOfFilesInDatabase = new HashSet<String>();
-			setOfFilesInDatabase.addAll(mapForDatabase.keySet());		
-			Set<RevisionData> revisionSet = getRevisionsFromProject(projectPath.getRepository(), projectPath.getDirectory());
-			Set<RevisionData> aggregatedRevisionSet = aggregateRevisions(revisionSet);		
-			for (RevisionData r : aggregatedRevisionSet) {
-				printUpdates(project, setOfFilesInDatabase, r, projectPath);
+	public List<ChangedData> getAllFisheyeUpdates() {
+		
+		FisheyeInterface FQ = new FisheyeQuery();
+		DatabaseInterface DI = new TemporaryDBI();
+		
+		List<ConvertProject> listOfProjects = AvailableResources.getAvailableProjects();
+		
+		List<ChangedData> returnedData = new ArrayList<ChangedData>();
+		
+		for (ConvertProject project : listOfProjects) {
+			String repositoryName = getRepositoryName(project.getPath());
+			String directoryName = getDirectoryName(project.getPath());
+			if (repositoryExists(repositoryName)) {
+				
+				//System.out.println("Project ID = " + project.getID());
+				Map<String, Integer> mapForDatabase = DI.getMapToID(project.getID());
+				Set<String> setOfFilesInDatabase = new HashSet<String>(mapForDatabase.keySet());
+				
+				Set<RevisionData> revisionSet = FQ.getRevisionsFromProject(repositoryName, directoryName);
+				
+				Set<RevisionData> aggregatedRevisionSet = aggregateRevisions(revisionSet);
+				for (RevisionData revision : aggregatedRevisionSet) {
+					ChangedData update = printUpdates(project, setOfFilesInDatabase, revision, mapForDatabase);
+					if(update!=null){
+						returnedData.add(update);
+					}
+				}
 			}
 		}
-
 		System.out.println("Done");
+		return returnedData;
+	}
+	
+	
+	
+	private boolean repositoryExists(String repositoryName){
+		Set<String> existingRepositories = new HashSet<String>(Arrays.asList(Preferences.FISHEYE_REPOS));
+		return existingRepositories.contains(repositoryName);
 	}
 	
 
-	private static void printUpdates(ConvertProject project, Set<String> setOfFilesInDatabase, RevisionData r, RepositoryAndDirectoryData projectPath) {
+	private ChangedData printUpdates(ConvertProject project, Set<String> setOfFilesInDatabase, RevisionData r, Map<String, Integer> mapForDatabase) {
 		String path = formatFisheyePath(r.getFisheyePath());
-		boolean b = false;
 		for(String sonarPath: setOfFilesInDatabase){
 			if(path.endsWith(sonarPath)){
-				if(!b){
-					b=true;
-				}else{
-					System.out.println("There are two that fit = " + sonarPath);
-					System.out.println("Two files exist in \t" + project.getID() + "\t" + projectPath.toString());
-				}
 				//System.out.println(project.getProjectID() + "\t" + sonarPath + "\t" + r.getChurn() + "\t" + r.getAuthor());
+				
+				System.out.println(mapForDatabase.get(sonarPath)+ "\t" + path );
+				return new ChangedData(sonarPath, getCurrentDate(), r.getChurn(), r.getAuthor().toString());
 			}
 		}
-		//if(!b){System.out.println(b + "=\t" + path);}
+			System.out.println(false + "=\t" + r.getFisheyePath());
+			return null;
 	}
 	
-	public static Set<RevisionData> aggregateRevisions(Set<RevisionData> revisionSet){
+	private String getCurrentDate(){
+		DateTime today = new DateTime();
+		return "" + today.getYear() + "-" + today.getMonthOfYear() + "-" + today.getDayOfMonth();
+	}
+	
+	public Set<RevisionData> aggregateRevisions(Set<RevisionData> revisionSet){
 		Map<String, RevisionData> revisionMap = new HashMap<String, RevisionData>();
 		Set<RevisionData> aggregateSet = new HashSet<RevisionData>();
 		for(RevisionData revision: revisionSet){
@@ -85,97 +97,13 @@ public class DownloadFisheyeData {
 		return aggregateSet;
 	}
 	
-	private static String formatFisheyePath(String path) {
+	private String formatFisheyePath(String path) {
 		path = path.substring(0, path.length() - 5);
 		path = path.replaceAll("/", "\\.");
-		//System.out.println(path);
 		return path;
 	}
 
-	public static Map<String, Integer> getMapToID(int projectID) {
-		SQLConnector connector = new SQLConnector();
-		ResultSet results = connector.basicQuery("SELECT file_id,file_key FROM allFileList WHERE project_id=" + projectID + ";");
-		Map<String, Integer> mapNameToID = new HashMap<String, Integer>();
-		if (results != null) {
-			try {
-				while (results.next()) {
-					int fileID = results.getInt("file_id");
-					String fileKey = results.getString("file_key");
-					String formattedName = nameFormat(fileKey);
-					if (mapNameToID.containsKey(formattedName)) {
-						//System.out.println("two files names of " + formattedName + " exist");
-					} else {
-						
-						mapNameToID.put(formattedName, fileID);
-					}
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		connector.close();
-		return mapNameToID;
-	}
-
-	private static String nameFormat(String fileKey) {
-		String[] split = fileKey.split(":");
-		int length = split.length;
-		String formattedName = split[length - 1];
-		return formattedName;
-	}
-
-	private static RepositoryAndDirectoryData getRepositoryAndDirectoryNameFromPath(String path) {
-		String repository = getRepositoryName(path);
-		String directory = getDirectoryName(path);
-		return new RepositoryAndDirectoryData(repository, directory);
-	}
-	
-	//Replace with availableReasources
-	private static Set<ProjectListData> getProjectsSet() {
-		SQLConnector connector = new SQLConnector();
-		ResultSet results = connector.basicQuery("SELECT project_id, project_key, path FROM projectList;");
-		Set<ProjectListData> projectDataSet = new HashSet<ProjectListData>();
-		try {
-			while (results.next()) {
-				int projectID = results.getInt("project_id");
-				String projectKey = results.getString("project_key");
-				String path = results.getString("path");
-				if (path.length() != 0)
-					projectDataSet.add(new ProjectListData(projectID, projectKey, path));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		connector.close();
-		return projectDataSet;
-	}
-
-	private static Set<RevisionData> getRevisionsFromProject(String repository, String directory) {
-		Set<RevisionData> revisionsFromFisheye = new HashSet<RevisionData>();
-		URL queryURL = getQueryURL(repository, directory);
-		try {
-			URLConnection urlConn = queryURL.openConnection();
-			InputStreamReader inStream = new InputStreamReader(urlConn.getInputStream());
-			BufferedReader buff = new BufferedReader(inStream);
-			buff.readLine();
-			String revision = buff.readLine();
-			while (revision != null) {
-				if(RegexUtil.isRevisionData(revision)){
-					revisionsFromFisheye.add(new RevisionData(revision));
-				}else{
-					System.out.println("could not parse:	" + revision);
-				}
-				revision = buff.readLine();
-			}
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return revisionsFromFisheye;
-	}
-
-	private static String getRepositoryName(String path) {
+	private String getRepositoryName(String path) {
 		String[] split = path.split("/");
 		if (split.length > 1) {
 			return split[1] + ".Perforce";
@@ -183,39 +111,12 @@ public class DownloadFisheyeData {
 		return "";
 	}
 
-	private static String getDirectoryName(String path) {
+	private String getDirectoryName(String path) {
 		String[] split = path.split("/");
 		if (split.length > 2) {
 			int index = path.indexOf('/', 1);
 			return path.substring(index + 1);
 		}
 		return "";
-	}
-
-	private static URL getQueryURL(String repository, String directory) {
-		String queryString = getQueryAsString(repository, directory);
-		String link = queryString.replaceAll("\\s+", "%20");
-		URL url = null;
-		try {
-			url = new URL(link);
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		}
-		return url;
-	}
-
-	private static String getQueryAsString(String repository, String directory) {
-		String linkHome = "http://fisheye.cobalt.com/search/";
-		String dateRange = getDateRange();
-		dateRange = "[2014-07-01,2014-08-03]";
-		return linkHome + repository + "/?ql=" + " select revisions from dir \"" + directory + "\" where date in " + dateRange
-				+ "and path like **.java and path like **/src/main/** return path,author,linesAdded,linesRemoved &csv=true";
-	}
-
-	private static String getDateRange() {
-		DateTime today = new DateTime();
-		DateTime past = new DateTime().minusDays(1);
-		return "[" + past.getYear() + "-" + past.getMonthOfYear() + "-" + past.getDayOfMonth() + "T07:00:00, " + today.getYear() + "-"
-				+ today.getMonthOfYear() + "-" + today.getDayOfMonth() + "T07:00:00]";
 	}
 }
