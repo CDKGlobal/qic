@@ -22,6 +22,13 @@ public class RevisionData {
 		this.churn = Integer.parseInt(split[3]) + Integer.parseInt(split[2]);
 		this.author.add(split[1].replaceAll("\"", ""));
 	}
+	
+	public RevisionData(RevisionData one, RevisionData two){
+		if(one.fisheyePath!=null && one.fisheyePath.equals(two.getFisheyePath())){
+			one.churn += two.getChurn();
+			one.author.addAll(two.getAuthor());
+		}
+	}
 
 	public String getFisheyePath() {
 		return fisheyePath;
@@ -33,6 +40,15 @@ public class RevisionData {
 
 	public Set<String> getAuthor() {
 		return author;
+	}
+	
+	public String getAuthorsAsString(){
+		StringBuffer buff = new StringBuffer();
+		for(String auth : author){
+			buff.append(",");
+			buff.append(auth);
+		}
+		return buff.toString();
 	}
 
 	@Override
