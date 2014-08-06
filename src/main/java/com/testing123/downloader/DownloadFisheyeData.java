@@ -20,10 +20,19 @@ import com.testing123.vaadin.TemporaryDBI;
 
 public class DownloadFisheyeData {
 
+	private FisheyeInterface FI;
+	private DatabaseInterface DI;
+	
+	public DownloadFisheyeData(){
+		this(new FisheyeQuery(), new TemporaryDBI());
+	}
+	
+	public DownloadFisheyeData(FisheyeInterface FI, DatabaseInterface DI){
+		this.FI = new FisheyeQuery();
+		this.DI = new TemporaryDBI();
+	}
+	
 	public List<ChangedData> getAllFisheyeUpdates() {
-		
-		FisheyeInterface FQ = new FisheyeQuery();
-		DatabaseInterface DI = new TemporaryDBI();
 		
 		List<ConvertProject> listOfProjects = AvailableResources.getAvailableProjects();
 		
@@ -38,7 +47,7 @@ public class DownloadFisheyeData {
 				Map<String, Integer> mapForDatabase = DI.getMapToID(project.getID());
 				Set<String> setOfFilesInDatabase = new HashSet<String>(mapForDatabase.keySet());
 				
-				Set<RevisionData> revisionSet = FQ.getRevisionsFromProject(repositoryName, directoryName);
+				Set<RevisionData> revisionSet = FI.getRevisionsFromProject(repositoryName, directoryName);
 				
 				Set<RevisionData> aggregatedRevisionSet = aggregateRevisions(revisionSet);
 				for (RevisionData revision : aggregatedRevisionSet) {
@@ -65,9 +74,6 @@ public class DownloadFisheyeData {
 		String path = formatFisheyePath(r.getFisheyePath());
 		for(String sonarPath: setOfFilesInDatabase){
 			if(path.endsWith(sonarPath)){
-				//System.out.println(project.getProjectID() + "\t" + sonarPath + "\t" + r.getChurn() + "\t" + r.getAuthor());
-				
-				System.out.println(mapForDatabase.get(sonarPath)+ "\t" + path );
 				return new ChangedData(sonarPath, getCurrentDate(), r.getChurn(), r.getAuthor().toString());
 			}
 		}
