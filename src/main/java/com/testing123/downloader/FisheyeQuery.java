@@ -42,6 +42,31 @@ public class FisheyeQuery implements FisheyeInterface {
 		return revisionsFromFisheye;
 	}
 	
+	public Set<RevisionData> getRevisionsFromProject(String repository, String directory, String day) {
+		Set<RevisionData> revisionsFromFisheye = new HashSet<RevisionData>();
+		URL queryURL = getQueryURL(repository, directory);
+		try {
+			URLConnection urlConn = queryURL.openConnection();
+			InputStreamReader inStream = new InputStreamReader(urlConn.getInputStream());
+			BufferedReader buff = new BufferedReader(inStream);
+			buff.readLine();
+			String revision = buff.readLine();
+			while (revision != null) {
+				if(RegexUtil.isRevisionData(revision)){
+					revisionsFromFisheye.add(new RevisionData(revision));
+				}else{
+					System.out.println("could not parse:	" + revision);
+				}
+				revision = buff.readLine();
+			}
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return revisionsFromFisheye;
+	}
+	
 	private static URL getQueryURL(String repository, String directory) {
 		String queryString = getQueryAsString(repository, directory);
 		String link = queryString.replaceAll("\\s+", "%20");
@@ -57,7 +82,6 @@ public class FisheyeQuery implements FisheyeInterface {
 	private static String getQueryAsString(String repository, String directory) {
 		String linkHome = "http://fisheye.cobalt.com/search/";
 		String dateRange = getDateRange();
-		//dateRange = "[2014-07-01,2014-08-03]";
 		return linkHome + repository + "/?ql=" + " select revisions from dir \"" + directory + "\" where date in " + dateRange
 				+ "and path like **.java and path like **/src/main/** return path,author,linesAdded,linesRemoved &csv=true";
 	}

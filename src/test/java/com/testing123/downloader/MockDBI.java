@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import com.testing123.dataObjects.ConvertDate;
 import com.testing123.dataObjects.ConvertProject;
 import com.testing123.vaadin.DatabaseInterface;
 
@@ -32,6 +33,18 @@ public class MockDBI implements DatabaseInterface {
 		list.add(new ConvertProject("Unused", "alsoUnused", 0, "/QIC/Mock"));
 		list.add(new ConvertProject("NoNameHere", "NoKeyEvenNeeded", 42542, "/QIC/MockEmpty"));
 		return list;
+	}
+
+	@Override
+	public List<String> getAvailableAuthors() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ConvertDate> getAvailableDates() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

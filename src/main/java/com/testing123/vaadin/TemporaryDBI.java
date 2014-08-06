@@ -8,6 +8,7 @@ import java.util.Map;
 
 import com.testing123.controller.AvailableResources;
 import com.testing123.controller.SQLConnector;
+import com.testing123.dataObjects.ConvertDate;
 import com.testing123.dataObjects.ConvertProject;
 
 public class TemporaryDBI implements DatabaseInterface {
@@ -47,6 +48,16 @@ public class TemporaryDBI implements DatabaseInterface {
 	@Override
 	public List<ConvertProject> getAvailableProjects() {
 		return AvailableResources.getAvailableProjects();
+	}
+
+	@Override
+	public List<String> getAvailableAuthors() {
+		return AvailableResources.getAvailableAuthors();
+	}
+
+	@Override
+	public List<ConvertDate> getAvailableDates() {
+		return AvailableResources.getAvailableDates();
 	}
 
 }
