@@ -3,9 +3,12 @@ package com.testing123.vaadin;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import com.testing123.controller.AvailableResources;
 import com.testing123.controller.SQLConnector;
+import com.testing123.dataObjects.ConvertProject;
 
 public class TemporaryDBI implements DatabaseInterface {
 
@@ -39,6 +42,11 @@ public class TemporaryDBI implements DatabaseInterface {
 		int length = split.length;
 		String formattedName = split[length - 1];
 		return formattedName;
+	}
+
+	@Override
+	public List<ConvertProject> getAvailableProjects() {
+		return AvailableResources.getAvailableProjects();
 	}
 
 }

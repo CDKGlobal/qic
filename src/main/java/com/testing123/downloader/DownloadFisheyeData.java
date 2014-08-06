@@ -28,13 +28,13 @@ public class DownloadFisheyeData {
 	}
 	
 	public DownloadFisheyeData(FisheyeInterface FI, DatabaseInterface DI){
-		this.FI = new FisheyeQuery();
-		this.DI = new TemporaryDBI();
+		this.FI = FI;
+		this.DI = DI;
 	}
 	
 	public List<ChangedData> getAllFisheyeUpdates() {
 		
-		List<ConvertProject> listOfProjects = AvailableResources.getAvailableProjects();
+		List<ConvertProject> listOfProjects = DI.getAvailableProjects();
 		
 		List<ChangedData> returnedData = new ArrayList<ChangedData>();
 		
@@ -43,7 +43,7 @@ public class DownloadFisheyeData {
 			String directoryName = getDirectoryName(project.getPath());
 			if (repositoryExists(repositoryName)) {
 				
-				//System.out.println("Project ID = " + project.getID());
+				System.out.println("Project ID = " + project.getID());
 				Map<String, Integer> mapForDatabase = DI.getMapToID(project.getID());
 				Set<String> setOfFilesInDatabase = new HashSet<String>(mapForDatabase.keySet());
 				
@@ -72,14 +72,17 @@ public class DownloadFisheyeData {
 
 	private ChangedData printUpdates(ConvertProject project, Set<String> setOfFilesInDatabase, RevisionData r, Map<String, Integer> mapForDatabase) {
 		String formattedPath = formatFisheyePath(r.getFisheyePath());
+		System.out.println("fp = " + formattedPath);
 		String path = r.getFisheyePath();
+		System.out.println("path = " + path);
 		for(String sonarPath: setOfFilesInDatabase){
+			System.out.println("--" + sonarPath);
 			if(path.endsWith(sonarPath) || formattedPath.endsWith(sonarPath)){
-				//System.out.print(sonarPath +","+ getCurrentDate() +","+ r.getChurn() +","+ r.getAuthor().toString());
+				System.out.print(sonarPath +","+ getCurrentDate() +","+ r.getChurn() +","+ r.getAuthor().toString());
 				return new ChangedData(sonarPath, getCurrentDate(), r.getChurn(), r.getAuthor().toString());
 			}
 		}
-			//System.out.println(false + "=\t" + r.getFisheyePath());
+			System.out.println(false + "=\t" + r.getFisheyePath());
 			return null;
 	}
 	

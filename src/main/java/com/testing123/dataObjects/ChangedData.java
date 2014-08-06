@@ -3,7 +3,12 @@ package com.testing123.dataObjects;
 import java.util.List;
 
 public class ChangedData {
-    private String file_key;
+    @Override
+	public String toString() {
+		return "ChangedData [file_key=" + file_key + ", date=" + date + ", churn=" + churn + ", authors=" + authors + "]";
+	}
+
+	private String file_key;
     private String date;
     private int churn;
     private String authors;
