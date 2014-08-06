@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.sql.ResultSet;
 
-import com.testing123.vaadin.ConvertDate;
-import com.testing123.vaadin.ConvertProject;
+import com.testing123.dataObjects.ConvertDate;
+import com.testing123.dataObjects.ConvertProject;
 
 public class AvailableResources {
 	

@@ -11,8 +11,8 @@ import org.junit.Test;
 import com.testing123.controller.UIState;
 import com.testing123.controller.UIState.XAxis;
 import com.testing123.controller.UIState.YAxis;
-import com.testing123.vaadin.ConvertDate;
-import com.testing123.vaadin.ConvertProject;
+import com.testing123.dataObjects.ConvertDate;
+import com.testing123.dataObjects.ConvertProject;
 
 public class UIStateTest {
 	private static ConvertDate date1;

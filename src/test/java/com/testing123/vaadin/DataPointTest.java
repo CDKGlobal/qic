@@ -9,6 +9,8 @@ import java.util.TreeSet;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.testing123.dataObjects.DataPoint;
+
 public class DataPointTest {
 
 	@BeforeClass

@@ -1,6 +1,6 @@
 package com.testing123.ui;
 
-import com.testing123.vaadin.ConvertDate;
+import com.testing123.dataObjects.ConvertDate;
 
 public class Preferences {
 	

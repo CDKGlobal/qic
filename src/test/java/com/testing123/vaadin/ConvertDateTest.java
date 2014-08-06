@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.testing123.dataObjects.ConvertDate;
+
 public class ConvertDateTest {
 	private ConvertDate date;
 	

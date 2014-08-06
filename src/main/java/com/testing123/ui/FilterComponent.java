@@ -3,7 +3,7 @@ package com.testing123.ui;
 import java.util.List;
 
 import com.testing123.controller.AvailableResources;
-import com.testing123.vaadin.ConvertProject;
+import com.testing123.dataObjects.ConvertProject;
 import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.ListSelect;

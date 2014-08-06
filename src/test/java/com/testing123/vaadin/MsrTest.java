@@ -5,6 +5,8 @@ import static org.junit.Assert.assertEquals;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.testing123.dataObjects.Msr;
+
 public class MsrTest {
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {

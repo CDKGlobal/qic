@@ -3,6 +3,7 @@ package com.testing123.vaadin;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.testing123.dataObjects.Msr;
 
 /**
  * A class that will store all of the data from the API

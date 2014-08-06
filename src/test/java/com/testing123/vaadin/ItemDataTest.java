@@ -5,6 +5,8 @@ import static org.junit.Assert.assertEquals;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.testing123.dataObjects.ItemData;
+
 public class ItemDataTest {
     private static Object[] itemList = new Object[3];
 
