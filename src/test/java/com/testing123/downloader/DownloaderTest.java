@@ -21,7 +21,7 @@ public class DownloaderTest {
 
     @Test
     public void TestDownloadProjectsAndStoreInList() {
-        List<WebData> projectList = Downloader.downloadProjectsAndStoreInList();
+        List<WebData> projectList = new Downloader().downloadProjectsAndStoreInList();
         assertEquals("com.onstation:uploader", projectList.get(0).getKey());
     }
     /*
