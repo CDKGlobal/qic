@@ -1,6 +1,6 @@
-package com.testing123.controller;
+package com.testing123.ui;
 
-import com.testing123.ui.MainComponent;
+import com.testing123.controller.UIState;
 import com.testing123.vaadin.GetData;
 import com.vaadin.ui.GridLayout;
 
