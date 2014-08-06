@@ -23,7 +23,8 @@ public class QueryDatabase {
 	public Set<QueryData> getDataSet(ConvertDate startDate, ConvertDate endDate, Set<ConvertProject> projects) {
 		ResultSet results = null;
 		try {
-			results = conn.basicQuery("SELECT allFileHistory3.file_key, allFileList.name, ncloc, complexity, COALESCE(SUM(delta_complexity), 0) "
+			results = conn.basicQuery("SELECT allFileHistory3.file_key, allFileList.name, COALESCE(SUM(ncloc), 0) AS ncloc, complexity, "
+					+ "COALESCE(SUM(delta_complexity), 0) "
 					+ "AS delta_complexity FROM allFileHistory3 JOIN allFileList ON allFileList.file_id = allFileHistory3.file_id "
 					+ "WHERE qualifier = 'CLA' AND allFileList.project_id IN " + projectIDSet(projects) + " AND dbdate <= '" + 
 					endDate.getDBFormat() + "' AND dbdate > '" + startDate.getDBFormat() + "' GROUP BY file_key;");
