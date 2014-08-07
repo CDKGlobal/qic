@@ -9,9 +9,29 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Msr {
     private String key;
     private double val;
-    
+
+
     @JsonProperty("frmt_val")
     private String frmtVal;
+
+    private double branch_coverage;
+    private double violation;
+
+    public double getViolation() {
+        return violation;
+    }
+
+    public void setViolation(double violation) {
+        this.violation = violation;
+    }
+
+    public double getBranch_coverage() {
+        return branch_coverage;
+    }
+
+    public void setBranch_coverage(double branch_coverage) {
+        this.branch_coverage = branch_coverage;
+    }
 
     public String getKey() {
         return key;
