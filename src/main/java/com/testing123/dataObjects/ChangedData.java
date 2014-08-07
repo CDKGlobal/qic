@@ -4,29 +4,29 @@ import java.util.List;
 
 public class ChangedData {
     @Override
-	public String toString() {
-		return "ChangedData [file_key=" + file_key + ", date=" + date + ", churn=" + churn + ", authors=" + authors + "]";
-	}
+    public String toString() {
+        return "ChangedData [file_id=" + file_id + ", date=" + date + ", churn=" + churn + ", authors=" + authors + "]";
+    }
 
-	private String file_key;
+    private int file_id;
     private String date;
     private int churn;
     private String authors;
 
 
-    public ChangedData(String file_key, String date, int churn, String authors) {
-        this.file_key = file_key;
+    public ChangedData(int file_id, String date, int churn, String authors) {
+        this.file_id = file_id;
         this.date = date;
         this.churn = churn;
         this.authors = authors;
     }
 
-    public String getFile_key() {
-        return file_key;
+    public int getFile_id() {
+        return file_id;
     }
 
-    public void setFile_key(String file_key) {
-        this.file_key = file_key;
+    public void setFile_id(int file_id) {
+        this.file_id = file_id;
     }
 
     public String getDate() {
