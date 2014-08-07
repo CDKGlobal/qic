@@ -38,6 +38,9 @@ public class DisplayChanges {
 		FisheyeData changesets = fisheye.getRevisionList(repository, directory, formattedPath, startDate.getDBFormat(), endDate.getDBFormat());
 		
 		String path = getPath(changesets);
+		System.out.println("path = " + path);
+		changesets = fisheye.getRevisionList(repository, directory, path, startDate.getDBFormat(), endDate.getDBFormat());
+
 		int firstRevision = getFirstRevision(changesets);
 		int secondRevision = getSecondRevision(changesets);
 		
@@ -49,7 +52,7 @@ public class DisplayChanges {
 	private String format(String dbPath){
 		String [] split = dbPath.split(":");
 		int length = split.length;
-		return split[length-1];
+		return split[length-1].replaceAll("\\.", "/")+"**";
 	}
 	
 	private int getFirstRevision(FisheyeData data){
