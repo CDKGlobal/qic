@@ -34,7 +34,7 @@ public class ParameterManager {
 	}
 
 	private void setAuthorState(String auth, UIState state) {
-		if (auth.equals("")) {
+		if (auth.equals("") || auth == null) {
 			state.setAuthorsFilter(new HashSet<String>());
 		} else {
 			String[] authorsArray = auth.split(",");
@@ -43,15 +43,19 @@ public class ParameterManager {
 	}
 
 	private void setProjectState(String proj, UIState state) {
-		List<ConvertProject> projsList = AvailableResources.getAvailableProjects();
-		List<String> projsArray = Arrays.asList(proj.split(","));
-		Set<ConvertProject> projsSet = new HashSet<ConvertProject>();
-		for (ConvertProject project : projsList) {
-			if (projsArray.contains("" + project.getID())) {
-				projsSet.add(project);
+		if (proj == null || proj.equals("")) {
+			state.setProjects(new HashSet<ConvertProject>());
+		} else {
+			List<ConvertProject> projsList = AvailableResources.getAvailableProjects();
+			List<String> projsArray = Arrays.asList(proj.split(","));
+			Set<ConvertProject> projsSet = new HashSet<ConvertProject>();
+			for (ConvertProject project : projsList) {
+				if (projsArray.contains("" + project.getID())) {
+					projsSet.add(project);
+				}
 			}
+			state.setProjects(projsSet);
 		}
-		state.setProjects(projsSet);
 	}	
 	
 	private static XAxis getXAxisMapping(String tag) {
