@@ -11,6 +11,7 @@ import com.testing123.controller.UIState;
 import com.testing123.controller.UIState.XAxis;
 import com.testing123.dataObjects.ConvertDate;
 import com.testing123.dataObjects.ConvertProject;
+import com.testing123.downloader.DisplayChanges;
 import com.testing123.vaadin.GetData;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
@@ -61,10 +62,14 @@ public class NavigationComponent extends CustomComponent {
 		ComponentController.drawMainComponent(layout, state, data);
 	
 		JavaScript.getCurrent().addFunction("notify", new JavaScriptFunction() {
+			
 			@Override
 			public void call(JSONArray arguments) throws JSONException {
-				Notification.show(arguments.getString(0));
-				fireChangeAction();
+				String location = arguments.toString().replace("[\"", "").replace("\"]", "").replace("\\", "");
+				System.out.println("PRINTED : " + location);
+				if (state.getX() != XAxis.LINESOFCODE) {
+					new DisplayChanges().popUp(state, location);
+				}
 			}
 		});
 		

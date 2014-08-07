@@ -8,11 +8,11 @@ com_testing123_ui_Graph = function() {
 		$.plot(element, data, options);
 	}
 	
-	//element.bind("plotclick", function(event, pos, item) {
-        //if (item) {
-        //  	window.notify(item.series.data[item.dataIndex][2]);
-        //}
-    //});
+	element.bind("plotclick", function(event, pos, item) {
+        if (item) {
+          	window.notify(item.series.data[item.dataIndex][2]);
+        }
+    });
 
 	element.bind("plothover", function(event, pos, item) {
 		$("#tooltip").remove();
@@ -31,7 +31,7 @@ com_testing123_ui_Graph = function() {
 	});
 
 		// add zoom out button 
-
+/*
 	$("<div class='button' style='right:20px;top:20px'>zoom out</div>")
 		.appendTo(element)
 		.click(function (event) {
@@ -57,4 +57,5 @@ com_testing123_ui_Graph = function() {
 	addArrow("right", 25, 60, { left: 100 });
 	addArrow("up", 40, 45, { top: -100 });
 	addArrow("down", 40, 75, { top: 100 });
+	*/
 }

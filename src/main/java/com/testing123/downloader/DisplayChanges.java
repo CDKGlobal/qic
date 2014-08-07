@@ -31,7 +31,9 @@ public class DisplayChanges {
 	
 	public void fisheyeRevision(String dbPath, ConvertDate startDate, ConvertDate endDate){
 		int projectID = database.getProjectID(dbPath);
+		System.out.println("Project ID = " + projectID);
 		String projectPath = database.getProjectPath(projectID);
+		System.out.println("pj path = " + projectPath);
 		String repository = getRepositoryName(projectPath);
 		String directory = getDirectoryName(projectPath);
 		String formattedPath = format(dbPath);
