@@ -5,8 +5,6 @@ import static org.junit.Assert.assertEquals;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.testing123.dataObjects.Msr;
-
 public class MsrTest {
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
@@ -33,4 +31,19 @@ public class MsrTest {
         msr.setVal(0.0);
         assertEquals(0, (int) msr.getVal());
     }
+
+    @Test
+    public void testSetBranchCoverageAndGetBranchCoverage() {
+        Msr msr = new Msr();
+        msr.setBranch_coverage(0.0);
+        assertEquals(0, (int) msr.getBranch_coverage());
+    }
+
+    @Test
+    public void testSetViolationAndGetViolation() {
+        Msr msr = new Msr();
+        msr.setViolation(0.0);
+        assertEquals(0, (int) msr.getViolation());
+    }
+
 }
