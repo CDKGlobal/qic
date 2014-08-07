@@ -82,7 +82,9 @@ public class MainComponent extends CustomComponent {
 		chart.setWidth(GRAPH_WIDTH);
 		chart.setHeight(GRAPH_HEIGHT);
 
-		chart.setData("[" + data.requestData(state) + "]");
+		String d = data.requestData(state).toString();
+		chart.setData(d);
+		System.out.println(d);
 
 		chart.setOptions(FlotOptions.getString(state));
 		

@@ -18,7 +18,8 @@ public class Preferences {
 	public static final ConvertDate DEFAULT_END_DATE = new ConvertDate("2014-07-30");
 	
 	public static final String GRPAH_COLOR = "#033F8D";
-	public static final String FILL_COLOR = "#033F8D";
+	public static final String FILL_COLOR_POS = "#FF0000";
+	public static final String FILL_COLOR_NEG = "#009933";
 	
 	
 	public static final String[] FISHEYE_REPOS = new String[] {

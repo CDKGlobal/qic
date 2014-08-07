@@ -18,14 +18,14 @@ public class FlotOptions {
 	public static String getString(UIState state){
 	String options =
 		"{" + 
-		"series : {" + 
-			"points: { " +
-				"show: true, " + 
-				"fill: true, " + 
-				"fillColor: \"" + Preferences.FILL_COLOR + "\"" +
-			"} " + 
-		"}, " +		
-		"colors : [\"" + Preferences.GRPAH_COLOR + "\", \"" + Preferences.GRPAH_COLOR + "\"]," +
+//		"series : {" + 
+//			"points: { " +
+//				"show: true, " + 
+//				"fill: true, " + 
+//				"fillColor: \"" + Preferences.FILL_COLOR + "\"" +
+//			"} " + 
+//		"}, " +		
+		"colors : [\"" + Preferences.FILL_COLOR_NEG + "\", \"" + Preferences.FILL_COLOR_POS + "\"]," +
 		"yaxis : {" + 
 	        "show : true," + 
 	        "axisLabel: \'" + state.getY().toString() + "\'," + 

@@ -101,7 +101,7 @@ public class UIState {
 		DELTA_LINESOFCODE("Churn", "churn"), 
 		DELTA_COMPLEXITY("Change in Complexity", "delta_complexity"), 
 		DELTA_ISSUES("Change in Issues", "delta_issues"),
-		DELTA_COVERAGE("Delta Coverage", "delta_coverage"),
+		//DELTA_COVERAGE("Delta Coverage", "delta_coverage"),
 		LINESOFCODE("Non Commented Lines of Code", "ncloc");
 		
 		private String detail;
