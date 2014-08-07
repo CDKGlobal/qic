@@ -1,22 +1,17 @@
 package com.testing123.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.sql.ResultSet;
 
+import com.testing123.controller.UIState.XAxis;
+import com.testing123.controller.UIState.YAxis;
 import com.testing123.dataObjects.ConvertDate;
 import com.testing123.dataObjects.ConvertProject;
 
 public class AvailableResources {
-	
-//	public static List<WebData> getDataList(ConvertDate date){
-//		String stringDate = extractDate(date.getSonarFormat());
-//		return getDataList(stringDate);
-//	}
-	
-//	private static String extractDate(String sonarFormat) {
-//		return sonarFormat.replace("-", "_");
-//	}
 	
 	/**
 	 * Fetches the available list of projects from the database

@@ -32,12 +32,15 @@ public class NavigationComponent extends CustomComponent {
 	private ComboBox startComboBox;
 	private ComboBox endComboBox;
 	private Button button_1;
+	private Button button_2;
+	private TextField linkBox;
 	private GridLayout layout;
 	private Label errorLabel;
 	private GetData data;
 	private UIState state;
 	
-	private static final String DATE_GRANULARITY_OFFSET = "70px";
+	private static final String VERTICAL_OFFSET = "70px";
+	private static final String VERTICAL_OFFSET_2 = "100px";
 	private static final String AXIS_BOX_OFFSET = "5px";
 	private static final String COMBOBOX_WIDTH = "200px";
 	private static final String DEFAULT_VALUE = "-1px";
@@ -65,7 +68,7 @@ public class NavigationComponent extends CustomComponent {
 			}
 		});
 		
-		filter = new FilterComponent();
+		filter = new FilterComponent(state);
 		layout.addComponent(filter, 2, 1);
 	}
 	
@@ -84,7 +87,7 @@ public class NavigationComponent extends CustomComponent {
 		List<XAxis> xAxisOptions = XAxis.possibleValues();
 		
 		final ComboBox xAxisComboBox = createAxisComboBox(xAxisOptions, "");
-		navLayout.addComponent(xAxisComboBox, "top:" + AXIS_BOX_OFFSET + "; left: 340px;");
+		navLayout.addComponent(xAxisComboBox, "top:" + AXIS_BOX_OFFSET + "; left: 340.0px;");
 		
 		xAxisComboBox.addValueChangeListener(new Property.ValueChangeListener() {
 			
@@ -106,12 +109,12 @@ public class NavigationComponent extends CustomComponent {
 		// start date combo box
 	    startComboBox = createDateComboBox(dateOptions, "Start Date");
 	    startComboBox.select(state.getStart());
-		navLayout.addComponent(startComboBox, "top:" + DATE_GRANULARITY_OFFSET +";");
+		navLayout.addComponent(startComboBox, "top:" + VERTICAL_OFFSET +";");
 		
 		// end date combo box
 		endComboBox = createDateComboBox(dateOptions, "End Date");
 		endComboBox.select(state.getEnd());
-		navLayout.addComponent(endComboBox, "top:" + DATE_GRANULARITY_OFFSET + ";left:220.0px;");
+		navLayout.addComponent(endComboBox, "top:" + VERTICAL_OFFSET + ";left:220.0px;");
 		
 		// go button
 		button_1 = new Button();
@@ -127,14 +130,14 @@ public class NavigationComponent extends CustomComponent {
 				navLayout.removeComponent(errorLabel);
 				if (startComboBox.getValue() == null || endComboBox.getValue() == null) {
 					errorLabel = new Label("No date range entered");
-					navLayout.addComponent(errorLabel, "top:" + DATE_GRANULARITY_OFFSET + "; left:570.0px;");
+					navLayout.addComponent(errorLabel, "top:" + VERTICAL_OFFSET + "; left:570.0px;");
 					return;
 				} 
 				ConvertDate startDate = (ConvertDate) startComboBox.getValue();
 				ConvertDate endDate = (ConvertDate) endComboBox.getValue();
 				if (checkIfStartDateIsNotLessThanEndDate(startDate, endDate)) {
 					errorLabel = new Label("Date range invalid");
-					navLayout.addComponent(errorLabel, "top:" + DATE_GRANULARITY_OFFSET + "; left:570.0px;");
+					navLayout.addComponent(errorLabel, "top:" + VERTICAL_OFFSET + "; left:570.0px;");
 					return;
 				}
 				state.setProjects((Set<ConvertProject>) filter.projectFilter.getValue());
@@ -150,7 +153,32 @@ public class NavigationComponent extends CustomComponent {
 						startDate.toString().compareTo(endDate.toString()) > 0;
 			}
 		});
-		navLayout.addComponent(button_1, "top:" + DATE_GRANULARITY_OFFSET + "; left:440.0px;");
+		
+		// link text field
+		linkBox = new TextField();
+        linkBox.setImmediate(false);
+        linkBox.setReadOnly(true);
+        linkBox.setWidth("620px");
+		navLayout.addComponent(linkBox, "top:" + VERTICAL_OFFSET_2 + ";");
+		
+		// share button
+		button_2 = new Button();
+		button_2.setCaption("Share");
+		button_2.setImmediate(false);
+		button_2.setWidth(DEFAULT_VALUE);
+		button_2.setHeight(DEFAULT_VALUE);
+		button_2.addClickListener(new Button.ClickListener() {
+			
+			@Override
+			public void buttonClick(ClickEvent event) {
+				linkBox.setReadOnly(false);
+				linkBox.setValue(state.getStateURI());
+				linkBox.setReadOnly(true);
+			}	
+		});
+		
+		navLayout.addComponent(button_2, "top:" + VERTICAL_OFFSET_2 + "; left:640.0px;");
+		navLayout.addComponent(button_1, "top:" + VERTICAL_OFFSET + "; left:440.0px;");
 		return button_1;
 	}
 
@@ -159,11 +187,11 @@ public class NavigationComponent extends CustomComponent {
 		navLayout = new AbsoluteLayout();
 		navLayout.setImmediate(false);
 		navLayout.setWidth("800px");
-		navLayout.setHeight("100px");
+		navLayout.setHeight("200px");
 
 		// top-level component properties
 		setWidth("800px");
-		setHeight("100px");
+		setHeight("200px");
 	}
 
 	private ComboBox createAxisComboBox(List<XAxis> options, String tag) {
@@ -171,7 +199,7 @@ public class NavigationComponent extends CustomComponent {
 		for (int i = 0; i < options.size(); i++) {
 			box.addItem(options.get(i));
 		}
-		box.select(options.get(0));
+		box.select(state.getX());
 		return box;
 	}
 	

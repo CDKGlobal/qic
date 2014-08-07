@@ -26,7 +26,7 @@ public class DBDeltaCalculator {
 			double prevDC = rs.getDouble("delta_complexity");
 			int i = 0;
 			while (rs.next()) {
-				System.out.println(i++ + " file_key");
+				System.out.println(i++ + " " + prevKey);
 				int currId = rs.getInt("file_id");
 				String currKey = rs.getString("file_key");
 				double currComp = rs.getDouble("complexity");
@@ -37,6 +37,7 @@ public class DBDeltaCalculator {
 						prevDC = deltaComp;
 						rs.updateDouble("delta_complexity", deltaComp);
 			            rs.updateRow();
+			            System.out.println(deltaComp + " updated");
 					}
 				} else {
 					prevDC = currDC;

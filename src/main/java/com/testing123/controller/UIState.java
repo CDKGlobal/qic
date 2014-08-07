@@ -91,6 +91,38 @@ public class UIState {
 		System.out.println("Authors: " + authors);
 	}
 	
+	/**
+	 * Returns a URL that can be reused to build the current state
+	 * 
+	 * @return a String representation of the current state as a URL
+	 */
+	public String getStateURI() {
+		StringBuilder sb = new StringBuilder("http://localhost:8080/QIC2/");
+		sb.append("?st=").append(start.getDBFormat());
+		sb.append("&end=").append(end.getDBFormat());
+		sb.append("&x=").append(x.getColName());
+		sb.append("&y=").append(y.getColName());
+		sb.append("&proj=").append(unwrapProjects(projects));
+		sb.append("&auth=").append(unwrapAuthors(authors));
+		return sb.toString();
+	}
+	
+	private String unwrapAuthors(Set<String> authors) {
+		String result = "";
+		for (String author : authors) {
+			result += "," + author;
+		}
+		return result;
+	}
+	
+	private String unwrapProjects(Set<ConvertProject> projects) {
+		String result = "";
+		for (ConvertProject project : projects) {
+			result += "," + project.getID();
+		}
+		return result;
+	}
+	
 	public interface Axis {
 		
 		public String getColName();
@@ -100,7 +132,7 @@ public class UIState {
 	public enum XAxis implements Axis {
 		DELTA_LINESOFCODE("Churn", "churn"), 
 		DELTA_COMPLEXITY("Change in Complexity", "delta_complexity"), 
-		DELTA_ISSUES("Change in Issues", "delta_issues"),
+		//DELTA_ISSUES("Change in Issues", "delta_issues"),
 		//DELTA_COVERAGE("Delta Coverage", "delta_coverage"),
 		LINESOFCODE("Non Commented Lines of Code", "ncloc");
 		

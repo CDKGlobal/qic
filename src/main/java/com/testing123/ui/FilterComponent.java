@@ -3,6 +3,7 @@ package com.testing123.ui;
 import java.util.List;
 
 import com.testing123.controller.AvailableResources;
+import com.testing123.controller.UIState;
 import com.testing123.dataObjects.ConvertProject;
 import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.CustomComponent;
@@ -13,8 +14,10 @@ public class FilterComponent extends CustomComponent {
 	protected AbsoluteLayout mainLayout;
 	protected ListSelect projectFilter;
 	protected TwinColSelect authorsFilter;
+	private UIState state;
 	
-	public FilterComponent() {
+	public FilterComponent(UIState state) {
+		this.state = state;
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
 	}
@@ -46,6 +49,9 @@ public class FilterComponent extends CustomComponent {
         filter.setLeftColumnCaption("Available authors");
         filter.setRightColumnCaption("Selected authors");
         filter.setWidth("350px");
+        for (String option : state.getAuthorsFilter()) {
+        	filter.select(option);
+        }
         return filter;
 	}
 	
@@ -59,6 +65,9 @@ public class FilterComponent extends CustomComponent {
         filter.setMultiSelect(true);
         filter.setImmediate(true);
         filter.setWidth("350px");
+        for (ConvertProject selectedProject : state.getProjects()) {
+        	filter.select(selectedProject);
+        }
         return filter;
 	}
 	

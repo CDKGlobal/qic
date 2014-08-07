@@ -1,8 +1,19 @@
 package com.testing123.ui;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import javax.servlet.annotation.WebServlet;
 
+import com.testing123.controller.AvailableResources;
+import com.testing123.controller.ParameterManager;
 import com.testing123.controller.UIState;
+import com.testing123.dataObjects.ConvertDate;
+import com.testing123.dataObjects.ConvertProject;
 import com.vaadin.annotations.Push;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
@@ -97,6 +108,10 @@ public class QicUI extends UI {
 		l2.setWidth("800px");
 		l2.setHeight("90px");
 		
+		UIState state = new ParameterManager().getState(request.getParameter("st"), request.getParameter("end"),
+				request.getParameter("x"), request.getParameter("y"), request.getParameter("proj"), 
+				request.getParameter("auth"));
+		
 		Label title = new Label("<b>Quality Induced Constraints</b>", ContentMode.HTML);
 		title.setStyleName("h1");
 		l2.addComponent(title, "top:25px;");
@@ -104,8 +119,7 @@ public class QicUI extends UI {
 		layout.addComponent(l1, 0, 0);
 		layout.addComponent(l2, 1, 0);
 		
-		
-		NavigationComponent nav = new NavigationComponent(layout, new UIState());
+		NavigationComponent nav = new NavigationComponent(layout, state);
 		layout.addComponent(nav, 1, 2);
 	}
 }
