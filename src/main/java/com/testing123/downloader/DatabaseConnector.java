@@ -35,8 +35,11 @@ public class DatabaseConnector {
 
     public static Connection getConnection() {
         try {
+            // Connection conn =
+            // DriverManager.getConnection("jdbc:mysql://localhost/dataList4?" +
+            // "user=root&password=password");
             Connection conn =
-                            DriverManager.getConnection("jdbc:mysql://localhost/dataList4?" +
+                            DriverManager.getConnection("jdbc:mysql://dc2pvpdc00059.vcac.dc2.dsghost.net:3306/dataList4?" +
                                             "user=root&password=password");
             return conn;
         } catch (SQLException ex) {
@@ -60,6 +63,7 @@ public class DatabaseConnector {
 
     public void createDbAndLoadTableForProject(Connection conn) {
         Statement stmt = null;
+        new Downloader();
         List<WebData> projectList = Downloader.downloadProjectsAndStoreInList();
         Map<Integer, String> previousProjects = getPreviousProjects();
         System.out.println("Ok before conn.createStatement");
@@ -68,7 +72,8 @@ public class DatabaseConnector {
 
             Date nowDate = new Date();
             SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
-            PrintWriter writer = new PrintWriter(currentPath + ft.format(nowDate) + ".txt");
+            String currentDate = ft.format(nowDate);
+            PrintWriter writer = new PrintWriter(currentPath + currentDate + ".txt");
 
             int i = 0;
 
@@ -81,7 +86,7 @@ public class DatabaseConnector {
                  * + " ncloc DECIMAL(8,1), complexity DECIMAL(8,1));");
                  * System.out.println(project.getId() + "_id");
                  */
-                String projectPath = previousProjects.get(project.getId());
+                String projectPath = getPath(project.getId());
                 upsertProjectDataToDB(stmt, projectPath, project);
                 //     }
                 int depth = 1;
@@ -97,10 +102,10 @@ public class DatabaseConnector {
                     }
 
                     for (WebData file : fileList) {
-
-                        upsertFileDataToDB(stmt, project, file);
                         System.out.println("file key = " + file.getKey());
-                        upsertFileHistoryToDB(stmt, file);
+                        upsertFileDataToDB(stmt, project, file);
+                        // System.out.println("file key = " + file.getKey());
+                        upsertFileHistoryToDB(stmt, file, currentDate);
                         i++;
                         writeTxt(writer, file);
                     }
@@ -113,7 +118,7 @@ public class DatabaseConnector {
         }
     }
 
-    private void upsertFileHistoryToDB(Statement stmt, WebData file) throws SQLException {
+    private void upsertFileHistoryToDB(Statement stmt, WebData file, String currentDate) throws SQLException {
         String query = "INSERT INTO allFileHistory3("
                         + "file_id, "
                         + "file_key, "
@@ -123,16 +128,19 @@ public class DatabaseConnector {
                         + "delta_complexity) VALUES ("
                         + file.getId() + ", '"
                         + file.getKey() + "', ";
+        // System.out.println(file.getKey());
         if (file.getMsr() == null) {
             query = query + "-1.0, -1.0, '";
         } else {
             query = query + file.getMsr().get(0).getVal() + ", "
                             + file.getMsr().get(1).getVal() + ", '";
         }
-        query = query + file.getDBDate() + "', NULL) ON DUPLICATE KEY UPDATE "
-                        + "file_id = values(file_id), "
+        query = query + currentDate + "', NULL) ON DUPLICATE KEY UPDATE "
                         + "file_key = values(file_key),"
-                        + "dbdate = values(dbdate);";
+                        + "ncloc = values(ncloc),"
+                        + "complexity = values(complexity),"
+                        + "dbdate = values(dbdate),"
+                        + "delta_complexity = values(delta_complexity);";
         stmt.execute(query);
     }
 
@@ -150,7 +158,8 @@ public class DatabaseConnector {
                         + file.getName() + "', '"
                         + file.getScope() + "', '"
                         + file.getQualifier() + "') ON DUPLICATE KEY UPDATE "
-                        + "file_id = values(file_id);");
+                        + "file_key = values(file_key),"
+                        + "name = values(name);");
     }
 
     private void upsertProjectDataToDB(Statement stmt, String projectPath, WebData project) throws SQLException {
@@ -199,7 +208,7 @@ public class DatabaseConnector {
             } else {
                 writer.println("\t" + file.getMsr().get(0).getVal() + "\t" + file.getMsr().get(1).getVal());
             }
-            System.out.println("writing file to txt: " + file.getKey());
+            // System.out.println("writing file to txt: " + file.getKey());
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -208,7 +217,7 @@ public class DatabaseConnector {
 
     public String getPath(int index) {
         try {
-            URL url = new URL("" + index);
+            URL url = new URL("http://sonar.cobalt.com/dashboard/index/" + index);
             BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
             String inputLine;
             while ((inputLine = in.readLine()) != null) {
