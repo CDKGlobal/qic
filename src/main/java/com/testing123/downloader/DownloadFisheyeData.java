@@ -78,7 +78,7 @@ public class DownloadFisheyeData {
 			//System.out.println("--" + sonarPath);
 			if(path.endsWith(sonarPath) || formattedPath.endsWith(sonarPath)){
 				//System.out.print(sonarPath +","+ getCurrentDate() +","+ r.getChurn() +","+ r.getAuthor().toString());
-				return new ChangedData(sonarPath, getCurrentDate(), r.getChurn(), r.getAuthor().toString());
+				return new ChangedData(mapForDatabase.get(sonarPath), getCurrentDate(), r.getChurn(), r.getAuthor().toString());
 			}
 		}
 			System.out.println(false + "=\t" + r.getFisheyePath());
