@@ -11,7 +11,13 @@ import java.util.Set;
 
 import org.joda.time.DateTime;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.testing123.dataObjects.FisheyeData;
 import com.testing123.dataObjects.RevisionData;
+import com.testing123.ui.Preferences;
 import com.testing123.vaadin.RegexUtil;
 
 public class FisheyeQuery implements FisheyeInterface {
@@ -19,7 +25,8 @@ public class FisheyeQuery implements FisheyeInterface {
 	@Override
 	public Set<RevisionData> getRevisionsFromProject(String repository, String directory) {
 		Set<RevisionData> revisionsFromFisheye = new HashSet<RevisionData>();
-		URL queryURL = getQueryURL(repository, directory);
+		String queryString = getProjectQueryAsString(repository, directory);
+		URL queryURL = getQueryURL(queryString);
 		try {
 			URLConnection urlConn = queryURL.openConnection();
 			InputStreamReader inStream = new InputStreamReader(urlConn.getInputStream());
@@ -42,33 +49,7 @@ public class FisheyeQuery implements FisheyeInterface {
 		return revisionsFromFisheye;
 	}
 	
-	public Set<RevisionData> getRevisionsFromProject(String repository, String directory, String day) {
-		Set<RevisionData> revisionsFromFisheye = new HashSet<RevisionData>();
-		URL queryURL = getQueryURL(repository, directory);
-		try {
-			URLConnection urlConn = queryURL.openConnection();
-			InputStreamReader inStream = new InputStreamReader(urlConn.getInputStream());
-			BufferedReader buff = new BufferedReader(inStream);
-			buff.readLine();
-			String revision = buff.readLine();
-			while (revision != null) {
-				if(RegexUtil.isRevisionData(revision)){
-					revisionsFromFisheye.add(new RevisionData(revision));
-				}else{
-					System.out.println("could not parse:	" + revision);
-				}
-				revision = buff.readLine();
-			}
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return revisionsFromFisheye;
-	}
-	
-	private static URL getQueryURL(String repository, String directory) {
-		String queryString = getQueryAsString(repository, directory);
+	private static URL getQueryURL(String queryString) {
 		String link = queryString.replaceAll("\\s+", "%20");
 		URL url = null;
 		try {
@@ -79,7 +60,7 @@ public class FisheyeQuery implements FisheyeInterface {
 		return url;
 	}
 	
-	private static String getQueryAsString(String repository, String directory) {
+	private static String getProjectQueryAsString(String repository, String directory) {
 		String linkHome = "http://fisheye.cobalt.com/search/";
 		String dateRange = getDateRange();
 		return linkHome + repository + "/?ql=" + " select revisions from dir \"" + directory + "\" where date in " + dateRange
@@ -91,6 +72,54 @@ public class FisheyeQuery implements FisheyeInterface {
 		DateTime past = new DateTime().minusDays(1);
 		return "[" + past.getYear() + "-" + past.getMonthOfYear() + "-" + past.getDayOfMonth() + "T07:00:00, " + today.getYear() + "-"
 				+ today.getMonthOfYear() + "-" + today.getDayOfMonth() + "T07:00:00]";
+	}
+
+
+
+	@Override
+	public void popUpChangesInFisheye(String repository, String fisheyePath, int revision1, int revision2) {
+		String fisheyeHomeLink = Preferences.FISHEYE_HOME;
+		String url = fisheyeHomeLink + "/browse/" + repository + "/" + fisheyePath +"?r1=" + revision1 + "&r2=" + revision2;
+		try {
+			java.awt.Desktop.getDesktop().browse(java.net.URI.create(url));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public FisheyeData getRevisionList(String repository, String directory, String path, String startDate, String endDate) {
+		String dateRange = "[" + startDate + "," + endDate + "]";
+		String queryString = getRevisionListQueryAsString(repository, directory, dateRange, path);
+		System.out.println("url = " + queryString);
+		URL queryURL = getQueryURL(queryString);
+		FisheyeData changesets = getJSONFromFisheye(queryURL);
+		return changesets;
+
+	}
+	
+	private FisheyeData getJSONFromFisheye(URL url) {
+
+		ObjectMapper mapper = new ObjectMapper();
+		FisheyeData querriedData = new FisheyeData();
+
+		try {
+			querriedData = mapper.readValue(url, new TypeReference<FisheyeData>() {
+			});
+		} catch (JsonParseException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return querriedData;
+	}
+	
+	private static String getRevisionListQueryAsString(String repository, String directory, String dateRange, String path) {
+		String linkHome = "http://fisheye.cobalt.com/rest-service-fe/search-v1/queryAsRows/";
+		return linkHome + repository + ".json?query=" + " select revisions from dir \"" + directory + "\" where date in " + dateRange
+				+ "and path like **/"+ path + " return path,csid";
 	}
 
 }

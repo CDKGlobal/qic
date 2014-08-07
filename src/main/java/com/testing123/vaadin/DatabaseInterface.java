@@ -15,5 +15,8 @@ public interface DatabaseInterface {
 	public List<String> getAvailableAuthors();
 	
 	List<ConvertDate> getAvailableDates();
-
+	
+	public int getProjectID(String dbPath);
+	
+	public String getProjectPath(int projectID);
 }

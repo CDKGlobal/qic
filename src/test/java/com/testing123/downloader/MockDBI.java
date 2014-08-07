@@ -47,4 +47,16 @@ public class MockDBI implements DatabaseInterface {
 		return null;
 	}
 
+	@Override
+	public int getProjectID(String dbPath) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public String getProjectPath(int projectID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

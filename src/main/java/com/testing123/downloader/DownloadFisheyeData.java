@@ -10,7 +10,6 @@ import java.util.Set;
 
 import org.joda.time.DateTime;
 
-import com.testing123.controller.AvailableResources;
 import com.testing123.dataObjects.ChangedData;
 import com.testing123.dataObjects.ConvertProject;
 import com.testing123.dataObjects.RevisionData;
@@ -20,21 +19,21 @@ import com.testing123.vaadin.TemporaryDBI;
 
 public class DownloadFisheyeData {
 
-	private FisheyeInterface FI;
-	private DatabaseInterface DI;
+	private FisheyeInterface fisheye;
+	private DatabaseInterface database;
 	
 	public DownloadFisheyeData(){
 		this(new FisheyeQuery(), new TemporaryDBI());
 	}
 	
 	public DownloadFisheyeData(FisheyeInterface FI, DatabaseInterface DI){
-		this.FI = FI;
-		this.DI = DI;
+		this.fisheye = FI;
+		this.database = DI;
 	}
 	
 	public List<ChangedData> getAllFisheyeUpdates() {
 		
-		List<ConvertProject> listOfProjects = DI.getAvailableProjects();
+		List<ConvertProject> listOfProjects = database.getAvailableProjects();
 		
 		List<ChangedData> returnedData = new ArrayList<ChangedData>();
 		
@@ -44,10 +43,10 @@ public class DownloadFisheyeData {
 			if (repositoryExists(repositoryName)) {
 				
 				System.out.println("Project ID = " + project.getID());
-				Map<String, Integer> mapForDatabase = DI.getMapToID(project.getID());
+				Map<String, Integer> mapForDatabase = database.getMapToID(project.getID());
 				Set<String> setOfFilesInDatabase = new HashSet<String>(mapForDatabase.keySet());
 				
-				Set<RevisionData> revisionSet = FI.getRevisionsFromProject(repositoryName, directoryName);
+				Set<RevisionData> revisionSet = fisheye.getRevisionsFromProject(repositoryName, directoryName);
 				
 				Set<RevisionData> aggregatedRevisionSet = aggregateRevisions(revisionSet);
 				for (RevisionData revision : aggregatedRevisionSet) {

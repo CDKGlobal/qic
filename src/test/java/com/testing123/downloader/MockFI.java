@@ -3,6 +3,8 @@ package com.testing123.downloader;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.testing123.dataObjects.ConvertDate;
+import com.testing123.dataObjects.FisheyeData;
 import com.testing123.dataObjects.RevisionData;
 import com.testing123.vaadin.RegexUtil;
 
@@ -32,6 +34,21 @@ public class MockFI implements FisheyeInterface {
 		if(RegexUtil.isRevisionData(line)){
 			set.add(new RevisionData(line));
 		}
+	}
+
+
+	
+
+	@Override
+	public FisheyeData getRevisionList(String repository, String directory, String path, String startDate, String endDate) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void popUpChangesInFisheye(String repository, String fisheyePath, int initialIndex, int finalIndex) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -60,4 +60,44 @@ public class TemporaryDBI implements DatabaseInterface {
 		return AvailableResources.getAvailableDates();
 	}
 
+	@Override
+	public int getProjectID(String fileKey) {
+		SQLConnector connector = new SQLConnector();
+		int projectID = -1;
+		ResultSet results = connector.basicQuery("SELECT project_id FROM allFileList WHERE file_key='" + fileKey + "';");
+		try {
+			if (results != null && results.next()) {
+				projectID = results.getInt("project_id");
+				if(results.next()){
+					System.out.println("found two");
+				}
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		connector.close();
+		return projectID;
+	}
+
+	@Override
+	public String getProjectPath(int projectID) {
+		SQLConnector connector = new SQLConnector();
+		ResultSet results = connector.basicQuery("SELECT path FROM projectList WHERE project_id=" + projectID + ";");
+		String projectPath = null;
+		try {
+			if (results != null && results.next()) {
+				projectPath = results.getString("path");
+				if(results.next()){
+					System.out.println("found two");
+				}
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		connector.close();
+		return projectPath;
+	}
+
 }

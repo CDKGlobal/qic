@@ -26,4 +26,7 @@ public class Preferences {
 		"Advertising.Perforce", "Core.Perforce", "Intelligence.Perforce", "OpenPlatform.Perforce", 
 		"Owner.Perforce", "ProfessionalServices.Perforce", "ReleaseEngineering.Perforce",
 		"Social.Perforce", "QIC.Perforce" };
+	
+	public static final String FISHEYE_HOME = "http://fisheye.cobalt.com";
+
 }
