@@ -61,7 +61,7 @@ public class DatabaseConnector {
     }
 
 
-    public void createDbAndLoadTableForProject(Connection conn) {
+    public void WriteToTxtFileAndUpsertToThreeTables(Connection conn) {
         Statement stmt = null;
         new Downloader();
         List<WebData> projectList = Downloader.downloadProjectsAndStoreInList();
@@ -86,7 +86,7 @@ public class DatabaseConnector {
                  * + " ncloc DECIMAL(8,1), complexity DECIMAL(8,1));");
                  * System.out.println(project.getId() + "_id");
                  */
-                String projectPath = getPath(project.getId());
+                String projectPath = getProjectPath(project.getId());
                 upsertProjectDataToDB(stmt, projectPath, project);
                 //     }
                 int depth = 1;
@@ -215,7 +215,7 @@ public class DatabaseConnector {
         }
     }
 
-    public String getPath(int index) {
+    public String getProjectPath(int index) {
         try {
             URL url = new URL("http://sonar.cobalt.com/dashboard/index/" + index);
             BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
