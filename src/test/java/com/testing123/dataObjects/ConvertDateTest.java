@@ -16,6 +16,12 @@ public class ConvertDateTest {
 	}
 	
 	@Test
+	public void TestAddsZeros(){
+		ConvertDate date1 = new ConvertDate("2014-7-7");
+		assertEquals(date,date1);
+	}
+	
+	@Test
 	public void TestToStringReturnsReadableFormat() {
 		assertEquals("07/07/2014", date.toString());
 	}
