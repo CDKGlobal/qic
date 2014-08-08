@@ -49,17 +49,44 @@ public class ChangedData {
         return authors;
     }
 
-    public String getAuthors(List<String> authorsList) {
+    @Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((authors == null) ? 0 : authors.hashCode());
+		result = prime * result + churn;
+		result = prime * result + ((date == null) ? 0 : date.hashCode());
+		result = prime * result + file_id;
+		return result;
+	}
 
-        StringBuffer buff = new StringBuffer();
-        for (String auth : authorsList) {
-            buff.append(",");
-            buff.append(auth);
-        }
-        return buff.toString();
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ChangedData other = (ChangedData) obj;
+		if (authors == null) {
+			if (other.authors != null)
+				return false;
+		} else if (!authors.equals(other.authors))
+			return false;
+		if (churn != other.churn)
+			return false;
+		if (date == null) {
+			if (other.date != null)
+				return false;
+		} else if (!date.equals(other.date))
+			return false;
+		if (file_id != other.file_id)
+			return false;
+		return true;
+	}
 
-    public void setAuthors(String authors) {
+	public void setAuthors(String authors) {
         this.authors = authors;
     }
 
