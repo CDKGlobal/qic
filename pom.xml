@@ -10,6 +10,7 @@
 	<scm> <connection>scm:perforce:perforce.cobaltgroup.com:1667://Playpen/QIC2/</connection> <developerConnection>scm:perforce:perforce.cobaltgroup.com:1667://Playpen/QIC2/</developerConnection> <url></url> </scm>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<sonar.exclusions>src/main/**/*.js</sonar.exclusions>
 		<vaadin.version>7.4.0.alpha2</vaadin.version>
 		<vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>
 	</properties>
