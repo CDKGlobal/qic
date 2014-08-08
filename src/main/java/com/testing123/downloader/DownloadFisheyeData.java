@@ -15,7 +15,7 @@ import com.testing123.dataObjects.ConvertProject;
 import com.testing123.dataObjects.RevisionData;
 import com.testing123.ui.Preferences;
 import com.testing123.vaadin.DatabaseInterface;
-import com.testing123.vaadin.TemporaryDBI;
+import com.testing123.vaadin.UseSQLDatabase;
 
 public class DownloadFisheyeData {
 
@@ -23,7 +23,7 @@ public class DownloadFisheyeData {
 	private DatabaseInterface database;
 	
 	public DownloadFisheyeData(){
-		this(new FisheyeQuery(), new TemporaryDBI());
+		this(new FisheyeQuery(), new UseSQLDatabase());
 	}
 	
 	public DownloadFisheyeData(FisheyeInterface FI, DatabaseInterface DI){

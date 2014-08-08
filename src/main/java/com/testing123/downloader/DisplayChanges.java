@@ -7,7 +7,7 @@ import com.testing123.dataObjects.ConvertDate;
 import com.testing123.dataObjects.FisheyeData;
 import com.testing123.dataObjects.ItemData;
 import com.testing123.vaadin.DatabaseInterface;
-import com.testing123.vaadin.TemporaryDBI;
+import com.testing123.vaadin.UseSQLDatabase;
 
 public class DisplayChanges {
 	
@@ -15,7 +15,7 @@ public class DisplayChanges {
 	private DatabaseInterface database;
 	
 	public DisplayChanges(){
-		this(new FisheyeQuery(), new TemporaryDBI());
+		this(new FisheyeQuery(), new UseSQLDatabase());
 	}
 	
 	public DisplayChanges(FisheyeInterface FI, DatabaseInterface DI){
