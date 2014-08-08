@@ -21,15 +21,21 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.testing123.controller.AvailableResources;
 import com.testing123.dataObjects.ConvertProject;
+import com.testing123.vaadin.DatabaseInterface;
+import com.testing123.vaadin.UseSQLDatabase;
 import com.testing123.vaadin.WebData;
 
 public class DatabaseConnector {
 
     private static ObjectMapper mapper;
+    private static DatabaseInterface database;
 
     public DatabaseConnector() {
+        this(new UseSQLDatabase());
+    }
+    public DatabaseConnector(DatabaseInterface DBI) {
+    	database = DBI;
         mapper = new ObjectMapper();
     }
 
@@ -52,7 +58,7 @@ public class DatabaseConnector {
     }
 
     public static Map<Integer, String> getPreviousProjects() {
-        List<ConvertProject> projectList = AvailableResources.getAvailableProjects();
+        List<ConvertProject> projectList = database.getAvailableProjects();
         Map<Integer, String> previousProjectMap = new HashMap<Integer, String>();
         for (ConvertProject project : projectList) {
             previousProjectMap.put(project.getID(), project.getPath());

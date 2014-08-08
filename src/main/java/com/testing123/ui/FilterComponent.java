@@ -2,9 +2,10 @@ package com.testing123.ui;
 
 import java.util.List;
 
-import com.testing123.controller.AvailableResources;
 import com.testing123.controller.UIState;
 import com.testing123.dataObjects.ConvertProject;
+import com.testing123.vaadin.DatabaseInterface;
+import com.testing123.vaadin.UseSQLDatabase;
 import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.ListSelect;
@@ -15,21 +16,26 @@ public class FilterComponent extends CustomComponent {
 	protected ListSelect projectFilter;
 	protected TwinColSelect authorsFilter;
 	private UIState state;
+	private DatabaseInterface database;
 	
-	public FilterComponent(UIState state) {
+	public FilterComponent(UIState state, DatabaseInterface DBI){
 		this.state = state;
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
 	}
 	
+	public FilterComponent(UIState state) {
+		this(state, new UseSQLDatabase());
+	}
+	
 	private AbsoluteLayout buildMainLayout() {
 		createFilterComponentLayout();
 		
-		List<ConvertProject> projectOptions = AvailableResources.getAvailableProjects();
+		List<ConvertProject> projectOptions = database.getAvailableProjects();
         projectFilter = createListSelect("projects", projectOptions);
         mainLayout.addComponent(projectFilter, "top: 50px; left: 20px;");
         
-        List<String> authorOptions = AvailableResources.getAvailableAuthors();
+        List<String> authorOptions = database.getAvailableAuthors();
         
 		authorsFilter = createTwinColSelect(authorOptions);
 		mainLayout.addComponent(authorsFilter, "top: 220px; left: 20px;");
