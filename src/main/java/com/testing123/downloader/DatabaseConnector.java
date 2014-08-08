@@ -22,7 +22,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.testing123.dataObjects.ConvertProject;
-import com.testing123.vaadin.DatabaseInterface;
+import com.testing123.interfaces.DatabaseInterface;
 import com.testing123.vaadin.UseSQLDatabase;
 import com.testing123.vaadin.WebData;
 

@@ -1,4 +1,4 @@
-package com.testing123.vaadin;
+package com.testing123.interfaces;
 
 import java.util.List;
 import java.util.Map;

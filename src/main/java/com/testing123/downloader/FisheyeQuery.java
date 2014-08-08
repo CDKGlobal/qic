@@ -17,6 +17,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.testing123.dataObjects.FisheyeData;
 import com.testing123.dataObjects.RevisionData;
+import com.testing123.interfaces.FisheyeInterface;
 import com.testing123.ui.Preferences;
 import com.testing123.vaadin.RegexUtil;
 

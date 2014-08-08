@@ -1,10 +1,11 @@
-package com.testing123.downloader;
+package com.testing123.vaadin;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 
 import com.testing123.dataObjects.ConvertDate;
+import com.testing123.vaadin.DisplayChanges;
 
 public class DisplayChangesTest {
 

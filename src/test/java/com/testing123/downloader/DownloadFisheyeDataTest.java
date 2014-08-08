@@ -16,7 +16,8 @@ import org.mockito.Mockito;
 import com.testing123.dataObjects.ChangedData;
 import com.testing123.dataObjects.ConvertProject;
 import com.testing123.dataObjects.RevisionData;
-import com.testing123.vaadin.DatabaseInterface;
+import com.testing123.interfaces.DatabaseInterface;
+import com.testing123.interfaces.FisheyeInterface;
 import com.testing123.vaadin.RegexUtil;
 
 public class DownloadFisheyeDataTest {

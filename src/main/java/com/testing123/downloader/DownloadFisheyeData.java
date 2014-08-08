@@ -13,8 +13,9 @@ import org.joda.time.DateTime;
 import com.testing123.dataObjects.ChangedData;
 import com.testing123.dataObjects.ConvertProject;
 import com.testing123.dataObjects.RevisionData;
+import com.testing123.interfaces.DatabaseInterface;
+import com.testing123.interfaces.FisheyeInterface;
 import com.testing123.ui.Preferences;
-import com.testing123.vaadin.DatabaseInterface;
 import com.testing123.vaadin.UseSQLDatabase;
 
 public class DownloadFisheyeData {

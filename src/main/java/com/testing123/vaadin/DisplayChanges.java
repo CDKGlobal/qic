@@ -1,4 +1,4 @@
-package com.testing123.downloader;
+package com.testing123.vaadin;
 
 import java.util.List;
 
@@ -6,8 +6,9 @@ import com.testing123.controller.UIState;
 import com.testing123.dataObjects.ConvertDate;
 import com.testing123.dataObjects.FisheyeData;
 import com.testing123.dataObjects.ItemData;
-import com.testing123.vaadin.DatabaseInterface;
-import com.testing123.vaadin.UseSQLDatabase;
+import com.testing123.downloader.FisheyeQuery;
+import com.testing123.interfaces.DatabaseInterface;
+import com.testing123.interfaces.FisheyeInterface;
 
 public class DisplayChanges {
 	

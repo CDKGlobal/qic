@@ -1,4 +1,4 @@
-package com.testing123.downloader;
+package com.testing123.interfaces;
 
 import java.util.Set;
 
