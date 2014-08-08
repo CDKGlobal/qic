@@ -59,15 +59,18 @@ public class AvailableResources {
 		return authors;
 	}
 	
+	public static List<ConvertDate> getAvailableDates() {
+		return getAvailableDates(new SQLConnector());
+	}
+	
 	/**
 	 * Fetches the available list of dates from the database
 	 * 
 	 * @return a list of all the available dates that have been stored in the database
 	 */
-	public static List<ConvertDate> getAvailableDates() {
+	public static List<ConvertDate> getAvailableDates(SQLConnector conn) {
 		List<ConvertDate> dates = new ArrayList<ConvertDate>();
 		try {
-			SQLConnector conn = new SQLConnector();
 			ResultSet rs = conn.basicQuery("SELECT * FROM dates");
 			while (rs.next()) {
 				dates.add(new ConvertDate(rs.getString("display")));
