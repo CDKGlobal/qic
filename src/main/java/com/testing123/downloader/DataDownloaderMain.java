@@ -9,10 +9,13 @@ public class DataDownloaderMain {
             DatabaseConnector dbConnector = new DatabaseConnector();
             // builds a connection
             Connection conn = DatabaseConnector.getConnection();
-            dbConnector.createDbAndLoadTableForProject(conn);
+            dbConnector.WriteToTxtFileAndUpsertToThreeTables(conn);
+            FisheyeUploader fe = new FisheyeUploader();
+            fe.uploadFEToDatabase(conn);
             conn.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 }
+
