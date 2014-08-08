@@ -68,7 +68,11 @@ public class NavigationComponent extends CustomComponent {
 				String location = arguments.toString().replace("[\"", "").replace("\"]", "").replace("\\", "");
 				System.out.println("PRINTED : " + location);
 				if (state.getX() != XAxis.LINESOFCODE) {
-					new DisplayChanges().popUp(state, location);
+					try {
+						new DisplayChanges().popUp(state, location);
+					} catch (Exception e) {
+						System.out.println("Pop up failed");
+					}
 				}
 			}
 		});
