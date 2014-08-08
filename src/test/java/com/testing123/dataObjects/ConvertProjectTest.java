@@ -73,5 +73,14 @@ public class ConvertProjectTest {
         ConvertProject cp2 = new ConvertProject("", "key", -1, "");
         assertFalse(cp1.equals(cp2));
     }
+    /*
+     * @Test
+     * public void TestNotSameKeyCaseInEqualsMethods() {
+     * ConvertProject cp1 = new ConvertProject("", "the key", -1, "");
+     * ConvertProject cp2 = new ConvertProject("", "key", -1, "");
+     * assertFalse(cp1.equals(cp2));
+     * }
+     */
+
 
 }
