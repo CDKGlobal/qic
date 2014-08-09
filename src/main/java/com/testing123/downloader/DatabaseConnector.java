@@ -13,15 +13,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.testing123.dataObjects.ConvertProject;
 import com.testing123.interfaces.DatabaseInterface;
 import com.testing123.vaadin.UseSQLDatabase;
 import com.testing123.vaadin.WebData;
@@ -29,13 +26,10 @@ import com.testing123.vaadin.WebData;
 public class DatabaseConnector {
 
     private static ObjectMapper mapper;
-    private static DatabaseInterface database;
-
     public DatabaseConnector() {
         this(new UseSQLDatabase());
     }
     public DatabaseConnector(DatabaseInterface DBI) {
-    	database = DBI;
         mapper = new ObjectMapper();
     }
 
@@ -57,21 +51,23 @@ public class DatabaseConnector {
         return null;
     }
 
-    public static Map<Integer, String> getPreviousProjects() {
-        List<ConvertProject> projectList = database.getAvailableProjects();
-        Map<Integer, String> previousProjectMap = new HashMap<Integer, String>();
-        for (ConvertProject project : projectList) {
-            previousProjectMap.put(project.getID(), project.getPath());
-        }
-        return previousProjectMap;
-    }
+    /*
+     * public static Map<Integer, String> getPreviousProjects() {
+     * List<ConvertProject> projectList = database.getAvailableProjects();
+     * Map<Integer, String> previousProjectMap = new HashMap<Integer, String>();
+     * for (ConvertProject project : projectList) {
+     * previousProjectMap.put(project.getID(), project.getPath());
+     * }
+     * return previousProjectMap;
+     * }
+     */
 
 
     public void WriteToTxtFileAndUpsertToThreeTables(Connection conn) {
         Statement stmt = null;
         new Downloader();
         List<WebData> projectList = Downloader.downloadProjectsAndStoreInList();
-        Map<Integer, String> previousProjects = getPreviousProjects();
+        // Map<Integer, String> previousProjects = getPreviousProjects();
         System.out.println("Ok before conn.createStatement");
         String currentPath = makeFolder("Archives/", "projectList");
         try {
@@ -108,7 +104,7 @@ public class DatabaseConnector {
                     }
 
                     for (WebData file : fileList) {
-                        System.out.println("file key = " + file.getKey());
+                        // System.out.println("file key = " + file.getKey());
                         upsertFileDataToDB(stmt, project, file);
                         // System.out.println("file key = " + file.getKey());
                         upsertFileHistoryToDB(stmt, file, currentDate);
