@@ -8,8 +8,6 @@ public class ConvertPath {
 	
 	String originalInput;
 	List<String> path;
-	String artifactID;
-	String project;
 	boolean originallySonar;
 	
 	public ConvertPath(String inputPath){
@@ -17,12 +15,10 @@ public class ConvertPath {
 		String[] split = originalInput.split(":");
 		if (split.length>2){
 			originallySonar=true;
-			this.artifactID = split[0];
-			this.project = split[1];
 			this.path = Arrays.asList(split[2].split("[/\\.]"));
 		}else{
-			this.path = Arrays.asList(inputPath.split("[/\\.]"));
 			originallySonar=false;
+			this.path = Arrays.asList(inputPath.split("[/\\.]"));
 		}
 	}
 	
