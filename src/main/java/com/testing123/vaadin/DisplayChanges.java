@@ -1,5 +1,7 @@
 package com.testing123.vaadin;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.testing123.controller.UIState;
@@ -11,6 +13,7 @@ import com.testing123.dataObjects.RepoAndDirData;
 import com.testing123.downloader.FisheyeQuery;
 import com.testing123.interfaces.DatabaseInterface;
 import com.testing123.interfaces.FisheyeInterface;
+import com.testing123.ui.Preferences;
 
 public class DisplayChanges {
 	
@@ -43,29 +46,15 @@ public class DisplayChanges {
 		FisheyeData changesets = fisheye.getRevisionList(repository, directory, path, startDate.getDBFormat(), endDate.getDBFormat());
 		
 		String completePath = getPath(changesets);
-		System.out.println("FisheyePath = " + completePath);
-		changesets = fisheye.getRevisionList(repository, directory, completePath, startDate.getDBFormat(), endDate.getDBFormat());
-
 		int firstRevision = getFirstRevision(changesets);
 		int secondRevision = getSecondRevision(changesets);
 		
-		fisheye.popUpChangesInFisheye(repository, completePath, firstRevision, secondRevision);		
+		popUpChangesInFisheye(repository, completePath, firstRevision, secondRevision);		
 	
 	}
 	
-	
-	
-//	private String format(String dbPath){
-//		String [] split = dbPath.split(":");
-//		int length = split.length;
-//		return split[length-1].replaceAll("\\.", "/")+"**";
-//	}
-	
 	private int getFirstRevision(FisheyeData data){
 		int csidIndex = data.getHeadings().indexOf("csid");
-		System.out.println(data.getHeadings().toString());
-		System.out.println(data.getRow().toString());
-		System.out.println("csidIndex = " + csidIndex);
 		if (csidIndex != -1){
 			List<ItemData> revisionList = data.getRow();
 			String csid = (String) revisionList.get(0).getItem(csidIndex);
@@ -96,5 +85,15 @@ public class DisplayChanges {
 				};
 			}
 			return "";
+	}
+	
+	private void popUpChangesInFisheye(String repository, String fisheyePath, int revision1, int revision2) {
+		String fisheyeHomeLink = Preferences.FISHEYE_HOME;
+		String url = fisheyeHomeLink + "/browse/" + repository + "/" + fisheyePath +"?r1=" + revision1 + "&r2=" + revision2;
+		try {
+			java.awt.Desktop.getDesktop().browse(java.net.URI.create(url));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

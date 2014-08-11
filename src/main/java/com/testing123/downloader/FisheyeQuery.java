@@ -77,19 +77,6 @@ public class FisheyeQuery implements FisheyeInterface {
 		return "[" + past.getYear() + "-" + past.getMonthOfYear() + "-" + past.getDayOfMonth() + "T07:00:00, " + day.getYear() + "-"
 				+ day.getMonthOfYear() + "-" + day.getDayOfMonth() + "T07:00:00]";
 	}
-
-
-
-	@Override
-	public void popUpChangesInFisheye(String repository, String fisheyePath, int revision1, int revision2) {
-		String fisheyeHomeLink = Preferences.FISHEYE_HOME;
-		String url = fisheyeHomeLink + "/browse/" + repository + "/" + fisheyePath +"?r1=" + revision1 + "&r2=" + revision2;
-		try {
-			java.awt.Desktop.getDesktop().browse(java.net.URI.create(url));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 	
 	private FisheyeData getJSONFromFisheye(URL url) {
 
