@@ -4,8 +4,10 @@ import java.util.List;
 
 import com.testing123.controller.UIState;
 import com.testing123.dataObjects.ConvertDate;
+import com.testing123.dataObjects.ConvertPath;
 import com.testing123.dataObjects.FisheyeData;
 import com.testing123.dataObjects.ItemData;
+import com.testing123.dataObjects.RepoAndDirData;
 import com.testing123.downloader.FisheyeQuery;
 import com.testing123.interfaces.DatabaseInterface;
 import com.testing123.interfaces.FisheyeInterface;
@@ -30,24 +32,36 @@ public class DisplayChanges {
 		fisheyeRevision(path,startDate,endDate);
 	}
 	
-	public void fisheyeRevision(String dbPath, ConvertDate startDate, ConvertDate endDate){
-		int projectID = database.getProjectID(dbPath);
-		System.out.println("Project ID = " + projectID);
-		String projectPath = database.getProjectPath(projectID);
-		System.out.println("pj path = " + projectPath);
-		String repository = getRepositoryName(projectPath);
-		String directory = getDirectoryName(projectPath);
-		String formattedPath = format(dbPath);
-		FisheyeData changesets = fisheye.getRevisionList(repository, directory, formattedPath, startDate.getDBFormat(), endDate.getDBFormat());
+	public void fisheyeRevision(String fileKey, ConvertDate startDate, ConvertDate endDate){
 		
-		String path = getPath(changesets);
-		System.out.println("path = " + path);
-		changesets = fisheye.getRevisionList(repository, directory, path, startDate.getDBFormat(), endDate.getDBFormat());
+		RepoAndDirData project = database.getRepoAndDirFromFileKey(fileKey);
+		String repository = project.getRepository();
+		String directory = project.getDirectory();
+		
+		
+		ConvertPath path = new ConvertPath(fileKey);
+		FisheyeData changesets = fisheye.getRevisionList(repository, directory, path, startDate.getDBFormat(), endDate.getDBFormat());
+		
+		String completePath = getPath(changesets);
+		System.out.println("FisheyePath = " + completePath);
+		changesets = fisheye.getRevisionList(repository, directory, completePath, startDate.getDBFormat(), endDate.getDBFormat());
 
 		int firstRevision = getFirstRevision(changesets);
 		int secondRevision = getSecondRevision(changesets);
 		
-		fisheye.popUpChangesInFisheye(repository, path, firstRevision, secondRevision);
+		fisheye.popUpChangesInFisheye(repository, completePath, firstRevision, secondRevision);		
+	
+//		String formattedPath = format(fileKey);
+//		FisheyeData changesets = fisheye.getRevisionList(repository, directory, formattedPath, startDate.getDBFormat(), endDate.getDBFormat());
+//		
+//		String completePath = getPath(changesets);
+//		System.out.println("path = " + completePath);
+//		changesets = fisheye.getRevisionList(repository, directory, completePath, startDate.getDBFormat(), endDate.getDBFormat());
+//
+//		int firstRevision = getFirstRevision(changesets);
+//		int secondRevision = getSecondRevision(changesets);
+//		
+//		fisheye.popUpChangesInFisheye(repository, completePath, firstRevision, secondRevision);
 	}
 	
 	
@@ -94,29 +108,4 @@ public class DisplayChanges {
 			}
 			return "";
 	}
-
-	private String getRepositoryName(String path) {
-		String[] split = path.split("/");
-		if (split.length > 1) {
-			return split[1] + ".Perforce";
-		}
-		return "";
-	}
-	
-	private String getDirectoryName(String path) {
-		String[] split = path.split("/");
-		if (split.length > 2) {
-			int index = path.indexOf('/', 1);
-			return path.substring(index + 1);
-		}
-		return "";
-	}
-	
-	//pass in DB path return URL or pop up new page
-	//method(dbpath, start,end){
-	//use dbpath to get project id
-	//use project id to get pj-path
-	//use pj-path to get set of revision changes
-	//take first and last csid to get url
-	//popup new page
 }

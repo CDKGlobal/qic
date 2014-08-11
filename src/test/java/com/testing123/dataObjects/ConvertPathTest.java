@@ -33,13 +33,17 @@ public class ConvertPathTest {
 	
 	@Test
 	public void testGetPath(){
-		assertEquals("com/testing123/vaadin/Msr",new ConvertPath("com.vaadin:QIC2:com.testing123.vaadin.Msr ").getFisheyePath());
+		assertEquals("com/testing123/vaadin/Msr.java",new ConvertPath("com.vaadin:QIC2:com.testing123.vaadin.Msr ").getFisheyePath());
 		assertEquals("com.vaadin:QIC2:com.testing123.vaadin.Msr",new ConvertPath("com.vaadin:QIC2:com.testing123.vaadin.Msr ").getSonarPath());
 		
 		assertEquals("trunk/src/main/java/com/testing123/vaadin/Msr.java",new ConvertPath("trunk/src/main/java/com/testing123/vaadin/Msr.java").getFisheyePath());
 		assertEquals("trunk.src.main.java.com.testing123.vaadin.Msr",new ConvertPath("trunk/src/main/java/com/testing123/vaadin/Msr.java").getSonarPath());
 	}
 	
+	@Test
+	public void sample(){
+		assertEquals("src/main/java/com/testing123/controller/UIState.java",new ConvertPath("com.vaadin:QIC2:src/main/java/com/testing123/controller/UIState.java").getFisheyePath());
+	}
 	
 
 }

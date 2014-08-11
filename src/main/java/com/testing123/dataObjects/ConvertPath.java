@@ -40,10 +40,16 @@ public class ConvertPath {
 	}
 	
 	public String getFisheyePath(){
-		StringBuffer buff = getPath('/');
 		if(!originallySonar){
-			int lastSlashIndex = buff.lastIndexOf("/");
+			return originalInput;
+		}
+		StringBuffer buff = getPath('/');
+		int lastSlashIndex = buff.lastIndexOf("/");
+		int lastJavaIndex = buff.lastIndexOf("java");
+		if(lastJavaIndex == lastSlashIndex + 1){
 			buff.replace(lastSlashIndex, lastSlashIndex + 1, ".");
+		}else{
+			buff.append(".java");
 		}
 		return buff.toString();
 	}

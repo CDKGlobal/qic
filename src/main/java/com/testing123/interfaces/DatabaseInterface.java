@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.testing123.dataObjects.ConvertDate;
 import com.testing123.dataObjects.ConvertProject;
+import com.testing123.dataObjects.RepoAndDirData;
 
 public interface DatabaseInterface {
 	
@@ -14,9 +15,11 @@ public interface DatabaseInterface {
 	
 	public List<String> getAvailableAuthors();
 	
-	List<ConvertDate> getAvailableDates();
+	public List<ConvertDate> getAvailableDates();
 	
-	public int getProjectID(String dbPath);
+	public int getProjectID(String fileKey);
 	
 	public String getProjectPath(int projectID);
+	
+	public RepoAndDirData getRepoAndDirFromFileKey(String fileKey);
 }
