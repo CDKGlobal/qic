@@ -16,6 +16,7 @@ import com.testing123.dataObjects.ConvertDate;
 import com.testing123.dataObjects.ConvertProject;
 import com.vaadin.annotations.Push;
 import com.vaadin.annotations.Theme;
+import com.vaadin.annotations.Title;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.DeploymentConfiguration;
 import com.vaadin.server.ServiceException;
@@ -41,6 +42,7 @@ import com.vaadin.ui.UI;
 @Push(PushMode.MANUAL)
 @SuppressWarnings("serial")
 @Theme("mytheme")
+@Title("Quality Induced Constraints")
 public class QicUI extends UI {
 	
 	private static final String LEFT_MARGIN_WIDTH = "100px";
@@ -97,7 +99,7 @@ public class QicUI extends UI {
 	@Override
 	protected void init(VaadinRequest request) {
 		final GridLayout layout = new GridLayout(3, 3);
-		layout.setMargin(true);
+		layout.setMargin(false);
 		setContent(layout);
 		
 		final AbsoluteLayout l1 = new AbsoluteLayout();
@@ -114,6 +116,7 @@ public class QicUI extends UI {
 		
 		Label title = new Label("<b>Quality Induced Constraints</b>", ContentMode.HTML);
 		title.setStyleName("h1");
+		l2.setStyleName("header_background");
 		l2.addComponent(title, "top:25px;");
 		
 		layout.addComponent(l1, 0, 0);
