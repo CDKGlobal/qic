@@ -13,6 +13,7 @@ public class DataDownloaderMain {
             FisheyeUploader fe = new FisheyeUploader();
             fe.uploadFEToDatabase(conn);
             conn.close();
+            new DownloadFisheyeData().getAllFisheyeUpdates();
         } catch (Exception e) {
             e.printStackTrace();
         }
