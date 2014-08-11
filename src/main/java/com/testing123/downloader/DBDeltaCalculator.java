@@ -17,7 +17,10 @@ public class DBDeltaCalculator {
 		Statement st = c.createStatement();
 		st = c.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
                 ResultSet.CONCUR_UPDATABLE);
-		ResultSet rs = st.executeQuery("select * from allFileHistory3 ORDER BY file_id ASC, dbdate ASC;");
+		ResultSet rs = st.executeQuery("SELECT * from allFileHistory3 WHERE dbdate <= '" 
+				+ DataSupportMain.getFrmtDate(new DateTime()) + "' AND dbdate > '" 
+				+ DataSupportMain.getFrmtDate(new DateTime().minusDays(3)) + "'"
+				+ " ORDER BY file_id ASC, dbdate ASC;");
 		try {
 			rs.next();
 			int prevId = rs.getInt("file_id");
