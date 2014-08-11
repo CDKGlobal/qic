@@ -6,19 +6,14 @@ import org.joda.time.DateTime;
 
 public class DataSupportMain {
 
-	public static void main(String[] args) {
-		processDeltaCalculations();
-		processAuthorsAndDates();
-	}
-
-	private static void processAuthorsAndDates() {
+	public static void processAuthorsAndDates() {
 		DownloadAuthors authorDl = new DownloadAuthors();
 		authorDl.addDateStamp();
 		authorDl.addAuthors();
 	}
 
-	private static void processDeltaCalculations() {
-		DBDeltaCalculator calc = new DBDeltaCalculator();
+	public static void processDeltaCalculations() {
+		DBDeltaCalculator calc = new DBDataCalculatorShort();
 		try {
 			calc.convertLatestMetrics();
 		} catch (SQLException e) {
