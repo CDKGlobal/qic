@@ -23,7 +23,7 @@ public class QueryDatabase {
 	public Set<QueryData> getDataSet(ConvertDate startDate, ConvertDate endDate, Set<ConvertProject> projects) {
 		ResultSet results = null;
 		try {
-			results = conn.basicQuery("SELECT allFileHistory3.file_key, static.complexity AS complexity, "
+			results = conn.basicQuery("SELECT MAX(allFileHistory3.file_key) as file_key, static.complexity AS complexity, "
 					+ "static.ncloc AS ncloc, allFileList.name, COALESCE(SUM(delta_complexity), 0) AS delta_complexity, "
 					+ "COALESCE(GROUP_CONCAT(authors, \"\"), \"\") as authors, COALESCE(SUM(churn), 0) AS churn "
 				+ "FROM allFileHistory3 "
@@ -56,30 +56,15 @@ public class QueryDatabase {
 //				+ endDate.getDBFormat() + "' "
 //				+ "AND dbdate > '" + startDate.getDBFormat() + "' AND static.file_id = allFileHistory3.file_id "
 //			+ "GROUP BY allFileHistory3.file_id;");
-			
-//			results = conn.basicQuery("SELECT allFileHistory3.file_key, allFileList.name, ncloc, complexity, "
-//					+ "COALESCE(SUM(delta_complexity), 0) AS delta_complexity, COALESCE(GROUP_CONCAT(authors, \"\"), \"\") "
-//					+ "as authors, COALESCE(SUM(churn), 0) AS churn FROM allFileHistory3 JOIN allFileList ON "
-//					+ "allFileList.file_id = allFileHistory3.file_id WHERE qualifier = 'CLA' "
-//					+ "AND allFileList.project_id IN " + projectIDSet(projects) + " AND dbdate <= "
-//					+ "'" + endDate.getDBFormat() + "' AND dbdate > '" + startDate.getDBFormat() + 
-//					"' GROUP BY allFileHistory3.file_id;");
-//			
-//			results = conn.basicQuery("SELECT allFileHistory3.file_key, allFileList.name, ncloc, complexity, "
-//					+ "COALESCE(SUM(delta_complexity), 0) AS delta_complexity, CONCAT(authors) as authors, "
-//					+ "COALESCE(SUM(churn), 0) "
-//					+ "FROM allFileHistory3 JOIN allFileList ON allFileList.file_id = allFileHistory3.file_id "
-//					+ "WHERE qualifier = 'CLA' AND allFileList.project_id IN " + projectIDSet(projects) + " AND dbdate <= '" + 
-//					endDate.getDBFormat() + "' AND dbdate > '" + startDate.getDBFormat() + "' GROUP BY file_key;");
-//			if (results == null) {
-//				results = conn
-//						.basicQuery("SELECT a1.file_id, a1.file_key, afl.name, ncloc, complexity, delta_complexity FROM "
-//								+ "allFileHistory3 a1 "
-//								+ "JOIN allFileList afl ON afl.file_id = a1.file_id WHERE qualifier = 'CLA' "
-//								+ "AND afl.project_id IN " + projectIDSet(projects)
-//								+ " AND a1.dbdate = (SELECT MAX(a2.dbdate) FROM allFileHistory3 a2 "
-//								+ "WHERE a1.file_id = a2.file_id) GROUP BY a1.file_id;");
-//			}
+			if (results == null) {
+				results = conn
+						.basicQuery("SELECT a1.file_id, a1.file_key, afl.name, ncloc, complexity, delta_complexity FROM "
+								+ "allFileHistory3 a1 "
+								+ "JOIN allFileList afl ON afl.file_id = a1.file_id WHERE qualifier = 'CLA' "
+								+ "AND afl.project_id IN " + projectIDSet(projects)
+								+ " AND a1.dbdate = (SELECT MAX(a2.dbdate) FROM allFileHistory3 a2 "
+								+ "WHERE a1.file_id = a2.file_id) GROUP BY a1.file_id;");
+			}
 			if (results == null) {
 				return new HashSet<QueryData>();
 			}

@@ -20,8 +20,10 @@ public class FilterComponent extends CustomComponent {
 	
 	public FilterComponent(UIState state, DatabaseInterface DBI){
 		this.state = state;
+		this.database = DBI;
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
+
 	}
 	
 	public FilterComponent(UIState state) {
