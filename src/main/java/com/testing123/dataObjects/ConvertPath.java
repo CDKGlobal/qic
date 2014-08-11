@@ -10,16 +10,19 @@ public class ConvertPath {
 	List<String> path;
 	String artifactID;
 	String project;
+	boolean originallySonar;
 	
 	public ConvertPath(String inputPath){
 		this.originalInput = inputPath.trim();
 		String[] split = originalInput.split(":");
 		if (split.length>2){
+			originallySonar=true;
 			this.artifactID = split[0];
 			this.project = split[1];
 			this.path = Arrays.asList(split[2].split("[/\\.]"));
 		}else{
 			this.path = Arrays.asList(inputPath.split("[/\\.]"));
+			originallySonar=false;
 		}
 	}
 	
@@ -28,24 +31,31 @@ public class ConvertPath {
 	}
 	
 	public String getSonarPath(){
-		if(!artifactID.isEmpty()){
+		if(originallySonar){
 			return originalInput;
 		}
-		return getPath('.');
+		StringBuffer buff = getPath('.');
+		int length = buff.length();
+		return getPath('.').substring(0, length-5).toString();
 	}
 	
 	public String getFisheyePath(){
-		return getPath('/');
+		StringBuffer buff = getPath('/');
+		if(!originallySonar){
+			int lastSlashIndex = buff.lastIndexOf("/");
+			buff.replace(lastSlashIndex, lastSlashIndex + 1, ".");
+		}
+		return buff.toString();
 	}
 	
-	private String getPath(char c){
+	private StringBuffer getPath(char c){
 		StringBuffer buff = new StringBuffer();
 		for (String s: path){
 			buff.append(s);
 			buff.append(c);
 		}
 		buff.deleteCharAt(buff.length()-1);
-		return buff.toString();
+		return buff;
 	}
 
 	@Override

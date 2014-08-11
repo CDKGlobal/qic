@@ -35,6 +35,9 @@ public class ConvertPathTest {
 	public void testGetPath(){
 		assertEquals("com/testing123/vaadin/Msr",new ConvertPath("com.vaadin:QIC2:com.testing123.vaadin.Msr ").getFisheyePath());
 		assertEquals("com.vaadin:QIC2:com.testing123.vaadin.Msr",new ConvertPath("com.vaadin:QIC2:com.testing123.vaadin.Msr ").getSonarPath());
+		
+		assertEquals("trunk/src/main/java/com/testing123/vaadin/Msr.java",new ConvertPath("trunk/src/main/java/com/testing123/vaadin/Msr.java").getFisheyePath());
+		assertEquals("trunk.src.main.java.com.testing123.vaadin.Msr",new ConvertPath("trunk/src/main/java/com/testing123/vaadin/Msr.java").getSonarPath());
 	}
 	
 	
