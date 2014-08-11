@@ -8,7 +8,7 @@ public class FisheyeQueryTest {
 
 	@Test
 	public void test() {
-		new FisheyeQuery().getRevisionsFromProject("Advertising.Perforce", "Platform");
+		new FisheyeQuery().getRevisionsFromProject("Advertising.Perforce", "Platform","");
 	}
 	
 	@Test

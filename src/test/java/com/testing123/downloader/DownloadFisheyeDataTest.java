@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -37,8 +38,8 @@ public class DownloadFisheyeDataTest {
 	public void test(){
 		
 		Set<RevisionData> set1 = getSet1();
-		Mockito.when(FIMock.getRevisionsFromProject("QIC.Perforce", "Mock")).thenReturn(set1);
-		Mockito.when(FIMock.getRevisionsFromProject("QIC.Perforce", "MockEmpty")).thenReturn(new HashSet<RevisionData>());
+		Mockito.when(FIMock.getRevisionsFromProject("QIC.Perforce", "Mock", getCurrentDate())).thenReturn(set1);
+		Mockito.when(FIMock.getRevisionsFromProject("QIC.Perforce", "MockEmpty", getCurrentDate())).thenReturn(new HashSet<RevisionData>());
 		
 		Map<String, Integer> map = new HashMap<String, Integer>();
 		map.put("this.is.one.type.of.path", 18);
@@ -52,8 +53,11 @@ public class DownloadFisheyeDataTest {
 		test = new DownloadFisheyeData(FIMock, DBIMock).getAllFisheyeUpdates();
 		
 		assertEquals(2,test.size());
-		ChangedData meMyselfIrine = new ChangedData(21, "2014-8-8", 76, "[Me, Irene, Myself]");
-		ChangedData chris = new ChangedData(18,"2014-8-8",13,"[Chris]");
+		
+		ChangedData meMyselfIrine = new ChangedData(21, getCurrentDate(), 76, "[Me, Irene, Myself]");
+		ChangedData chris = new ChangedData(18,getCurrentDate(),13,"[Chris]");
+		
+		System.out.println(test);
 		assertTrue(test.contains(meMyselfIrine));
 		assertTrue(test.contains(chris));
 	}
@@ -77,6 +81,9 @@ public class DownloadFisheyeDataTest {
 		}
 	}
 	
-	
+	private String getCurrentDate(){
+		DateTime today = new DateTime();
+		return "" + today.getYear() + "-" + today.getMonthOfYear() + "-" + today.getDayOfMonth();
+	}
 	
 }
