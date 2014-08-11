@@ -87,6 +87,7 @@ public class GetData {
 		for (QueryData data : dataSet) {
 			if (data.getMetric(x.getColName()) != 0.0) {
 				DataPoint point = new DataPoint(data.getKey(), data.getMetric(x.getColName()), data.getMetric(y.getColName()));
+				point.setAuthors(data.getAuthors());
 				results.add(point);
 			}
 		}

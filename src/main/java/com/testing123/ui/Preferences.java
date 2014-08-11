@@ -6,7 +6,10 @@ public class Preferences {
 	
 //	public static final String DB_SERVER = "mysql://localhost:3306";		// used for VM
 	public static final String DB_SERVER = "mysql://dc2pvpdc00059.vcac.dc2.dsghost.net:3306";
-
+	
+//	public static final String URL = "localhost:8080/QIC2";
+	public static final String URL = "qic.cobalt.com:8080";
+	
 	public static final String DB_USER = "root";
 	public static final String DB_PASS = "password";
 	public static final String DB_NAME = "dataList4";

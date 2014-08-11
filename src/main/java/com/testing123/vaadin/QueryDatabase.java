@@ -23,20 +23,63 @@ public class QueryDatabase {
 	public Set<QueryData> getDataSet(ConvertDate startDate, ConvertDate endDate, Set<ConvertProject> projects) {
 		ResultSet results = null;
 		try {
-			results = conn.basicQuery("SELECT allFileHistory3.file_key, allFileList.name, ncloc, complexity, "
-					+ "COALESCE(SUM(delta_complexity), 0) "
-					+ "AS delta_complexity FROM allFileHistory3 JOIN allFileList ON allFileList.file_id = allFileHistory3.file_id "
-					+ "WHERE qualifier = 'CLA' AND allFileList.project_id IN " + projectIDSet(projects) + " AND dbdate <= '" + 
-					endDate.getDBFormat() + "' AND dbdate > '" + startDate.getDBFormat() + "' GROUP BY file_key;");
-			if (results == null) {
-				results = conn
-						.basicQuery("SELECT a1.file_id, a1.file_key, afl.name, ncloc, complexity, delta_complexity FROM "
-								+ "allFileHistory3 a1 "
-								+ "JOIN allFileList afl ON afl.file_id = a1.file_id WHERE qualifier = 'CLA' "
-								+ "AND afl.project_id IN " + projectIDSet(projects)
-								+ " AND a1.dbdate = (SELECT MAX(a2.dbdate) FROM allFileHistory3 a2 "
-								+ "WHERE a1.file_id = a2.file_id) GROUP BY a1.file_id;");
-			}
+			results = conn.basicQuery("SELECT allFileHistory3.file_key, static.complexity AS complexity, "
+					+ "static.ncloc AS ncloc, allFileList.name, COALESCE(SUM(delta_complexity), 0) AS delta_complexity, "
+					+ "COALESCE(GROUP_CONCAT(authors, \"\"), \"\") as authors, COALESCE(SUM(churn), 0) AS churn "
+				+ "FROM allFileHistory3 "
+				+ "JOIN allFileList ON allFileList.file_id = allFileHistory3.file_id "
+				+ "INNER JOIN (SELECT allFileHistory3.file_id, complexity, ncloc "
+					+ "FROM allFileHistory3 "
+					+ "JOIN allFileList ON allFileList.file_id = allFileHistory3.file_id "
+					+ "INNER JOIN (SELECT file_id, MAX(dbdate) AS maxdate FROM allFileHistory3 "
+						+ "WHERE dbdate <= '" + endDate.getDBFormat() + "' AND dbdate > '" + 
+							startDate.getDBFormat() + "' GROUP BY file_id) dates "
+						+ "ON allFileHistory3.file_id = dates.file_id "
+						+ "WHERE allFileList.project_id IN " + projectIDSet(projects) + " AND qualifier = 'CLA' AND "
+						+ "allFileHistory3.dbdate = dates.maxdate) AS static ON "
+						+ "allFileHistory3.file_id = static.file_id WHERE qualifier = 'CLA' AND "
+						+ "allFileList.project_id IN " + projectIDSet(projects) + " AND dbdate <= "
+						+ "'" + endDate.getDBFormat() + "' AND dbdate > '" + startDate.getDBFormat() + "' "
+						+ "GROUP BY allFileHistory3.file_id;");
+			
+//			results = conn.basicQuery("SELECT allFileHistory3.file_key, static.complexity AS complexity, "
+//					+ "static.ncloc AS ncloc, allFileList.name, COALESCE(SUM(delta_complexity), 0) AS "
+//				+ "delta_complexity, COALESCE(GROUP_CONCAT(authors, \"\"), \"\") as authors, COALESCE(SUM(churn), 0) "
+//				+ "AS churn "
+//			+ "FROM allFileHistory3 "
+//			+ "JOIN allFileList ON allFileList.file_id = allFileHistory3.file_id "
+//			+ "INNER JOIN (SELECT allFileHistory3.file_id, complexity, ncloc FROM allFileHistory3 "
+//			+ "JOIN allFileList ON allFileList.file_id = allFileHistory3.file_id WHERE project_id IN "
+//				+ projectIDSet(projects) + " "
+//			+ "ORDER BY allFileHistory3.dbdate DESC) AS static "
+//			+ "WHERE qualifier = 'CLA' AND allFileList.project_id IN " + projectIDSet(projects) + " AND dbdate <= '" 
+//				+ endDate.getDBFormat() + "' "
+//				+ "AND dbdate > '" + startDate.getDBFormat() + "' AND static.file_id = allFileHistory3.file_id "
+//			+ "GROUP BY allFileHistory3.file_id;");
+			
+//			results = conn.basicQuery("SELECT allFileHistory3.file_key, allFileList.name, ncloc, complexity, "
+//					+ "COALESCE(SUM(delta_complexity), 0) AS delta_complexity, COALESCE(GROUP_CONCAT(authors, \"\"), \"\") "
+//					+ "as authors, COALESCE(SUM(churn), 0) AS churn FROM allFileHistory3 JOIN allFileList ON "
+//					+ "allFileList.file_id = allFileHistory3.file_id WHERE qualifier = 'CLA' "
+//					+ "AND allFileList.project_id IN " + projectIDSet(projects) + " AND dbdate <= "
+//					+ "'" + endDate.getDBFormat() + "' AND dbdate > '" + startDate.getDBFormat() + 
+//					"' GROUP BY allFileHistory3.file_id;");
+//			
+//			results = conn.basicQuery("SELECT allFileHistory3.file_key, allFileList.name, ncloc, complexity, "
+//					+ "COALESCE(SUM(delta_complexity), 0) AS delta_complexity, CONCAT(authors) as authors, "
+//					+ "COALESCE(SUM(churn), 0) "
+//					+ "FROM allFileHistory3 JOIN allFileList ON allFileList.file_id = allFileHistory3.file_id "
+//					+ "WHERE qualifier = 'CLA' AND allFileList.project_id IN " + projectIDSet(projects) + " AND dbdate <= '" + 
+//					endDate.getDBFormat() + "' AND dbdate > '" + startDate.getDBFormat() + "' GROUP BY file_key;");
+//			if (results == null) {
+//				results = conn
+//						.basicQuery("SELECT a1.file_id, a1.file_key, afl.name, ncloc, complexity, delta_complexity FROM "
+//								+ "allFileHistory3 a1 "
+//								+ "JOIN allFileList afl ON afl.file_id = a1.file_id WHERE qualifier = 'CLA' "
+//								+ "AND afl.project_id IN " + projectIDSet(projects)
+//								+ " AND a1.dbdate = (SELECT MAX(a2.dbdate) FROM allFileHistory3 a2 "
+//								+ "WHERE a1.file_id = a2.file_id) GROUP BY a1.file_id;");
+//			}
 			if (results == null) {
 				return new HashSet<QueryData>();
 			}
@@ -79,7 +122,7 @@ public class QueryDatabase {
 //			data.setCoverage(rs.getDouble("coverage"));
 //			data.setDeltaCoverage(rs.getDouble("deltaCoverage"));
 		} catch (Exception e) {
-			System.out.println("Exception thrown when populating QueryData string fields");
+			System.out.println("Error populating string fields");
 			return null;
 		}
 		for (String column : columns) {
@@ -88,21 +131,24 @@ public class QueryDatabase {
 		return data;
 	}
 	
-	private void extractAuthors(QueryData data, ResultSet rs) {
-		try {
-			String authors = rs.getString("authors");
-			String[] authorArray = authors.split(",");
-			data.setAuthors(Arrays.asList(authorArray));
-		} catch (SQLException e) {
-//			System.out.println("Authors could not be retrieved from the database");
+	private void extractAuthors(QueryData data, ResultSet rs) throws Exception {
+		List<String> authorSet = new ArrayList<String>();
+		String authors = rs.getString("authors").replace("[", ",").replace("]", ",");
+		String[] authorArray = authors.split(",");
+		for (String author : authorArray) {
+			author = author.trim();
+			if (author.length() > 0) {
+				authorSet.add(author);
+			}
 		}
+		data.setAuthors(authorSet);
 	}
 
 	private void populateSingleMetric(QueryData data, String metric, ResultSet rs) {
 		try {
 			data.setMetric(metric, rs.getDouble(metric));
 		} catch (Exception e) {
-//			System.out.println("Exception thrown when populating QueryData: " + metric);
+			System.out.println("Exception thrown when populating QueryData: " + metric);
 		}
 	}
 

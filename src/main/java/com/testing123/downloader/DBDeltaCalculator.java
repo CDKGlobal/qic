@@ -17,7 +17,7 @@ public class DBDeltaCalculator {
 		Statement st = c.createStatement();
 		st = c.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
                 ResultSet.CONCUR_UPDATABLE);
-		ResultSet rs = st.executeQuery("select * from allFileHistory3 ORDER BY file_key ASC, dbdate ASC;");
+		ResultSet rs = st.executeQuery("select * from allFileHistory3 ORDER BY file_id ASC, dbdate ASC;");
 		try {
 			rs.next();
 			int prevId = rs.getInt("file_id");
@@ -32,7 +32,7 @@ public class DBDeltaCalculator {
 				double currComp = rs.getDouble("complexity");
 				double currDC = rs.getDouble("delta_complexity");
 				if (rs.wasNull()) {
-					if (currId == prevId && prevKey.equals(currKey)) {
+					if (currId == prevId) {
 						double deltaComp = currComp - prevComp;
 						prevDC = deltaComp;
 						rs.updateDouble("delta_complexity", deltaComp);

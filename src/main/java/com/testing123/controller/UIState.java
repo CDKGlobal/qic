@@ -97,7 +97,7 @@ public class UIState {
 	 * @return a String representation of the current state as a URL
 	 */
 	public String getStateURI() {
-		StringBuilder sb = new StringBuilder("http://localhost:8080/QIC2/");
+		StringBuilder sb = new StringBuilder(Preferences.URL + "/");
 		sb.append("?st=").append(start.getDBFormat());
 		sb.append("&end=").append(end.getDBFormat());
 		sb.append("&x=").append(x.getColName());
