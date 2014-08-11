@@ -58,7 +58,7 @@ public class QueryDatabase {
 //			+ "GROUP BY allFileHistory3.file_id;");
 			if (results == null) {
 				results = conn
-						.basicQuery("SELECT a1.file_id, a1.file_key, afl.name, ncloc, complexity, delta_complexity FROM "
+						.basicQuery("SELECT a1.file_id, a1.file_key, afl.name, ncloc, complexity, delta_complexity, authors FROM "
 								+ "allFileHistory3 a1 "
 								+ "JOIN allFileList afl ON afl.file_id = a1.file_id WHERE qualifier = 'CLA' "
 								+ "AND afl.project_id IN " + projectIDSet(projects)

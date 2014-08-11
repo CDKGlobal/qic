@@ -26,12 +26,12 @@ public class CacheTagTest {
 
     @Test
     public void testGetStartDate() {
-        assertEquals("01/01/0", ctag.getStartDate().toString());
+        assertEquals("01/01/0000", ctag.getStartDate().toString());
     }
 
     @Test
     public void testGetEndDate() {
-        assertEquals("01/01/0", ctag.getEndDate().toString());
+        assertEquals("01/01/0000", ctag.getEndDate().toString());
     }
 
     @Test
