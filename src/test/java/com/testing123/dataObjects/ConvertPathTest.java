@@ -31,6 +31,12 @@ public class ConvertPathTest {
 		assertEquals(new ConvertPath("com.vaadin:QIC2:com.testing123.vaadin.Msr "), new ConvertPath("QIC/trunk/src/main/java/com/testing123/vaadin/Msr.java"));
 	}
 	
+	@Test
+	public void testGetPath(){
+		assertEquals("com/testing123/vaadin/Msr",new ConvertPath("com.vaadin:QIC2:com.testing123.vaadin.Msr ").getFisheyePath());
+		assertEquals("com.vaadin:QIC2:com.testing123.vaadin.Msr",new ConvertPath("com.vaadin:QIC2:com.testing123.vaadin.Msr ").getSonarPath());
+	}
+	
 	
 
 }

@@ -12,8 +12,8 @@ public class ConvertPath {
 	String project;
 	
 	public ConvertPath(String inputPath){
-		this.originalInput = inputPath;
-		String[] split = inputPath.trim().split(":");
+		this.originalInput = inputPath.trim();
+		String[] split = originalInput.split(":");
 		if (split.length>2){
 			this.artifactID = split[0];
 			this.project = split[1];
@@ -25,6 +25,27 @@ public class ConvertPath {
 	
 	public String getOriginalPath(){
 		return originalInput;
+	}
+	
+	public String getSonarPath(){
+		if(!artifactID.isEmpty()){
+			return originalInput;
+		}
+		return getPath('.');
+	}
+	
+	public String getFisheyePath(){
+		return getPath('/');
+	}
+	
+	private String getPath(char c){
+		StringBuffer buff = new StringBuffer();
+		for (String s: path){
+			buff.append(s);
+			buff.append(c);
+		}
+		buff.deleteCharAt(buff.length()-1);
+		return buff.toString();
 	}
 
 	@Override
