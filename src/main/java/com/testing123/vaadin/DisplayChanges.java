@@ -51,26 +51,15 @@ public class DisplayChanges {
 		
 		fisheye.popUpChangesInFisheye(repository, completePath, firstRevision, secondRevision);		
 	
-//		String formattedPath = format(fileKey);
-//		FisheyeData changesets = fisheye.getRevisionList(repository, directory, formattedPath, startDate.getDBFormat(), endDate.getDBFormat());
-//		
-//		String completePath = getPath(changesets);
-//		System.out.println("path = " + completePath);
-//		changesets = fisheye.getRevisionList(repository, directory, completePath, startDate.getDBFormat(), endDate.getDBFormat());
-//
-//		int firstRevision = getFirstRevision(changesets);
-//		int secondRevision = getSecondRevision(changesets);
-//		
-//		fisheye.popUpChangesInFisheye(repository, completePath, firstRevision, secondRevision);
 	}
 	
 	
 	
-	private String format(String dbPath){
-		String [] split = dbPath.split(":");
-		int length = split.length;
-		return split[length-1].replaceAll("\\.", "/")+"**";
-	}
+//	private String format(String dbPath){
+//		String [] split = dbPath.split(":");
+//		int length = split.length;
+//		return split[length-1].replaceAll("\\.", "/")+"**";
+//	}
 	
 	private int getFirstRevision(FisheyeData data){
 		int csidIndex = data.getHeadings().indexOf("csid");

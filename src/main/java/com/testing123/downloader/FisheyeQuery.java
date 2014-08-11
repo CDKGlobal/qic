@@ -90,17 +90,6 @@ public class FisheyeQuery implements FisheyeInterface {
 			e.printStackTrace();
 		}
 	}
-
-	@Override
-	public FisheyeData getRevisionList(String repository, String directory, String path, String startDate, String endDate) {
-		String dateRange = "[" + startDate + "," + endDate + "]";
-		String queryString = getRevisionListQueryAsString(repository, directory, dateRange, path);
-		System.out.println("url = " + queryString);
-		URL queryURL = getQueryURL(queryString);
-		FisheyeData changesets = getJSONFromFisheye(queryURL);
-		return changesets;
-
-	}
 	
 	private FisheyeData getJSONFromFisheye(URL url) {
 
@@ -120,15 +109,6 @@ public class FisheyeQuery implements FisheyeInterface {
 		return querriedData;
 	}
 	
-	private static String getRevisionListQueryAsString(String repository, String directory, String dateRange, String path) {
-		String linkHome = "http://fisheye.cobalt.com/rest-service-fe/search-v1/queryAsRows/";
-		return linkHome + repository + ".json?query=" + " select revisions from dir \"" + directory + "\" where date in " + dateRange
-				+ "and path like **/"+ path + " return path,csid";
-	}
-
-	
-	
-	//----------------------------------------------------------------------------------------------------------
 	@Override
 	public FisheyeData getRevisionList(String repository, String directory, ConvertPath path, String startDate, String endDate) {
 		String dateRange = "[" + startDate + "," + endDate + "]";
