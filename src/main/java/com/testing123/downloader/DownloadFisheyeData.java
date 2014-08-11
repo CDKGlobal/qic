@@ -32,7 +32,12 @@ public class DownloadFisheyeData {
 		this.database = DI;
 	}
 	
+	
 	public List<ChangedData> getAllFisheyeUpdates() {
+		return getAllFisheyeUpdates(getCurrentDate());
+	}
+	
+	public List<ChangedData> getAllFisheyeUpdates(String date) {
 		
 		List<ConvertProject> listOfProjects = database.getAvailableProjects();
 		
@@ -47,11 +52,11 @@ public class DownloadFisheyeData {
 				Map<String, Integer> mapForDatabase = database.getMapToID(project.getID());
 				Set<String> setOfFilesInDatabase = new HashSet<String>(mapForDatabase.keySet());
 				
-				Set<RevisionData> revisionSet = fisheye.getRevisionsFromProject(repositoryName, directoryName);
+				Set<RevisionData> revisionSet = fisheye.getRevisionsFromProject(repositoryName, directoryName, date);
 				
 				Set<RevisionData> aggregatedRevisionSet = aggregateRevisions(revisionSet);
 				for (RevisionData revision : aggregatedRevisionSet) {
-					ChangedData update = printUpdates(project, setOfFilesInDatabase, revision, mapForDatabase);
+					ChangedData update = printUpdates(project, setOfFilesInDatabase, revision, mapForDatabase, date);
 					if(update!=null){
 						returnedData.add(update);
 					}
@@ -70,7 +75,7 @@ public class DownloadFisheyeData {
 	}
 	
 
-	private ChangedData printUpdates(ConvertProject project, Set<String> setOfFilesInDatabase, RevisionData r, Map<String, Integer> mapForDatabase) {
+	private ChangedData printUpdates(ConvertProject project, Set<String> setOfFilesInDatabase, RevisionData r, Map<String, Integer> mapForDatabase, String date) {
 		String formattedPath = formatFisheyePath(r.getFisheyePath());
 		//System.out.println("fp = " + formattedPath);
 		String path = r.getFisheyePath();
@@ -79,7 +84,7 @@ public class DownloadFisheyeData {
 			//System.out.println("--" + sonarPath);
 			if(path.endsWith(sonarPath) || formattedPath.endsWith(sonarPath)){
 				//System.out.print(sonarPath +","+ getCurrentDate() +","+ r.getChurn() +","+ r.getAuthor().toString());
-				return new ChangedData(mapForDatabase.get(sonarPath), getCurrentDate(), r.getChurn(), r.getAuthor().toString());
+				return new ChangedData(mapForDatabase.get(sonarPath), date, r.getChurn(), r.getAuthor().toString());
 			}
 		}
 			System.out.println(false + "=\t" + r.getFisheyePath());

@@ -15,6 +15,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.testing123.dataObjects.ConvertDate;
 import com.testing123.dataObjects.FisheyeData;
 import com.testing123.dataObjects.RevisionData;
 import com.testing123.interfaces.FisheyeInterface;
@@ -24,9 +25,9 @@ import com.testing123.vaadin.RegexUtil;
 public class FisheyeQuery implements FisheyeInterface {
 
 	@Override
-	public Set<RevisionData> getRevisionsFromProject(String repository, String directory) {
+	public Set<RevisionData> getRevisionsFromProject(String repository, String directory, String date) {
 		Set<RevisionData> revisionsFromFisheye = new HashSet<RevisionData>();
-		String queryString = getProjectQueryAsString(repository, directory);
+		String queryString = getProjectQueryAsString(repository, directory, getDateRange(date));
 		URL queryURL = getQueryURL(queryString);
 		try {
 			URLConnection urlConn = queryURL.openConnection();
@@ -61,18 +62,18 @@ public class FisheyeQuery implements FisheyeInterface {
 		return url;
 	}
 	
-	private static String getProjectQueryAsString(String repository, String directory) {
+	private static String getProjectQueryAsString(String repository, String directory, String dateRange) {
 		String linkHome = "http://fisheye.cobalt.com/search/";
-		String dateRange = getDateRange();
 		return linkHome + repository + "/?ql=" + " select revisions from dir \"" + directory + "\" where date in " + dateRange
 				+ "and path like **.java and path like **/src/main/** return path,author,linesAdded,linesRemoved &csv=true";
 	}
 	
-	private static String getDateRange() {
-		DateTime today = new DateTime();
-		DateTime past = new DateTime().minusDays(1);
-		return "[" + past.getYear() + "-" + past.getMonthOfYear() + "-" + past.getDayOfMonth() + "T07:00:00, " + today.getYear() + "-"
-				+ today.getMonthOfYear() + "-" + today.getDayOfMonth() + "T07:00:00]";
+	private static String getDateRange(String date) {
+		ConvertDate cDate = new ConvertDate(date);
+		DateTime day = new DateTime(cDate.getYear(), cDate.getMonth(), cDate.getDay(), 7, 0);
+		DateTime past = day.minusDays(1);
+		return "[" + past.getYear() + "-" + past.getMonthOfYear() + "-" + past.getDayOfMonth() + "T07:00:00, " + day.getYear() + "-"
+				+ day.getMonthOfYear() + "-" + day.getDayOfMonth() + "T07:00:00]";
 	}
 
 

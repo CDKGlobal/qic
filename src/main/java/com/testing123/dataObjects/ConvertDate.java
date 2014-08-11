@@ -15,6 +15,18 @@ public class ConvertDate implements Comparable<ConvertDate> {
 		checkRep();
 	}
 	
+	public int getYear() {
+		return year;
+	}
+
+	public int getMonth() {
+		return month;
+	}
+
+	public int getDay() {
+		return day;
+	}
+
 	public String getDBFormat() {
 		return shortFormat;
 	}

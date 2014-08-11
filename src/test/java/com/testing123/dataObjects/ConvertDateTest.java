@@ -16,6 +16,13 @@ public class ConvertDateTest {
 	}
 	
 	@Test
+	public void TestGetters(){
+		assertEquals(2014, date.getYear());
+		assertEquals(7, date.getMonth());
+		assertEquals(7, date.getDay());
+	}
+	
+	@Test
 	public void TestAddsZeros(){
 		ConvertDate date1 = new ConvertDate("2014-7-7");
 		assertEquals(date,date1);
