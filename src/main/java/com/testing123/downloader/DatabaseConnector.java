@@ -1,7 +1,6 @@
 package com.testing123.downloader;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -35,9 +34,6 @@ public class DatabaseConnector {
 
     public static Connection getConnection() {
         try {
-            // Connection conn =
-            // DriverManager.getConnection("jdbc:mysql://localhost/dataList4?" +
-            // "user=root&password=password");
             Connection conn =
                             DriverManager.getConnection("jdbc:mysql://dc2pvpdc00059.vcac.dc2.dsghost.net:3306/dataList4?" +
                                             "user=root&password=password");
@@ -51,34 +47,15 @@ public class DatabaseConnector {
         return null;
     }
 
-    /*
-     * public static Map<Integer, String> getPreviousProjects() {
-     * List<ConvertProject> projectList = database.getAvailableProjects();
-     * Map<Integer, String> previousProjectMap = new HashMap<Integer, String>();
-     * for (ConvertProject project : projectList) {
-     * previousProjectMap.put(project.getID(), project.getPath());
-     * }
-     * return previousProjectMap;
-     * }
-     */
-
-
     public void WriteToTxtFileAndUpsertToThreeTables(Connection conn) {
         Statement stmt = null;
-        new Downloader();
         List<WebData> projectList = Downloader.downloadProjectsAndStoreInList();
-        // Map<Integer, String> previousProjects = getPreviousProjects();
         System.out.println("Ok before conn.createStatement");
-        String currentPath = makeFolder("Archives/", "projectList");
+        String currentPath = "Archives/projectList/";
         try {
-
-            Date nowDate = new Date();
-            SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
-            String currentDate = ft.format(nowDate);
+            String currentDate = getTodayDate();
             PrintWriter writer = new PrintWriter(currentPath + currentDate + ".txt");
-
             int i = 0;
-
             for (WebData project : projectList) {
                 stmt = conn.createStatement();
                 /*
@@ -118,6 +95,13 @@ public class DatabaseConnector {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public String getTodayDate() {
+        Date nowDate = new Date();
+        SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
+        String currentDate = ft.format(nowDate);
+        return currentDate;
     }
 
     private void upsertFileHistoryToDB(Statement stmt, WebData file, String currentDate) throws SQLException {
@@ -186,20 +170,6 @@ public class DatabaseConnector {
         return fileList;
     }
 
-    private static String makeFolder(String path, String name) {
-        File folder = new File(path + name);
-        System.out.println(path + name);
-
-        if (!folder.exists()) {
-            System.out.println("creating directory: " + folder.getAbsolutePath());
-            try {
-                folder.mkdir();
-            } catch (SecurityException se) {
-                se.printStackTrace();
-            }
-        }
-        return path + name + "/";
-    }
 
     private void writeTxt(PrintWriter writer, WebData file) {
         try {
