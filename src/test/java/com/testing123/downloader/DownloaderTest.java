@@ -21,24 +21,9 @@ public class DownloaderTest {
 
     @Test
     public void TestDownloadProjectsAndStoreInList() {
-        List<WebData> projectList = new Downloader().downloadProjectsAndStoreInList();
+        new Downloader();
+        List<WebData> projectList = Downloader.downloadProjectsAndStoreInList();
         assertEquals("com.onstation:uploader", projectList.get(0).getKey());
     }
-    /*
-     * public static void delete(File f) throws Exception {
-     * if (f.isDirectory()) {
-     * for (File c : f.listFiles()) {
-     * delete(c);
-     * }
-     * }
-     * if (!f.delete()) {
-     * throw new FileNotFoundException("Failed to delete file: " + f);
-     * }
-     * }
-     * @AfterClass
-     * public static void cleanUpAfterClass() throws Exception {
-     * File f = new File("Tester");
-     * delete(f);
-     * }
-     */
+
 }
