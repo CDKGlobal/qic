@@ -20,9 +20,11 @@ import com.testing123.vaadin.WebData;
 public class DatabaseConnector {
 
     private static ObjectMapper mapper;
+
     public DatabaseConnector() {
         this(new UseSQLDatabase());
     }
+
     public DatabaseConnector(DatabaseInterface DBI) {
         mapper = new ObjectMapper();
     }
@@ -61,7 +63,7 @@ public class DatabaseConnector {
                 System.out.println("project id" + project.getId());
                 if (fileList.size() != 0) {
                     while (!fileList.get(0).getScope().equals("FIL")) {
-                        depth ++;
+                        depth++;
                         fileList = Downloader.parseData(project, depth);
                     }
 
@@ -147,7 +149,6 @@ public class DatabaseConnector {
                         + "date = values(date);");
     }
 
-
     private void writeTxt(PrintWriter writer, WebData file) {
         try {
             writer.print(file.getId() + "\t" + file.getKey() + "\t" + file.getName() + "\t" + file.getScope()
@@ -164,23 +165,23 @@ public class DatabaseConnector {
         }
     }
 
+
     public String getProjectPath(int index) {
         try {
             URL url = new URL("http://sonar.cobalt.com/dashboard/index/" + index);
             BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
             String inputLine;
+            String[] split;
             while ((inputLine = in.readLine()) != null) {
-                if (inputLine.contains("perforce.")) {
-                    String[] split = inputLine.split("\"");
-                    if (split.length > 1) {
-                        String[] split2 = split[1].split(".com");
-                        if (split2.length > 0) {
-                            String returnedString = "";
-                            for (int i = 1; i < split2.length; i++) {
-                                returnedString += split2[i];
-                            }
-                            return returnedString;
-                        }
+                if (inputLine.contains(".")) {
+                    split = inputLine.split("(.com|//|(\">Sources))");
+                    if (split.length > 2) {
+                        return split[2];
+                    }
+                } else if (inputLine.contains("scm:perforce:perforce.")) {
+                    split = inputLine.split("(scm:perforce:perforce.|//|(</div>))");
+                    if (split.length > 2) {
+                        return "/" + split[2];
                     }
                 }
             }
@@ -188,7 +189,7 @@ public class DatabaseConnector {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "";
+        return null;
     }
 
 }
