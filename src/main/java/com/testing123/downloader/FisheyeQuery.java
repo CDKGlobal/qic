@@ -45,6 +45,7 @@ public class FisheyeQuery implements FisheyeInterface {
 				revision = buff.readLine();
 			}
 			inStream.close();
+			buff.close();
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
