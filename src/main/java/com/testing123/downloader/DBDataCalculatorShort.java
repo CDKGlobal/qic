@@ -15,8 +15,7 @@ public class DBDataCalculatorShort extends DBDeltaCalculator {
 	public void convertLatestMetrics() throws SQLException {
 		SQLConnector conn = new SQLConnector();
 		Connection c = conn.getConn();
-		Statement st = c.createStatement();
-		st = c.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+		Statement st = c.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
                 ResultSet.CONCUR_UPDATABLE);
 		ResultSet rs = st.executeQuery("SELECT * from allFileHistory3 WHERE dbdate = '" 
 				+ DataSupportMain.getFrmtDate(new DateTime()) + "' ORDER BY file_id ASC, dbdate ASC;");
