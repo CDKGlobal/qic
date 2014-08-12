@@ -1,10 +1,8 @@
 package com.testing123.downloader;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -14,9 +12,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.testing123.interfaces.DatabaseInterface;
 import com.testing123.vaadin.UseSQLDatabase;
@@ -47,7 +42,7 @@ public class DatabaseConnector {
         return null;
     }
 
-    public void WriteToTxtFileAndUpsertToThreeTables(Connection conn) {
+    public void writeToTxtFileAndUpsertMetrics(Connection conn) {
         Statement stmt = null;
         List<WebData> projectList = Downloader.downloadProjectsAndStoreInList();
         System.out.println("Ok before conn.createStatement");
@@ -58,26 +53,16 @@ public class DatabaseConnector {
             int i = 0;
             for (WebData project : projectList) {
                 stmt = conn.createStatement();
-                /*
-                 * rs = stmt.execute("CREATE TABLE projectList (project_id INT NOT NULL,"
-                 * + "project_key VARCHAR(170) NOT NULL, name VARCHAR(80) NOT NULL, "
-                 * + "scope VARCHAR(5) NOT NULL, qualifier VARCHAR(5) NOT NULL, date VARCHAR(30) NOT NULL,"
-                 * + " ncloc DECIMAL(8,1), complexity DECIMAL(8,1));");
-                 * System.out.println(project.getId() + "_id");
-                 */
                 String projectPath = getProjectPath(project.getId());
                 upsertProjectDataToDB(stmt, projectPath, project);
-                //     }
                 int depth = 1;
-                String projectOwnLink;
-                URL projectOwnURL;
-                List<WebData> fileList = parseData(project, depth);
-                System.out.println("project id" + project.getId());
 
+                List<WebData> fileList = Downloader.parseData(project, depth);
+                System.out.println("project id" + project.getId());
                 if (fileList.size() != 0) {
                     while (!fileList.get(0).getScope().equals("FIL")) {
                         depth ++;
-                        fileList = parseData(project, depth);
+                        fileList = Downloader.parseData(project, depth);
                     }
 
                     for (WebData file : fileList) {
@@ -97,7 +82,7 @@ public class DatabaseConnector {
         }
     }
 
-    public String getTodayDate() {
+    private String getTodayDate() {
         Date nowDate = new Date();
         SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
         String currentDate = ft.format(nowDate);
@@ -160,14 +145,6 @@ public class DatabaseConnector {
                         + "project_key = values(project_key), "
                         + "name = values(name), "
                         + "date = values(date);");
-    }
-
-    private List<WebData> parseData(WebData project, int depth) throws MalformedURLException, IOException, JsonParseException, JsonMappingException {
-        String projectOwnLink = "http://sonar.cobalt.com/api/resources?resource=" + project.getKey() + "&depth=" + depth + "&metrics=ncloc,complexity&format=json";
-        URL projectOwnURL = new URL(projectOwnLink);
-        List<WebData> fileList = mapper.readValue(projectOwnURL, new TypeReference<List<WebData>>() {
-        });
-        return fileList;
     }
 
 
