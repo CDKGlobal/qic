@@ -11,8 +11,8 @@ import com.testing123.dataObjects.ConvertProject;
 import com.testing123.ui.Preferences;
 
 public class UIState {
-	public static ConvertDate defaultStart = Preferences.DEFAULT_START_DATE;
-	public static ConvertDate defaultEnd = Preferences.DEFAULT_END_DATE;
+	public static final ConvertDate defaultStart = Preferences.DEFAULT_START_DATE;
+	public static final ConvertDate defaultEnd = Preferences.DEFAULT_END_DATE;
 	
 	private ConvertDate start;
 	private ConvertDate end;
@@ -108,19 +108,21 @@ public class UIState {
 	}
 	
 	private String unwrapAuthors(Set<String> authors) {
-		String result = "";
+		StringBuilder bld = new StringBuilder();
 		for (String author : authors) {
-			result += "," + author;
+			bld.append(",");
+			bld.append(author);
 		}
-		return result;
+		return bld.toString();
 	}
-	
+
 	private String unwrapProjects(Set<ConvertProject> projects) {
-		String result = "";
+		StringBuilder bld = new StringBuilder();
 		for (ConvertProject project : projects) {
-			result += "," + project.getID();
+			bld.append(",");
+			bld.append(project.getID());
 		}
-		return result;
+		return bld.toString();
 	}
 	
 	public interface Axis {
