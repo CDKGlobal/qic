@@ -10,7 +10,7 @@ import com.testing123.dataObjects.ChangedData;
 public class FisheyeUploader {
 
 
-    public void uploadFEToDatabase(Connection conn) {
+    public static void uploadFEToDatabase(Connection conn) {
         List<ChangedData> fisheyeDataList = new DownloadFisheyeData().getAllFisheyeUpdates();
         Statement stmt = null;
         try {
