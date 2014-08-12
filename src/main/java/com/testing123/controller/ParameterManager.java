@@ -34,7 +34,7 @@ public class ParameterManager {
 	}
 
 	private void setAuthorState(String auth, UIState state) {
-		if (auth.equals("") || auth == null) {
+		if (auth == null || auth.equals("")) {
 			state.setAuthorsFilter(new HashSet<String>());
 		} else {
 			String[] authorsArray = auth.split(",");
