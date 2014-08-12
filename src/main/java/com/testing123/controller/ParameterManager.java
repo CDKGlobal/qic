@@ -11,14 +11,26 @@ import com.testing123.controller.UIState.XAxis;
 import com.testing123.controller.UIState.YAxis;
 import com.testing123.dataObjects.ConvertDate;
 import com.testing123.dataObjects.ConvertProject;
+import com.testing123.interfaces.DatabaseInterface;
+import com.testing123.vaadin.UseSQLDatabase;
 
 public class ParameterManager {
+	
+	private DatabaseInterface database;
 	public static final String QSTART = "st";
 	public static final String QEND = "end";
 	public static final String QX = "x";
 	public static final String QY = "y";
 	public static final String QPROJECTS = "proj";
 	public static final String QAUTH = "auth";
+	
+	public ParameterManager(DatabaseInterface DBI){
+		database = DBI;
+	}
+	
+	public ParameterManager(){
+		this(new UseSQLDatabase());
+	}
 	
 	public UIState getState(String start, String end, String x, String y, String proj, String auth) {
 		UIState state;
@@ -46,7 +58,7 @@ public class ParameterManager {
 		if (proj == null || proj.equals("")) {
 			state.setProjects(new HashSet<ConvertProject>());
 		} else {
-			List<ConvertProject> projsList = AvailableResources.getAvailableProjects();
+			List<ConvertProject> projsList = database.getAvailableProjects();
 			List<String> projsArray = Arrays.asList(proj.split(","));
 			Set<ConvertProject> projsSet = new HashSet<ConvertProject>();
 			for (ConvertProject project : projsList) {

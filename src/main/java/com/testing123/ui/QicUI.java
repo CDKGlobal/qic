@@ -1,19 +1,9 @@
 package com.testing123.ui;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import javax.servlet.annotation.WebServlet;
 
-import com.testing123.controller.AvailableResources;
 import com.testing123.controller.ParameterManager;
 import com.testing123.controller.UIState;
-import com.testing123.dataObjects.ConvertDate;
-import com.testing123.dataObjects.ConvertProject;
 import com.vaadin.annotations.Push;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
@@ -25,7 +15,6 @@ import com.vaadin.server.VaadinResponse;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.server.VaadinServletService;
-import com.vaadin.server.WebBrowser;
 import com.vaadin.shared.communication.PushMode;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.AbsoluteLayout;

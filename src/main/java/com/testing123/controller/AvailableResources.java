@@ -1,13 +1,9 @@
 package com.testing123.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.sql.ResultSet;
 
-import com.testing123.controller.UIState.XAxis;
-import com.testing123.controller.UIState.YAxis;
 import com.testing123.dataObjects.ConvertDate;
 import com.testing123.dataObjects.ConvertProject;
 
@@ -18,9 +14,8 @@ public class AvailableResources {
 	 * 
 	 * @return a list of all the available projects that are stored in the database
 	 */
-	public static List<ConvertProject> getAvailableProjects() {
+	public static List<ConvertProject> getAvailableProjects(SQLConnector connector) {
 		List<ConvertProject> projects = new ArrayList<ConvertProject>();
-		SQLConnector connector = new SQLConnector();
 		ResultSet results = connector.basicQuery("SELECT name, project_key, project_id, path FROM projectList ORDER BY name ASC");
 		try {
 			while (results.next()) {
@@ -32,7 +27,6 @@ public class AvailableResources {
 					projects.add(new ConvertProject(name, projectKey, projectID, path));
 				}
 			}
-			connector.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

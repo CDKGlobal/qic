@@ -49,7 +49,10 @@ public class UseSQLDatabase implements DatabaseInterface{
 
 	@Override
 	public List<ConvertProject> getAvailableProjects() {
-		return AvailableResources.getAvailableProjects();
+		SQLConnector conn = new SQLConnector();
+		List<ConvertProject> list = AvailableResources.getAvailableProjects(conn);
+		conn.close();
+		return list;
 	}
 
 	@Override
