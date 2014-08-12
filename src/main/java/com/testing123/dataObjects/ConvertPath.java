@@ -6,9 +6,9 @@ import java.util.List;
 public class ConvertPath {
 	
 	
-	String originalInput;
-	List<String> path;
-	boolean originallySonar;
+	final String originalInput;
+	final List<String> path;
+	final boolean originallySonar;
 	
 	public ConvertPath(String inputPath){
 		this.originalInput = inputPath.trim();
@@ -77,10 +77,9 @@ public class ConvertPath {
 		if (getClass() != obj.getClass())
 			return false;
 		ConvertPath other = (ConvertPath) obj;
-		if (path == null || other.path == null)
-				return false;
-		System.out.println(path);
-		System.out.println(other.path);
+
+//		System.out.println(path);
+//		System.out.println(other.path);
 		if(path.containsAll(other.path) || other.path.containsAll(path)){
 			return true;
 		} else if (!path.equals(other.path))
