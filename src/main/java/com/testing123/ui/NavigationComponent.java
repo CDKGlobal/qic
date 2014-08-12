@@ -1,5 +1,7 @@
 package com.testing123.ui;
 
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -15,25 +17,30 @@ import com.testing123.vaadin.DisplayChanges;
 import com.testing123.vaadin.GetData;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.data.Property.ValueChangeListener;
+import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CustomComponent;
+import com.vaadin.ui.DateField;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.JavaScript;
 import com.vaadin.ui.JavaScriptFunction;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Notification;
+import com.vaadin.ui.PopupDateField;
 import com.vaadin.ui.TextField;
 
 public class NavigationComponent extends CustomComponent {
-	private FilterComponent  filter;
+	private FilterComponent filter;
 	private AbsoluteLayout navLayout;
 	private ComboBox startComboBox;
 	private ComboBox endComboBox;
-	private Button button_1;
-	private Button button_2;
+	private PopupDateField startDateField;
+	private PopupDateField endDateField;
+	private Button goButton;
+	private Button shareButton;
 	private TextField linkBox;
 	private GridLayout layout;
 	private Label errorLabel;
@@ -69,7 +76,8 @@ public class NavigationComponent extends CustomComponent {
 				System.out.println("PRINTED : " + location);
 				if (state.getX() != XAxis.LINESOFCODE) {
 					try {
-						new DisplayChanges().popUp(state, location);
+						String link = new DisplayChanges().popUp(state, location).toString();
+						JavaScript.getCurrent().execute("window.open('" + link + "', 'Google', 'height=800,width=1200');");
 					} catch (Exception e) {
 						System.out.println("Pop up failed");
 					}
@@ -86,6 +94,9 @@ public class NavigationComponent extends CustomComponent {
 	 * 
 	 */
 	public void fireChangeAction() {
+		linkBox.setReadOnly(false);
+		linkBox.setValue("");
+		linkBox.setReadOnly(true);
 		ComponentController.drawMainComponent(layout, state, data);
 	}
 	
@@ -118,7 +129,21 @@ public class NavigationComponent extends CustomComponent {
 		// start date combo box
 	    startComboBox = createDateComboBox(dateOptions, "Start Date");
 	    startComboBox.select(state.getStart());
-		navLayout.addComponent(startComboBox, "top:" + VERTICAL_OFFSET +";");
+		navLayout.addComponent(startComboBox, "top:" + VERTICAL_OFFSET + ";");
+		
+		startDateField = new PopupDateField("Start Date");
+        startDateField.setValue(new Date());
+        startDateField.setImmediate(true);
+        startDateField.setDateFormat("MM/dd/yyyy");
+        startDateField.setResolution(Resolution.DAY);
+		navLayout.addComponent(startDateField, "top:" + "150px;");
+		
+        endDateField = new PopupDateField("End Date");
+        endDateField.setValue(new Date());
+        endDateField.setImmediate(true);
+        endDateField.setDateFormat("MM/dd/yyyy");
+        endDateField.setResolution(Resolution.DAY);
+		navLayout.addComponent(endDateField, "left: 200px; top:" + "150px;");
 		
 		// end date combo box
 		endComboBox = createDateComboBox(dateOptions, "End Date");
@@ -126,13 +151,13 @@ public class NavigationComponent extends CustomComponent {
 		navLayout.addComponent(endComboBox, "top:" + VERTICAL_OFFSET + ";left:220.0px;");
 		
 		// go button
-		button_1 = new Button();
-		button_1.setCaption("Go / Reset");
-		button_1.setImmediate(false);
-		button_1.setWidth(DEFAULT_VALUE);
-		button_1.setHeight(DEFAULT_VALUE);
+		goButton = new Button();
+		goButton.setCaption("Go / Reset");
+		goButton.setImmediate(true);
+		goButton.setWidth(DEFAULT_VALUE);
+		goButton.setHeight(DEFAULT_VALUE);
 		errorLabel = new Label("");
-		button_1.addClickListener(new Button.ClickListener() {
+		goButton.addClickListener(new Button.ClickListener() {
 			
 			@Override
 			public void buttonClick(ClickEvent event) {
@@ -171,12 +196,12 @@ public class NavigationComponent extends CustomComponent {
 		navLayout.addComponent(linkBox, "top:" + VERTICAL_OFFSET_2 + ";");
 		
 		// share button
-		button_2 = new Button();
-		button_2.setCaption("Share");
-		button_2.setImmediate(false);
-		button_2.setWidth(DEFAULT_VALUE);
-		button_2.setHeight(DEFAULT_VALUE);
-		button_2.addClickListener(new Button.ClickListener() {
+		shareButton = new Button();
+		shareButton.setCaption("Share");
+		shareButton.setImmediate(false);
+		shareButton.setWidth(DEFAULT_VALUE);
+		shareButton.setHeight(DEFAULT_VALUE);
+		shareButton.addClickListener(new Button.ClickListener() {
 			
 			@Override
 			public void buttonClick(ClickEvent event) {
@@ -186,9 +211,9 @@ public class NavigationComponent extends CustomComponent {
 			}	
 		});
 		
-		navLayout.addComponent(button_2, "top:" + VERTICAL_OFFSET_2 + "; left:640.0px;");
-		navLayout.addComponent(button_1, "top:" + VERTICAL_OFFSET + "; left:440.0px;");
-		return button_1;
+		navLayout.addComponent(shareButton, "top:" + VERTICAL_OFFSET_2 + "; left:640.0px;");
+		navLayout.addComponent(goButton, "top:" + VERTICAL_OFFSET + "; left:440.0px;");
+		return goButton;
 	}
 
 	private void createNavComponentLayout() {
