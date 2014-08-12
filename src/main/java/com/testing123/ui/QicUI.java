@@ -25,6 +25,7 @@ import com.vaadin.server.VaadinResponse;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.server.VaadinServletService;
+import com.vaadin.server.WebBrowser;
 import com.vaadin.shared.communication.PushMode;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.AbsoluteLayout;
@@ -98,7 +99,7 @@ public class QicUI extends UI {
 	 */
 	@Override
 	protected void init(VaadinRequest request) {
-		final GridLayout layout = new GridLayout(3, 3);
+		final GridLayout layout = new GridLayout(3, 4);
 		layout.setMargin(false);
 		setContent(layout);
 		
