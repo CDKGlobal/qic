@@ -1,7 +1,8 @@
 package com.testing123.vaadin;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 import com.testing123.controller.UIState;
@@ -29,15 +30,13 @@ public class DisplayChanges {
 		this.database = DI;
 	}
 	
-	public void popUp(UIState state, String path){
+	public URL popUp(UIState state, String path){
 		ConvertDate startDate = state.getStart();
 		ConvertDate endDate = state.getEnd();
-		fisheyeRevision(path,startDate,endDate);
-		
-		
+		return fisheyeRevision(path,startDate,endDate);	
 	}
 	
-	public void fisheyeRevision(String fileKey, ConvertDate startDate, ConvertDate endDate){
+	public URL fisheyeRevision(String fileKey, ConvertDate startDate, ConvertDate endDate){
 		
 		RepoAndDirData project = database.getRepoAndDirFromFileKey(fileKey);
 		String repository = project.getRepository();
@@ -51,10 +50,23 @@ public class DisplayChanges {
 		int firstRevision = getFirstRevision(changesets);
 		int secondRevision = getSecondRevision(changesets);
 		
-		popUpChangesInFisheye(repository, completePath, firstRevision, secondRevision);		
-	
+		//popUpChangesInFisheye(repository, completePath, firstRevision, secondRevision);		
+		return getURL(repository, completePath, firstRevision, secondRevision);
 	}
 	
+	private URL getURL(String repository, String fisheyePath, int revision1, int revision2) {
+		String fisheyeHomeLink = Preferences.FISHEYE_HOME;
+		String url = fisheyeHomeLink + "/browse/" + repository + "/" + fisheyePath +"?r1=" + revision1 + "&r2=" + revision2;
+		URL u = null;
+		try {
+			u = new URL(url);
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return u;
+	}
+
 	private int getFirstRevision(FisheyeData data){
 		int csidIndex = data.getHeadings().indexOf("csid");
 		if (csidIndex != -1){
@@ -89,13 +101,13 @@ public class DisplayChanges {
 			return "";
 	}
 	
-	private void popUpChangesInFisheye(String repository, String fisheyePath, int revision1, int revision2) {
-		String fisheyeHomeLink = Preferences.FISHEYE_HOME;
-		String url = fisheyeHomeLink + "/browse/" + repository + "/" + fisheyePath +"?r1=" + revision1 + "&r2=" + revision2;
-		try {
-			java.awt.Desktop.getDesktop().browse(java.net.URI.create(url));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+//	private void popUpChangesInFisheye(String repository, String fisheyePath, int revision1, int revision2) {
+//		String fisheyeHomeLink = Preferences.FISHEYE_HOME;
+//		String url = fisheyeHomeLink + "/browse/" + repository + "/" + fisheyePath +"?r1=" + revision1 + "&r2=" + revision2;
+//		try {
+//			java.awt.Desktop.getDesktop().browse(java.net.URI.create(url));
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//	}
 }
