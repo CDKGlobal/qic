@@ -47,16 +47,17 @@ public class DownloadAuthors {
 		        URLConnection urlConn = url.openConnection();
 		        InputStreamReader inStream = new InputStreamReader(urlConn.getInputStream());
 		        BufferedReader buff= new BufferedReader(inStream);
-		        String junk = buff.readLine();
+		        buff.readLine();
 		        String content = buff.readLine();		        
 		        while (content != null){
 		        	all.add(content);
 		            content = buff.readLine();
 		        }
-		        int i = 0;
 				for (String auth : all) {
-					i += upload(connector, auth);
+					upload(connector, auth);
 				}
+				inStream.close();
+				buff.close();
 			} catch (MalformedURLException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
@@ -66,13 +67,11 @@ public class DownloadAuthors {
 		connector.close();
 	}
 
-	private static int upload(SQLConnector connector, String vals) {
+	private static void upload(SQLConnector connector, String vals) {
 		try {
 			String query = "INSERT INTO authors (user) VALUES (" + vals + ")";
 			connector.updateQuery(query);
-			return 1;
 		} catch (Exception e) {
-			return 0;
 		}
 	}
 	
