@@ -43,7 +43,8 @@ public class QueryDatabase {
 						+ "allFileList.project_id IN " + projectIDSet(projects) + " AND dbdate <= "
 						+ "'" + endDate.getDBFormat() + "' AND dbdate > '" + startDate.getDBFormat() + "' "
 						+ "GROUP BY allFileHistory3.file_id;");
-			} else if (singleMetric || results == null) {
+			}
+			if (singleMetric ||results == null) {
 				results = conn
 						.basicQuery("SELECT a1.file_id, a1.file_key, afl.name, ncloc, complexity, delta_complexity, authors FROM "
 								+ "allFileHistory3 a1 "
