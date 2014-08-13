@@ -1,6 +1,5 @@
 package com.testing123.ui;
 
-import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -8,23 +7,22 @@ import java.util.Set;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import com.testing123.controller.AvailableResources;
 import com.testing123.controller.UIState;
 import com.testing123.controller.UIState.XAxis;
 import com.testing123.dataObjects.ConvertDate;
 import com.testing123.dataObjects.ConvertProject;
+import com.testing123.interfaces.DatabaseInterface;
 import com.testing123.vaadin.DisplayChanges;
 import com.testing123.vaadin.GetData;
+import com.testing123.vaadin.UseSQLDatabase;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
-import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.DateField;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.JavaScript;
 import com.vaadin.ui.JavaScriptFunction;
@@ -46,6 +44,7 @@ public class NavigationComponent extends CustomComponent {
 	private Label errorLabel;
 	private GetData data;
 	private UIState state;
+	private DatabaseInterface database;
 	
 	private static final String VERTICAL_OFFSET = "70px";
 	private static final String VERTICAL_OFFSET_2 = "100px";
@@ -59,6 +58,10 @@ public class NavigationComponent extends CustomComponent {
 	 * 
 	 */
 	public NavigationComponent(final GridLayout layout, final UIState state) {
+		this(layout, state, new UseSQLDatabase());
+	}
+	public NavigationComponent(final GridLayout layout, final UIState state, DatabaseInterface DBI) {
+		this.database = DBI;
 		this.data = new GetData();
 		this.state = state;
 		this.layout = layout;
@@ -124,7 +127,7 @@ public class NavigationComponent extends CustomComponent {
 		});
 		
 		// gets all the available dates that can be queried
-		List<ConvertDate> dateOptions = AvailableResources.getAvailableDates();
+		List<ConvertDate> dateOptions = database.getAvailableDates();
 		
 		// start date combo box
 	    startComboBox = createDateComboBox(dateOptions, "Start Date");

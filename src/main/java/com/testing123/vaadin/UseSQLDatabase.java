@@ -57,12 +57,18 @@ public class UseSQLDatabase implements DatabaseInterface{
 
 	@Override
 	public List<String> getAvailableAuthors() {
-		return AvailableResources.getAvailableAuthors();
+		SQLConnector conn = new SQLConnector();
+		List<String> list = AvailableResources.getAvailableAuthors(conn);
+		conn.close();
+		return list;
 	}
 
 	@Override
 	public List<ConvertDate> getAvailableDates() {
-		return AvailableResources.getAvailableDates();
+		SQLConnector conn = new SQLConnector();
+		List<ConvertDate> list = AvailableResources.getAvailableDates(conn);
+		conn.close();
+		return list;
 	}
 
 	@Override

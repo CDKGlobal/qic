@@ -1,6 +1,5 @@
 package com.testing123.vaadin;
 
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
@@ -56,15 +55,15 @@ public class DisplayChanges {
 	
 	private URL getURL(String repository, String fisheyePath, int revision1, int revision2) {
 		String fisheyeHomeLink = Preferences.FISHEYE_HOME;
-		String url = fisheyeHomeLink + "/browse/" + repository + "/" + fisheyePath +"?r1=" + revision1 + "&r2=" + revision2;
-		URL u = null;
+		String link = fisheyeHomeLink + "/browse/" + repository + "/" + fisheyePath +"?r1=" + revision1 + "&r2=" + revision2;
+		URL url = null;
 		try {
-			u = new URL(url);
+			url = new URL(link);
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return u;
+		return url;
 	}
 
 	private int getFirstRevision(FisheyeData data){
@@ -100,14 +99,4 @@ public class DisplayChanges {
 			}
 			return "";
 	}
-	
-//	private void popUpChangesInFisheye(String repository, String fisheyePath, int revision1, int revision2) {
-//		String fisheyeHomeLink = Preferences.FISHEYE_HOME;
-//		String url = fisheyeHomeLink + "/browse/" + repository + "/" + fisheyePath +"?r1=" + revision1 + "&r2=" + revision2;
-//		try {
-//			java.awt.Desktop.getDesktop().browse(java.net.URI.create(url));
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//	}
 }

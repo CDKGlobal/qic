@@ -38,23 +38,17 @@ public class AvailableResources {
 	 * 
 	 * @return a list of all the available authors that have made edits
 	 */
-	public static List<String> getAvailableAuthors() {
+	public static List<String> getAvailableAuthors(SQLConnector connector) {
 		List<String> authors = new ArrayList<String>();
 		try {
-			SQLConnector connector = new SQLConnector();
 			ResultSet rs = connector.basicQuery("SELECT user FROM authors ORDER BY user ASC");
 			while (rs.next()) {
 				authors.add(rs.getString(1));
 			}
-			connector.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return authors;
-	}
-	
-	public static List<ConvertDate> getAvailableDates() {
-		return getAvailableDates(new SQLConnector());
 	}
 	
 	/**
@@ -69,7 +63,6 @@ public class AvailableResources {
 			while (rs.next()) {
 				dates.add(new ConvertDate(rs.getString("display")));
 			}
-			conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 
