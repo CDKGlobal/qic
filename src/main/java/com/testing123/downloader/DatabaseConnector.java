@@ -12,22 +12,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.testing123.interfaces.DatabaseInterface;
-import com.testing123.vaadin.UseSQLDatabase;
 import com.testing123.vaadin.WebData;
 
 public class DatabaseConnector {
-
-    private static ObjectMapper mapper;
-
-    public DatabaseConnector() {
-        this(new UseSQLDatabase());
-    }
-
-    public DatabaseConnector(DatabaseInterface DBI) {
-        mapper = new ObjectMapper();
-    }
 
     public static Connection getConnection() {
         try {
@@ -46,10 +33,12 @@ public class DatabaseConnector {
 
     public void writeToTxtFileAndUpsertMetrics(Connection conn) {
         Statement stmt = null;
-        List<WebData> projectList = Downloader.downloadProjectsAndStoreInList();
-        System.out.println("Ok before conn.createStatement");
-        String currentPath = "Archives/projectList/";
         try {
+            new Downloader();
+            List<WebData> projectList = Downloader.downloadAndStoreInList("", 0, "?");
+            System.out.println("Ok before conn.createStatement");
+            String currentPath = "Archives/projectList/";
+
             String currentDate = getTodayDate();
             PrintWriter writer = new PrintWriter(currentPath + currentDate + ".txt");
             int i = 0;
@@ -58,13 +47,13 @@ public class DatabaseConnector {
                 String projectPath = getProjectPath(project.getId());
                 upsertProjectDataToDB(stmt, projectPath, project);
                 int depth = 1;
-
-                List<WebData> fileList = Downloader.parseData(project, depth);
+                String projectKey = project.getKey();
+                List<WebData> fileList = Downloader.downloadAndStoreInList(projectKey, depth, "=");
                 System.out.println("project id" + project.getId());
                 if (fileList.size() != 0) {
                     while (!fileList.get(0).getScope().equals("FIL")) {
                         depth++;
-                        fileList = Downloader.parseData(project, depth);
+                        fileList = Downloader.downloadAndStoreInList(projectKey, depth, "=");
                     }
 
                     for (WebData file : fileList) {
@@ -84,7 +73,7 @@ public class DatabaseConnector {
         }
     }
 
-    private String getTodayDate() {
+    public String getTodayDate() {
         Date nowDate = new Date();
         SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
         String currentDate = ft.format(nowDate);
@@ -166,14 +155,14 @@ public class DatabaseConnector {
     }
 
 
-    public String getProjectPath(int index) {
+    public static String getProjectPath(int index) {
         try {
             URL url = new URL("http://sonar.cobalt.com/dashboard/index/" + index);
             BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
             String inputLine;
             String[] split;
             while ((inputLine = in.readLine()) != null) {
-                if (inputLine.contains(".")) {
+                if (inputLine.contains("http://perforce.")) {
                     split = inputLine.split("(.com|//|(\">Sources))");
                     if (split.length > 2) {
                         return split[2];
