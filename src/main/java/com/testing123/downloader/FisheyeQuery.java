@@ -20,7 +20,6 @@ import com.testing123.dataObjects.ConvertPath;
 import com.testing123.dataObjects.FisheyeData;
 import com.testing123.dataObjects.RevisionData;
 import com.testing123.interfaces.FisheyeInterface;
-import com.testing123.ui.Preferences;
 import com.testing123.vaadin.RegexUtil;
 
 public class FisheyeQuery implements FisheyeInterface {
@@ -109,7 +108,7 @@ public class FisheyeQuery implements FisheyeInterface {
 	
 	private static String getRevisionListQueryAsString(String repository, String directory, String dateRange, ConvertPath path) {
 		String linkHome = "http://fisheye.cobalt.com/rest-service-fe/search-v1/queryAsRows/";
-		return linkHome + repository + ".json?query=" + " select revisions from dir \"" + directory + "\" where date in " + dateRange
+		return linkHome + repository + ".json?query= select revisions from dir \"" + directory + "\" where date in " + dateRange
 				+ "and path like **/"+ path.getFisheyePath() + " return path,csid";
 	}
 
