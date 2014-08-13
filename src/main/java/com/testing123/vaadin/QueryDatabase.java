@@ -20,10 +20,12 @@ public class QueryDatabase {
 		this.conn = new SQLConnector();
 	}
 	
-	public Set<QueryData> getDataSet(ConvertDate startDate, ConvertDate endDate, Set<ConvertProject> projects) {
+	public Set<QueryData> getDataSet(ConvertDate startDate, ConvertDate endDate, Set<ConvertProject> projects,
+			boolean singleMetric) {
 		ResultSet results = null;
 		try {
-			results = conn.basicQuery("SELECT MAX(allFileHistory3.file_key) as file_key, static.complexity AS complexity, "
+			if (!singleMetric) {
+				results = conn.basicQuery("SELECT MAX(allFileHistory3.file_key) as file_key, static.complexity AS complexity, "
 					+ "static.ncloc AS ncloc, allFileList.name, COALESCE(SUM(delta_complexity), 0) AS delta_complexity, "
 					+ "COALESCE(GROUP_CONCAT(authors, \"\"), \"\") as authors, COALESCE(SUM(churn), 0) AS churn "
 				+ "FROM allFileHistory3 "
@@ -41,7 +43,7 @@ public class QueryDatabase {
 						+ "allFileList.project_id IN " + projectIDSet(projects) + " AND dbdate <= "
 						+ "'" + endDate.getDBFormat() + "' AND dbdate > '" + startDate.getDBFormat() + "' "
 						+ "GROUP BY allFileHistory3.file_id;");
-			if (results == null) {
+			} else if (singleMetric || results == null) {
 				results = conn
 						.basicQuery("SELECT a1.file_id, a1.file_key, afl.name, ncloc, complexity, delta_complexity, authors FROM "
 								+ "allFileHistory3 a1 "

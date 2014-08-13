@@ -77,7 +77,8 @@ public class GetData {
 		} else {
 			System.out.println("Cache Miss");
 			this.tag = requested;
-			this.cache = query.getDataSet(requested.getStartDate(), requested.getEndDate(), requested.getProjects());
+			this.cache = query.getDataSet(requested.getStartDate(), requested.getEndDate(), requested.getProjects(), 
+					requested.isSingleMetric());
 		}
 		return this.cache;
 	}
