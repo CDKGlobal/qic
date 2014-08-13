@@ -38,8 +38,8 @@ public class DisplayChanges {
 	public URL fisheyeRevision(String fileKey, ConvertDate startDate, ConvertDate endDate){
 		
 		RepoAndDirData project = database.getRepoAndDirFromFileKey(fileKey);
-		String repository = project.getRepository();
-		String directory = project.getDirectory();
+		String repository = project.getRepositoryName();
+		String directory = project.getDirectoryName();
 		
 		
 		ConvertPath path = new ConvertPath(fileKey);

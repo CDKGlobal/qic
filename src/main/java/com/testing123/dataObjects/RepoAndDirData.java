@@ -11,10 +11,10 @@ public class RepoAndDirData {
 		directory = getDirectoryName(projectPath);
 	}
 	
-	public String getRepository() {
+	public String getRepositoryName() {
 		return repository;
 	}
-	public String getDirectory() {
+	public String getDirectoryName() {
 		return directory;
 	}
 	
