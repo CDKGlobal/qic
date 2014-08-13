@@ -133,11 +133,14 @@ public class QueryDatabase {
 		if (projects.size() == 0) {
 			return "()";
 		}
-		String set = "(" + projectsList.get(0).getID();
+		StringBuilder set = new StringBuilder();
+		set.append("(");
+		set.append(projectsList.get(0).getID());
 		for (int i = 1; i < projectsList.size(); i++) {
-			set = set + "," + projectsList.get(i).getID();
+			set.append(",");
+			set.append(projectsList.get(i).getID());
 		}
-		set = set + ")";
-		return set;
+		set.append(")");
+		return set.toString();
 	}
 }
