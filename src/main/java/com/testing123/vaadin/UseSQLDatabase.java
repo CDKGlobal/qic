@@ -12,12 +12,23 @@ import com.testing123.dataObjects.ConvertDate;
 import com.testing123.dataObjects.ConvertProject;
 import com.testing123.dataObjects.RepoAndDirData;
 import com.testing123.interfaces.DatabaseInterface;
+import com.testing123.ui.Preferences;
 
 public class UseSQLDatabase implements DatabaseInterface{
 	
+	private String databaseName;
+	
+	public UseSQLDatabase(){
+		this(Preferences.DB_NAME);
+	}
+	
+	public UseSQLDatabase(String name){
+		databaseName = name;
+	}
+		
 	@Override
 	public Map<String, Integer> getMapToID(int projectID) {
-		SQLConnector connector = new SQLConnector();
+		SQLConnector connector = new SQLConnector(databaseName);
 		ResultSet results = connector.basicQuery("SELECT file_id,file_key,scope,qualifier FROM allFileList WHERE project_id=" + projectID + ";");
 		Map<String, Integer> mapNameToID = new HashMap<String, Integer>();
 		if (results != null) {
@@ -49,7 +60,7 @@ public class UseSQLDatabase implements DatabaseInterface{
 
 	@Override
 	public List<ConvertProject> getAvailableProjects() {
-		SQLConnector conn = new SQLConnector();
+		SQLConnector conn = new SQLConnector(databaseName);
 		List<ConvertProject> list = AvailableResources.getAvailableProjects(conn);
 		conn.close();
 		return list;
@@ -57,7 +68,7 @@ public class UseSQLDatabase implements DatabaseInterface{
 
 	@Override
 	public List<String> getAvailableAuthors() {
-		SQLConnector conn = new SQLConnector();
+		SQLConnector conn = new SQLConnector(databaseName);
 		List<String> list = AvailableResources.getAvailableAuthors(conn);
 		conn.close();
 		return list;
@@ -65,7 +76,7 @@ public class UseSQLDatabase implements DatabaseInterface{
 
 	@Override
 	public List<ConvertDate> getAvailableDates() {
-		SQLConnector conn = new SQLConnector();
+		SQLConnector conn = new SQLConnector(databaseName);
 		List<ConvertDate> list = AvailableResources.getAvailableDates(conn);
 		conn.close();
 		return list;
@@ -73,7 +84,7 @@ public class UseSQLDatabase implements DatabaseInterface{
 
 	@Override
 	public int getProjectID(String fileKey) {
-		SQLConnector connector = new SQLConnector();
+		SQLConnector connector = new SQLConnector(databaseName);
 		int projectID = -1;
 		ResultSet results = connector.basicQuery("SELECT project_id FROM allFileList WHERE file_key='" + fileKey + "';");
 		try {
@@ -100,7 +111,7 @@ public class UseSQLDatabase implements DatabaseInterface{
 	
 	@Override
 	public String getProjectPath(int projectID) {
-		SQLConnector connector = new SQLConnector();
+		SQLConnector connector = new SQLConnector(databaseName);
 		ResultSet results = connector.basicQuery("SELECT path FROM projectList WHERE project_id=" + projectID + ";");
 		String projectPath = null;
 		try {
