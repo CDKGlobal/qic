@@ -70,10 +70,6 @@ public class QueryData {
 			return;
 		}
 	}
-	
-//	public double getMetric(MetricGetter getter) {
-//		return getter.getValue(this);
-//	}
 
 	public void setKey(String key) {
 		this.key = key;
@@ -118,48 +114,4 @@ public class QueryData {
 	public void setAuthors(List<String> authors) {
 		this.authors = authors;
 	}
-	
-//	public static class NCLOCMetricGetter implements MetricGetter {
-//		
-//		@Override
-//		public double getValue(QueryData data) {
-//			return data.ncloc;
-//		}
-//	}
-//	
-//	public static class ChurnMetricGetter implements MetricGetter {
-//		
-//		@Override
-//		public double getValue(QueryData data) {
-//			return data.churn;
-//		}
-//	}
-//	
-//	public static class ComplexityMetricGetter implements MetricGetter {
-//		
-//		@Override
-//		public double getValue(QueryData data) {
-//			return data.complexity;
-//		}
-//	}
-//	
-//	public static class DeltaComplexityMetricGetter implements MetricGetter {
-//		
-//		@Override
-//		public double getValue(QueryData data) {
-//			return data.coverage;
-//		}
-//	}
-	
-//	public static class CoverageMetricGetter implements MetricGetter {
-//		
-//		@Override
-//		public double getValue(QueryData data) {
-//			return data.coverage;
-//		}
-//	}
-	
-//	public interface MetricGetter {
-//		double getValue(QueryData data);
-//	}
 }
