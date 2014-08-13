@@ -13,7 +13,7 @@ public class DataSupportMain {
 	}
 
 	public static void processDeltaCalculations() {
-		DBDeltaCalculator calc = new DBDataCalculatorShort();
+		DBDeltaCalculator calc = new DBDeltaCalculator();
 		try {
 			calc.convertLatestMetrics();
 		} catch (SQLException e) {

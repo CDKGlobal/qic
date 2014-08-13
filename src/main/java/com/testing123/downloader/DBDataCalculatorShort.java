@@ -18,7 +18,7 @@ public class DBDataCalculatorShort extends DBDeltaCalculator {
 		Statement st = c.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
                 ResultSet.CONCUR_UPDATABLE);
 		ResultSet rs = st.executeQuery("SELECT * from allFileHistory3 WHERE dbdate = '" 
-				+ DataSupportMain.getFrmtDate(new DateTime()) + "' ORDER BY file_id ASC, dbdate ASC;");
+				+ DataSupportMain.getFrmtDate(new DateTime()) + "' AND complexity != -1 ORDER BY file_id ASC, dbdate ASC;");
 		try {
 			int i = 0;
 			while (rs.next()) {
@@ -44,11 +44,10 @@ public class DBDataCalculatorShort extends DBDeltaCalculator {
 				} else {
 					rs.updateDouble("delta_complexity", 0.0);
 		            rs.updateRow();
-		            System.out.println(0.0 + " updated" + i++);
+		            System.out.println(0.0 + " updated " + i++);
 				}
 				conn2.close();
 			}
-
 			st = c.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
 	                ResultSet.CONCUR_UPDATABLE);
 			st.executeUpdate("UPDATE allFileHistory3 SET delta_complexity = 0 WHERE dbdate = '" 
