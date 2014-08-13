@@ -20,10 +20,26 @@ public class DownloaderTest {
     }
 
     @Test
-    public void TestDownloadProjectsAndStoreInList() {
+    public void TestDownloadAndStoreInList() {
         new Downloader();
-        List<WebData> projectList = Downloader.downloadProjectsAndStoreInList();
+        List<WebData> projectList = Downloader.downloadAndStoreInList("", 0, "?");
+        for (WebData project : projectList) {
+            System.out.println(project.getKey());
+        }
         assertEquals("com.onstation:uploader", projectList.get(0).getKey());
     }
+
+    /*
+     * @Test
+     * public void TestParseData() {
+     * try {
+     * List<WebData> fileList =
+     * Downloader.downloadFilesAndStoreInList(Downloader.downloadProjectsAndStoreInList().get(0), 2);
+     * assertEquals(6369, fileList.get(0).getId());
+     * } catch (Exception e) {
+     * e.printStackTrace();
+     * }
+     * }
+     */
 
 }
