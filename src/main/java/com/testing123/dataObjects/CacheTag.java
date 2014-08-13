@@ -14,14 +14,6 @@ public class CacheTag {
 		this.projects = projects;
 		this.singleMetric = singleMetric;
 	}
-	
-	public boolean equals(CacheTag o) {
-		if (startDate.equals(o.startDate) && endDate.equals(o.endDate) && projects.equals(o.projects) 
-				&& singleMetric == o.singleMetric) {
-			return true;
-		}
-		return false;
-	}
 
 	public ConvertDate getStartDate() {
 		return startDate;
@@ -34,4 +26,46 @@ public class CacheTag {
 	public Set<ConvertProject> getProjects() {
 		return projects;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((endDate == null) ? 0 : endDate.hashCode());
+		result = prime * result + ((projects == null) ? 0 : projects.hashCode());
+		result = prime * result + (singleMetric ? 1231 : 1237);
+		result = prime * result + ((startDate == null) ? 0 : startDate.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CacheTag other = (CacheTag) obj;
+		if (endDate == null) {
+			if (other.endDate != null)
+				return false;
+		} else if (!endDate.equals(other.endDate))
+			return false;
+		if (projects == null) {
+			if (other.projects != null)
+				return false;
+		} else if (!projects.equals(other.projects))
+			return false;
+		if (singleMetric != other.singleMetric)
+			return false;
+		if (startDate == null) {
+			if (other.startDate != null)
+				return false;
+		} else if (!startDate.equals(other.startDate))
+			return false;
+		return true;
+	}
+	
+	
 }
