@@ -51,7 +51,7 @@ public class DBDataCalculatorShort extends DBDeltaCalculator {
 
 			st = c.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
 	                ResultSet.CONCUR_UPDATABLE);
-			rs = st.executeQuery("UPDATE allFileHistory3 SET delta_complexity = 0 WHERE dbdate = '" 
+			st.executeUpdate("UPDATE allFileHistory3 SET delta_complexity = 0 WHERE dbdate = '" 
 					+ DataSupportMain.getFrmtDate(new DateTime()) + "' AND delta_complexity IS NULL AND complexity != -1;");
 			while (rs.next()) {
 				rs.updateDouble("delta_complexity", rs.getDouble("complexity"));
