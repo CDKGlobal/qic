@@ -26,10 +26,9 @@ public class Downloader {
 
     public static List<WebData> downloadAndStoreInList(String projectKey, int depth, String distinguisher) {
         try {
-            String link = "http://sonar.cobalt.com/api/resources" + distinguisher + projectKey + "&depth=" + depth + "&metrics=ncloc,complexity&format=json";
+            String link = "http://sonar.cobalt.com/api/resources?resource" + distinguisher + projectKey + "&depth=" + depth + "&metrics=ncloc,complexity&format=json";
             URL ownURL = new URL(link);
-            System.out.println("ok");
-            System.out.println(link);
+
             List<WebData> list = mapper.readValue(ownURL, new TypeReference<List<WebData>>() {
             });
             return list;
