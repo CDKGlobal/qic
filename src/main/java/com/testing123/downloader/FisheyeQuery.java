@@ -99,7 +99,7 @@ public class FisheyeQuery implements FisheyeInterface {
 	
 	@Override
 	public FisheyeData getRevisionList(RepoAndDirData project, ConvertPath path, ConvertDate startDate, ConvertDate endDate) {
-		String dateRange = "[" + startDate + "," + endDate + "]";
+		String dateRange = "[" + startDate.getDBFormat() + "," + endDate.getDBFormat() + "]";
 		String queryString = getRevisionListQueryAsString(project, dateRange, path);
 		System.out.println("url = " + queryString);
 		URL queryURL = getQueryURL(queryString);
