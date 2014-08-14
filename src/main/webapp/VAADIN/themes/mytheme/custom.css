@@ -1,0 +1,18 @@
+div .header_background {
+	background-color: white;
+	text-align: center
+}
+
+div .h1 {
+	text-align:center
+}
+
+.v-slot-main_title {
+	color: white;
+	margin: 0.5em;
+}
+
+.main_menubar {
+	background-color: blue;
+	size: 200%;
+}
