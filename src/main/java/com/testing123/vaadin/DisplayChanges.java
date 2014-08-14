@@ -4,7 +4,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import com.testing123.controller.UIState;
-import com.testing123.dataObjects.ConvertDate;
 import com.testing123.dataObjects.ConvertPath;
 import com.testing123.dataObjects.FisheyeData;
 import com.testing123.dataObjects.RepoAndDirData;
@@ -27,29 +26,21 @@ public class DisplayChanges {
 		this.database = DI;
 	}
 
-	public URL popUp(UIState state, String path) {
-		ConvertDate startDate = state.getStart();
-		ConvertDate endDate = state.getEnd();
-		return fisheyeRevision(path, startDate, endDate);
-	}
-
-	public URL fisheyeRevision(String fileKey, ConvertDate startDate, ConvertDate endDate) {
-
+	public URL popUp(UIState state, String fileKey) {
 		RepoAndDirData project = database.getRepoAndDirFromFileKey(fileKey);
-		String repository = project.getRepositoryName();
-		String directory = project.getDirectoryName();
-
 		ConvertPath path = new ConvertPath(fileKey);
-		FisheyeData changesets = fisheye.getRevisionList(repository, directory, path, startDate.getDBFormat(), endDate.getDBFormat());
-
-		return getURL(repository, new ExtractFisheyeInfo(changesets));
+		FisheyeData changesets = fisheye.getRevisionList(project, path, state.getStart(), state.getEnd());
+		return getURL(project.getRepositoryName(), new ExtractFisheyeInfo(changesets));
 	}
 
 	private URL getURL(String repository, ExtractFisheyeInfo data) {
 		String fisheyeHomeLink = Preferences.FISHEYE_HOME;
+		URL url = null;
+		if(!data.exists()){
+			return null;
+		}
 		String link = fisheyeHomeLink + "/browse/" + repository + "/" + data.getCompleteFisheyePath() + "?r1=" + data.getRevision1()
 				+ "&r2=" + data.getRevision2();
-		URL url = null;
 		try {
 			url = new URL(link);
 		} catch (MalformedURLException e) {

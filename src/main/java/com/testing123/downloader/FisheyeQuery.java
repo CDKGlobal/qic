@@ -18,6 +18,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.testing123.dataObjects.ConvertDate;
 import com.testing123.dataObjects.ConvertPath;
 import com.testing123.dataObjects.FisheyeData;
+import com.testing123.dataObjects.RepoAndDirData;
 import com.testing123.dataObjects.RevisionData;
 import com.testing123.interfaces.FisheyeInterface;
 import com.testing123.vaadin.RegexUtil;
@@ -97,18 +98,18 @@ public class FisheyeQuery implements FisheyeInterface {
 	}
 	
 	@Override
-	public FisheyeData getRevisionList(String repository, String directory, ConvertPath path, String startDate, String endDate) {
+	public FisheyeData getRevisionList(RepoAndDirData project, ConvertPath path, ConvertDate startDate, ConvertDate endDate) {
 		String dateRange = "[" + startDate + "," + endDate + "]";
-		String queryString = getRevisionListQueryAsString(repository, directory, dateRange, path);
+		String queryString = getRevisionListQueryAsString(project, dateRange, path);
 		System.out.println("url = " + queryString);
 		URL queryURL = getQueryURL(queryString);
 		FisheyeData changesets = getJSONFromFisheye(queryURL);
 		return changesets;
 	}
 	
-	private static String getRevisionListQueryAsString(String repository, String directory, String dateRange, ConvertPath path) {
+	private static String getRevisionListQueryAsString(RepoAndDirData project, String dateRange, ConvertPath path) {
 		String linkHome = "http://fisheye.cobalt.com/rest-service-fe/search-v1/queryAsRows/";
-		return linkHome + repository + ".json?query= select revisions from dir \"" + directory + "\" where date in " + dateRange
+		return linkHome + project.getRepositoryName() + ".json?query= select revisions from dir \"" + project.getDirectoryName() + "\" where date in " + dateRange
 				+ "and path like **/"+ path.getFisheyePath() + " return path,csid";
 	}
 
