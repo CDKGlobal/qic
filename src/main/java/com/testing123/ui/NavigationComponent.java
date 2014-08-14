@@ -1,32 +1,42 @@
 package com.testing123.ui;
 
+import java.text.DateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Set;
 
+import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import com.testing123.controller.AvailableResources;
+import com.testing123.controller.SQLConnector;
 import com.testing123.controller.UIState;
 import com.testing123.controller.UIState.XAxis;
 import com.testing123.dataObjects.ConvertDate;
 import com.testing123.dataObjects.ConvertProject;
-import com.testing123.interfaces.DatabaseInterface;
 import com.testing123.vaadin.DisplayChanges;
 import com.testing123.vaadin.GetData;
-import com.testing123.vaadin.UseSQLDatabase;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.server.Page;
+import com.vaadin.server.UserError;
+import com.vaadin.shared.Position;
 import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CustomComponent;
+import com.vaadin.ui.DateField;
 import com.vaadin.ui.GridLayout;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.JavaScript;
 import com.vaadin.ui.JavaScriptFunction;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.PopupDateField;
 import com.vaadin.ui.TextField;
 
@@ -40,11 +50,10 @@ public class NavigationComponent extends CustomComponent {
 	private Button goButton;
 	private Button shareButton;
 	private TextField linkBox;
-	private GridLayout layout;
-	private Label errorLabel;
+	private HorizontalLayout layout;
+	private AbsoluteLayout graph;
 	private GetData data;
 	private UIState state;
-	private DatabaseInterface database;
 	
 	private static final String VERTICAL_OFFSET = "70px";
 	private static final String VERTICAL_OFFSET_2 = "100px";
@@ -57,20 +66,36 @@ public class NavigationComponent extends CustomComponent {
 	 * root and then do any custom initialization.
 	 * 
 	 */
-	public NavigationComponent(final GridLayout layout, final UIState state) {
-		this(layout, state, new UseSQLDatabase());
-	}
-	public NavigationComponent(final GridLayout layout, final UIState state, DatabaseInterface DBI) {
-		this.database = DBI;
+	public NavigationComponent(final HorizontalLayout layout, final UIState state) {
 		this.data = new GetData();
 		this.state = state;
 		this.layout = layout;
+		this.graph = new AbsoluteLayout();
+		
+		final AbsoluteLayout left = new AbsoluteLayout();
+		left.setWidth(null);
+		layout.addComponent(left);
+		
+		graph.setWidth(QicUI.GRAPH_WIDTH);
+		graph.setHeight(QicUI.GRAPH_HEIGHT);
+		layout.addComponent(graph);
+		
+		final AbsoluteLayout right = new AbsoluteLayout();
+		right.setWidth(null);
+		layout.addComponent(right);
+		
+		layout.setExpandRatio(left, 1);
+		layout.setExpandRatio(right, 1);
+		
 		createNavComponentLayout();
 		buildNavigationLayout();
 		setCompositionRoot(navLayout);
 		
-		ComponentController.drawMainComponent(layout, state, data);
+		fireChangeAction();
 	
+		/**
+		 * Manages click events on the flot chart
+		 */
 		JavaScript.getCurrent().addFunction("notify", new JavaScriptFunction() {
 			
 			@Override
@@ -80,7 +105,11 @@ public class NavigationComponent extends CustomComponent {
 				if (state.getX() != XAxis.LINESOFCODE) {
 					try {
 						String link = new DisplayChanges().popUp(state, location).toString();
-						JavaScript.getCurrent().execute("window.open('" + link + "', 'Google', 'height=800,width=1200');");
+						if (link == null) {
+							displayMessage("Pop Up Error", "Diff cannot be found", Notification.Type.WARNING_MESSAGE);
+							return;
+						}
+						JavaScript.getCurrent().execute("window.open('" + link + "', 'Fisheye', 'height=800, width=1200');");
 					} catch (Exception e) {
 						System.out.println("Pop up failed");
 					}
@@ -89,7 +118,7 @@ public class NavigationComponent extends CustomComponent {
 		});
 		
 		filter = new FilterComponent(state);
-		layout.addComponent(filter, 2, 1);
+		layout.addComponent(filter);
 	}
 	
 	/**
@@ -100,7 +129,7 @@ public class NavigationComponent extends CustomComponent {
 		linkBox.setReadOnly(false);
 		linkBox.setValue("");
 		linkBox.setReadOnly(true);
-		ComponentController.drawMainComponent(layout, state, data);
+		ComponentController.drawMainComponent(graph, state, data);
 	}
 	
 	public Button buildNavigationLayout() {
@@ -127,31 +156,35 @@ public class NavigationComponent extends CustomComponent {
 		});
 		
 		// gets all the available dates that can be queried
-		List<ConvertDate> dateOptions = database.getAvailableDates();
+		List<ConvertDate> dateOptions = AvailableResources.getAvailableDates(new SQLConnector());
 		
 		// start date combo box
-	    startComboBox = createDateComboBox(dateOptions, "Start Date");
-	    startComboBox.select(state.getStart());
-		navLayout.addComponent(startComboBox, "top:" + VERTICAL_OFFSET + ";");
+//	    startComboBox = createDateComboBox(dateOptions, "Start Date");
+//	    startComboBox.select(state.getStart());
+//		navLayout.addComponent(startComboBox, "top:" + VERTICAL_OFFSET + ";");
 		
 		startDateField = new PopupDateField("Start Date");
-        startDateField.setValue(new Date());
         startDateField.setImmediate(true);
         startDateField.setDateFormat("MM/dd/yyyy");
         startDateField.setResolution(Resolution.DAY);
-		navLayout.addComponent(startDateField, "top:" + "150px;");
+        startDateField.setRangeEnd(new DateTime().toDate()); // sets current day as max date
+        
+        startDateField.setValue(new DateTime().minusDays(7).toDate());
+		navLayout.addComponent(startDateField, "top: " + VERTICAL_OFFSET + ";");
 		
         endDateField = new PopupDateField("End Date");
-        endDateField.setValue(new Date());
         endDateField.setImmediate(true);
         endDateField.setDateFormat("MM/dd/yyyy");
         endDateField.setResolution(Resolution.DAY);
-		navLayout.addComponent(endDateField, "left: 200px; top:" + "150px;");
+        endDateField.setRangeEnd(new DateTime().toDate()); // sets current day as max date
+        
+        endDateField.setValue(new Date());
+		navLayout.addComponent(endDateField, "left: 200px; top: " + VERTICAL_OFFSET + ";");
 		
 		// end date combo box
-		endComboBox = createDateComboBox(dateOptions, "End Date");
-		endComboBox.select(state.getEnd());
-		navLayout.addComponent(endComboBox, "top:" + VERTICAL_OFFSET + ";left:220.0px;");
+//		endComboBox = createDateComboBox(dateOptions, "End Date");
+//		endComboBox.select(state.getEnd());
+//		navLayout.addComponent(endComboBox, "top:" + VERTICAL_OFFSET + ";left:220.0px;");
 		
 		// go button
 		goButton = new Button();
@@ -159,24 +192,23 @@ public class NavigationComponent extends CustomComponent {
 		goButton.setImmediate(true);
 		goButton.setWidth(DEFAULT_VALUE);
 		goButton.setHeight(DEFAULT_VALUE);
-		errorLabel = new Label("");
 		goButton.addClickListener(new Button.ClickListener() {
 			
 			@Override
 			public void buttonClick(ClickEvent event) {
-				navLayout.removeComponent(errorLabel);
-				if (startComboBox.getValue() == null || endComboBox.getValue() == null) {
-					errorLabel = new Label("No date range entered");
-					navLayout.addComponent(errorLabel, "top:" + VERTICAL_OFFSET + "; left:570.0px;");
+				if (startDateField.getValue() == null || endDateField.getValue() == null) {
+					displayMessage("Invalid Date Input", "No date range entered", Notification.Type.ERROR_MESSAGE);
 					return;
 				} 
-				ConvertDate startDate = (ConvertDate) startComboBox.getValue();
-				ConvertDate endDate = (ConvertDate) endComboBox.getValue();
+				
+				ConvertDate startDate = new ConvertDate(startDateField.getValue());
+				ConvertDate endDate = new ConvertDate(endDateField.getValue());
+				
 				if (checkIfStartDateIsNotLessThanEndDate(startDate, endDate)) {
-					errorLabel = new Label("Date range invalid");
-					navLayout.addComponent(errorLabel, "top:" + VERTICAL_OFFSET + "; left:570.0px;");
+					displayMessage("Invalid Date Input", "Date range invalid", Notification.Type.ERROR_MESSAGE);
 					return;
 				}
+				
 				state.setProjects((Set<ConvertProject>) filter.projectFilter.getValue());
 				state.setAuthorsFilter((Set<String>) filter.authorsFilter.getValue()); 
 				state.setStart(startDate);
@@ -223,14 +255,20 @@ public class NavigationComponent extends CustomComponent {
 		// common part: create layout
 		navLayout = new AbsoluteLayout();
 		navLayout.setImmediate(false);
-		navLayout.setWidth("800px");
+//		navLayout.setWidth("800px");
 		navLayout.setHeight("200px");
 
 		// top-level component properties
-		setWidth("800px");
+//		setWidth("800px");
 		setHeight("200px");
 	}
 
+	private void displayMessage(String message, String desc, Notification.Type type) {
+		Notification popUp = new Notification(message, desc, type);
+		popUp.show(Page.getCurrent());
+		popUp.setPosition(Position.TOP_CENTER);
+	}
+	
 	private ComboBox createAxisComboBox(List<XAxis> options, String tag) {
 		ComboBox box = createComboBoxWithLabel(tag, true);
 		for (int i = 0; i < options.size(); i++) {
@@ -239,14 +277,14 @@ public class NavigationComponent extends CustomComponent {
 		box.select(state.getX());
 		return box;
 	}
-	
-	private ComboBox createDateComboBox(List<ConvertDate> options, String tag) {
-		ComboBox box = createComboBoxWithLabel(tag, true);
-		for (int i = 0; i < options.size(); i++) {
-			box.addItem(options.get(i));
-		}
-		return box;
-	}
+//	
+//	private ComboBox createDateComboBox(List<ConvertDate> options, String tag) {
+//		ComboBox box = createComboBoxWithLabel(tag, true);
+//		for (int i = 0; i < options.size(); i++) {
+//			box.addItem(options.get(i));
+//		}
+//		return box;
+//	}
 
 	private ComboBox createComboBoxWithLabel(String label, boolean immediate) {
 		ComboBox comboBox = new ComboBox(label);
@@ -256,5 +294,5 @@ public class NavigationComponent extends CustomComponent {
 		comboBox.setWidth(COMBOBOX_WIDTH);
 		comboBox.setHeight(DEFAULT_VALUE);
 		return comboBox;
-	}	
+	}
 }
