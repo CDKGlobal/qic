@@ -38,9 +38,8 @@ public class UseSQLDatabase implements DatabaseInterface{
 					String fileKey = results.getString("file_key");
 					String scope = results.getString("scope");
 					String qualifier = results.getString("qualifier");
-					if("FIL".equals(scope) && "CLA".equals(qualifier)){
-						String formattedName = nameFormat(fileKey);
-						mapNameToID.put(formattedName, fileID);
+					if("FIL".equals(scope) && ("CLA".equals(qualifier) || "FIL".equals(qualifier))){
+						mapNameToID.put(fileKey, fileID);
 					}
 				}
 			} catch (SQLException e) {
@@ -49,13 +48,6 @@ public class UseSQLDatabase implements DatabaseInterface{
 		}
 		connector.close();
 		return mapNameToID;
-	}
-	
-	private static String nameFormat(String fileKey) {
-		String[] split = fileKey.split(":");
-		int length = split.length;
-		String formattedName = split[length - 1];
-		return formattedName;
 	}
 
 	@Override
