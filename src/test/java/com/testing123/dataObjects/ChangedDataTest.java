@@ -10,36 +10,40 @@ public class ChangedDataTest {
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
-        cdData = new ChangedData(0, "2014-08-09", 0, "authors");
+        cdData = new ChangedData(0, "2014-08-09", -1, "authors");
     }
 
     @Test
     public void testSetFile_IdAndGetFile_Id() {
-        cdData.setFile_id(1);
-        assertEquals(1, cdData.getFile_id());
+        ChangedData cdData1 = new ChangedData(0, "2014-08-09", -1, null);
+        cdData1.setFile_id(1);
+        assertEquals(1, cdData1.getFile_id());
     }
 
     @Test
     public void testSetChurnAndGetChurn() {
-        cdData.setChurn(1);
-        assertEquals(1, cdData.getChurn());
+        ChangedData cdData1 = new ChangedData(0, "2014-08-09", -1, null);
+        cdData1.setChurn(1);
+        assertEquals(1, cdData1.getChurn());
     }
 
     @Test
     public void testSetAuthorsAndGetAuthors() {
-        cdData.setAuthors("weiyoud, authors");
-        assertEquals("weiyoud, authors", cdData.getAuthors());
+        ChangedData cdData1 = new ChangedData(0, "2014-08-09", -1, null);
+        cdData1.setAuthors("weiyoud, authors");
+        assertEquals("weiyoud, authors", cdData1.getAuthors());
     }
 
     @Test
     public void testSetDateAndGetDate() {
-        cdData.setDate("2014-08-08");
-        assertEquals("2014-08-08", cdData.getDate());
+        ChangedData cdData1 = new ChangedData(0, "2014-08-09", -1, null);
+        cdData1.setDate("2014-08-08");
+        assertEquals("2014-08-08", cdData1.getDate());
     }
 
     @Test
     public void testToString() {
-        assertEquals("ChangedData [file_id=1, date=2014-08-08, churn=1, authors=weiyoud, authors]", cdData.toString());
+        assertEquals("ChangedData [file_id=0, date=2014-08-09, churn=-1, authors=authors]", cdData.toString());
     }
 
 }
