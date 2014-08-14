@@ -1,5 +1,9 @@
 package com.testing123.dataObjects;
 
+import java.util.Date;
+
+import org.joda.time.DateTime;
+
 public class ConvertDate implements Comparable<ConvertDate> {
 	private String shortFormat;
 	private int year;
@@ -14,6 +18,18 @@ public class ConvertDate implements Comparable<ConvertDate> {
 		this.shortFormat = String.format("%04d-%02d-%02d", year, month, day);
 		//this.shortFormat = "" + year + "-" + month + "-" + day;
 		checkRep();
+	}
+	
+	public ConvertDate(Date d) {
+		DateTime date = new DateTime(d);
+		this.year = date.getYear();
+		this.month = date.getMonthOfYear();
+		this.day = date.getDayOfMonth();
+		this.shortFormat = String.format("%04d-%02d-%02d", year, month, day);
+	}
+	
+	public ConvertDate(int year, int month, int day) {
+		this(year + "-" + month + "-" + day);
 	}
 	
 	public int getYear() {

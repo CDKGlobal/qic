@@ -23,7 +23,6 @@ public class FilterComponent extends CustomComponent {
 		this.database = DBI;
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
-
 	}
 	
 	public FilterComponent(UIState state) {
@@ -83,11 +82,10 @@ public class FilterComponent extends CustomComponent {
 		// common part: create layout
 		mainLayout = new AbsoluteLayout();
 		mainLayout.setImmediate(false);
-		mainLayout.setWidth("400px");
+//		mainLayout.setWidth("400px");
 		mainLayout.setHeight("450px");
-
+		
 		// top-level component properties
-		setWidth("400px");
-		setHeight("450px");
+		setSizeFull();
 	}
 }
