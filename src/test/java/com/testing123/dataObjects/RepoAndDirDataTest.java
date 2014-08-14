@@ -7,6 +7,13 @@ import org.junit.Test;
 public class RepoAndDirDataTest {
 	
 	@Test
+	public void testPassedInNullReturnNullForParameters(){
+		RepoAndDirData empty = new RepoAndDirData(null);
+		assertEquals(null,empty.getRepositoryName());
+		assertEquals(null,empty.getDirectoryName());
+	}
+	
+	@Test
 	public void testEmptyReturnsEmptyStrings(){
 		RepoAndDirData empty = new RepoAndDirData("");
 		assertEquals("",empty.getRepositoryName());

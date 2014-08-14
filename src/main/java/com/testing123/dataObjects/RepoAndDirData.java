@@ -1,23 +1,26 @@
 package com.testing123.dataObjects;
 
 public class RepoAndDirData {
-	
+
 	String repository;
 	String directory;
-	
-	public RepoAndDirData(String projectPath){
-		projectPath = projectPath.trim();
-		repository = getRepositoryName(projectPath);
-		directory = getDirectoryName(projectPath);
+
+	public RepoAndDirData(String projectPath) {
+		if (projectPath != null) {
+			String trimmedProjectPath = projectPath.trim();
+			repository = getRepositoryName(trimmedProjectPath);
+			directory = getDirectoryName(trimmedProjectPath);
+		}
 	}
-	
+
 	public String getRepositoryName() {
 		return repository;
 	}
+
 	public String getDirectoryName() {
 		return directory;
 	}
-	
+
 	private String getRepositoryName(String path) {
 		String[] split = path.split("/");
 		if (split.length > 1) {
@@ -25,7 +28,7 @@ public class RepoAndDirData {
 		}
 		return "";
 	}
-	
+
 	private String getDirectoryName(String path) {
 		String[] split = path.split("/");
 		if (split.length > 2) {
@@ -34,5 +37,5 @@ public class RepoAndDirData {
 		}
 		return "";
 	}
-	
+
 }
