@@ -2,29 +2,39 @@ package com.testing123.vaadin;
 
 import static org.junit.Assert.*;
 
-import org.junit.Test;
 
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mockito;
+
+import com.testing123.controller.UIState;
 import com.testing123.dataObjects.ConvertDate;
+import com.testing123.dataObjects.RepoAndDirData;
+import com.testing123.interfaces.DatabaseInterface;
+import com.testing123.interfaces.FisheyeInterface;
 import com.testing123.vaadin.DisplayChanges;
 
 public class DisplayChangesTest {
-
-	@Test
-	public void test() {
-		ConvertDate startDate = new ConvertDate("2014-08-05");
-		ConvertDate endDate = new ConvertDate("2014-08-07");
-		String dbPath = "com.vaadin:QIC2:src/main/java/com/testing123/controller/UIState.java";
-		new DisplayChanges().fisheyeRevision(dbPath, startDate, endDate);
-		System.out.println("done");
+	
+	private UIState state;
+	private FisheyeInterface FIMock;
+	private DatabaseInterface DBIMock;
+	
+	@Before
+	public void before(){	
+		FIMock = Mockito.mock(FisheyeInterface.class);
+		DBIMock = Mockito.mock(DatabaseInterface.class);
+		state = new UIState();
 	}
 	
 	@Test
-	public void test2() {
-		ConvertDate startDate = new ConvertDate("2014-07-01");
-		ConvertDate endDate = new ConvertDate("2014-08-07");
-		String dbPath = "com.vaadin:QIC2:com.testing123.vaadin.ConvertDate";
-		new DisplayChanges().fisheyeRevision(dbPath, startDate, endDate);
-		System.out.println("done");
+	public void testNullRepoAndDirDataReturnsNull(){
+		state.setStart(new ConvertDate("2014-08-05"));
+		state.setEnd(new ConvertDate("2014-08-07"));
+		String fileKey = "returnsNull";
+		RepoAndDirData n = new RepoAndDirData(null);
+		Mockito.when(DBIMock.getRepoAndDirFromFileKey(fileKey)).thenReturn(n);
+		assertEquals(null, new DisplayChanges().popUp(state,fileKey));
 	}
 
 }

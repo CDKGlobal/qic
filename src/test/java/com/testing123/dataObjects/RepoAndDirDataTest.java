@@ -8,9 +8,10 @@ public class RepoAndDirDataTest {
 	
 	@Test
 	public void testPassedInNullReturnNullForParameters(){
-		RepoAndDirData empty = new RepoAndDirData(null);
-		assertEquals(null,empty.getRepositoryName());
-		assertEquals(null,empty.getDirectoryName());
+		RepoAndDirData isNull = new RepoAndDirData(null);
+		assertEquals(null,isNull.getRepositoryName());
+		assertEquals(null,isNull.getDirectoryName());
+		assertEquals(new RepoAndDirData(null),isNull);
 	}
 	
 	@Test

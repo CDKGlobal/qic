@@ -28,6 +28,8 @@ public class DisplayChanges {
 
 	public URL popUp(UIState state, String fileKey) {
 		RepoAndDirData project = database.getRepoAndDirFromFileKey(fileKey);
+		if(project.equals(new RepoAndDirData(null)))
+			return null;
 		ConvertPath path = new ConvertPath(fileKey);
 		FisheyeData changesets = fisheye.getRevisionList(project, path, state.getStart(), state.getEnd());
 		return getURL(project.getRepositoryName(), new ExtractFisheyeInfo(changesets));
