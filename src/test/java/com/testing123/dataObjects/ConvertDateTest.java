@@ -70,9 +70,16 @@ public class ConvertDateTest {
     }
 
     @Test
-    public void TestGetDBFormat() {
-        ConvertDate date = new ConvertDate("2014-07-07");
+    public void TestGetDBFormatSingleDigitsMonthAndDay() {
+        ConvertDate date = new ConvertDate("2014-7-7");
         assertEquals("2014-07-07", date.getDBFormat());
+    }
+
+    @Test
+    public void TestGetDBFormatDoubleDigitsMonthAndDay() {
+        ConvertDate date = new ConvertDate("2014-12-10");
+        assertEquals("2014-12-10", date.getDBFormat());
 
     }
+
 }
