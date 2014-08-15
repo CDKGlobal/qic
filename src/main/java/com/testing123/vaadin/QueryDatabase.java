@@ -37,9 +37,9 @@ public class QueryDatabase {
 						+ "WHERE dbdate <= '" + endDate.getDBFormat() + "' AND dbdate > '" + 
 							startDate.getDBFormat() + "' GROUP BY file_id) dates "
 						+ "ON allFileHistory3.file_id = dates.file_id "
-						+ "WHERE allFileList.project_id IN " + projectIDSet(projects) + " AND qualifier = 'CLA' AND "
+						+ "WHERE allFileList.project_id IN " + projectIDSet(projects) + " AND qualifier != 'UTS' AND "
 						+ "allFileHistory3.dbdate = dates.maxdate) AS static ON "
-						+ "allFileHistory3.file_id = static.file_id WHERE qualifier = 'CLA' AND "
+						+ "allFileHistory3.file_id = static.file_id WHERE qualifier != 'UTS' AND "
 						+ "allFileList.project_id IN " + projectIDSet(projects) + " AND dbdate <= "
 						+ "'" + endDate.getDBFormat() + "' AND dbdate > '" + startDate.getDBFormat() + "' "
 						+ "GROUP BY allFileHistory3.file_id;");
@@ -48,7 +48,7 @@ public class QueryDatabase {
 				results = conn
 						.basicQuery("SELECT a1.file_id, a1.file_key, afl.name, ncloc, complexity, delta_complexity, authors FROM "
 								+ "allFileHistory3 a1 "
-								+ "JOIN allFileList afl ON afl.file_id = a1.file_id WHERE qualifier = 'CLA' "
+								+ "JOIN allFileList afl ON afl.file_id = a1.file_id WHERE qualifier != 'UTS' "
 								+ "AND afl.project_id IN " + projectIDSet(projects)
 								+ " AND a1.dbdate = (SELECT MAX(a2.dbdate) FROM allFileHistory3 a2 "
 								+ "WHERE a1.file_id = a2.file_id) GROUP BY a1.file_id;");
@@ -106,7 +106,12 @@ public class QueryDatabase {
 	
 	private void extractAuthors(QueryData data, ResultSet rs) throws Exception {
 		List<String> authorSet = new ArrayList<String>();
-		String authors = rs.getString("authors").replace("[", ",").replace("]", ",");
+		String authors = rs.getString("authors");
+		if (rs.wasNull()) {
+			data.setAuthors(authorSet);
+			return;
+		}
+		authors = authors.replace("[", ",").replace("]", ",");
 		String[] authorArray = authors.split(",");
 		for (String author : authorArray) {
 			author = author.trim();
