@@ -1,3 +1,5 @@
+@import "custom.css";
+
 .v-assistive-device-only {
 	position: absolute;
 	top: -2000px;
@@ -5252,10 +5254,15 @@ body .mytheme.v-app .v-app-loading {
 
 .mytheme .v-label-h1, .mytheme .v-label-h2, .mytheme .v-caption-h1, .mytheme .v-caption-h2, .mytheme .white .v-label-h1, .mytheme .white .v-label-h2, .mytheme .white .v-caption-h1, .mytheme .white .v-caption-h2 {
 	font-family: Helvetica, Arial, "Lucida Grande", Geneva, Tahoma, Verdana, sans-serif;
-	font-size: 24px;
+	
+	/*manually added properities*/
+	font-size: 30px;
+	text-align: center;
+	margin:10px 10px 10px 10px;
+	
 	line-height: 30px;
 	font-weight: bold;
-	color: #44698b;
+	color: white;
 	letter-spacing: -0.02em;
 	text-shadow: #fff 0 -1px 1px;
 }
