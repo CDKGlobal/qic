@@ -34,8 +34,8 @@ public class FlotOptions {
 			//"panRange: [-10, 10000]" +
 	    "}, " +
 	    "xaxis : {" +
-	        //"show : false," + 
-	        //"axisLabel : \'" + xaxis.toString() + "\'," +
+	        "show : true," + 
+	        "axisLabel : \'" + state.getX().toString() + "\'," +
 	        "autoscaleMargin: .02" +
 	        //"zoomRange: " + getXRange(state) + "," +
 			//"panRange: " + getXRange(state) +
