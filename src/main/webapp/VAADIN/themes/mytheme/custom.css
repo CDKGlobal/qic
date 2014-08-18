@@ -2,12 +2,22 @@
 /* 5368 10 px padding */
 
 div .header_background {
-	background-color: white;
-	text-align: center
+	background-color: #082A69;
+	text-align: center;
+	
+}
+ 
+div .h1 {
+	text-align:justify;
+	font-size:88px;
+} 
+
+div .b {
+	text-align:right;
 }
 
-div .h1 {
-	text-align:center
+.mytheme .v-slot, .mytheme .v-spacing {
+	vertical-align: middle;
 }
 
 .v-slot-main_title {
@@ -30,6 +40,8 @@ div .h1 {
 	background-color: #323336;
 }
 
+>>>> ORIGINAL //Playpen/QIC2/src/main/webapp/VAADIN/themes/mytheme/custom.css#1
+==== THEIRS //Playpen/QIC2/src/main/webapp/VAADIN/themes/mytheme/custom.css#2
 .v-slot-go_button {
 	padding-left: 10px;
 	padding-top: 10px;	
@@ -79,4 +91,9 @@ div .h1 {
 	font-size: 13px;
 	font-weight: bold;
 	margin: 1px 0 4px 0;
+==== YOURS //weiyoud_sea-weiyoud_4033/Playpen/QIC2/src/main/webapp/VAADIN/themes/mytheme/custom.css
+.axisLabels {
+	color: red;
+	font-size: 22px;
+<<<<
 }
