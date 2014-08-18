@@ -273,6 +273,10 @@ public class NavigationComponent extends CustomComponent {
 					return;
 				}
 				
+				if (((Set<ConvertProject>) filter.projectFilter.getValue()).size() == 0) {
+					displayMessage("No Projects Selected!", "Click 'Select Project' to select one or more projects",
+							Notification.Type.HUMANIZED_MESSAGE);
+				}				
 				state.setProjects((Set<ConvertProject>) filter.projectFilter.getValue());
 				state.setAuthorsFilter((Set<String>) filter.authorsFilter.getValue()); 
 				state.setStart(startDate);

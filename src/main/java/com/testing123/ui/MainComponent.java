@@ -79,7 +79,7 @@ public class MainComponent extends CustomComponent {
 
         chart.setOptions(FlotOptions.getString(state));
 
-        graph.addComponent(chart);
+        graph.addComponent(chart, "top: 25px");
         return graph;
     }
 
