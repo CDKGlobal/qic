@@ -14,6 +14,9 @@ import com.testing123.dataObjects.ConvertProject;
 import com.testing123.dataObjects.QueryData;
 
 public class QueryDatabase {
+	private static final Set<String> METRIC_COLUMNS = new HashSet<String>(Arrays.asList(new String[]{"ncloc", "churn", 
+			"complexity", "delta_complexity", /*"issues", "delta_issues", "coverage", "delta_coverage"*/}));
+	
 	private SQLConnector conn;
 	
 	public QueryDatabase() {
@@ -25,56 +28,46 @@ public class QueryDatabase {
 		ResultSet results = null;
 		try {
 			if (!singleMetric) {
-				results = conn.basicQuery("SELECT MAX(allFileHistory3.file_key) as file_key, static.complexity AS complexity, "
-					+ "static.ncloc AS ncloc, allFileList.name, COALESCE(SUM(delta_complexity), 0) AS delta_complexity, "
-					+ "COALESCE(GROUP_CONCAT(authors, \"\"), \"\") as authors, COALESCE(SUM(churn), 0) AS churn "
-				+ "FROM allFileHistory3 "
-				+ "JOIN allFileList ON allFileList.file_id = allFileHistory3.file_id "
-				+ "INNER JOIN (SELECT allFileHistory3.file_id, complexity, ncloc "
-					+ "FROM allFileHistory3 "
-					+ "JOIN allFileList ON allFileList.file_id = allFileHistory3.file_id "
-					+ "INNER JOIN (SELECT file_id, MAX(dbdate) AS maxdate FROM allFileHistory3 "
-						+ "WHERE dbdate <= '" + endDate.getDBFormat() + "' AND dbdate > '" + 
-							startDate.getDBFormat() + "' GROUP BY file_id) dates "
-						+ "ON allFileHistory3.file_id = dates.file_id "
-						+ "WHERE allFileList.project_id IN " + projectIDSet(projects) + " AND qualifier != 'UTS' AND "
-						+ "allFileHistory3.dbdate = dates.maxdate) AS static ON "
-						+ "allFileHistory3.file_id = static.file_id WHERE qualifier != 'UTS' AND "
-						+ "allFileList.project_id IN " + projectIDSet(projects) + " AND dbdate <= "
-						+ "'" + endDate.getDBFormat() + "' AND dbdate > '" + startDate.getDBFormat() + "' "
-						+ "GROUP BY allFileHistory3.file_id;");
+				results = queryDeltaMetrics(startDate, endDate, projects);
 			}
 			if (singleMetric ||results == null) {
-				results = conn
-						.basicQuery("SELECT a1.file_id, a1.file_key, afl.name, ncloc, complexity, delta_complexity, authors FROM "
-								+ "allFileHistory3 a1 "
-								+ "JOIN allFileList afl ON afl.file_id = a1.file_id WHERE qualifier != 'UTS' "
-								+ "AND afl.project_id IN " + projectIDSet(projects)
-								+ " AND a1.dbdate = (SELECT MAX(a2.dbdate) FROM allFileHistory3 a2 "
-								+ "WHERE a1.file_id = a2.file_id) GROUP BY a1.file_id;");
-			}
-			if (results == null) {
-				return new HashSet<QueryData>();
+				results = queryForStaticMetrics(projects);
 			}
 		} catch (Exception e) {
 			System.out.println("Exception thrown in Query Database");
-			return new HashSet<QueryData>();
 		}
-		return processDBResults(results);
+		return results == null ? new HashSet<QueryData>() : processDBResults(results);
+	}
+	
+	public Set<QueryData> getSignleMetricDataSet(ConvertDate startDate, ConvertDate endDate, Set<ConvertProject> projects) {
+		ResultSet results = getSingleMetricResultSet(projects);
+		return results == null ? new HashSet<QueryData>() : processDBResults(results);
+	}
+
+	private ResultSet getSingleMetricResultSet(Set<ConvertProject> projects) {
+		ResultSet results = null;
+		try {
+			results = queryForStaticMetrics(projects);		
+		} catch (Exception e) {
+			System.out.println("Exception thrown in Query Database");
+		}
+		return results;
+	}
+
+	private ResultSet queryForStaticMetrics(Set<ConvertProject> projects) {
+		return conn
+				.basicQuery("SELECT a1.file_id, a1.file_key, afl.name, ncloc, complexity, delta_complexity, authors FROM "
+						+ "allFileHistory3 a1 "
+						+ "JOIN allFileList afl ON afl.file_id = a1.file_id WHERE qualifier != 'UTS' "
+						+ "AND afl.project_id IN " + projectIDSet(projects)
+						+ " AND a1.dbdate = (SELECT MAX(a2.dbdate) FROM allFileHistory3 a2 "
+						+ "WHERE a1.file_id = a2.file_id) GROUP BY a1.file_id;");
 	}
 	
 	private Set<QueryData> processDBResults(ResultSet rs) {
 		Set<QueryData> processed = new HashSet<QueryData>();
 		try {
-			int counts = 0;
-			while (rs.next()) {
-				counts++;
-				QueryData data = populateQueryData(rs);
-				if (data != null) {
-					processed.add(data);
-				}
-			}
-			System.out.println(counts + " processed");
+			populateAllItems(rs, processed);
 			rs.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -82,35 +75,56 @@ public class QueryDatabase {
 		return processed;
 	}
 
-	private QueryData populateQueryData(ResultSet rs) throws SQLException {
-		QueryData data = new QueryData();
-		Set<String> columns = new HashSet<String>(Arrays.asList(new String[]{"ncloc", "churn", 
-				"complexity", "delta_complexity", /*"issues", "delta_issues", "coverage", "delta_coverage"*/}));
+	private void populateAllItems(ResultSet rs, Set<QueryData> processed) throws SQLException {
+		int counts = 0;
+		while (rs.next()) {
+			counts++;
+			populateItemIfNoException(rs, processed);
+		}
+		System.out.println(counts + " processed");
+	}
+
+	private void populateItemIfNoException(ResultSet rs, Set<QueryData> processed) {
 		try {
-			data.setKey(rs.getString("file_key"));
-			data.setName(rs.getString("name"));
-			extractAuthors(data, rs);
+			processed.add(populateQueryData(rs));
+		} catch (Exception e) {
+			
+		}
+	}
+
+	private QueryData populateQueryData(ResultSet rs) throws Exception {
+		QueryData data = new QueryData();
+		populateStringValues(rs, data);
+		populateMetrics(rs, data);
+		return data;
+	}
+
+	private void populateMetrics(ResultSet rs, QueryData data) {
+		for (String column : METRIC_COLUMNS) {
+			populateSingleMetric(data, column, rs);
+		}
+	}
+
+	private void populateStringValues(ResultSet rs, QueryData data) throws SQLException, Exception {
+		data.setKey(rs.getString("file_key"));
+		data.setName(rs.getString("name"));
+		data.setAuthors(extractAuthors(rs));
 //			data.setIssues(rs.getDouble("issues"));
 //			data.setDeltaIssues(rs.getDouble("deltaIssues"));
 //			data.setCoverage(rs.getDouble("coverage"));
 //			data.setDeltaCoverage(rs.getDouble("deltaCoverage"));
-		} catch (Exception e) {
-			System.out.println("Error populating string fields");
-			return null;
-		}
-		for (String column : columns) {
-			populateSingleMetric(data, column, rs);
-		}
-		return data;
 	}
 	
-	private void extractAuthors(QueryData data, ResultSet rs) throws Exception {
+	private List<String>  extractAuthors(ResultSet rs) throws Exception {
 		List<String> authorSet = new ArrayList<String>();
 		String authors = rs.getString("authors");
-		if (rs.wasNull()) {
-			data.setAuthors(authorSet);
-			return;
-		}
+		if (!rs.wasNull()) {
+			parseAndExtractAuthors(authorSet, authors);
+		}	
+		return authorSet;
+	}
+
+	private void parseAndExtractAuthors(List<String> authorSet, String authors) {
 		authors = authors.replace("[", ",").replace("]", ",");
 		String[] authorArray = authors.split(",");
 		for (String author : authorArray) {
@@ -119,7 +133,6 @@ public class QueryDatabase {
 				authorSet.add(author);
 			}
 		}
-		data.setAuthors(authorSet);
 	}
 
 	private void populateSingleMetric(QueryData data, String metric, ResultSet rs) {
@@ -150,5 +163,27 @@ public class QueryDatabase {
 		}
 		set.append(")");
 		return set.toString();
+	}
+	
+
+	private ResultSet queryDeltaMetrics(ConvertDate startDate, ConvertDate endDate, Set<ConvertProject> projects) {
+		return conn.basicQuery("SELECT MAX(allFileHistory3.file_key) as file_key, static.complexity AS complexity, "
+			+ "static.ncloc AS ncloc, allFileList.name, COALESCE(SUM(delta_complexity), 0) AS delta_complexity, "
+			+ "COALESCE(GROUP_CONCAT(authors, \"\"), \"\") as authors, COALESCE(SUM(churn), 0) AS churn "
+		+ "FROM allFileHistory3 "
+		+ "JOIN allFileList ON allFileList.file_id = allFileHistory3.file_id "
+		+ "INNER JOIN (SELECT allFileHistory3.file_id, complexity, ncloc "
+			+ "FROM allFileHistory3 "
+			+ "JOIN allFileList ON allFileList.file_id = allFileHistory3.file_id "
+			+ "INNER JOIN (SELECT file_id, MAX(dbdate) AS maxdate FROM allFileHistory3 "
+				+ "WHERE dbdate <= '" + endDate.getDBFormat() + "' AND dbdate > '" + 
+					startDate.getDBFormat() + "' GROUP BY file_id) dates "
+				+ "ON allFileHistory3.file_id = dates.file_id "
+				+ "WHERE allFileList.project_id IN " + projectIDSet(projects) + " AND qualifier != 'UTS' AND "
+				+ "allFileHistory3.dbdate = dates.maxdate) AS static ON "
+				+ "allFileHistory3.file_id = static.file_id WHERE qualifier != 'UTS' AND "
+				+ "allFileList.project_id IN " + projectIDSet(projects) + " AND dbdate <= "
+				+ "'" + endDate.getDBFormat() + "' AND dbdate > '" + startDate.getDBFormat() + "' "
+				+ "GROUP BY allFileHistory3.file_id;");
 	}
 }
