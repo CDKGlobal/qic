@@ -23,8 +23,7 @@ public class DatabaseConnectorTest {
         conn = DriverManager.getConnection("jdbc:mysql://dc2pvpdc00059.vcac.dc2.dsghost.net:3306/TestDatabase?" +
                         "user=root&password=password");
         stmt = conn.createStatement();
-        Boolean rs = false;
-        rs = stmt.execute("DELETE FROM allFileHistory3");
+        stmt.execute("DELETE FROM allFileHistory3");
         /*
          * rs).executeQuery(
          * "INSERT INTO allFileHistory3 (file_id, file_key, name, ncloc, complexity, dbdate,delta_complexity, churn, authors) "
@@ -38,7 +37,7 @@ public class DatabaseConnectorTest {
         Connection connection = DatabaseConnector.getConnection();
         try {
             Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM allFileHistory3");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM allFileHistory3 LIMIT 10");
             assertTrue(rs.next());
         } catch (SQLException e) {
             e.printStackTrace();
