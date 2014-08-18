@@ -114,4 +114,6 @@ public class QueryData {
 	public void setAuthors(List<String> authors) {
 		this.authors = authors;
 	}
+	
+	
 }
