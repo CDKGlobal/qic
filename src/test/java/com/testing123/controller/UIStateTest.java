@@ -31,9 +31,9 @@ public class UIStateTest {
     public void TestInitialUIState() {
         UIState state = new UIState();
         state.verifyState();
-        assertEquals("07/29/2014", state.getStart().toString());
-        assertEquals("07/30/2014", state.getEnd().toString());
         assertEquals(XAxis.DELTA_LINESOFCODE, state.getX());
+        assertEquals(new HashSet<ConvertProject>(), state.getProjects());
+        assertEquals(new HashSet<String>(), state.getAuthorsFilter());
     }
 
     @Test
@@ -106,8 +106,8 @@ public class UIStateTest {
 
     @Test
     public void TestGetStateURI() {
-        UIState state = new UIState();
-        String expectedURL = "qic.cobalt.com:8080/?st=2014-07-29&end=2014-07-30&x=churn&y=complexity&proj=&auth=";
+        UIState state = new UIState(date1,date2,XAxis.DELTA_LINESOFCODE);
+        String expectedURL = "qic.cobalt.com:8080/?st=2014-07-01&end=2014-07-03&x=churn&y=complexity&proj=&auth=";
         String actualURL = state.getStateURI();
         assertEquals(expectedURL, actualURL);
     }
