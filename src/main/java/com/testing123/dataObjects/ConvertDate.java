@@ -18,7 +18,6 @@ public class ConvertDate implements Comparable<ConvertDate> {
 		this.month = Integer.parseInt(date[1]);
 		this.day = Integer.parseInt(date[2]);
 		this.shortFormat = String.format("%04d-%02d-%02d", year, month, day);
-		//this.shortFormat = "" + year + "-" + month + "-" + day;
 		checkRep();
 	}
 	
@@ -28,6 +27,7 @@ public class ConvertDate implements Comparable<ConvertDate> {
 		this.month = date.getMonthOfYear();
 		this.day = date.getDayOfMonth();
 		this.shortFormat = String.format("%04d-%02d-%02d", year, month, day);
+		checkRep();
 	}
 	
 	public ConvertDate(int year, int month, int day) {
@@ -46,6 +46,10 @@ public class ConvertDate implements Comparable<ConvertDate> {
 		return day;
 	}
 
+	public DateTime getDateTime() {
+		return new DateTime(year, month, day, 0, 0);
+	}
+	
 	public String getDBFormat() {
 		return shortFormat;
 	}
