@@ -4,6 +4,8 @@ import java.util.Date;
 
 import org.joda.time.DateTime;
 
+import com.testing123.vaadin.RegexUtil;
+
 public class ConvertDate implements Comparable<ConvertDate> {
 	private String shortFormat;
 	private int year;
@@ -49,18 +51,8 @@ public class ConvertDate implements Comparable<ConvertDate> {
 	}
 	
 	private void checkRep() {
-		String[] date = shortFormat.split("-");
-		if (date.length != 3) {
-			throw new IllegalStateException("Date format corrupted");
-		}
-		if (date[0] == null || date[1] == null || date[2] == null) {
-			throw new IllegalStateException("Date format corrupted");
-		}
-		if (month < 1 || month > 12) {
-			throw new IllegalStateException("Date format corrupted: month - " + month);
-		}
-		if (day < 1 || day > 31) {
-			throw new IllegalStateException("Date format corrupted: day - " + day);
+		if (!RegexUtil.isCorrectDateFormat(shortFormat)){
+			throw new IllegalStateException("Incorrect Date Format");
 		}
 	}
 	
