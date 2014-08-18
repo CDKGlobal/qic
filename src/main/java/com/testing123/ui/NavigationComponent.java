@@ -298,7 +298,6 @@ public class NavigationComponent extends CustomComponent {
 		
 		// link text field
 		linkBox = new TextField();
-		linkBox.setCaption("Use this link to bookmark the current view");
         linkBox.setImmediate(false);
         linkBox.setWidth("700px");
 		
@@ -313,11 +312,14 @@ public class NavigationComponent extends CustomComponent {
 			@Override
 			public void buttonClick(ClickEvent event) {
 				UI.getCurrent().removeWindow(w);
-				w = new Window("Share Link");
+				w = new Window("Use this link to bookmark this view");
 				w.setPositionX(500);
-                w.setPositionY(150);
-                w.setContent(linkBox);
+                w.setPositionY(140);
+                FormLayout f = new FormLayout();
+                f.addStyleName("link_box");
+                f.addComponent(linkBox);
 				linkBox.setValue(state.getStateURI());
+                w.setContent(f);
 		        UI.getCurrent().addWindow(w);
 			}	
 		});

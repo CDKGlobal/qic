@@ -5219,7 +5219,7 @@ body .mytheme.v-app .v-app-loading {
 
 .mytheme .black .v-label-h1, .mytheme .black .v-label-h2, .mytheme .black .v-caption-h1, .mytheme .black .v-caption-h2, .mytheme .white .black .v-label-h1, .mytheme .white .black .v-label-h2, .mytheme .white .black .v-caption-h1, .mytheme .white .black .v-caption-h2, .mytheme .blue .black .v-label-h1, .mytheme .blue .black .v-label-h2, .mytheme .blue .black .v-caption-h1, .mytheme .blue .black .v-caption-h2 {
 	color: #fff;
-	text-shadow: rgba(0, 0, 0, 0.8) 0 2px 2px;
+	text-shadow: /*rgba(0, 0, 0, 0.8) 0 2px 2px*/;
 }
 
 .mytheme .black .v-label-light, .mytheme .white .black .v-label-light {
@@ -5360,10 +5360,10 @@ body .mytheme.v-app .v-app-loading {
 }
 
 .mytheme .v-menubar {
-	height: 23px;
+	height: 30px;
 	background: #323336 repeat-x;
 	background-image: url();/** sprite-ref: verticals; sprite-alignment: repeat */
-	color: #d1d3d6;
+	color: white;
 	text-shadow: rgba(0, 0, 0, 0.9) 0 1px 0;
 	padding: 0 10px;
 }

@@ -6,6 +6,7 @@ import java.util.Set;
 
 import com.vaadin.server.Page;
 import com.vaadin.server.Sizeable;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
@@ -17,6 +18,7 @@ import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.MenuBar.Command;
 import com.vaadin.ui.MenuBar.MenuItem;
+import com.vaadin.ui.Panel;
 import com.vaadin.ui.PopupDateField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
@@ -30,6 +32,7 @@ public class OptionsComponent extends CustomComponent {
 	protected Window window2;
 	protected Window window3;
 	protected Window window4;
+	protected Window helpW;
 
 	public OptionsComponent() {
 		//this.window = new Window("Date Range");
@@ -63,8 +66,8 @@ public class OptionsComponent extends CustomComponent {
 		mainLayout.setWidthUndefined();
 		mainLayout.setHeight("100%");
 		mainLayout.addStyleName("toolbar-background");
+		
 		MenuBar menu = new MenuBar();
-		//menu.
 		menu.setHeight("100%");
 		menu.setStyleName("main_menubar");
 		
@@ -85,9 +88,38 @@ public class OptionsComponent extends CustomComponent {
 		shareButton.addStyleName("share_button");
 		mainLayout.addComponent(shareButton);
 		
+		MenuBar help = new MenuBar();
+		help.setHeight("100%");
+		help.setStyleName("main_menubar");
+		helpOptions(help);
+		mainLayout.addComponent(help);
+		
 		mainLayoutContainer.addComponent(mainLayout);
 		setCompositionRoot(mainLayoutContainer);
 		return mainLayoutContainer;
+	}
+	
+	private void helpOptions(MenuBar menu) {
+		menu.addItem("Help", null, new Command() {
+
+			@Override
+			public void menuSelected(MenuItem selectedItem) {
+				UI.getCurrent().removeWindow(helpW);
+				helpW = new Window("Help");
+				helpW.setPositionX(500);
+                helpW.setPositionY(140);
+				Label label = new Label(
+						"<p>The main function of QIC is to display the changes in Churn and Complexity "
+								+ "over two dates selected dates.  It can also show the number of non-commented "
+								+ "lines of code during a given date (specified in 'End Date').  For each file, it "
+								+ "will plot the chosen value on the x axis, and its final complexity on the y-axis. </p>",
+								 ContentMode.HTML);
+				label.addStyleName("help_label");
+                helpW.setWidth("400px");
+                helpW.setContent(label);
+		        UI.getCurrent().addWindow(helpW);
+			}
+		});
 	}
 	
 	private void authorsOptions(MenuBar menu) {

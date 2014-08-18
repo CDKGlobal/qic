@@ -1,9 +1,33 @@
 /* 5365 removed background image */
 /* 5368 10 px padding */
+/* 5366 color white */
+/* 2323 text underline */
+/* 5222 text shadow */
 
 div .header_background {
 	background-color: #082A69;
 	text-align: center;	
+}
+ 
+span.v-menubar-menuitem-caption {
+	text-decoration: underline;
+}
+
+span.v-menubar-menuitem-caption:hover {
+	cursor:pointer;
+}
+
+.v-formlayout-link_box {
+	padding: 10px;
+}
+
+.v-label-help_label { 
+	padding: 10px;
+}
+
+div .v-label.v-widget.h1.v-label-h1.v-has-width {
+	text-shadow: 0px 0px 0px #000000;
+	padding-top: 21px;
 }
  
 div .h1 {
