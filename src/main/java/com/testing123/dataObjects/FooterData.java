@@ -14,19 +14,19 @@ public class FooterData {
 		return total;
 	}
 	public int getNegative() {
-		return negative;
+		return negative * -1;
 	}
 	public int getPositive() {
 		return positive;
 	}
 	
-	public void addPositive(int i){
-		positive += i;
-		total += i;
+	public void addPositive(double d){
+		positive += d;
+		total += d;
 	}
-	public void addNegative(int i){
-		negative += i;;
-		total += i;
+	public void addNegative(double d){
+		negative += d;;
+		total += d;
 	}
 	public void addTotal(int i){
 		total +=i;

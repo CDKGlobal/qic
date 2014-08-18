@@ -22,6 +22,14 @@ public class DataPointSet {
 		posVals.add(pt);
 	}
 	
+	public Set<DataPoint> getNegVals() {
+		return negVals;
+	}
+
+	public Set<DataPoint> getPosVals() {
+		return posVals;
+	}
+
 	public String toString() {
 		return "[ { data: " + negVals + ", points: { show: true, fill: true, fillColor: \"" + 
 				Preferences.FILL_COLOR_NEG + "\" } }, " + 
