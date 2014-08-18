@@ -14,7 +14,7 @@ public class FooterData {
 		return total;
 	}
 	public int getNegative() {
-		return negative * -1;
+		return negative;
 	}
 	public int getPositive() {
 		return positive;
@@ -25,11 +25,11 @@ public class FooterData {
 		total += d;
 	}
 	public void addNegative(double d){
-		negative += d;;
+		negative -= d;;
 		total += d;
 	}
-	public void addTotal(int i){
-		total +=i;
+	public void setTotal(){
+		total = positive + negative;
 	}
 	
 }

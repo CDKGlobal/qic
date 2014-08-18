@@ -26,8 +26,8 @@ public class FooterDataTest {
 	@Test
 	public void testAddNegative(){
 		FooterData addNeg = new FooterData();
-		addNeg.addNegative(1);
-		addNeg.addNegative(123);
+		addNeg.addNegative(-1);
+		addNeg.addNegative(-123);
 		addNeg.addNegative(0);
 		assertEquals(124, addNeg.getNegative());		
 	}
@@ -35,12 +35,17 @@ public class FooterDataTest {
 	@Test
 	public void testTotal(){
 		FooterData total = new FooterData();
-		total.addNegative(13);
+		total.addNegative(-13);
 		total.addPositive(19);
-		total.addTotal(7);
+
 		assertEquals(13,total.getNegative());
 		assertEquals(19,total.getPositive());
-		assertEquals(39,total.getTotal());
+		assertEquals(6,total.getTotal());
+		
+		total.setTotal();
+		assertEquals(13,total.getNegative());
+		assertEquals(19,total.getPositive());
+		assertEquals(32,total.getTotal());
 	}
 
 }

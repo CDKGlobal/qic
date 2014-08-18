@@ -1,6 +1,5 @@
 package com.testing123.vaadin;
 
-import com.testing123.controller.UIState.XAxis;
 import com.testing123.dataObjects.DataPoint;
 import com.testing123.dataObjects.DataPointSet;
 import com.testing123.dataObjects.FooterData;
@@ -18,7 +17,11 @@ public class FooterSummary {
 		return data;
 	}
 	
-	public static FooterData getFooterDataByFile(DataPointSet points, XAxis x){
-		return null;	
+	public static FooterData getFooterDataByFile(DataPointSet points){
+		FooterData data = new FooterData();
+		data.addNegative(points.getNegVals().size() * -1);
+		data.addPositive(points.getPosVals().size());
+		data.setTotal();
+		return data;
 	}
 }
