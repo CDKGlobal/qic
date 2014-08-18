@@ -37,7 +37,6 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
-import com.zybnet.autocomplete.server.AutocompleteField;
 
 @SuppressWarnings("serial")
 public class NavigationComponent extends CustomComponent {
@@ -122,9 +121,31 @@ public class NavigationComponent extends CustomComponent {
 	    content3.addComponent(projectForm);
 	    projectForm.setMargin(true);
 	    
-        // Set the appropriate filtering mode for this example
         final ComboBox autoProjectBox = new ComboBox("Choose Projects");
-        autoProjectBox.setFilteringMode(FilteringMode.CONTAINS);
+        buildProjectSuggestionBox(autoProjectBox);
+		projectForm.addComponent(autoProjectBox);
+		projectForm.addComponent(filter.getProjectFilter());
+	    	    
+	    final VerticalLayout content4 = new VerticalLayout();
+	    
+		final FormLayout authorForm = new FormLayout();
+	    content4.addComponent(authorForm);
+	    authorForm.setMargin(true);
+	    
+        final ComboBox autoAuthorBox = new ComboBox("Choose authors");
+        buildAuthorSuggestionBox(autoAuthorBox);
+        authorForm.addComponent(autoAuthorBox);
+	    authorForm.addComponent(filter.getAuthorsFilter());
+	    
+	    //optionsBar.getWindow().setContent(content);
+	    //optionsBar.getWindow2().setContent(content2);
+	    optionsBar.getWindow3().setContent(content3);
+	    optionsBar.getWindow4().setContent(content4);
+	    optionsBar.buildMainLayout(startDateField, endDateField, xAxisComboBox, goButton, linkBox, shareButton);
+	}
+
+	private void buildProjectSuggestionBox(final ComboBox autoProjectBox) {
+		autoProjectBox.setFilteringMode(FilteringMode.CONTAINS);
         autoProjectBox.setImmediate(true);
         autoProjectBox.setNullSelectionAllowed(false);
 		for (ConvertProject project : new UseSQLDatabase().getAvailableProjects()) {
@@ -137,18 +158,10 @@ public class NavigationComponent extends CustomComponent {
                 autoProjectBox.select(null);
             }
         });
-		projectForm.addComponent(autoProjectBox);
-		projectForm.addComponent(filter.getProjectFilter());
-	    	    
-	    final VerticalLayout content4 = new VerticalLayout();
-	    
-		final FormLayout authorForm = new FormLayout();
-	    content4.addComponent(authorForm);
-	    authorForm.setMargin(true);
-	    
-        // Creates a new combobox using an existing container
-        final ComboBox autoAuthorBox = new ComboBox("Choose authors");
-        autoAuthorBox.setInputPrompt("Search for an author");
+	}
+
+	private void buildAuthorSuggestionBox(final ComboBox autoAuthorBox) {
+		autoAuthorBox.setInputPrompt("Search for an author");
 
         // Set the appropriate filtering mode for this example
         autoAuthorBox.setFilteringMode(FilteringMode.STARTSWITH);
@@ -164,14 +177,6 @@ public class NavigationComponent extends CustomComponent {
                 autoAuthorBox.select(null);
             }
         });
-        authorForm.addComponent(autoAuthorBox);
-	    authorForm.addComponent(filter.getAuthorsFilter());
-	    
-	    //optionsBar.getWindow().setContent(content);
-	    //optionsBar.getWindow2().setContent(content2);
-	    optionsBar.getWindow3().setContent(content3);
-	    optionsBar.getWindow4().setContent(content4);
-	    optionsBar.buildMainLayout(startDateField, endDateField, xAxisComboBox, goButton, linkBox, shareButton);
 	}
 
 	private void buildProjectFilter(final VerticalLayout content2) {
@@ -275,7 +280,7 @@ public class NavigationComponent extends CustomComponent {
 				
 				if (((Set<ConvertProject>) filter.projectFilter.getValue()).size() == 0) {
 					displayMessage("No Projects Selected!", "Click 'Select Project' to select one or more projects",
-							Notification.Type.HUMANIZED_MESSAGE);
+							Notification.Type.WARNING_MESSAGE);
 				}				
 				state.setProjects((Set<ConvertProject>) filter.projectFilter.getValue());
 				state.setAuthorsFilter((Set<String>) filter.authorsFilter.getValue()); 
@@ -293,6 +298,7 @@ public class NavigationComponent extends CustomComponent {
 		
 		// link text field
 		linkBox = new TextField();
+		linkBox.setCaption("Use this link to bookmark the current view");
         linkBox.setImmediate(false);
         linkBox.setWidth("700px");
 		
@@ -309,7 +315,7 @@ public class NavigationComponent extends CustomComponent {
 				UI.getCurrent().removeWindow(w);
 				w = new Window("Share Link");
 				w.setPositionX(500);
-                w.setPositionY(70);
+                w.setPositionY(150);
                 w.setContent(linkBox);
 				linkBox.setValue(state.getStateURI());
 		        UI.getCurrent().addWindow(w);
