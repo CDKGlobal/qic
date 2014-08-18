@@ -85,11 +85,18 @@ public class MainComponent extends CustomComponent {
 
     public Label getSummary(XAxis xValue, DataPointSet dataPointList) {
         String summary = "";
-        FooterData ftData = null;
-        if (xValue.getColName().equals("churn")) {
-            ftData = FooterSummary.getFooterData(dataPointList, xValue);
+        FooterData ftData = FooterSummary.getFooterData(dataPointList);
+        FooterData ftDataByFile = FooterSummary.getFooterDataByFile(dataPointList);
+        if (xValue.equals(XAxis.DELTA_LINESOFCODE)) {
+            summary += "Churn : " + ftData.getTotal();
+        } else if (xValue.equals(XAxis.DELTA_COMPLEXITY)) {
+            summary += "Total Change in Cyclomatic Complexity for the project : " + ftData.getTotal() + " ( +" + ftData.getPositive() + ", -" + ftData.getNegative() + " ).";
+            summary += "Change in Cyclomatic Complexity by files : " + ftDataByFile.getTotal() + " ( " + ftDataByFile.getPositive() + "+, " + ftDataByFile.getNegative() + "-).";
+        } else if (xValue.equals(XAxis.LINESOFCODE)) {
+            summary += "Total Change in Non Commented Lines of Code for the project : " + ftData.getTotal() + " ( +" + ftData.getPositive() + ", -" + ftData.getNegative() + " ).";
+            summary += "Change in Non Commented Lines of Code by files : " + ftDataByFile.getTotal() + " ( " + ftDataByFile.getPositive() + "+, " + ftDataByFile.getNegative() + "-).";
         }
-        Label summaryLabel = new Label();
+        Label summaryLabel = new Label(summary);
         return summaryLabel;
     }
 }
