@@ -20,8 +20,8 @@ com_testing123_ui_Graph = function() {
 			$('<div id="tooltip">' + item.series.data[item.dataIndex][2]+'<br />'+"["+item.datapoint[0]+","+item.datapoint[1]+"]" + 
 				'<br />' + item.series.data[item.dataIndex][3] + '</div>').css( {
 				position: 'absolute',
-				top: item.pageY + 5,
-				left: item.pageX + 5,
+				top: item.pageY + 10,
+				left: item.pageX - 200,
 				border: '1px solid #fdd',
 				padding: '2px',
 				'background-color': '#fee',

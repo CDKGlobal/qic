@@ -1,3 +1,6 @@
+/* 5365 removed background image */
+/* 5368 10 px padding */
+
 div .header_background {
 	background-color: white;
 	text-align: center
@@ -12,7 +15,68 @@ div .h1 {
 	margin: 0.5em;
 }
 
-.main_menubar {
-	background-color: blue;
-	size: 200%;
+.v-slot-dates {
+	padding-left: 10px;
+	width: 106px;
+}
+
+.v-caption-dates {
+	color: white;
+}
+
+
+.v-horizontallayout-toolbar-background {
+	padding: 3px;
+	background-color: #323336;
+}
+
+.v-slot-go_button {
+	padding-left: 10px;
+	padding-top: 10px;	
+	vertical-align: middle;
+}
+
+.v-slot-main_menubar {
+	padding-top: 10px;
+	background-color: #323336;
+	vertical-align: middle;
+}
+
+.v-tooltip {
+	background-color: #fffcdd;
+	border: 1px solid #b8b295;
+	border-top-color: #d5d2c1;
+	border-left-color: #d5d2c1;
+	font-size: 11px;
+	font-family: arial, helvetica, tahoma, verdana, sans-serif;
+	color: #5d5444;
+}
+
+.v-tooltip-text {
+	padding: 2px 4px;
+	border: none;
+	border-top: 1px solid #fffef5;
+	border-bottom: 1px solid #fbf8d9;
+}
+
+.v-tooltip .v-errormessage {
+	padding: 3px 4px 3px 4px;
+	background: #ffecc6;
+	color: #b74100;
+    border: none;
+    border-top: 1px solid #fff3dc;
+    border-bottom: 1px solid #ead7b1;
+}
+
+.v-tooltip .v-errormessage h2 {
+	font-size: 16px;
+	font-weight: normal;
+	color: #ab3101;
+	margin: 2px 0 8px 0;
+}
+
+.v-tooltip .v-errormessage h3 {
+	font-size: 13px;
+	font-weight: bold;
+	margin: 1px 0 4px 0;
 }
