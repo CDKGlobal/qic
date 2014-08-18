@@ -11,9 +11,10 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.ListSelect;
 import com.vaadin.ui.TwinColSelect;
 
+@SuppressWarnings("serial")
 public class FilterComponent extends CustomComponent {
 	protected AbsoluteLayout mainLayout;
-	protected ListSelect projectFilter;
+	protected TwinColSelect projectFilter;
 	protected TwinColSelect authorsFilter;
 	private UIState state;
 	private DatabaseInterface database;
@@ -29,22 +30,30 @@ public class FilterComponent extends CustomComponent {
 		this(state, new UseSQLDatabase());
 	}
 	
+	public TwinColSelect getProjectFilter() {
+		return projectFilter;
+	}
+	
+	public TwinColSelect getAuthorsFilter() {
+		return authorsFilter;
+	}
+	
 	private AbsoluteLayout buildMainLayout() {
 		createFilterComponentLayout();
 		
 		List<ConvertProject> projectOptions = database.getAvailableProjects();
-        projectFilter = createListSelect("projects", projectOptions);
+        projectFilter = createProjectsSelect("projects", projectOptions);
         mainLayout.addComponent(projectFilter, "top: 50px; left: 20px;");
         
         List<String> authorOptions = database.getAvailableAuthors();
         
-		authorsFilter = createTwinColSelect(authorOptions);
+		authorsFilter = createAuthorsSelect(authorOptions);
 		mainLayout.addComponent(authorsFilter, "top: 220px; left: 20px;");
 		
 		return mainLayout;
 	}
 	
-	private TwinColSelect createTwinColSelect(List<String> options) {
+	private TwinColSelect createAuthorsSelect(List<String> options) {
 		TwinColSelect filter = new TwinColSelect();
 		for (String author : options) {
             filter.addItem(author);
@@ -62,19 +71,33 @@ public class FilterComponent extends CustomComponent {
         return filter;
 	}
 	
-	private ListSelect createListSelect(String label, List<ConvertProject> options) {
-		ListSelect filter = new ListSelect("Please select one or more " + label);
-        for (ConvertProject option : options) {
+	private TwinColSelect createProjectsSelect(String label, List<ConvertProject> options) {
+		TwinColSelect filter = new TwinColSelect();
+		for (ConvertProject option : options) {
             filter.addItem(option);
         }
-        filter.setRows(10);
+        filter.setRows(14);
         filter.setNullSelectionAllowed(true);
         filter.setMultiSelect(true);
         filter.setImmediate(true);
-        filter.setWidth("350px");
-        for (ConvertProject selectedProject : state.getProjects()) {
-        	filter.select(selectedProject);
+        filter.setLeftColumnCaption("Available projects");
+        filter.setRightColumnCaption("Selected projects");
+        filter.setWidth("700px");
+        for (ConvertProject option : state.getProjects()) {
+        	filter.select(option);
         }
+//		ListSelect filter = new ListSelect("Please select one or more " + label);
+//        for (ConvertProject option : options) {
+//            filter.addItem(option);
+//        }
+//        filter.setRows(10);
+//        filter.setNullSelectionAllowed(true);
+//        filter.setMultiSelect(true);
+//        filter.setImmediate(true);
+//        filter.setWidth("350px");
+//        for (ConvertProject selectedProject : state.getProjects()) {
+//        	filter.select(selectedProject);
+//        }
         return filter;
 	}
 	
@@ -83,7 +106,7 @@ public class FilterComponent extends CustomComponent {
 		mainLayout = new AbsoluteLayout();
 		mainLayout.setImmediate(false);
 //		mainLayout.setWidth("400px");
-		mainLayout.setHeight("450px");
+		//mainLayout.setHeight("450px");
 		
 		// top-level component properties
 		setSizeFull();

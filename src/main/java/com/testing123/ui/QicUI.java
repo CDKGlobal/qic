@@ -18,8 +18,6 @@ import com.vaadin.server.VaadinServletService;
 import com.vaadin.shared.communication.PushMode;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.AbsoluteLayout;
-import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
@@ -54,7 +52,7 @@ public class QicUI extends UI {
 	public static class Servlet extends VaadinServlet {
 
 		/**
-		 * Included for threadding
+		 * Included for threading
 		 */
 	    @Override
 	    protected VaadinServletService createServletService(DeploymentConfiguration deploymentConfiguration) throws ServiceException {
@@ -113,14 +111,7 @@ public class QicUI extends UI {
 		headingText.setStyleName("header_background");
 		mainVerticalLayout.addComponent(headingText);
 		
-		OptionsComponent MenuBar = new OptionsComponent();
-		mainVerticalLayout.addComponent(MenuBar);
-		
-		final HorizontalLayout container = new HorizontalLayout();
-		container.setWidth("100%");
-		mainVerticalLayout.addComponent(container);
-		
-		NavigationComponent nav = new NavigationComponent(container, state);
+		NavigationComponent nav = new NavigationComponent(mainVerticalLayout, state);
 		mainVerticalLayout.addComponent(nav);
 	}
 }

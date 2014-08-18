@@ -3,22 +3,13 @@
 
 div .header_background {
 	background-color: #082A69;
-	text-align: center;
-	
+	text-align: center;	
 }
  
 div .h1 {
-	text-align:justify;
-	font-size:88px;
+	text-align: justify;
+	font-size: 88px;
 } 
-
-div .b {
-	text-align:right;
-}
-
-.mytheme .v-slot, .mytheme .v-spacing {
-	vertical-align: middle;
-}
 
 .v-slot-main_title {
 	color: white;
@@ -30,20 +21,33 @@ div .b {
 	width: 106px;
 }
 
-.v-caption-dates {
-	color: white;
+.v-slot-axis {
+	padding-left: 10px;
 }
 
+.v-caption-dates, .v-caption-axis {
+	color: white;
+}
 
 .v-horizontallayout-toolbar-background {
 	padding: 3px;
 	background-color: #323336;
 }
 
->>>> ORIGINAL //Playpen/QIC2/src/main/webapp/VAADIN/themes/mytheme/custom.css#1
-==== THEIRS //Playpen/QIC2/src/main/webapp/VAADIN/themes/mytheme/custom.css#2
 .v-slot-go_button {
 	padding-left: 10px;
+	padding-top: 10px;	
+	vertical-align: middle;
+}
+
+.v-slot-share_button {
+	padding-left: 10px;
+	padding-top: 10px;	
+	vertical-align: middle;
+}
+
+.v-slot-linkbox {
+	padding-left: 20px;
 	padding-top: 10px;	
 	vertical-align: middle;
 }
@@ -91,9 +95,36 @@ div .b {
 	font-size: 13px;
 	font-weight: bold;
 	margin: 1px 0 4px 0;
-==== YOURS //weiyoud_sea-weiyoud_4033/Playpen/QIC2/src/main/webapp/VAADIN/themes/mytheme/custom.css
+}
+
+div .b {
+	text-align:right;
+}
+
+.mytheme .v-slot, .mytheme .v-spacing {
+	vertical-align: middle;
+}
+
+.v-slot-main_title {
+	color: white;
+	margin: 0.5em;
+}
+
+.v-slot-dates {
+	padding-left: 10px;
+	width: 106px;
+}
+
+.v-caption-dates {
+	color: white;
+}
+
+.v-horizontallayout-toolbar-background {
+	padding: 3px;
+	background-color: #323336;
+}
+
 .axisLabels {
-	color: red;
+	color: black;
 	font-size: 22px;
-<<<<
 }

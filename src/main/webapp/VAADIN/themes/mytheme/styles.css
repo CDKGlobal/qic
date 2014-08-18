@@ -5362,10 +5362,10 @@ body .mytheme.v-app .v-app-loading {
 .mytheme .v-menubar {
 	height: 23px;
 	background: #323336 repeat-x;
-	background-image: url(../reindeer/menubar/img/bg.png);/** sprite-ref: verticals; sprite-alignment: repeat */
+	background-image: url();/** sprite-ref: verticals; sprite-alignment: repeat */
 	color: #d1d3d6;
 	text-shadow: rgba(0, 0, 0, 0.9) 0 1px 0;
-	padding: 0 8px;
+	padding: 0 10px;
 }
 
 .mytheme .v-menubar .v-menubar-menuitem {
