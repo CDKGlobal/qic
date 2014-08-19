@@ -4,6 +4,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.testing123.controller.UIState.XAxis;
+
 /**
  * DataPoint represents an object that contains a file's information. It allows
  * this data to be stored so it can be easily plotted onto a graph
@@ -14,13 +16,13 @@ public class DataPoint implements Comparable<DataPoint> {
 	private double yValue;
 	private double xValue;
 	private Set<String> authors;
-
+	private XAxis xAxis;
 	/**
 	 * Constructs a null DataPoint object that represents a file that does not
 	 * exist.
 	 */
 	public DataPoint() {
-		this(null, -1, -1);
+		this(null, -1, -1, XAxis.DELTA_COMPLEXITY);
 	}
 
 	/**
@@ -33,11 +35,12 @@ public class DataPoint implements Comparable<DataPoint> {
 	 * @param lineOfCode
 	 *            the number of lines of code in the file
 	 */
-	public DataPoint(String key, double xValue, double yValue) {
+	public DataPoint(String key, double xValue, double yValue, XAxis x) {
 		this.key = key;
 		this.xValue = xValue;
 		this.authors = new HashSet<String>();
 		this.yValue = yValue;
+		this.xAxis = x;
 	}
 
 	public String getKey() {
@@ -78,8 +81,19 @@ public class DataPoint implements Comparable<DataPoint> {
 
 	@Override
 	public String toString() {
-		return "[" + xValue + ", " + yValue + ", \"" + key + "\", \"" + formattedAuthors() + "\"]";
+		return "[" + xValue + ", " + yValue + ", \"" + key + "\", \"" + formattedAuthors() + "\",\"" + getXLable() + "\"]";
 
+	}
+
+	private String getXLable() {
+		if(xAxis.equals(XAxis.DELTA_COMPLEXITY)){
+			return "Changed Complexity: ";
+		}else if(xAxis.equals(XAxis.DELTA_LINESOFCODE)){
+			return "Modified Lines Of Code: ";
+		}else if(xAxis.equals(XAxis.LINESOFCODE)){
+			return "Total Non-Comment Lines Of Code: ";
+		}
+		return "Value: ";
 	}
 
 	private String formattedAuthors() {

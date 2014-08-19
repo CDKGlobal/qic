@@ -1,6 +1,5 @@
 package com.testing123.vaadin;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,11 +12,9 @@ import com.testing123.dataObjects.ConvertProject;
 import com.testing123.dataObjects.DataPoint;
 import com.testing123.dataObjects.DataPointSet;
 import com.testing123.dataObjects.QueryData;
-import com.testing123.ui.Preferences;
 
 public class GetData {
 	private QueryDatabase query;
-	private Set<String> repositories;
 	
 	// Used to cache previous query
 	private CacheTag tag;
@@ -25,7 +22,6 @@ public class GetData {
 	
 	public GetData() {
 		this.query = new QueryDatabase();
-		this.repositories = new HashSet<String>((Arrays.asList(Preferences.FISHEYE_REPOS)));
 		Set<ConvertProject> emptyProjects = new HashSet<ConvertProject>();
 		emptyProjects.add(new ConvertProject("", "", -1, ""));
 		this.tag = new CacheTag(new ConvertDate("0000-01-01"), new ConvertDate("0000-01-01"), emptyProjects, false);
@@ -87,7 +83,7 @@ public class GetData {
 		Set<DataPoint> results = new HashSet<DataPoint>();
 		for (QueryData data : dataSet) {
 			if (data.getMetric(x.getColName()) != 0.0) {
-				DataPoint point = new DataPoint(data.getKey(), data.getMetric(x.getColName()), data.getMetric(y.getColName()));
+				DataPoint point = new DataPoint(data.getKey(), data.getMetric(x.getColName()), data.getMetric(y.getColName()), x);
 				point.setAuthors(data.getAuthors());
 				results.add(point);
 			}
