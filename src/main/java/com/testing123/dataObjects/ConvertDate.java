@@ -54,6 +54,10 @@ public class ConvertDate implements Comparable<ConvertDate> {
 		return shortFormat;
 	}
 	
+	public String getDBFormatPlusOne(){
+		return String.format("%04d-%02d-%02d", year, month, day+1);
+	}
+	
 	private void checkRep() {
 		if (!RegexUtil.isCorrectDateFormat(shortFormat)){
 			throw new IllegalStateException("Incorrect Date Format");

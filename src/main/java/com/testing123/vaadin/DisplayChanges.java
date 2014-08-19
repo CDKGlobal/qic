@@ -5,7 +5,7 @@ import java.net.URL;
 
 import com.testing123.controller.UIState;
 import com.testing123.dataObjects.ConvertPath;
-import com.testing123.dataObjects.FisheyeData;
+import com.testing123.dataObjects.FisheyeInfo;
 import com.testing123.dataObjects.RepoAndDirData;
 import com.testing123.downloader.FisheyeQuery;
 import com.testing123.interfaces.DatabaseInterface;
@@ -31,18 +31,16 @@ public class DisplayChanges {
 		if(project.equals(new RepoAndDirData(null)))
 			return null;
 		ConvertPath path = new ConvertPath(fileKey);
-		FisheyeData changesets = fisheye.getRevisionList(project, path, state.getStart(), state.getEnd());
-		return getURL(project.getRepositoryName(), new ExtractFisheyeInfo(changesets));
+		FisheyeInfo revisionsToDiff = fisheye.ExtractFisheyeInfo(project, path, state.getStart(), state.getEnd());
+		return getURL(project.getRepositoryName(), revisionsToDiff);
 	}
-
-	private URL getURL(String repository, ExtractFisheyeInfo data) {
+	
+	private URL getURL(String repository, FisheyeInfo info) {
 		String fisheyeHomeLink = Preferences.FISHEYE_HOME;
 		URL url = null;
-		if(!data.exists()){
-			return null;
-		}
-		String link = fisheyeHomeLink + "/browse/" + repository + "/" + data.getCompleteFisheyePath() + "?r1=" + data.getRevision1()
-				+ "&r2=" + data.getRevision2();
+		String link = fisheyeHomeLink + "/browse/" + repository + "/" + info.getCompleteFisheyePath() + "?r1=" + info.getLatestRevision()
+				+ "&r2=" + info.getStartingRevision();
+		System.out.println(link);
 		try {
 			url = new URL(link);
 		} catch (MalformedURLException e) {
