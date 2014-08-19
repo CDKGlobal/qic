@@ -154,7 +154,7 @@ public class NavigationComponent extends CustomComponent {
 			}
 
 		});
-		projectButtons.addComponent(projectsDone, "left: 650px;");
+		projectButtons.addComponent(projectsDone, "left: 640px;");
 		
 		
 		projectForm.addComponent(projectButtons);
@@ -196,7 +196,7 @@ public class NavigationComponent extends CustomComponent {
 			}
 
 		});
-		authorButtons.addComponent(authorsDone, "left: 300px");
+		authorButtons.addComponent(authorsDone, "left: 290px");
 		
 		authorForm.addComponent(authorButtons);
 		
