@@ -452,7 +452,7 @@ public class NavigationComponent extends CustomComponent {
 		comboBox.setImmediate(immediate);
 		comboBox.setNullSelectionAllowed(false);
 		comboBox.setTextInputAllowed(false);
-		comboBox.setWidth(COMBOBOX_WIDTH);
+		comboBox.setWidth("280px");
 		comboBox.setHeight(DEFAULT_VALUE);
 		return comboBox;
 	}
