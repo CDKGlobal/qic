@@ -22,7 +22,6 @@ import com.vaadin.shared.Position;
 import com.vaadin.shared.ui.combobox.FilteringMode;
 import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.ui.AbsoluteLayout;
-import com.vaadin.ui.AbstractSelect.NewItemHandler;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComboBox;
@@ -145,6 +144,8 @@ public class NavigationComponent extends CustomComponent {
 	}
 
 	private void buildProjectSuggestionBox(final ComboBox autoProjectBox) {
+		autoProjectBox.setInputPrompt("Search for a project");
+		
 		autoProjectBox.setFilteringMode(FilteringMode.CONTAINS);
         autoProjectBox.setImmediate(true);
         autoProjectBox.setNullSelectionAllowed(false);
