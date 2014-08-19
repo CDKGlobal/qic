@@ -3,6 +3,7 @@ package com.testing123.ui;
 
 import com.testing123.controller.UIState;
 import com.testing123.controller.UIState.XAxis;
+import com.testing123.dataObjects.ConvertProject;
 import com.testing123.dataObjects.DataPointSet;
 import com.testing123.dataObjects.FooterData;
 import com.testing123.vaadin.FooterSummary;
@@ -96,6 +97,8 @@ public class MainComponent extends CustomComponent {
         chart.setOptions(FlotOptions.getString(state));
 
         graph.addComponent(chart, "top: 25px");
+        Label projectAndAuthorSelectedLabel = getProjectAndAuthorSelected(state);
+        graph.addComponent(projectAndAuthorSelectedLabel);
         return graph;
     }
 
@@ -114,5 +117,23 @@ public class MainComponent extends CustomComponent {
         }
         Label summaryLabel = new Label(summary);
         return summaryLabel;
+    }
+
+    public Label getProjectAndAuthorSelected(UIState state) {
+        int numberOfProjects = state.getProjects().size();
+        int numberOfAuthors = state.getAuthorsFilter().size();
+        String summary = numberOfProjects + " projects and " + numberOfAuthors + " authors selected. ";
+        if (numberOfProjects != 0) {
+            for (ConvertProject project : state.getProjects()) {
+                summary += "\n" + project.getName();
+            }
+        }
+        if (numberOfAuthors != 0) {
+            for (String author : state.getAuthorsFilter()) {
+                summary += "\n" + author;
+            }
+        }
+        Label projectAndAuthorSelected = new Label(summary);
+        return projectAndAuthorSelected;
     }
 }
