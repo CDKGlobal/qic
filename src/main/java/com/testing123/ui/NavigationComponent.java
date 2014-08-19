@@ -1,5 +1,7 @@
 package com.testing123.ui;
 
+import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 
@@ -9,6 +11,7 @@ import org.json.JSONException;
 
 import com.testing123.controller.UIState;
 import com.testing123.controller.UIState.XAxis;
+import com.testing123.controller.UIState.YAxis;
 import com.testing123.dataObjects.ConvertDate;
 import com.testing123.dataObjects.ConvertProject;
 import com.testing123.vaadin.DisplayChanges;
@@ -31,6 +34,7 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.JavaScript;
 import com.vaadin.ui.JavaScriptFunction;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.PopupDateField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
@@ -124,6 +128,37 @@ public class NavigationComponent extends CustomComponent {
         buildProjectSuggestionBox(autoProjectBox);
 		projectForm.addComponent(autoProjectBox);
 		projectForm.addComponent(filter.getProjectFilter());
+		
+		AbsoluteLayout projectButtons = new AbsoluteLayout();
+		projectButtons.setHeight("30px");
+		Button removeAllProjects = new Button("Remove All");
+		removeAllProjects.addClickListener(new Button.ClickListener() {
+			
+			@Override
+			public void buttonClick(ClickEvent event) {
+				Set<ConvertProject> selected = ((Set<ConvertProject>) filter.getProjectFilter().getValue());
+				for (ConvertProject selection : selected) {
+					filter.getProjectFilter().unselect(selection);
+				}
+			}
+
+		});
+		projectButtons.addComponent(removeAllProjects);
+		
+		Button projectsDone = new Button("Done");
+		projectsDone.addClickListener(new Button.ClickListener() {
+			
+			@Override
+			public void buttonClick(ClickEvent event) {
+				UI.getCurrent().removeWindow(optionsBar.getWindow3());
+			}
+
+		});
+		projectButtons.addComponent(projectsDone, "left: 650px;");
+		
+		
+		projectForm.addComponent(projectButtons);
+		
 	    	    
 	    final VerticalLayout content4 = new VerticalLayout();
 	    
@@ -136,8 +171,36 @@ public class NavigationComponent extends CustomComponent {
         authorForm.addComponent(autoAuthorBox);
 	    authorForm.addComponent(filter.getAuthorsFilter());
 	    
-	    //optionsBar.getWindow().setContent(content);
-	    //optionsBar.getWindow2().setContent(content2);
+		AbsoluteLayout authorButtons = new AbsoluteLayout();
+		authorButtons.setHeight("30px");
+		Button removeAllAuthors = new Button("Remove All");
+		removeAllAuthors.addClickListener(new Button.ClickListener() {
+			
+			@Override
+			public void buttonClick(ClickEvent event) {
+				Set<String> selected = ((Set<String>) filter.getAuthorsFilter().getValue());
+				for (String selection : selected) {
+					filter.getAuthorsFilter().unselect(selection);
+				}
+			}
+
+		});
+		authorButtons.addComponent(removeAllAuthors);
+	    
+		Button authorsDone = new Button("Done");
+		authorsDone.addClickListener(new Button.ClickListener() {
+			
+			@Override
+			public void buttonClick(ClickEvent event) {
+				UI.getCurrent().removeWindow(optionsBar.getWindow4());
+			}
+
+		});
+		authorButtons.addComponent(authorsDone, "left: 300px");
+		
+		authorForm.addComponent(authorButtons);
+		
+	    
 	    optionsBar.getWindow3().setContent(content3);
 	    optionsBar.getWindow4().setContent(content4);
 	    optionsBar.buildMainLayout(startDateField, endDateField, xAxisComboBox, goButton, linkBox, shareButton);
@@ -178,21 +241,6 @@ public class NavigationComponent extends CustomComponent {
                 autoAuthorBox.select(null);
             }
         });
-	}
-
-	private void buildProjectFilter(final VerticalLayout content2) {
-		final FormLayout axisForm = new FormLayout();
-	    content2.addComponent(axisForm);
-	    axisForm.setMargin(true);
-	    axisForm.addComponent(xAxisComboBox);
-	}
-
-	private void buildDateFilter(final VerticalLayout content) {
-//	    final FormLayout dateForm = new FormLayout();
-//	    content.addComponent(dateForm);
-//	    dateForm.setMargin(true);
-//	    dateForm.addComponent(startDateField);
-//	    dateForm.addComponent(endDateField);
 	}
 	
 	/**
@@ -235,21 +283,21 @@ public class NavigationComponent extends CustomComponent {
 		
 		// XAxis combo box
 		List<XAxis> xAxisOptions = XAxis.possibleValues();
-		xAxisComboBox = createAxisComboBox(xAxisOptions, "X-Axis");
+		xAxisComboBox = createAxisComboBox(xAxisOptions, "View");
 		xAxisComboBox.addValueChangeListener(new Property.ValueChangeListener() {
 			
 			@Override
 			public void valueChange(ValueChangeEvent event) {
-				state.setX((XAxis) xAxisComboBox.getValue());
-				if (state.getX() == XAxis.LINESOFCODE) {
+//				state.setX((XAxis) xAxisComboBox.getValue());
+				if (((XAxis) xAxisComboBox.getValue()) == XAxis.LINESOFCODE) {
 					startDateField.setEnabled(false);
 				} else {
 					startDateField.setEnabled(true);
 				}
-				fireChangeAction();
+//				fireChangeAction();
 			}
 		});
-				
+//				
 		startDateField = createDateField("Start Date");
         startDateField.setValue(state.getStart().getDateTime().toDate());
 		
@@ -274,7 +322,8 @@ public class NavigationComponent extends CustomComponent {
 				ConvertDate startDate = new ConvertDate(startDateField.getValue());
 				ConvertDate endDate = new ConvertDate(endDateField.getValue());
 				
-				if (checkIfStartDateIsNotLessThanEndDate(startDate, endDate)) {
+				if (((XAxis) xAxisComboBox.getValue()) != XAxis.LINESOFCODE
+						&& checkIfStartDateIsNotLessThanEndDate(startDate, endDate)) {
 					displayMessage("Invalid Date Input", "Date range invalid", Notification.Type.ERROR_MESSAGE);
 					return;
 				}
@@ -283,6 +332,7 @@ public class NavigationComponent extends CustomComponent {
 					displayMessage("No Projects Selected!", "Click 'Select Project' to select one or more projects",
 							Notification.Type.WARNING_MESSAGE);
 				}				
+				state.setX((XAxis) xAxisComboBox.getValue());
 				state.setProjects((Set<ConvertProject>) filter.projectFilter.getValue());
 				state.setAuthorsFilter((Set<String>) filter.authorsFilter.getValue()); 
 				state.setStart(startDate);
@@ -297,14 +347,21 @@ public class NavigationComponent extends CustomComponent {
 			}
 		});
 		
+		createShareOptions();
+		
+		return goButton;
+	}
+
+	private void createShareOptions() {
 		// link text field
 		linkBox = new TextField();
         linkBox.setImmediate(false);
+        linkBox.setCaption("Copy this Link");
         linkBox.setWidth("700px");
 		
 		// share button
 		shareButton = new Button();
-		shareButton.setCaption("Share");
+		shareButton.setCaption("Share/Bookmark");
 		shareButton.setImmediate(false);
 		shareButton.setWidth(DEFAULT_VALUE);
 		shareButton.setHeight(DEFAULT_VALUE);
@@ -314,18 +371,47 @@ public class NavigationComponent extends CustomComponent {
 			public void buttonClick(ClickEvent event) {
 				UI.getCurrent().removeWindow(w);
 				w = new Window("Use this link to bookmark this view");
+				w.setResizable(false);
 				w.setPositionX(500);
                 w.setPositionY(140);
                 FormLayout f = new FormLayout();
                 f.addStyleName("link_box");
+                final OptionGroup group = new OptionGroup("Select time options");
+                List<DateChoice> choices = DateChoice.possibleValues();
+                for (DateChoice choice : choices) {
+                    group.addItem(choice);
+                }
+                group.select(choices.get(0));
+                group.setNullSelectionAllowed(false);
+                group.setImmediate(true);
+                group.addValueChangeListener(new ValueChangeListener() {
+                	
+                	@Override
+                    public void valueChange(final ValueChangeEvent event) {
+                        DateChoice selected = (DateChoice) group.getValue();
+                        if (!selected.equals(DateChoice.STATIC)) {
+                        	linkBox.setValue(state.getStateURI("today", selected.getOffset() + ""));
+                		} else {
+                			linkBox.setValue(state.getStateURI());
+                		}
+                    }
+                });
+        		Button bookMarkDone = new Button("OK");
+        		bookMarkDone.addClickListener(new Button.ClickListener() {
+        			
+        			@Override
+        			public void buttonClick(ClickEvent event) {
+        				UI.getCurrent().removeWindow(w);
+        			}
+        		});
                 f.addComponent(linkBox);
+                f.addComponent(group);
+        		f.addComponent(bookMarkDone);
 				linkBox.setValue(state.getStateURI());
                 w.setContent(f);
 		        UI.getCurrent().addWindow(w);
 			}	
 		});
-		
-		return goButton;
 	}
 
 	private PopupDateField createDateField(String tag) {
@@ -355,6 +441,7 @@ public class NavigationComponent extends CustomComponent {
 		box.addStyleName("axis");
 		for (int i = 0; i < options.size(); i++) {
 			box.addItem(options.get(i));
+			box.setItemCaption(options.get(i), options.get(i).getView());
 		}
 		box.select(state.getX());
 		return box;
@@ -368,5 +455,33 @@ public class NavigationComponent extends CustomComponent {
 		comboBox.setWidth(COMBOBOX_WIDTH);
 		comboBox.setHeight(DEFAULT_VALUE);
 		return comboBox;
+	}
+	
+	private enum DateChoice {
+		STATIC("Current Date Settings", 0),
+		ONE_WEEK("Last Week", 7),
+		TWO_WEEKS("Last Two Weeks", 14),
+		MONTH("Last Month (30 days)", 30);
+		
+		private String display;
+		private int value;
+		
+		private DateChoice(String display, int value) {
+			this.display = display;
+			this.value = value;
+		}
+		
+		@Override
+		public String toString() {
+			return display;
+		}
+		
+		public int getOffset() {
+			return value;
+		}
+		
+		public static List<DateChoice> possibleValues() {
+			return new ArrayList<DateChoice>(EnumSet.allOf(DateChoice.class));
+		}
 	}
 }

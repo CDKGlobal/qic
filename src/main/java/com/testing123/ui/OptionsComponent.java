@@ -28,26 +28,28 @@ public class OptionsComponent extends CustomComponent {
 	protected HorizontalLayout mainLayoutContainer;
 	protected HorizontalLayout mainLayout;
 	protected MenuBar menubar;
-	protected Window window;
-	protected Window window2;
+	//protected Window window;
+	//protected Window window2;
 	protected Window window3;
 	protected Window window4;
 	protected Window helpW;
 
 	public OptionsComponent() {
 		//this.window = new Window("Date Range");
-		this.window2 = new Window("Change Axis");
+		//this.window2 = new Window("Change Axis");
 		this.window3 = new Window("Filter by Projects");
+		window3.setResizable(false);
 		this.window4 = new Window("Filter by Authors");
+		window4.setResizable(false);
 	}
 	
-	public Window getWindow() {
-		return window;
-	}
-	
-	public Window getWindow2() {
-		return window2;
-	}
+//	public Window getWindow() {
+//		return window;
+//	}
+//	
+//	public Window getWindow2() {
+//		return window2;
+//	}
 	
 	public Window getWindow3() {
 		return window3;
@@ -106,6 +108,7 @@ public class OptionsComponent extends CustomComponent {
 			public void menuSelected(MenuItem selectedItem) {
 				UI.getCurrent().removeWindow(helpW);
 				helpW = new Window("Help");
+				helpW.setResizable(false);
 				helpW.setPositionX(500);
                 helpW.setPositionY(140);
 				Label label = new Label(
@@ -152,29 +155,29 @@ public class OptionsComponent extends CustomComponent {
 		});
 	}
 
-	private void axisOptions(MenuBar menu) {
-		menu.addItem("Change Axis", null, new Command() {
-
-			@Override
-			public void menuSelected(MenuItem selectedItem) {
-				UI.getCurrent().removeWindow(window2);
-				window2.setPositionX(150);
-                window2.setPositionY(70);
-		        UI.getCurrent().addWindow(window2);
-			}
-		});
-	}
-
-	private void dateRangeOptions(MenuBar menu) {
-		menu.addItem("Change Date Range", null, new Command() {
-
-			@Override
-			public void menuSelected(MenuItem selectedItem) {
-				UI.getCurrent().removeWindow(window);
-				window.setPositionX(0);
-                window.setPositionY(70);
-		        UI.getCurrent().addWindow(window);
-			}
-		});
-	}
+//	private void axisOptions(MenuBar menu) {
+//		menu.addItem("Change Axis", null, new Command() {
+//
+//			@Override
+//			public void menuSelected(MenuItem selectedItem) {
+//				UI.getCurrent().removeWindow(window2);
+//				window2.setPositionX(150);
+//                window2.setPositionY(70);
+//		        UI.getCurrent().addWindow(window2);
+//			}
+//		});
+//	}
+//
+//	private void dateRangeOptions(MenuBar menu) {
+//		menu.addItem("Change Date Range", null, new Command() {
+//
+//			@Override
+//			public void menuSelected(MenuItem selectedItem) {
+//				UI.getCurrent().removeWindow(window);
+//				window.setPositionX(0);
+//                window.setPositionY(70);
+//		        UI.getCurrent().addWindow(window);
+//			}
+//		});
+//	}
 }

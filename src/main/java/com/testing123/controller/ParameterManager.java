@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.joda.time.DateTime;
+
 import com.testing123.controller.UIState.XAxis;
 import com.testing123.controller.UIState.YAxis;
 import com.testing123.dataObjects.ConvertDate;
@@ -35,11 +37,21 @@ public class ParameterManager {
 	public UIState getState(String start, String end, String x, String y, String proj, String auth) {
 		UIState state;
 		if (start != null && end != null && x != null) {
+			if (start.equals("today")) {
+				state = new UIState();
+				state.setStart(new ConvertDate(new DateTime().minusDays(Integer.parseInt(end)).toDate()));
+				state.setX(getXAxisMapping(x));
+				state.setY(getYAxisMapping(y));
+				setAuthorState(auth, state);
+				setProjectState(proj, state);
+				return state;
+			}
 			state = new UIState(new ConvertDate(start), new ConvertDate(end), getXAxisMapping(x));
 			state.setY(getYAxisMapping(y));
 			setAuthorState(auth, state);
 			setProjectState(proj, state);
 		} else {
+			System.out.println("fields were null");
 			state = new UIState();
 		}
 		return state;

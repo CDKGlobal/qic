@@ -58,7 +58,7 @@ public class FilterComponent extends CustomComponent {
 		for (String author : options) {
             filter.addItem(author);
         }
-        filter.setRows(14);
+        filter.setRows(20);
         filter.setNullSelectionAllowed(true);
         filter.setMultiSelect(true);
         filter.setImmediate(true);
@@ -76,7 +76,7 @@ public class FilterComponent extends CustomComponent {
 		for (ConvertProject option : options) {
             filter.addItem(option);
         }
-        filter.setRows(14);
+        filter.setRows(20);
         filter.setNullSelectionAllowed(true);
         filter.setMultiSelect(true);
         filter.setImmediate(true);
@@ -86,18 +86,6 @@ public class FilterComponent extends CustomComponent {
         for (ConvertProject option : state.getProjects()) {
         	filter.select(option);
         }
-//		ListSelect filter = new ListSelect("Please select one or more " + label);
-//        for (ConvertProject option : options) {
-//            filter.addItem(option);
-//        }
-//        filter.setRows(10);
-//        filter.setNullSelectionAllowed(true);
-//        filter.setMultiSelect(true);
-//        filter.setImmediate(true);
-//        filter.setWidth("350px");
-//        for (ConvertProject selectedProject : state.getProjects()) {
-//        	filter.select(selectedProject);
-//        }
         return filter;
 	}
 	
@@ -105,8 +93,6 @@ public class FilterComponent extends CustomComponent {
 		// common part: create layout
 		mainLayout = new AbsoluteLayout();
 		mainLayout.setImmediate(false);
-//		mainLayout.setWidth("400px");
-		//mainLayout.setHeight("450px");
 		
 		// top-level component properties
 		setSizeFull();

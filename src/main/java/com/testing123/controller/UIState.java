@@ -96,15 +96,19 @@ public class UIState {
 	 * 
 	 * @return a String representation of the current state as a URL
 	 */
-	public String getStateURI() {
+	public String getStateURI(String dateSetting, String dateOffset) {
 		StringBuilder sb = new StringBuilder(Preferences.URL + "/");
-		sb.append("?st=").append(start.getDBFormat());
-		sb.append("&end=").append(end.getDBFormat());
+		sb.append("?st=").append(dateSetting);
+		sb.append("&end=").append(dateOffset);
 		sb.append("&x=").append(x.getColName());
 		sb.append("&y=").append(y.getColName());
 		sb.append("&proj=").append(unwrapProjects(projects));
 		sb.append("&auth=").append(unwrapAuthors(authors));
 		return sb.toString();
+	}
+	
+	public String getStateURI() {
+		return getStateURI(start.getDBFormat(), end.getDBFormat());
 	}
 	
 	private String unwrapAuthors(Set<String> authors) {
@@ -132,18 +136,24 @@ public class UIState {
 	}
 	
 	public enum XAxis implements Axis {
-		DELTA_LINESOFCODE("Churn", "churn"), 
-		DELTA_COMPLEXITY("Change in Complexity", "delta_complexity"), 
+		DELTA_LINESOFCODE("Churn (Lines Modified)", "churn", "Lines Modified vs Final Complexity"), 
+		DELTA_COMPLEXITY("Change in Complexity", "delta_complexity", "Change in Complexity vs Final Complexity"), 
 		//DELTA_ISSUES("Change in Issues", "delta_issues"),
 		//DELTA_COVERAGE("Delta Coverage", "delta_coverage"),
-		LINESOFCODE("Non Commented Lines of Code", "ncloc");
+		LINESOFCODE("Non Commented Lines of Code", "ncloc", "Lines of Code vs Complexity for All Files");
 		
 		private String detail;
 		private String dbCol;
+		private String description;
 		
-		private XAxis(String detail, String dbCol) {
+		private XAxis(String detail, String dbCol, String descr) {
 			this.detail = detail;
 			this.dbCol = dbCol;
+			this.description = descr;
+		}
+		
+		public String getView() {
+			return description;
 		}
 		
 		@Override
@@ -162,17 +172,18 @@ public class UIState {
 	}
 	
 	public enum YAxis implements Axis {
-		COMPLEXITY("Complexity", "complexity"),
-		ISSUES("Issues", "issues"),
-		COVERAGE("Branch Coverage", "coverage");
-		
+		COMPLEXITY("Final Cyclomatic Complexity", "complexity", "Final Cyclomatic Complexity"),
+		ISSUES("Issues", "issues", ""),
+		COVERAGE("Branch Coverage", "coverage", "");
 		
 		private String detail;
 		private String dbCol;
+		private String description;
 		
-		private YAxis(String detail, String dbCol) {
+		private YAxis(String detail, String dbCol, String descr) {
 			this.detail = detail;
 			this.dbCol = dbCol;
+			this.description = descr;
 		}
 		
 		@Override

@@ -30,8 +30,8 @@ public class QueryDatabase {
             if (!singleMetric) {
                 results = queryDeltaMetrics(startDate, endDate, projects);
             }
-            if (singleMetric ||results == null) {
-                results = queryForStaticMetrics(projects);
+            if (singleMetric || results == null) {
+                results = queryForStaticMetrics(projects, endDate);
             }
         } catch (Exception e) {
             System.out.println("Exception thrown in Query Database");
@@ -40,28 +40,29 @@ public class QueryDatabase {
     }
 
     public Set<QueryData> getSignleMetricDataSet(ConvertDate startDate, ConvertDate endDate, Set<ConvertProject> projects) {
-        ResultSet results = getSingleMetricResultSet(projects);
+        ResultSet results = getSingleMetricResultSet(projects, endDate);
         return results == null ? new HashSet<QueryData>() : processDBResults(results);
     }
 
-    private ResultSet getSingleMetricResultSet(Set<ConvertProject> projects) {
+    private ResultSet getSingleMetricResultSet(Set<ConvertProject> projects, ConvertDate endDate) {
         ResultSet results = null;
         try {
-            results = queryForStaticMetrics(projects);
+            results = queryForStaticMetrics(projects, endDate);
         } catch (Exception e) {
             System.out.println("Exception thrown in Query Database");
         }
         return results;
     }
 
-    private ResultSet queryForStaticMetrics(Set<ConvertProject> projects) {
+    private ResultSet queryForStaticMetrics(Set<ConvertProject> projects, ConvertDate endDate) {
         return conn
                         .basicQuery("SELECT a1.file_id, a1.file_key, afl.name, ncloc, complexity, delta_complexity, authors FROM "
                                         + "allFileHistory3 a1 "
                                         + "JOIN allFileList afl ON afl.file_id = a1.file_id WHERE qualifier != 'UTS' "
                                         + "AND afl.project_id IN " + projectIDSet(projects)
                                         + " AND a1.dbdate = (SELECT MAX(a2.dbdate) FROM allFileHistory3 a2 "
-                                        + "WHERE a1.file_id = a2.file_id) GROUP BY a1.file_id;");
+                                        + "WHERE a1.file_id = a2.file_id AND a2.dbdate <= '" + endDate.getDBFormat() 
+                                        + "' ) GROUP BY a1.file_id;");
     }
 
     private Set<QueryData> processDBResults(ResultSet rs) {
