@@ -35,6 +35,10 @@ public class DataPoint implements Comparable<DataPoint> {
 	 * @param lineOfCode
 	 *            the number of lines of code in the file
 	 */
+	public DataPoint(String key, double xValue, double yValue) {
+		this(key, xValue, yValue, XAxis.DELTA_COMPLEXITY);
+	}
+
 	public DataPoint(String key, double xValue, double yValue, XAxis x) {
 		this.key = key;
 		this.xValue = xValue;
