@@ -361,6 +361,7 @@ public class NavigationComponent extends CustomComponent {
 		
 		// share button
 		shareButton = new Button();
+		//shareButton.setIcon(ICON);
 		shareButton.setCaption("Share/Bookmark");
 		shareButton.setImmediate(false);
 		shareButton.setWidth(DEFAULT_VALUE);

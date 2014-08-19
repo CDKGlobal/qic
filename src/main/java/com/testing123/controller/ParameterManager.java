@@ -51,7 +51,7 @@ public class ParameterManager {
 			setAuthorState(auth, state);
 			setProjectState(proj, state);
 		} else {
-			System.out.println("fields were null");
+			System.out.println("Fields were null, starting up as default state");
 			state = new UIState();
 		}
 		return state;
