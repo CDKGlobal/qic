@@ -153,8 +153,11 @@ public class MainComponent extends CustomComponent {
                 summary += project.getName() + " ";
             }
         }
-        summary = summary.substring(0, 200);
-        summary += "...";
+
+        if (summary.length() > 200) {
+            summary = summary.substring(0, 200);
+            summary += "...";
+        }
         Label projectSelected = new Label(summary, ContentMode.TEXT);
         return projectSelected;
     }
