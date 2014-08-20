@@ -72,7 +72,7 @@ public class DownloadFisheyeData {
 	private String pathInDatabase(String fisheyePath, Set<String> setOfFilesInDatabase) {
 		ConvertPath revisionKey = new ConvertPath(fisheyePath);
 		for (String sonarPath : setOfFilesInDatabase) {
-			if (revisionKey.equals(new ConvertPath(sonarPath))) {
+			if (revisionKey.equals(sonarPath)) {
 				return sonarPath;
 			}
 		}

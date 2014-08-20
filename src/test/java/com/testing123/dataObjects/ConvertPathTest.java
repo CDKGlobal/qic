@@ -8,17 +8,17 @@ public class ConvertPathTest {
 
 	@Test
 	public void testEmptyStringEqualsEmptyString() {
-		assertEquals(new ConvertPath(""), new ConvertPath(""));
+		assertTrue(new ConvertPath("").equals( new ConvertPath("")));
 	}
 	
 	@Test
 	public void testStringEqualsSameString(){
-		assertEquals(new ConvertPath("asdf/./sdad"), new ConvertPath("asdf/./sdad"));
+		assertTrue(new ConvertPath("asdf/./sdad").equals(new ConvertPath("asdf/./sdad")));
 	}
 	
 	@Test
 	public void testOldSonarFormatEqualsNewSonarFormat(){
-		assertEquals(new ConvertPath("com.vaadin:QIC2:com.testing123.vaadin.Msr "), new ConvertPath("com.vaadin:QIC2:src/main/java/com/testing123/vaadin/Msr.java"));
+		assertTrue(new ConvertPath("com.vaadin:QIC2:com.testing123.vaadin.Msr ").equals(new ConvertPath("com.vaadin:QIC2:src/main/java/com/testing123/vaadin/Msr.java")));
 	}
 	
 	@Test
@@ -28,7 +28,7 @@ public class ConvertPathTest {
 	
 	@Test
 	public void testNoProjectInfo(){
-		assertEquals(new ConvertPath("com.vaadin:QIC2:com.testing123.vaadin.Msr "), new ConvertPath("QIC/trunk/src/main/java/com/testing123/vaadin/Msr.java"));
+		assertTrue(new ConvertPath("com.vaadin:QIC2:com.testing123.vaadin.Msr ").equals(new ConvertPath("QIC/trunk/src/main/java/com/testing123/vaadin/Msr.java")));
 	}
 	
 	@Test
@@ -45,5 +45,28 @@ public class ConvertPathTest {
 		assertEquals("src/main/java/com/testing123/controller/UIState.java",new ConvertPath("com.vaadin:QIC2:src/main/java/com/testing123/controller/UIState.java").getFisheyePath());
 	}
 	
+	@Test
+	public void getOriginalPath(){
+		ConvertPath qic = new ConvertPath("com.vaadin:QIC2:com.testing123.vaadin.Msr ");
+		assertEquals("com.vaadin:QIC2:com.testing123.vaadin.Msr", qic.getOriginalPath());
+	}
+	
+	@Test
+	public void testNotEqual(){
+		ConvertPath qic = new ConvertPath("com.vaadin:QIC2:com.testing123.vaadin.Msr ");
+		ConvertPath qic2 = new ConvertPath("com.vaadin:QIC2:com.testing123.vaadin.Msr ");
+		assertEquals(qic, qic);
+		assertFalse(qic.equals("a"));
+		String n = null;
+		assertFalse(qic.equals(n));
+		ConvertPath nu = null;
+		assertFalse(qic.equals(nu));
+		assertTrue(qic.equals(qic2));
+	}
+	
+	@Test
+	public void testStringEquals(){
+		assertTrue(new ConvertPath("com.vaadin:QIC2:com.testing123.vaadin.Msr ").equals("com.vaadin:QIC2:src/main/java/com/testing123/vaadin/Msr.java"));
+	}
 
 }
