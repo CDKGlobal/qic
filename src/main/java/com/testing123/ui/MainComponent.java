@@ -1,6 +1,8 @@
 package com.testing123.ui;
 
 
+import java.util.Iterator;
+
 import com.testing123.controller.UIState;
 import com.testing123.controller.UIState.XAxis;
 import com.testing123.dataObjects.ConvertProject;
@@ -151,15 +153,16 @@ public class MainComponent extends CustomComponent {
         int numberOfProjects = state.getProjects().size();
         String summary = "";
         if (numberOfProjects != 0) {
-            summary += "<b>Project(s) Selected:</b> [";
-            // summary += state.getProjects().
-            for (ConvertProject project : state.getProjects()) {
-                summary += project.getName() + ", ";
+            summary += "<b>Project(s) Selected:</b> [ ";
+            Iterator<ConvertProject> iter = state.getProjects().iterator();
+            summary += iter.next().getName();
+            while (iter.hasNext()) {
+                summary += ", " + iter.next().getName();
             }
         }
 
-        if (summary.length() > 365) {
-            summary = summary.substring(0, 365);
+        if (summary.length() > 350) {
+            summary = summary.substring(0, 350);
             summary += "... ]";
         } else if (summary.length() != 0) {
             summary += " ]";
@@ -172,10 +175,12 @@ public class MainComponent extends CustomComponent {
         int numberOfAuthors = state.getAuthorsFilter().size();
         String summary = "";
         if (numberOfAuthors != 0) {
-            summary += "<b>Author(s) Selected: </b> [";
+            summary += "<b>Author(s) Selected: </b> [ ";
 
-            for (String author : state.getAuthorsFilter()) {
-                summary += "\n" + author + ", ";
+            Iterator<String> iter = state.getAuthorsFilter().iterator();
+            summary += iter.next();
+            while (iter.hasNext()) {
+                summary += ", " + iter.next();
             }
         }
 
