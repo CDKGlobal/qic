@@ -51,7 +51,7 @@ public class QueryDatabaseTest {
 		ConvertDate end = new ConvertDate("2014-02-05");
 		s.add(new ConvertProject("0", "0", 17271, "0"));
 		Set<QueryData> data = q.getDataSet(start, end, s, false);
-		assertTrue(0 < data.size());
+		assertTrue(0 == data.size());
 	}
 	
 	@Test

@@ -74,7 +74,7 @@ public class UIStateTest {
     public void TestYAxisSetter() {
         UIState state = new UIState();
         state.setY(YAxis.COMPLEXITY);
-        assertEquals("Complexity", state.getY().toString());
+        assertEquals("Final Cyclomatic Complexity", state.getY().toString());
         assertEquals(YAxis.COMPLEXITY, state.getY());
         assertEquals("complexity", state.getY().getColName());
     }
