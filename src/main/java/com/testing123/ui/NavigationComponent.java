@@ -97,8 +97,8 @@ public class NavigationComponent extends CustomComponent {
 		createAuthorOptions(authorContent);
 		
 	    
-	    optionsBar.getWindow3().setContent(projectContent);
-	    optionsBar.getWindow4().setContent(authorContent);
+	    optionsBar.getProjectFilterWindow().setContent(projectContent);
+	    optionsBar.getAuthorFilterWindow().setContent(authorContent);
 	    optionsBar.buildMainLayout(startDateField, endDateField, xAxisComboBox, goButton, linkBox, shareButton);
 	}
 
@@ -158,7 +158,7 @@ public class NavigationComponent extends CustomComponent {
 			
 			@Override
 			public void buttonClick(ClickEvent event) {
-				UI.getCurrent().removeWindow(optionsBar.getWindow3());
+				UI.getCurrent().removeWindow(optionsBar.getProjectFilterWindow());
 			}
 
 		});
@@ -198,7 +198,7 @@ public class NavigationComponent extends CustomComponent {
 			
 			@Override
 			public void buttonClick(ClickEvent event) {
-				UI.getCurrent().removeWindow(optionsBar.getWindow4());
+				UI.getCurrent().removeWindow(optionsBar.getAuthorFilterWindow());
 			}
 
 		});

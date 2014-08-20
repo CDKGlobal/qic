@@ -20,35 +20,23 @@ public class OptionsComponent extends CustomComponent {
 	protected HorizontalLayout mainLayoutContainer;
 	protected HorizontalLayout mainLayout;
 	protected MenuBar menubar;
-	//protected Window window;
-	//protected Window window2;
-	protected Window window3;
-	protected Window window4;
-	protected Window helpW;
+	protected Window projectFilterWindow;
+	protected Window authorFilterWindow;
+	protected Window helpWindow;
 
 	public OptionsComponent() {
-		//this.window = new Window("Date Range");
-		//this.window2 = new Window("Change Axis");
-		this.window3 = new Window("Filter by Projects");
-		window3.setResizable(false);
-		this.window4 = new Window("Filter by Authors");
-		window4.setResizable(false);
+		this.projectFilterWindow = new Window("Filter by Projects");
+		projectFilterWindow.setResizable(false);
+		this.authorFilterWindow = new Window("Filter by Authors");
+		authorFilterWindow.setResizable(false);
 	}
 	
-//	public Window getWindow() {
-//		return window;
-//	}
-//	
-//	public Window getWindow2() {
-//		return window2;
-//	}
-	
-	public Window getWindow3() {
-		return window3;
+	public Window getProjectFilterWindow() {
+		return projectFilterWindow;
 	}
 	
-	public Window getWindow4() {
-		return window4;
+	public Window getAuthorFilterWindow() {
+		return authorFilterWindow;
 	}
 	
 	public HorizontalLayout buildMainLayout(PopupDateField startDateField, PopupDateField endDateField, 
@@ -68,7 +56,6 @@ public class OptionsComponent extends CustomComponent {
 		mainLayout.addComponent(startDateField);
 	    mainLayout.addComponent(endDateField);
 		mainLayout.addComponent(xAxisComboBox);
-		//axisOptions(menu);
 		
 		projectsOptions(menu);
 		
@@ -98,11 +85,11 @@ public class OptionsComponent extends CustomComponent {
 
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
-				UI.getCurrent().removeWindow(helpW);
-				helpW = new Window("Help");
-				helpW.setResizable(false);
-				helpW.setPositionX(500);
-                helpW.setPositionY(140);
+				UI.getCurrent().removeWindow(helpWindow);
+				helpWindow = new Window("Help");
+				helpWindow.setResizable(false);
+				helpWindow.setPositionX(500);
+                helpWindow.setPositionY(140);
                 FormLayout helpForm = new FormLayout();
 				Label label = new Label(
 						"<p>The main function of QIC is to display the changes in Churn and Complexity "
@@ -115,19 +102,19 @@ public class OptionsComponent extends CustomComponent {
 								+ "the specified dates</p>",
 								 ContentMode.HTML);
 				label.addStyleName("help_label");
-                helpW.setWidth("400px");
+                helpWindow.setWidth("400px");
                 helpForm.addComponent(label);
                 Button helpDone = new Button("OK");
                 helpDone.addClickListener(new Button.ClickListener() {
         			
         			@Override
         			public void buttonClick(ClickEvent event) {
-        				UI.getCurrent().removeWindow(helpW);
+        				UI.getCurrent().removeWindow(helpWindow);
         			}
         		});
         		helpForm.addComponent(helpDone);
-                helpW.setContent(helpForm);
-		        UI.getCurrent().addWindow(helpW);
+                helpWindow.setContent(helpForm);
+		        UI.getCurrent().addWindow(helpWindow);
 		        
 			}
 		});
@@ -138,10 +125,10 @@ public class OptionsComponent extends CustomComponent {
 
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
-				UI.getCurrent().removeWindow(window4);
-				window4.setPositionX(450);
-                window4.setPositionY(70);
-		        UI.getCurrent().addWindow(window4);
+				UI.getCurrent().removeWindow(authorFilterWindow);
+				authorFilterWindow.setPositionX(450);
+                authorFilterWindow.setPositionY(70);
+		        UI.getCurrent().addWindow(authorFilterWindow);
 			}
 		});
 	}
@@ -151,10 +138,10 @@ public class OptionsComponent extends CustomComponent {
 
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
-				UI.getCurrent().removeWindow(window3);
-				window3.setPositionX(300);
-                window3.setPositionY(70);
-		        UI.getCurrent().addWindow(window3);
+				UI.getCurrent().removeWindow(projectFilterWindow);
+				projectFilterWindow.setPositionX(300);
+                projectFilterWindow.setPositionY(70);
+		        UI.getCurrent().addWindow(projectFilterWindow);
 			}
 		});
 	}
