@@ -6,7 +6,6 @@ import org.json.JSONObject;
 
 import com.vaadin.annotations.JavaScript;
 import com.vaadin.ui.AbstractJavaScriptComponent;
-import com.vaadin.ui.JavaScriptFunction;
 
 /**
  * Graph represents a Javascript scatterplot, its options, and data.  

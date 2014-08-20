@@ -8,7 +8,6 @@ import com.testing123.interfaces.DatabaseInterface;
 import com.testing123.vaadin.UseSQLDatabase;
 import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.ListSelect;
 import com.vaadin.ui.TwinColSelect;
 
 @SuppressWarnings("serial")

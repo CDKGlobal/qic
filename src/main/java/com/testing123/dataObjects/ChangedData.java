@@ -1,7 +1,5 @@
 package com.testing123.dataObjects;
 
-import java.util.List;
-
 public class ChangedData {
     @Override
     public String toString() {

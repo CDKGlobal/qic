@@ -3,7 +3,6 @@ package com.testing123.vaadin;
 import static org.junit.Assert.assertEquals;
 
 import java.util.List;
-import java.util.Map;
 
 import org.junit.Test;
 
@@ -20,8 +19,7 @@ public class UseSQLDatabaseTest {
 
     @Test
     public void TestGetMapToID() {
-        Map<String, Integer> map = new UseSQLDatabase().getMapToID(17271);
-
+        new UseSQLDatabase().getMapToID(17271);
     }
 
     @Test
