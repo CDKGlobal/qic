@@ -11,7 +11,6 @@ import org.json.JSONException;
 
 import com.testing123.controller.UIState;
 import com.testing123.controller.UIState.XAxis;
-import com.testing123.controller.UIState.YAxis;
 import com.testing123.dataObjects.ConvertDate;
 import com.testing123.dataObjects.ConvertProject;
 import com.testing123.vaadin.DisplayChanges;
