@@ -117,20 +117,23 @@ public class MainComponent extends CustomComponent {
         if (xValue.equals(XAxis.DELTA_LINESOFCODE)) {
             summary += " Churn : " + ftData.getTotal() + " lines of code modified.";
         } else if (xValue.equals(XAxis.DELTA_COMPLEXITY)) {
-            summary += " Total Change in Cyclomatic Complexity for the project(s) : " + ftData.getTotal() + " ( +" + ftData.getPositive() + ", - " + ftData.getNegative() + " ).";
+            summary += " Total Change in Cyclomatic Complexity for the project(s) : " + ftData.getTotal() + " ( <font color=\"red\">+" + ftData.getPositive() + "</font>, <font color=\"green\">- " + ftData.getNegative() + "</font> ).";
             summary += "\n" + "Change in Cyclomatic Complexity by files : " + ftDataByFile.getTotal() + " ( " + ftDataByFile.getPositive() + " + , " + ftDataByFile.getNegative() + " - ).";
         } else if (xValue.equals(XAxis.LINESOFCODE)) {
             summary += " Total Change in Non Commented Lines of Code for the project(s) : " + ftData.getTotal() + " ( +" + ftData.getPositive() + ", -" + ftData.getNegative() + " )";
             summary += "\n" + "Change in Non Commented Lines of Code by files : " + ftDataByFile.getTotal() + " ( " + ftDataByFile.getPositive() + " + , " + ftDataByFile.getNegative() + " -)";
         }
-        Label summaryLabel = new Label(summary, ContentMode.TEXT);
+        Label summaryLabel = new Label(summary, ContentMode.HTML);
         return summaryLabel;
     }
 
     public Label getNumberOfProjectAndAuthorSelected(UIState state) {
         int numberOfProjects = state.getProjects().size();
         int numberOfAuthors = state.getAuthorsFilter().size();
-        String summary = numberOfProjects + " projects and ";
+        String summary = "Start Date : " + state.getStart().toString() + ", End Date: " + state.getEnd().toString() + ", ";
+
+        summary += "Views: " + state.getX().getView() + ". ";
+        summary += numberOfProjects + " projects and ";
         if (numberOfProjects != 0) {
             if (numberOfAuthors == 0) {
                 summary += "all authors(default) selected. ";
@@ -148,17 +151,20 @@ public class MainComponent extends CustomComponent {
         int numberOfProjects = state.getProjects().size();
         String summary = "";
         if (numberOfProjects != 0) {
-            summary += "\n Project(s) Selected:";
+            summary += "<b>Project(s) Selected:</b> [";
+            // summary += state.getProjects().
             for (ConvertProject project : state.getProjects()) {
-                summary += project.getName() + " ";
+                summary += project.getName() + ", ";
             }
         }
 
-        if (summary.length() > 200) {
-            summary = summary.substring(0, 200);
-            summary += "...";
+        if (summary.length() > 365) {
+            summary = summary.substring(0, 365);
+            summary += "... ]";
+        } else if (summary.length() != 0) {
+            summary += " ]";
         }
-        Label projectSelected = new Label(summary, ContentMode.TEXT);
+        Label projectSelected = new Label(summary, ContentMode.HTML);
         return projectSelected;
     }
 
@@ -166,13 +172,21 @@ public class MainComponent extends CustomComponent {
         int numberOfAuthors = state.getAuthorsFilter().size();
         String summary = "";
         if (numberOfAuthors != 0) {
-            summary += "\n Author(s) Selected: ";
+            summary += "<b>Author(s) Selected: </b> [";
+
             for (String author : state.getAuthorsFilter()) {
-                summary += "\n" + author + " ";
+                summary += "\n" + author + ", ";
             }
         }
 
-        Label authorSelected = new Label(summary, ContentMode.TEXT);
+        if (summary.length() > 380) {
+            summary = summary.substring(0, 380);
+            summary += "... ]";
+        } else if (summary.length() != 0) {
+            summary += " ]";
+        }
+
+        Label authorSelected = new Label(summary, ContentMode.HTML);
         return authorSelected;
     }
 
