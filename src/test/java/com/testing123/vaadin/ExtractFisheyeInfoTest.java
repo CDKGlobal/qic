@@ -8,7 +8,6 @@ import java.net.URL;
 
 import org.junit.Test;
 
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,13 +23,13 @@ public class ExtractFisheyeInfoTest {
 	}
 	
 	@Test
-	public void testEmptyRevisionList(){
+	public void testEmptyRevisionList() throws JsonMappingException, IOException, Exception{
 		ExtractFisheyeInfo info = getInfo("emptyRevisionList.json");
 		assertFalse(info.exists());
 	}
 
 	@Test
-	public void testExampleData() {
+	public void testExampleData() throws JsonMappingException, IOException, Exception {
 		ExtractFisheyeInfo info = getInfo("revisiondataExample.json");
 		assertEquals(795170, info.getRevision1());
 		assertEquals(806118, info.getRevision2());
@@ -38,28 +37,17 @@ public class ExtractFisheyeInfoTest {
 		assertTrue(info.exists());
 	}
 	
-	private ExtractFisheyeInfo getInfo(String file){
+	private ExtractFisheyeInfo getInfo(String file) throws JsonMappingException, IOException, Exception{
 		FisheyeData data = getJSONFromFisheye(file);
 		return new ExtractFisheyeInfo(data);
 	}
-	private FisheyeData getJSONFromFisheye(String file) {
-
+	
+	private FisheyeData getJSONFromFisheye(String file) throws Exception, JsonMappingException, IOException {
 		ObjectMapper mapper = new ObjectMapper();
 		FisheyeData querriedData = new FisheyeData();
 		URL inputStream = ExtractFisheyeInfoTest.class.getClassLoader().getResource(file);
-		//System.out.println(file);
-		//System.out.println(inputStream);
 		File f = new File(inputStream.getFile());
-		try {
-			querriedData = mapper.readValue( f, new TypeReference<FisheyeData>() {
-			});
-		} catch (JsonParseException e) {
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		querriedData = mapper.readValue( f, new TypeReference<FisheyeData>() {});	
 		return querriedData;
 	}
 }
