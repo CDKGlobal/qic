@@ -87,6 +87,7 @@ public class QicUI extends UI {
 		//final GridLayout layout = new GridLayout(3, 4);
 		
 	    final VerticalLayout mainVerticalLayout = new VerticalLayout();
+	    mainVerticalLayout.setWidth("100%");
 		mainVerticalLayout.setMargin(false);
 		setContent(mainVerticalLayout);
 		

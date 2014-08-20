@@ -51,7 +51,7 @@ public class NavigationComponent extends CustomComponent {
 	private Button shareButton;
 	private TextField linkBox;
 	private AbsoluteLayout layout;
-	private AbsoluteLayout graph;
+	private AbsoluteLayout verticalGraphContainer;
 	private GetData data;
 	private UIState state;
 	private Window w;
@@ -72,7 +72,7 @@ public class NavigationComponent extends CustomComponent {
 		this.data = new GetData();
 		this.state = state;
 		this.layout = new AbsoluteLayout();
-		this.graph = new AbsoluteLayout();
+		this.verticalGraphContainer = new AbsoluteLayout();
 		
 		optionsBar = new OptionsComponent();
 		mainVerticalLayout.addComponent(optionsBar);
@@ -102,10 +102,9 @@ public class NavigationComponent extends CustomComponent {
 	    optionsBar.buildMainLayout(startDateField, endDateField, xAxisComboBox, goButton, linkBox, shareButton);
 	}
 
-	private void createResizableMidComponent(
-			final VerticalLayout mainVerticalLayout) {
+	private void createResizableMidComponent(final VerticalLayout mainVerticalLayout) {
 		final HorizontalLayout container = new HorizontalLayout();
-		container.setWidth("100%");
+		container.setSizeFull();
 		mainVerticalLayout.addComponent(container);
 		
 		// left margin
@@ -114,9 +113,10 @@ public class NavigationComponent extends CustomComponent {
 		container.addComponent(left);
 		
 		// graph component
-		graph.setWidth(QicUI.COMPONENT_WIDTH);
-		graph.setHeight(QicUI.COMPONENT_HEIGHT);
-		container.addComponent(graph);
+		verticalGraphContainer.setWidth(QicUI.COMPONENT_WIDTH);
+		verticalGraphContainer.setHeight("900px");
+		verticalGraphContainer.addStyleName("graph_container");
+		container.addComponent(verticalGraphContainer);
 		
 		// right margin
 		final AbsoluteLayout right = new AbsoluteLayout();
@@ -276,7 +276,7 @@ public class NavigationComponent extends CustomComponent {
 	 */
 	public void fireChangeAction() {
 		linkBox.setValue(state.getStateURI());
-		ComponentController.drawMainComponent(graph, state, data);
+		ComponentController.drawMainComponent(verticalGraphContainer, state, data);
 	}
 	
 	public Button buildNavigationLayout() {

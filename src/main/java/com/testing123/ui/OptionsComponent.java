@@ -53,9 +53,9 @@ public class OptionsComponent extends CustomComponent {
 		menu.setHeight("100%");
 		menu.setStyleName("main_menubar");
 		
+		mainLayout.addComponent(xAxisComboBox);
 		mainLayout.addComponent(startDateField);
 	    mainLayout.addComponent(endDateField);
-		mainLayout.addComponent(xAxisComboBox);
 		
 		projectsOptions(menu);
 		
