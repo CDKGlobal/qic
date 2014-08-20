@@ -62,21 +62,21 @@ public class DataPointTest {
         data.setKey("boy");
         data.setXValue(500);
         data.setYValue(100);
-        assertEquals("[500.0, 100.0, \"boy\", \"\"]", data.toString());
+        assertEquals("[500.0, 100.0, \"boy\", \"\",\"Changed Complexity: \"]", data.toString());
     }
 
     @Test
     public void TestAddingSingleAuthor() {
         DataPoint data = dataPointFactory();
         data.addAuthor("name");
-        assertEquals("[-1.0, -1.0, \"null\", \"Authors: name \"]", data.toString());
+        assertEquals("[-1.0, -1.0, \"null\", \"Authors: name \",\"Changed Complexity: \"]", data.toString());
     }
 
     @Test
     public void TestAddingAuthorList() {
         DataPoint data = dataPointFactory();
         data.setAuthors(new ArrayList<String>(Arrays.asList("Me", "Myself", "I")));
-        assertEquals("[-1.0, -1.0, \"null\", \"Authors: Me I Myself \"]", data.toString());
+        assertEquals("[-1.0, -1.0, \"null\", \"Authors: Me I Myself \",\"Changed Complexity: \"]", data.toString());
     }
 
     @Test
@@ -88,7 +88,7 @@ public class DataPointTest {
         set.add(new DataPoint("NotString", 11.0, 18.5));
         set.add(new DataPoint("NotString", 11.0, 20));
         assertEquals(
-                        "[[12.0, 18.5, \"AString\", \"\"], [11.0, 18.5, \"NotString\", \"\"], [11.0, 20.0, \"NotString\", \"\"], [12.0, 18.5, \"NotString\", \"\"]]",
+                        "[[12.0, 18.5, \"AString\", \"\",\"Changed Complexity: \"], [11.0, 18.5, \"NotString\", \"\",\"Changed Complexity: \"], [11.0, 20.0, \"NotString\", \"\",\"Changed Complexity: \"], [12.0, 18.5, \"NotString\", \"\",\"Changed Complexity: \"]]",
                         set.toString());
     }
 
