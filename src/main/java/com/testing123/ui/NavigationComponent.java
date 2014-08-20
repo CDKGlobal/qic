@@ -77,6 +77,33 @@ public class NavigationComponent extends CustomComponent {
 		optionsBar = new OptionsComponent();
 		mainVerticalLayout.addComponent(optionsBar);
 
+		createResizableMidComponent(mainVerticalLayout);
+		
+		createNavComponentLayout();
+		buildNavigationLayout();
+		setCompositionRoot(navLayout);
+		
+		fireChangeAction();
+		initializeJSHandler(state);
+		
+		filter = new FilterComponent(state);
+		mainVerticalLayout.addComponent(layout);
+
+	    
+	    final VerticalLayout projectContent = new VerticalLayout();
+	    createProjectOptions(projectContent);
+		 
+	    final VerticalLayout authorContent = new VerticalLayout();
+		createAuthorOptions(authorContent);
+		
+	    
+	    optionsBar.getWindow3().setContent(projectContent);
+	    optionsBar.getWindow4().setContent(authorContent);
+	    optionsBar.buildMainLayout(startDateField, endDateField, xAxisComboBox, goButton, linkBox, shareButton);
+	}
+
+	private void createResizableMidComponent(
+			final VerticalLayout mainVerticalLayout) {
 		final HorizontalLayout container = new HorizontalLayout();
 		container.setWidth("100%");
 		mainVerticalLayout.addComponent(container);
@@ -98,28 +125,10 @@ public class NavigationComponent extends CustomComponent {
 		
 		container.setExpandRatio(left, 1);
 		container.setExpandRatio(right, 1);
-		
-		createNavComponentLayout();
-		buildNavigationLayout();
-		setCompositionRoot(navLayout);
-		
-		fireChangeAction();
-		initializeJSHandler(state);
-		
-		filter = new FilterComponent(state);
-		mainVerticalLayout.addComponent(layout);
-		
-	    //final VerticalLayout content = new VerticalLayout();
-	    
-	    //buildDateFilter(content);
-	    
-	    //final VerticalLayout content2 = new VerticalLayout();
-	    
-	    //buildProjectFilter(content2);
-	    
-	    final VerticalLayout content3 = new VerticalLayout();
-		
-	    final FormLayout projectForm = new FormLayout();
+	}
+
+	private void createProjectOptions(final VerticalLayout content3) {
+		final FormLayout projectForm = new FormLayout();
 	    content3.addComponent(projectForm);
 	    projectForm.setMargin(true);
 	    
@@ -155,12 +164,10 @@ public class NavigationComponent extends CustomComponent {
 		});
 		projectButtons.addComponent(projectsDone, "left: 640px;");
 		
-		
 		projectForm.addComponent(projectButtons);
-		
-	    	    
-	    final VerticalLayout content4 = new VerticalLayout();
-	    
+	}
+
+	private void createAuthorOptions(final VerticalLayout content4) {
 		final FormLayout authorForm = new FormLayout();
 	    content4.addComponent(authorForm);
 	    authorForm.setMargin(true);
@@ -198,11 +205,6 @@ public class NavigationComponent extends CustomComponent {
 		authorButtons.addComponent(authorsDone, "left: 290px");
 		
 		authorForm.addComponent(authorButtons);
-		
-	    
-	    optionsBar.getWindow3().setContent(content3);
-	    optionsBar.getWindow4().setContent(content4);
-	    optionsBar.buildMainLayout(startDateField, endDateField, xAxisComboBox, goButton, linkBox, shareButton);
 	}
 
 	private void buildProjectSuggestionBox(final ComboBox autoProjectBox) {

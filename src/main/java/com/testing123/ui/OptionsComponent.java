@@ -4,9 +4,11 @@ import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CustomComponent;
+import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.MenuBar;
+import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.MenuBar.Command;
 import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.PopupDateField;
@@ -101,6 +103,7 @@ public class OptionsComponent extends CustomComponent {
 				helpW.setResizable(false);
 				helpW.setPositionX(500);
                 helpW.setPositionY(140);
+                FormLayout helpForm = new FormLayout();
 				Label label = new Label(
 						"<p>The main function of QIC is to display the changes in Churn and Complexity "
 								+ "over two dates selected dates.  It can also show the number of non-commented "
@@ -113,8 +116,19 @@ public class OptionsComponent extends CustomComponent {
 								 ContentMode.HTML);
 				label.addStyleName("help_label");
                 helpW.setWidth("400px");
-                helpW.setContent(label);
+                helpForm.addComponent(label);
+                Button helpDone = new Button("OK");
+                helpDone.addClickListener(new Button.ClickListener() {
+        			
+        			@Override
+        			public void buttonClick(ClickEvent event) {
+        				UI.getCurrent().removeWindow(helpW);
+        			}
+        		});
+        		helpForm.addComponent(helpDone);
+                helpW.setContent(helpForm);
 		        UI.getCurrent().addWindow(helpW);
+		        
 			}
 		});
 	}
@@ -144,30 +158,4 @@ public class OptionsComponent extends CustomComponent {
 			}
 		});
 	}
-
-//	private void axisOptions(MenuBar menu) {
-//		menu.addItem("Change Axis", null, new Command() {
-//
-//			@Override
-//			public void menuSelected(MenuItem selectedItem) {
-//				UI.getCurrent().removeWindow(window2);
-//				window2.setPositionX(150);
-//                window2.setPositionY(70);
-//		        UI.getCurrent().addWindow(window2);
-//			}
-//		});
-//	}
-//
-//	private void dateRangeOptions(MenuBar menu) {
-//		menu.addItem("Change Date Range", null, new Command() {
-//
-//			@Override
-//			public void menuSelected(MenuItem selectedItem) {
-//				UI.getCurrent().removeWindow(window);
-//				window.setPositionX(0);
-//                window.setPositionY(70);
-//		        UI.getCurrent().addWindow(window);
-//			}
-//		});
-//	}
 }
