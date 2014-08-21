@@ -66,7 +66,7 @@ public class MainComponent extends CustomComponent {
         Label summaryLabel = new Label("Summary: ", ContentMode.HTML);
         // summaryLabel.setWidth("800px");
         Label textLabel = getSummary(state.getX(), queried);
-        textLabel.setWidth("700px");
+        textLabel.setWidth("800px");
         summaryLabel.setId("labelForTitle");
         textLabel.setId("labelForText");
         projectAndAuthorSelectLabel.setId("proAndAutSelect");
