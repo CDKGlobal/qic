@@ -30,14 +30,14 @@ public class FlotOptions {
                                         "show : true," +
                                         "axisLabel: \'" + state.getY().toString() + "\'," +
                                         "position: 'left', " +
-                                        "font: {size : 14, color: black} " +
+                                        "font: {size : 14, color: 575763} " +
                                         //"zoomRange: [-10, 10000]," +
                                         //"panRange: [-10, 10000]" +
                                         "}, " +
                                         "xaxis : {" +
                                         "show : true," +
                                         "axisLabel : \'" + state.getX().toString() + "\'," +
-                                        "font: {size : 14, color: black}, " +
+                                        "font: {size : 14, color: 575763}, " +
                                         "autoscaleMargin: .02" +
                                         //"zoomRange: " + getXRange(state) + "," +
                                         //"panRange: " + getXRange(state) +
