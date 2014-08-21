@@ -32,7 +32,7 @@ import com.vaadin.ui.VerticalLayout;
 @Push(PushMode.MANUAL)
 @SuppressWarnings("serial")
 @Theme("mytheme")
-@Title("Quality Induced Constraints")
+@Title("Quality In Code")
 public class QicUI extends UI {
 	public static final String LEFT_MARGIN_WIDTH = "100px";
 	public static final String FIRST_ROW_HEIGHT = "90px";
@@ -104,7 +104,7 @@ public class QicUI extends UI {
 				request.getParameter("x"), request.getParameter("y"), request.getParameter("proj"), 
 				request.getParameter("auth"));
 		
-		Label title = new Label("Quality Induced Constraints", ContentMode.HTML);
+		Label title = new Label("Quality In Code", ContentMode.HTML);
 		title.setStyleName("b");
 		title.setStyleName("h1");
 		//title.setStyleName("header_background");
