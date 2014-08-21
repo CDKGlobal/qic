@@ -55,24 +55,25 @@ public class MainComponent extends CustomComponent {
         // Graph
         graph = buildGraph();
         Label numberOfProjectAndAuthorSelectedLabel = getNumberOfProjectAndAuthorSelected(state);
-        Label projectSelectLabel = getProjectSelected(state);
-        Label authorSectectLabel = getAuthorSelected(state);
-        numberOfProjectAndAuthorSelectedLabel.addStyleName("selectLabelDisplay");
+        Label projectAndAuthorSelectLabel = getProjectAndAuthorSelected(state);
+        // Label authorSectectLabel = getAuthorSelected(state);
+        numberOfProjectAndAuthorSelectedLabel.addStyleName("selectlabelDisplay");
         container.addComponent(numberOfProjectAndAuthorSelectedLabel);
-        container.addComponent(projectSelectLabel);
-        container.addComponent(authorSectectLabel);
+        container.addComponent(projectAndAuthorSelectLabel);
+        // container.addComponent(authorSectectLabel);
         container.addComponent(graph);
         HorizontalLayout labelLayout = new HorizontalLayout();
-        Label titleLabel = new Label("Summary: ");
-        titleLabel.setContentMode(ContentMode.HTML);
+        Label summaryLabel = new Label("Summary: ", ContentMode.HTML);
         // summaryLabel.setWidth("800px");
         Label textLabel = getSummary(state.getX(), queried);
-        textLabel.setWidth("505px");
-        titleLabel.setId("labelForTitle");
+        textLabel.setWidth("700px");
+        summaryLabel.setId("labelForTitle");
         textLabel.setId("labelForText");
-        labelLayout.addComponent(titleLabel);
+        projectAndAuthorSelectLabel.setId("proAndAutSelect");
+        labelLayout.addComponent(summaryLabel);
         labelLayout.addComponent(textLabel);
         container.addComponent(labelLayout);
+        container.addComponent(projectAndAuthorSelectLabel);
         return graph;
     }
 
@@ -113,11 +114,11 @@ public class MainComponent extends CustomComponent {
         if (xValue.equals(XAxis.DELTA_LINESOFCODE)) {
             summary += " Churn : " + ftData.getTotal() + " lines of code modified.";
         } else if (xValue.equals(XAxis.DELTA_COMPLEXITY)) {
-            summary += " Total Change in Cyclomatic Complexity for the project(s) : " + ftData.getTotal() + " ( <font color=\"red\">+" + ftData.getPositive() + "</font>, <font color=\"green\">- " + ftData.getNegative() + "</font> ).";
-            summary += "\n" + "Change in Cyclomatic Complexity by files : " + ftDataByFile.getTotal() + " ( " + ftDataByFile.getPositive() + " + , " + ftDataByFile.getNegative() + " - ).";
+            summary += " Total Change in Cyclomatic Complexity for the project(s) : <b>" + ftData.getTotal() + "</b> ( <font color=\"red\">+ " + ftData.getPositive() + "</font>, <font color=\"green\">- " + ftData.getNegative() + "</font> )<br>.";
+            summary += "\n" + "Change in Cyclomatic Complexity by files : <b>" + ftDataByFile.getTotal() + "</b> ( <font color=\"red\">" + ftDataByFile.getPositive() + " + </font>, <font color=\"green\">" + ftDataByFile.getNegative() + " -</font> ).";
         } else if (xValue.equals(XAxis.LINESOFCODE)) {
-            summary += " Total Change in Non Commented Lines of Code for the project(s) : " + ftData.getTotal() + " ( +" + ftData.getPositive() + ", -" + ftData.getNegative() + " )";
-            summary += "\n" + "Change in Non Commented Lines of Code by files : " + ftDataByFile.getTotal() + " ( " + ftDataByFile.getPositive() + " + , " + ftDataByFile.getNegative() + " -)";
+            summary += " Total Change in Non Commented Lines of Code for the project(s) <b>: " + ftData.getTotal() + " (</b> <font color=\"red\">+ " + ftData.getPositive() + "</font>, <font color=\"green\">- " + ftData.getNegative() + "</font> )<br>";
+            summary += "\n" + "Change in Non Commented Lines of Code by files : <b>" + ftDataByFile.getTotal() + "</b> ( <font color=\"red\">" + ftDataByFile.getPositive() + " + </font>, <font color=\"green\">" + ftDataByFile.getNegative() + " -</font>)";
         }
         Label summaryLabel = new Label(summary, ContentMode.HTML);
         return summaryLabel;
@@ -126,11 +127,11 @@ public class MainComponent extends CustomComponent {
     public Label getNumberOfProjectAndAuthorSelected(UIState state) {
         int numberOfProjects = state.getProjects().size();
         int numberOfAuthors = state.getAuthorsFilter().size();
-        String summary = "";
+        String summary = "<b><font size=2>";
         if (state.getX() != XAxis.LINESOFCODE) {
-        	summary = "From: " + state.getStart().toString() + " to " + state.getEnd().toString() + ", ";
+            summary += "From: " + state.getStart().toString() + " to " + state.getEnd().toString() + ", ";
         } else {
-        	summary = "On: " + state.getStart().toString() + ", ";
+            summary += "On: " + state.getStart().toString() + ", ";
         }
         summary += "\tView: " + state.getX().getView() + ". \t";
         summary += numberOfProjects + " projects and ";
@@ -138,17 +139,19 @@ public class MainComponent extends CustomComponent {
             if (numberOfAuthors == 0) {
                 summary += "all authors(default) selected. ";
             } else {
-                summary += numberOfAuthors + " authors selected. ";
+                summary += numberOfAuthors + " authors selected.";
             }
         } else {
-            summary += numberOfAuthors + " authors selected. ";
+            summary += numberOfAuthors + " authors selected.";
         }
-        Label numberOfProjectAndAuthorSelected = new Label(summary, ContentMode.TEXT);
+        summary += "</font></b>";
+        Label numberOfProjectAndAuthorSelected = new Label(summary, ContentMode.HTML);
         return numberOfProjectAndAuthorSelected;
     }
 
-    public Label getProjectSelected(UIState state) {
+    public Label getProjectAndAuthorSelected(UIState state) {
         int numberOfProjects = state.getProjects().size();
+        int numberOfAuthors = state.getAuthorsFilter().size();
         String summary = "";
         if (numberOfProjects != 0) {
             summary += "<b>Project(s) Selected:</b> [ ";
@@ -157,40 +160,32 @@ public class MainComponent extends CustomComponent {
             while (iter.hasNext()) {
                 summary += ", " + iter.next().getName();
             }
+            summary = limitString(summary, 170);
+            summary += "<br>";
         }
 
-        if (summary.length() > 350) {
-            summary = summary.substring(0, 350);
-            summary += "... ]";
-        } else if (summary.length() != 0) {
-            summary += " ]";
-        }
-        Label projectSelected = new Label(summary, ContentMode.HTML);
-        return projectSelected;
-    }
-
-    public Label getAuthorSelected(UIState state) {
-        int numberOfAuthors = state.getAuthorsFilter().size();
-        String summary = "";
         if (numberOfAuthors != 0) {
             summary += "<b>Author(s) Selected: </b> [ ";
-
             Iterator<String> iter = state.getAuthorsFilter().iterator();
             summary += iter.next();
             while (iter.hasNext()) {
                 summary += ", " + iter.next();
             }
+            summary = limitString(summary, 350);
         }
 
-        if (summary.length() > 380) {
-            summary = summary.substring(0, 380);
+        Label projectSelected = new Label(summary, ContentMode.HTML);
+        return projectSelected;
+    }
+
+    private String limitString(String summary, int stringLimit) {
+        if (summary.length() > stringLimit) {
+            summary = summary.substring(0, stringLimit);
             summary += "... ]";
         } else if (summary.length() != 0) {
             summary += " ]";
         }
-
-        Label authorSelected = new Label(summary, ContentMode.HTML);
-        return authorSelected;
+        return summary;
     }
 
 }
