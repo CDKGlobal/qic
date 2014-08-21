@@ -160,7 +160,7 @@ div .b {
 	font-weight: bold;
 	font-style: normal;
 	height: 25px;
-	padding-left: 80px;
+/*	padding-left: 80px;*/
 /* 	padding-top: 4px;
 	padding-bottom: 3px;  */
 }
@@ -173,7 +173,10 @@ div .b {
 }
 
 .selectLabelDisplay{
-	padding-top: 10px;
-	font-weight: bold;
+	padding-top: 20px;
 	font-size:20px;
+}
+
+#proAndAutSelect{
+	/*padding-left: 200px;*/
 }
