@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.joda.time.DateTime;
+
 import com.testing123.dataObjects.ConvertDate;
 import com.testing123.dataObjects.ConvertProject;
 import com.testing123.ui.Preferences;
@@ -22,7 +24,7 @@ public class UIState {
 	private Set<String> authors;
 
 	public UIState() {
-		this(defaultStart, defaultEnd, XAxis.DELTA_LINESOFCODE);
+		this(new ConvertDate(new DateTime().minusDays(7).toDate()), new ConvertDate(new DateTime().toDate()), XAxis.DELTA_LINESOFCODE);
 	}
 	
 	public UIState(ConvertDate start, ConvertDate end, XAxis x) {
