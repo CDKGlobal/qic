@@ -90,8 +90,8 @@ public class DownloadFisheyeData {
 				revisionMap.put(fisheyePath, revision);
 			}
 		}
-		for (String fisheyePath : revisionMap.keySet()) {
-			aggregateSet.add(revisionMap.get(fisheyePath));
+		for (Map.Entry<String,RevisionData> entry : revisionMap.entrySet()) {
+			aggregateSet.add(entry.getValue());
 		}
 		return aggregateSet;
 	}
