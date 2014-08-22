@@ -12,6 +12,7 @@ import com.testing123.controller.SQLConnector;
 import com.testing123.dataObjects.ConvertDate;
 import com.testing123.dataObjects.ConvertProject;
 import com.testing123.dataObjects.QueryData;
+import com.testing123.ui.Preferences;
 
 public class QueryDatabase {
     private static final Set<String> METRIC_COLUMNS = new HashSet<String>(Arrays.asList(new String[]{"ncloc", "churn",
@@ -58,7 +59,7 @@ public class QueryDatabase {
         return conn
                         .basicQuery("SELECT a1.file_id, a1.file_key, afl.name, ncloc, complexity, delta_complexity, authors FROM "
                                         + "allFileHistory3 a1 "
-                                        + "JOIN allFileList afl ON afl.file_id = a1.file_id WHERE qualifier != 'UTS' "
+                                        + "JOIN " + Preferences.STATIC_TABLE + " afl ON afl.file_id = a1.file_id WHERE qualifier != 'UTS' "
                                         + "AND afl.project_id IN " + projectIDSet(projects)
                                         + " AND a1.dbdate = (SELECT MAX(a2.dbdate) FROM allFileHistory3 a2 "
                                         + "WHERE a1.file_id = a2.file_id AND a2.dbdate <= '" + endDate.getDBFormat() 

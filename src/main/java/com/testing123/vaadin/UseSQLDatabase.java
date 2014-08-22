@@ -29,7 +29,7 @@ public class UseSQLDatabase implements DatabaseInterface{
 	@Override
 	public Map<String, Integer> getMapToID(int projectID) {
 		SQLConnector connector = new SQLConnector(databaseName);
-		ResultSet results = connector.basicQuery("SELECT file_id,file_key,scope,qualifier FROM allFileList WHERE project_id=" + projectID + ";");
+		ResultSet results = connector.basicQuery("SELECT file_id,file_key,scope,qualifier FROM " + Preferences.STATIC_TABLE + " WHERE project_id=" + projectID + ";");
 		Map<String, Integer> mapNameToID = new HashMap<String, Integer>();
 		if (results != null) {
 			try {
@@ -78,7 +78,7 @@ public class UseSQLDatabase implements DatabaseInterface{
 	public int getProjectID(String fileKey) {
 		SQLConnector connector = new SQLConnector(databaseName);
 		int projectID = -1;
-		ResultSet results = connector.basicQuery("SELECT project_id FROM allFileList WHERE file_key='" + fileKey + "';");
+		ResultSet results = connector.basicQuery("SELECT project_id FROM " + Preferences.STATIC_TABLE + " WHERE file_key='" + fileKey + "';");
 		try {
 			if (results != null && results.next()) {
 				projectID = results.getInt("project_id");
@@ -104,7 +104,7 @@ public class UseSQLDatabase implements DatabaseInterface{
 	@Override
 	public String getProjectPath(int projectID) {
 		SQLConnector connector = new SQLConnector(databaseName);
-		ResultSet results = connector.basicQuery("SELECT path FROM projectList WHERE project_id=" + projectID + ";");
+		ResultSet results = connector.basicQuery("SELECT path FROM " + Preferences.PROJECT_TABLE + " WHERE project_id=" + projectID + ";");
 		String projectPath = null;
 		try {
 			if (results != null && results.next()) {
