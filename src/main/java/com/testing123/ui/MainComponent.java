@@ -140,29 +140,34 @@ public class MainComponent extends CustomComponent {
     public Label getProjectAndAuthorSelected(UIState state) {
         int numberOfProjects = state.getProjects().size();
         int numberOfAuthors = state.getAuthorsFilter().size();
-        String summary = "";
+    	StringBuilder summary = new StringBuilder();
+    	String summaryString = "";
         if (numberOfProjects != 0) {
-            summary += "<b>Project(s) Selected:</b> [ ";
+            summary.append("<b>Project(s) Selected:</b> [ ");
             Iterator<ConvertProject> iter = state.getProjects().iterator();
-            summary += iter.next().getName();
+            summary.append(iter.next().getName());
             while (iter.hasNext()) {
-                summary += ", " + iter.next().getName();
+                summary.append(", ");
+                summary.append(iter.next().getName());
             }
-            summary = limitString(summary, 170);
-            summary += "<br>";
+            summaryString = limitString(summary.toString(), 170);
+            summary = new StringBuilder();
+            summary.append(summaryString);
+            summary.append("<br>");
         }
-
+        
         if (numberOfAuthors != 0) {
-            summary += "<b>Author(s) Selected: </b> [ ";
+            summary.append("<b>Author(s) Selected: </b> [ ");
             Iterator<String> iter = state.getAuthorsFilter().iterator();
-            summary += iter.next();
+            summary.append(iter.next());
             while (iter.hasNext()) {
-                summary += ", " + iter.next();
+            	summary.append(",");
+            	summary.append(iter.next());
             }
-            summary = limitString(summary, 350);
+            summaryString = limitString(summary.toString(), 350);
         }
 
-        Label projectSelected = new Label(summary, ContentMode.HTML);
+        Label projectSelected = new Label(summaryString, ContentMode.HTML);
         return projectSelected;
     }
 
