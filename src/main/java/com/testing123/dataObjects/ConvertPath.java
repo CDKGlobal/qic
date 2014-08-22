@@ -65,6 +65,14 @@ public class ConvertPath {
 		return buff;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((path == null) ? 0 : path.hashCode());
+		return result;
+	}
+
 	public boolean equals(String string) {
 		return equals(new ConvertPath(string));
 	}
