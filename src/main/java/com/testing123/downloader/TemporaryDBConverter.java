@@ -19,7 +19,6 @@ public class TemporaryDBConverter {
 				String date = rs.getString("date");
 				String[] frmtDate = date.split("T");
 				System.out.println(frmtDate[0]);
-				//double comp = rs.getDouble("complexity");
 				conn.updateQuery("UPDATE allFileHistory set dbdate = '" + frmtDate[0] + "' WHERE file_key = '" + key + "' AND date LIKE '" + frmtDate[0] + "T%';");
 			}
 		} catch (SQLException e) {

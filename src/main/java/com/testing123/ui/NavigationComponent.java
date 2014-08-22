@@ -289,16 +289,14 @@ public class NavigationComponent extends CustomComponent {
 			
 			@Override
 			public void valueChange(ValueChangeEvent event) {
-//				state.setX((XAxis) xAxisComboBox.getValue());
 				if (((XAxis) xAxisComboBox.getValue()) == XAxis.LINESOFCODE) {
 					startDateField.setEnabled(false);
 				} else {
 					startDateField.setEnabled(true);
 				}
-//				fireChangeAction();
 			}
 		});
-//				
+				
 		startDateField = createDateField("Start Date");
         startDateField.setValue(state.getStart().getDateTime().toDate());
 		

@@ -84,18 +84,12 @@ public class QicUI extends UI {
 	 */
 	@Override
 	protected void init(VaadinRequest request) {
-		//final GridLayout layout = new GridLayout(3, 4);
 		
 	    final VerticalLayout mainVerticalLayout = new VerticalLayout();
 	    mainVerticalLayout.setWidth("100%");
 		mainVerticalLayout.setMargin(false);
 		setContent(mainVerticalLayout);
-		
-//		final AbsoluteLayout l1 = new AbsoluteLayout();
-//		l1.setWidth(LEFT_MARGIN_WIDTH);
-//		l1.setHeight(FIRST_ROW_HEIGHT);
-//		l1.setStyleName("header_background");
-		
+				
 		final AbsoluteLayout headingText = new AbsoluteLayout();
 		headingText.setWidth("100%");
 		headingText.setHeight(FIRST_ROW_HEIGHT);
