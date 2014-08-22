@@ -18,7 +18,7 @@ public class Preferences {
     public static final String DB_NAME_TEST = "TestDatabase";
     public static final String PROJECT_TABLE = "projectList";
     public static final String STATIC_TABLE = "allFileList";
-    public static final String DATA_TABLE = "allFileHistory";
+    public static final String DATA_TABLE = "allFileHistory3";
 
     public static final ConvertDate DEFAULT_START_DATE = new ConvertDate(new DateTime().minusDays(7).toDate());
     public static final ConvertDate DEFAULT_END_DATE = new ConvertDate(new DateTime().toDate());

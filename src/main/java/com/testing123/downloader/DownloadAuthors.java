@@ -39,7 +39,7 @@ public class DownloadAuthors {
 	public void addAuthors() {
 		Set<String> all = new HashSet<String>();
 		for (String repository : Preferences.FISHEYE_REPOS) {
-			String home = "http://fisheye.cobalt.com/search/";
+			String home = Preferences.FISHEYE_HOME + "/search/";
 			String link = home + repository + "/?ql=" + getQuery();
 			link = link.replaceAll("\\s+", "%20");
 			try {
