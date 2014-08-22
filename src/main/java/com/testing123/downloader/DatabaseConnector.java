@@ -158,7 +158,8 @@ public class DatabaseConnector {
     public static String getProjectPath(int index) {
         try {
             URL url = new URL("http://sonar.cobalt.com/dashboard/index/" + index);
-            BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
+            InputStreamReader inputStream = new InputStreamReader(url.openStream());
+            BufferedReader in = new BufferedReader(inputStream);
             String inputLine;
             String[] split;
             while ((inputLine = in.readLine()) != null) {
@@ -174,6 +175,7 @@ public class DatabaseConnector {
                     }
                 }
             }
+            inputStream.close();
             in.close();
         } catch (Exception e) {
             e.printStackTrace();
