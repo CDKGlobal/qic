@@ -1,5 +1,6 @@
 package com.testing123.ui;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
@@ -256,12 +257,12 @@ public class NavigationComponent extends CustomComponent {
 				System.out.println("PRINTED : " + location);
 				if (state.getX() != XAxis.LINESOFCODE) {
 					try {
-						String link = new DisplayChanges().popUp(state, location).toString();
-						if (link == null) {
+						URL linkURL = new DisplayChanges().popUp(state, location);
+						if (linkURL == null) {
 							displayMessage("Pop Up Error", "Diff cannot be found", Notification.Type.WARNING_MESSAGE);
 							return;
 						}
-						JavaScript.getCurrent().execute("window.open('" + link + "', 'Fisheye', 'height=800, width=1200');");
+						JavaScript.getCurrent().execute("window.open('" + linkURL.toString() + "', 'Fisheye', 'height=800, width=1200');");
 					} catch (Exception e) {
 						System.out.println("Pop up failed");
 					}
