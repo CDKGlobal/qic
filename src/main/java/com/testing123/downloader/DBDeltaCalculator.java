@@ -14,37 +14,26 @@ public class DBDeltaCalculator {
 	public void convertLatestMetrics() throws SQLException {
 		SQLConnector conn = new SQLConnector();
 		Connection c = conn.getConn();
-		Statement st = c.createStatement();
-		st = c.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+		Statement st = c.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
                 ResultSet.CONCUR_UPDATABLE);
 		ResultSet rs = st.executeQuery("SELECT * from allFileHistory3 WHERE dbdate > '" 
 				+ DataSupportMain.getFrmtDate(new DateTime().minusDays(21)) + "' ORDER BY file_id ASC, dbdate ASC;");
 		try {
 			rs.next();
 			int prevId = rs.getInt("file_id");
-			String prevKey = rs.getString("file_key");
 			double prevComp = rs.getDouble("complexity");
-			double prevDC = rs.getDouble("delta_complexity");
-			int i = 0;
 			while (rs.next()) {
-				System.out.println(i++ + " " + prevKey);
 				int currId = rs.getInt("file_id");
-				String currKey = rs.getString("file_key");
 				double currComp = rs.getDouble("complexity");
-				double currDC = rs.getDouble("delta_complexity");
 				if (rs.wasNull()) {
 					if (currId == prevId) {
 						double deltaComp = currComp - prevComp;
-						prevDC = deltaComp;
 						rs.updateDouble("delta_complexity", deltaComp);
 			            rs.updateRow();
 			            System.out.println(deltaComp + " updated");
 					}
-				} else {
-					prevDC = currDC;
 				}
 				prevId = currId;
-				prevKey = currKey;
 				prevComp = currComp;
 			}
 		} catch (SQLException e) {
