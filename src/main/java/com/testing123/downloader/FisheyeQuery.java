@@ -102,7 +102,7 @@ public class FisheyeQuery implements FisheyeInterface {
 	}
 
 	@Override
-	public FisheyeInfo ExtractFisheyeInfo(RepoAndDirData project, ConvertPath path, ConvertDate startDate, ConvertDate endDate) {		
+	public FisheyeInfo extractFisheyeInfo(RepoAndDirData project, ConvertPath path, ConvertDate startDate, ConvertDate endDate) {		
 		FisheyeInfo info = getrevision(project, path, endDate.getDBFormatPlusOne());
 		info.setStartingRevision(getrevision(project, path, startDate.getDBFormat()));
 		return info;

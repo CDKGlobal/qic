@@ -31,7 +31,7 @@ public class DisplayChanges {
 		if(project.equals(new RepoAndDirData(null)))
 			return null;
 		ConvertPath path = new ConvertPath(fileKey);
-		FisheyeInfo revisionsToDiff = fisheye.ExtractFisheyeInfo(project, path, state.getStart(), state.getEnd());
+		FisheyeInfo revisionsToDiff = fisheye.extractFisheyeInfo(project, path, state.getStart(), state.getEnd());
 		return getURL(project.getRepositoryName(), revisionsToDiff);
 	}
 	

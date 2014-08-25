@@ -12,6 +12,6 @@ public interface FisheyeInterface {
 		  	  
 	  public Set<RevisionData> getRevisionsFromProject(String repository, String directory, String date);
 	  
-	  public FisheyeInfo ExtractFisheyeInfo(RepoAndDirData project, ConvertPath path, ConvertDate startDate, ConvertDate endDate);
+	  public FisheyeInfo extractFisheyeInfo(RepoAndDirData project, ConvertPath path, ConvertDate startDate, ConvertDate endDate);
 
 }
