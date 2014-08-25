@@ -5,36 +5,23 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import com.testing123.controller.SQLConnector;
 import com.testing123.ui.Preferences;
 import com.testing123.vaadin.WebData;
 
 public class DatabaseConnector {
+	private SQLConnector conn;
+	
+	public DatabaseConnector() {
+		this.conn = new SQLConnector();
+	}
 
-    public static Connection getConnection() {
-        try {
-            Connection conn =
-                            DriverManager.getConnection("jdbc:mysql://dc2pvpdc00059.vcac.dc2.dsghost.net:3306/dataList4?" +
-                                            "user=root&password=password");
-            return conn;
-        } catch (SQLException ex) {
-            // handle any errors
-            System.out.println("SQLException: " + ex.getMessage());
-            System.out.println("SQLState: " + ex.getSQLState());
-            System.out.println("VendorError: " + ex.getErrorCode());
-        }
-        return null;
-    }
-
-    public void writeToTxtFileAndUpsertMetrics(Connection conn) {
-        Statement stmt = null;
+    public void writeToTxtFileAndUpsertMetrics() {
         try {
         	Downloader dl = new Downloader();
         	List<WebData> projectList = dl.downloadAndStoreInList("", 0, "?");
@@ -45,9 +32,8 @@ public class DatabaseConnector {
             PrintWriter writer = new PrintWriter(currentPath + currentDate + ".txt");
             int i = 0;
             for (WebData project : projectList) {
-                stmt = conn.createStatement();
                 String projectPath = getProjectPath(project.getId());
-                upsertProjectDataToDB(stmt, projectPath, project);
+                upsertProjectDataToDB(projectPath, project);
                 int depth = 1;
                 String projectKey = project.getKey();
                 List<WebData> fileList = dl.downloadAndStoreInList(projectKey, depth, "=");
@@ -59,8 +45,8 @@ public class DatabaseConnector {
                     }
 
                     for (WebData file : fileList) {
-                        upsertFileDataToDB(stmt, project, file);
-                        upsertFileHistoryToDB(stmt, file, currentDate);
+                        upsertFileDataToDB(project, file);
+                        upsertFileHistoryToDB(file, currentDate);
                         i++;
                         writeTxt(writer, file);
                     }
@@ -80,7 +66,7 @@ public class DatabaseConnector {
         return currentDate;
     }
 
-    private void upsertFileHistoryToDB(Statement stmt, WebData file, String currentDate) throws SQLException {
+    private void upsertFileHistoryToDB(WebData file, String currentDate) throws SQLException {
         String query = "INSERT INTO allFileHistory3("
                         + "file_id, "
                         + "file_key, "
@@ -102,11 +88,11 @@ public class DatabaseConnector {
                         + "complexity = values(complexity),"
                         + "dbdate = values(dbdate),"
                         + "delta_complexity = values(delta_complexity);";
-        stmt.execute(query);
+        conn.updateQuery(query);
     }
 
-    private void upsertFileDataToDB(Statement stmt, WebData project, WebData file) throws SQLException {
-        stmt.execute("INSERT INTO allFileList("
+    private void upsertFileDataToDB(WebData project, WebData file) throws SQLException {
+        conn.updateQuery("INSERT INTO allFileList("
                         + "project_Id, "
                         + "file_id, "
                         + "file_key,"
@@ -123,8 +109,8 @@ public class DatabaseConnector {
                         + "name = values(name);");
     }
 
-    private void upsertProjectDataToDB(Statement stmt, String projectPath, WebData project) throws SQLException {
-        stmt.execute("INSERT INTO projectList(project_id, project_key, name, scope, qualifier, date, path) VALUES ("
+    private void upsertProjectDataToDB(String projectPath, WebData project) throws SQLException {
+        conn.updateQuery("INSERT INTO projectList(project_id, project_key, name, scope, qualifier, date, path) VALUES ("
                         + project.getId() + ", '"
                         + project.getKey() + "', '"
                         + project.getName() + "', '"
@@ -156,7 +142,7 @@ public class DatabaseConnector {
     public static String getProjectPath(int index) {
         String projectPath = null;
 		try {
-			URL url = new URL("http://sonar.cobalt.com/dashboard/index/" + index);
+			URL url = new URL(Preferences.SONAR_HOME + "/dashboard/index/" + index);
 			InputStreamReader inputStream = new InputStreamReader(url.openStream());
 			BufferedReader in = new BufferedReader(inputStream);
 	        projectPath = parseForProjectPath(index, in);

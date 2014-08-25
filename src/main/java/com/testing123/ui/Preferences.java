@@ -40,7 +40,6 @@ public class Preferences {
     public static final String FILL_COLOR_POS = "#FF0000";
     public static final String FILL_COLOR_NEG = "#009933";
 
-
     public static final String[] FISHEYE_REPOS = new String[] {
         "Advertising.Perforce", "Core.Perforce", "Intelligence.Perforce", "OpenPlatform.Perforce",
         "Owner.Perforce", "ProfessionalServices.Perforce", "ReleaseEngineering.Perforce",
