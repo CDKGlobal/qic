@@ -133,6 +133,8 @@ public class UIState {
 	
 	public interface Axis {
 		
+		public String getView();
+		
 		public String getColName();
 		
 	}
@@ -154,6 +156,7 @@ public class UIState {
 			this.description = descr;
 		}
 		
+		@Override
 		public String getView() {
 			return description;
 		}
@@ -186,6 +189,11 @@ public class UIState {
 			this.detail = detail;
 			this.dbCol = dbCol;
 			this.description = descr;
+		}
+		
+		@Override
+		public String getView() {
+			return description;
 		}
 		
 		@Override
