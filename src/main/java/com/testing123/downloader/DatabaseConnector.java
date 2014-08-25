@@ -57,9 +57,7 @@ public class DatabaseConnector {
                     }
 
                     for (WebData file : fileList) {
-                        // System.out.println("file key = " + file.getKey());
                         upsertFileDataToDB(stmt, project, file);
-                        // System.out.println("file key = " + file.getKey());
                         upsertFileHistoryToDB(stmt, file, currentDate);
                         i++;
                         writeTxt(writer, file);
@@ -90,7 +88,6 @@ public class DatabaseConnector {
                         + "delta_complexity) VALUES ("
                         + file.getId() + ", '"
                         + file.getKey() + "', ";
-        // System.out.println(file.getKey());
         if (file.getMsr() == null) {
             query = query + "-1.0, -1.0, '";
         } else {
@@ -147,7 +144,6 @@ public class DatabaseConnector {
             } else {
                 writer.println("\t" + file.getMsr().get(0).getVal() + "\t" + file.getMsr().get(1).getVal());
             }
-            // System.out.println("writing file to txt: " + file.getKey());
 
         } catch (Exception e) {
             e.printStackTrace();
