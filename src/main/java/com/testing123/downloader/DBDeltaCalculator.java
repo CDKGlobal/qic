@@ -43,12 +43,15 @@ public class DBDeltaCalculator {
 	            rs.updateRow();
 				prevId = currId;
 				prevComp = currComp;
+				prevIssues = currIssues;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		conn.updateQuery("UPDATE allFileHistory3 SET delta_complexity = 0 WHERE dbdate = '" 
 				+ new ConvertDate().getDBFormat() + "' AND delta_complexity IS NULL AND complexity != -1;");
+		conn.updateQuery("UPDATE allFileHistory3 SET delta_issues = 0 WHERE dbdate = '" 
+				+ new ConvertDate().getDBFormat() + "' AND delta_issues IS NULL;");
 		conn.close();
 	}
 
