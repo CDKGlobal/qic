@@ -1,6 +1,7 @@
 package com.testing123.downloader;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.URL;
@@ -152,31 +153,41 @@ public class DatabaseConnector {
 
 
     public static String getProjectPath(int index) {
+        String projectPath = null;
+		try {
+			URL url = new URL("http://sonar.cobalt.com/dashboard/index/" + index);
+			InputStreamReader inputStream = new InputStreamReader(url.openStream());
+			BufferedReader in = new BufferedReader(inputStream);
+	        projectPath = parseForProjectPath(index, in);
+	        inputStream.close();
+	        in.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+        return projectPath;
+    }
+    
+    private static String parseForProjectPath(int index, BufferedReader in){
+        String inputLine;
+        String[] split;
         try {
-            URL url = new URL("http://sonar.cobalt.com/dashboard/index/" + index);
-            InputStreamReader inputStream = new InputStreamReader(url.openStream());
-            BufferedReader in = new BufferedReader(inputStream);
-            String inputLine;
-            String[] split;
-            while ((inputLine = in.readLine()) != null) {
-                if (inputLine.contains("http://perforce.")) {
-                    split = inputLine.split("(.com|//|(\">Sources))");
-                    if (split.length > 2) {
-                        return split[2];
-                    }
-                } else if (inputLine.contains("scm:perforce:perforce.")) {
-                    split = inputLine.split("(scm:perforce:perforce.|//|(</div>))");
-                    if (split.length > 2) {
-                        return "/" + split[2];
-                    }
-                }
-            }
-            inputStream.close();
-            in.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
+			while ((inputLine = in.readLine()) != null) {
+			    if (inputLine.contains("http://perforce.")) {
+			        split = inputLine.split("(.com|//|(\">Sources))");
+			        if (split.length > 2) {
+			            return split[2];
+			        }
+			    } else if (inputLine.contains("scm:perforce:perforce.")) {
+			        split = inputLine.split("(scm:perforce:perforce.|//|(</div>))");
+			        if (split.length > 2) {
+			            return "/" + split[2];
+			        }
+			    }
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    	return null;
     }
 
 }
