@@ -21,10 +21,10 @@ public class DisplayChangesTest {
 	private DatabaseInterface DBIMock;
 	
 	@Before
-	public void before(){	
+	public void before(){
+		state = new UIState();
 		FIMock = Mockito.mock(FisheyeInterface.class);
 		DBIMock = Mockito.mock(DatabaseInterface.class);
-		state = new UIState();
 	}
 	
 	@Test
