@@ -139,8 +139,7 @@ public class UIState {
 	public enum XAxis implements Axis {
 		DELTA_LINESOFCODE("Churn (Lines Modified)", "churn", "Lines Modified vs Final Complexity"), 
 		DELTA_COMPLEXITY("Change in Complexity", "delta_complexity", "Change in Complexity vs Final Complexity"), 
-		//DELTA_ISSUES("Change in Issues", "delta_issues"),
-		//DELTA_COVERAGE("Delta Coverage", "delta_coverage"),
+		DELTA_ISSUES("Change in Issues", "delta_issues", "Change in Number of Issues vs Final Complexity"),
 		LINESOFCODE("Non Comment Lines of Code", "ncloc", "Lines of Code vs Complexity for All Files");
 		
 		private String detail;

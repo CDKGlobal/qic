@@ -96,6 +96,8 @@ public class DataPoint implements Comparable<DataPoint> {
 			return "Modified Lines Of Code: ";
 		}else if(xAxis.equals(XAxis.LINESOFCODE)){
 			return "Total Non-Comment Lines Of Code: ";
+		}else if(xAxis.equals(XAxis.DELTA_ISSUES)){
+			return "Changed Number of Issues: ";
 		}
 		return "Value: ";
 	}

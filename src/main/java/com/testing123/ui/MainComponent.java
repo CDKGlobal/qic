@@ -95,23 +95,29 @@ public class MainComponent extends CustomComponent {
         return graph;
     }
 
-    public Label getSummary(XAxis xValue, DataPointSet dataPointList) {
-        String summary = "";
-        FooterData ftData = FooterSummary.getFooterData(dataPointList);
-        FooterData ftDataByFile = FooterSummary.getFooterDataByFile(dataPointList);
-        if (xValue.equals(XAxis.DELTA_LINESOFCODE)) {
-            summary += " Churn : " + ftData.getTotal() + " lines of code modified.";
-        } else if (xValue.equals(XAxis.DELTA_COMPLEXITY)) {
-            summary += " Total Change in Cyclomatic Complexity for the project(s) : <b>" + ftData.getTotal() + "</b> ( <font color=\"red\">+ " + ftData.getPositive() + "</font>, <font color=\"green\">- " + ftData.getNegative() + "</font> )<br>.";
-            summary += "\n" + "Change in Cyclomatic Complexity by files : <b>" + ftDataByFile.getTotal() + "</b> ( <font color=\"red\">" + ftDataByFile.getPositive() + " + </font>, <font color=\"green\">" + ftDataByFile.getNegative() + " -</font> ).";
-        } else if (xValue.equals(XAxis.LINESOFCODE)) {
-            summary += " Total Change in Non Commented Lines of Code for the project(s) <b>: " + ftData.getTotal() + " (</b> <font color=\"red\">+ " + ftData.getPositive() + "</font>, <font color=\"green\">- " + ftData.getNegative() + "</font> )<br>";
-            summary += "\n" + "Change in Non Commented Lines of Code by files : <b>" + ftDataByFile.getTotal() + "</b> ( <font color=\"red\">" + ftDataByFile.getPositive() + " + </font>, <font color=\"green\">" + ftDataByFile.getNegative() + " -</font>)";
-        }
-        Label summaryLabel = new Label(summary, ContentMode.HTML);
-        return summaryLabel;
-    }
+	public Label getSummary(XAxis xValue, DataPointSet dataPointList) {
+		String summary = "";
+		if (xValue.equals(XAxis.DELTA_LINESOFCODE) || xValue.equals(XAxis.LINESOFCODE)) {
+			FooterData ftData = FooterSummary.getFooterData(dataPointList);
+			summary += " Total " + xValue.toString() + ": " + ftData.getTotal() + " lines of code modified.";
+		} else {
+			summary = getSummaryString(xValue, dataPointList);
+		}
+		Label summaryLabel = new Label(summary, ContentMode.HTML);
+		return summaryLabel;
+	}
 
+	private String getSummaryString(XAxis xValue, DataPointSet dataPointList) {
+		FooterData ftData = FooterSummary.getFooterData(dataPointList);
+		FooterData ftDataByFile = FooterSummary.getFooterDataByFile(dataPointList);
+		String summary = "";
+		summary += " Total " + xValue.toString() + " for the project(s) <b>: " + ftData.getTotal() + " (</b> <font color=\"red\">+ "
+				+ ftData.getPositive() + "</font>, <font color=\"green\">- " + ftData.getNegative() + "</font> )<br>";
+		summary += "\n " + xValue.toString() + " by file : <b>" + ftDataByFile.getTotal() + "</b> ( <font color=\"red\">+ "
+				+ ftDataByFile.getPositive() + "</font>, <font color=\"green\">- " + ftDataByFile.getNegative() + "</font> ).";
+		return summary;
+	}
+    
     public Label getNumberOfProjectAndAuthorSelected(UIState state) {
         int numberOfProjects = state.getProjects().size();
         int numberOfAuthors = state.getAuthorsFilter().size();
