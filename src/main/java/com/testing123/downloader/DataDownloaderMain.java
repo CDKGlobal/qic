@@ -10,8 +10,7 @@ public class DataDownloaderMain {
             // builds a connection
             Connection conn = DatabaseConnector.getConnection();
             dbConnector.writeToTxtFileAndUpsertMetrics(conn);
-            FisheyeUploader fe = new FisheyeUploader();
-            fe.uploadFEToDatabase(conn);
+            FisheyeUploader.uploadFEToDatabase(conn);
             conn.close();
         } catch (Exception e) {
             e.printStackTrace();
