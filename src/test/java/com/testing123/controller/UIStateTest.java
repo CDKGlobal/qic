@@ -67,7 +67,7 @@ public class UIStateTest {
 
     @Test
     public void TestPossibleXAxisValuesIsConsistent() {
-        assertEquals(3, XAxis.possibleValues().size());
+        assertEquals(4, XAxis.possibleValues().size());
     }
 
     @Test

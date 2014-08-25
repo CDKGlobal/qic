@@ -13,6 +13,7 @@ import java.util.Set;
 import org.joda.time.DateTime;
 
 import com.testing123.controller.SQLConnector;
+import com.testing123.dataObjects.ConvertDate;
 import com.testing123.ui.Preferences;
 
 public class DownloadAuthors {
@@ -23,10 +24,10 @@ public class DownloadAuthors {
 	}
 	
 	public void addDateStamp() {
-		DateTime today = new DateTime();
+		ConvertDate today = new ConvertDate();
 		String query = null;
-		query = "INSERT INTO dates (display, datescol) VALUES ('" + DataSupportMain.getFrmtDate(today) + "', '" 
-			 + DataSupportMain.getFrmtDate(today) + "')";
+		query = "INSERT INTO dates (display, datescol) VALUES ('" + today.getDBFormat() + "', '" 
+			 + today.getDBFormat() + "')";
 		System.out.println(query);
 		try {
 			connector.updateQuery(query);

@@ -5,9 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.joda.time.DateTime;
-
 import com.testing123.controller.SQLConnector;
+import com.testing123.dataObjects.ConvertDate;
 
 public class DBDataCalculatorShort extends DBDeltaCalculator {
 	
@@ -15,8 +14,9 @@ public class DBDataCalculatorShort extends DBDeltaCalculator {
 	public void convertLatestMetrics() throws SQLException {
 		SQLConnector conn = new SQLConnector();
 		Connection c = conn.getConn();
+		ConvertDate today = new ConvertDate();
 		PreparedStatement st = c.prepareStatement("SELECT * from allFileHistory3 WHERE dbdate = '" 
-				+ DataSupportMain.getFrmtDate(new DateTime()) + "' AND complexity != -1 ORDER BY file_id ASC, dbdate ASC;", 
+				+ today.getDBFormat() + "' AND complexity != -1 ORDER BY file_id ASC, dbdate ASC;", 
 				ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 		ResultSet rs = st.executeQuery();
 		try {
@@ -24,7 +24,7 @@ public class DBDataCalculatorShort extends DBDeltaCalculator {
 			while (rs.next()) {
 				SQLConnector conn2 = new SQLConnector();
 				ResultSet rs2 = conn2.basicQuery("SELECT * from allFileHistory3 WHERE dbdate < '" 
-					+ DataSupportMain.getFrmtDate(new DateTime()) + "' AND file_id = " + rs.getInt("file_id")
+					+ today.getDBFormat() + "' AND file_id = " + rs.getInt("file_id")
 					+ " ORDER BY dbdate DESC LIMIT 1;");
 				if (rs2.next()) {
 					if (rs2.getString("file_id").equals(rs.getString("file_id"))) {
@@ -49,7 +49,7 @@ public class DBDataCalculatorShort extends DBDeltaCalculator {
 				conn2.close();
 			}
 			st = c.prepareStatement("UPDATE allFileHistory3 SET delta_complexity = 0 WHERE dbdate = '" 
-					+ DataSupportMain.getFrmtDate(new DateTime()) + "' AND delta_complexity IS NULL AND complexity != -1;", 
+					+ today.getDBFormat() + "' AND delta_complexity IS NULL AND complexity != -1;", 
 					ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 			st.executeUpdate();
 			while (rs.next()) {

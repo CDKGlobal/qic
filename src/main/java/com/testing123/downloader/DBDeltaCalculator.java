@@ -8,6 +8,7 @@ import java.sql.Statement;
 import org.joda.time.DateTime;
 
 import com.testing123.controller.SQLConnector;
+import com.testing123.dataObjects.ConvertDate;
 
 public class DBDeltaCalculator {
 
@@ -17,7 +18,7 @@ public class DBDeltaCalculator {
 		Statement st = c.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
                 ResultSet.CONCUR_UPDATABLE);
 		ResultSet rs = st.executeQuery("SELECT * from allFileHistory3 WHERE dbdate > '" 
-				+ DataSupportMain.getFrmtDate(new DateTime().minusDays(21)) + "' ORDER BY file_id ASC, dbdate ASC;");
+				+ new ConvertDate(new DateTime().minusDays(21)).getDBFormat() + "' ORDER BY file_id ASC, dbdate ASC;");
 		try {
 			rs.next();
 			int prevId = rs.getInt("file_id");
@@ -40,7 +41,7 @@ public class DBDeltaCalculator {
 			e.printStackTrace();
 		}
 		conn.updateQuery("UPDATE allFileHistory3 SET delta_complexity = 0 WHERE dbdate = '" 
-				+ DataSupportMain.getFrmtDate(new DateTime()) + "' AND delta_complexity IS NULL AND complexity != -1;");
+				+ new ConvertDate().getDBFormat() + "' AND delta_complexity IS NULL AND complexity != -1;");
 		conn.close();
 	}
 
