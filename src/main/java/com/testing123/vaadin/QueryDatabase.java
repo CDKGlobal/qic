@@ -111,10 +111,6 @@ public class QueryDatabase {
         data.setKey(rs.getString("file_key"));
         data.setName(rs.getString("name"));
         data.setAuthors(extractAuthors(rs));
-        //			data.setIssues(rs.getDouble("issues"));
-        //			data.setDeltaIssues(rs.getDouble("deltaIssues"));
-        //			data.setCoverage(rs.getDouble("coverage"));
-        //			data.setDeltaCoverage(rs.getDouble("deltaCoverage"));
     }
 
     private List<String>  extractAuthors(ResultSet rs) throws Exception {
