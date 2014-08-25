@@ -11,19 +11,16 @@ import com.testing123.controller.UIState;
 import com.testing123.dataObjects.ConvertDate;
 import com.testing123.dataObjects.RepoAndDirData;
 import com.testing123.interfaces.DatabaseInterface;
-import com.testing123.interfaces.FisheyeInterface;
 import com.testing123.vaadin.DisplayChanges;
 
 public class DisplayChangesTest {
 	
 	private UIState state;
-	private FisheyeInterface FIMock;
 	private DatabaseInterface DBIMock;
 	
 	@Before
 	public void before(){
 		state = new UIState();
-		FIMock = Mockito.mock(FisheyeInterface.class);
 		DBIMock = Mockito.mock(DatabaseInterface.class);
 	}
 	
