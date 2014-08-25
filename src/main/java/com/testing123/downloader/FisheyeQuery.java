@@ -7,7 +7,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.joda.time.DateTime;
@@ -19,8 +18,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.testing123.dataObjects.ConvertDate;
 import com.testing123.dataObjects.ConvertPath;
 import com.testing123.dataObjects.FisheyeData;
-import com.testing123.dataObjects.FisheyeInfo;
-import com.testing123.dataObjects.ItemData;
 import com.testing123.dataObjects.RepoAndDirData;
 import com.testing123.dataObjects.RevisionData;
 import com.testing123.interfaces.FisheyeInterface;
@@ -100,20 +97,13 @@ public class FisheyeQuery implements FisheyeInterface {
 		}
 		return querriedData;
 	}
-
+	
 	@Override
-	public FisheyeInfo extractFisheyeInfo(RepoAndDirData project, ConvertPath path, ConvertDate startDate, ConvertDate endDate) {		
-		FisheyeInfo info = getrevision(project, path, endDate.getDBFormatPlusOne());
-		info.setStartingRevision(getrevision(project, path, startDate.getDBFormat()));
-		return info;
-	}
-
-	private FisheyeInfo getrevision(RepoAndDirData project, ConvertPath path, String date) {
+	public FisheyeData getrevision(RepoAndDirData project, ConvertPath path, String date) {
 		String urlString = getRevisionListURLAsString(project,path,date);
 		URL url = getQueryURL(urlString);
 		FisheyeData changesets = getJSONFromFisheye(url);
-		FisheyeInfo info = extractInfoFromFisheye(changesets);
-		return info;
+		return changesets;
 	}
 	
 	private String getRevisionListURLAsString(RepoAndDirData project, ConvertPath path, String date){
@@ -121,24 +111,6 @@ public class FisheyeQuery implements FisheyeInterface {
 		String link = fisheyeHome + project.getRepositoryName() + ".json?query= select revisions from dir \"" + project.getDirectoryName() + "\" where date < " 
 		+ date + "and path like **/"+ path.getFisheyePath() + " order by date desc return path,csid limit 1";
 		return link;
-	}
-	
-	private FisheyeInfo extractInfoFromFisheye(FisheyeData changesets) {
-		int csidIndex = getIndex(changesets, "csid");
-		int pathIndex = getIndex(changesets, "path");
-		List<ItemData> revisionList = changesets.getRow();
-		int numOfRevisions = revisionList.size();
-		if (csidIndex != -1 && pathIndex != -1 && numOfRevisions > 0) {
-			int revision = Integer.parseInt((String) revisionList.get(0).getItem(csidIndex));
-			String completeFisheyePath = (String) revisionList.get(0).getItem(pathIndex);
-			return new FisheyeInfo(revision, completeFisheyePath);
-		}else{
-			return null;
-		}
-	}
-	
-	private int getIndex(FisheyeData data, String key) {
-		return data.getHeadings().indexOf(key);
 	}
 
 }
