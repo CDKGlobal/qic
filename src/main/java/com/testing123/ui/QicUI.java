@@ -101,7 +101,6 @@ public class QicUI extends UI {
 		Label title = new Label("Quality In Code", ContentMode.HTML);
 		title.setStyleName("b");
 		title.setStyleName("h1");
-		//title.setStyleName("header_background");
 		headingText.addComponent(title);
 		headingText.setStyleName("header_background");
 		mainVerticalLayout.addComponent(headingText);
