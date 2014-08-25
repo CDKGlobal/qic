@@ -16,6 +16,7 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 
+@SuppressWarnings("serial")
 public class OptionsComponent extends CustomComponent {
 	protected HorizontalLayout mainLayoutContainer;
 	protected HorizontalLayout mainLayout;

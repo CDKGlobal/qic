@@ -41,7 +41,7 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
-@SuppressWarnings("serial")
+@SuppressWarnings({"serial", "unchecked"})
 public class NavigationComponent extends CustomComponent {
 	private FilterComponent filter;
 	private AbsoluteLayout navLayout;
@@ -58,10 +58,6 @@ public class NavigationComponent extends CustomComponent {
 	private Window w;
 	private final OptionsComponent optionsBar;
 	
-	private static final String VERTICAL_OFFSET = "70px";
-	private static final String VERTICAL_OFFSET_2 = "100px";
-	private static final String AXIS_BOX_OFFSET = "5px";
-	private static final String COMBOBOX_WIDTH = "200px";
 	private static final String DEFAULT_VALUE = "-1px";
 	
 	/**
