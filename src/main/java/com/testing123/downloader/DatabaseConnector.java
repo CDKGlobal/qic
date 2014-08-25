@@ -72,21 +72,30 @@ public class DatabaseConnector {
                         + "file_key, "
                         + "ncloc, "
                         + "complexity, "
+                        + "issues, "
                         + "dbdate, "
                         + "delta_complexity) VALUES ("
                         + file.getId() + ", '"
                         + file.getKey() + "', ";
         if (file.getMsr() == null) {
-            query = query + "-1.0, -1.0, '";
-        } else {
+            query = query + "-1.0, -1.0, 0.0, '";
+        } else if (file.getMsr().size() == 2) {
             query = query + file.getMsr().get(0).getVal() + ", "
-                            + file.getMsr().get(1).getVal() + ", '";
+                            + file.getMsr().get(1).getVal() + ", "
+                            	+ "0.0, '";
+        } else if (file.getMsr().size() == 3) {
+        	query = query + file.getMsr().get(0).getVal() + ", "
+                    + file.getMsr().get(1).getVal() + ", "
+                    	+ file.getMsr().get(2).getVal() + ", '";
+        } else {
+        	throw new IllegalStateException("Msr size: " + file.getMsr().size());
         }
         query = query + currentDate + "', NULL) ON DUPLICATE KEY UPDATE "
                         + "file_key = values(file_key),"
                         + "ncloc = values(ncloc),"
                         + "complexity = values(complexity),"
                         + "dbdate = values(dbdate),"
+                        + "issues = values(issues),"
                         + "delta_complexity = values(delta_complexity);";
         conn.updateQuery(query);
     }
@@ -128,9 +137,13 @@ public class DatabaseConnector {
             writer.print(file.getId() + "\t" + file.getKey() + "\t" + file.getName() + "\t" + file.getScope()
                             + "\t" + file.getQualifier() + "\t" + file.getDate() + "\t" + file.getDBDate());
             if (file.getMsr() == null) {
-                writer.println("\t-1.0 \t -1.0");
-            } else {
-                writer.println("\t" + file.getMsr().get(0).getVal() + "\t" + file.getMsr().get(1).getVal());
+                writer.println("\t-1.0 \t -1.0 \t 0.0");
+            } else if (file.getMsr().size() == 2) {
+            	writer.println("\t" + file.getMsr().get(0).getVal() + "\t" + file.getMsr().get(1).getVal()
+               		 + "\t 0.0");
+            } else if (file.getMsr().size() == 3) {
+                writer.println("\t" + file.getMsr().get(0).getVal() + "\t" + file.getMsr().get(1).getVal()
+                		 + "\t" + file.getMsr().get(2).getVal());
             }
 
         } catch (Exception e) {

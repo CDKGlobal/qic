@@ -23,6 +23,7 @@ public class DBDeltaCalculator {
 			rs.next();
 			int prevId = rs.getInt("file_id");
 			double prevComp = rs.getDouble("complexity");
+			double prevIssues = rs.getDouble("issues");
 			while (rs.next()) {
 				int currId = rs.getInt("file_id");
 				double currComp = rs.getDouble("complexity");
@@ -30,10 +31,16 @@ public class DBDeltaCalculator {
 					if (currId == prevId) {
 						double deltaComp = currComp - prevComp;
 						rs.updateDouble("delta_complexity", deltaComp);
-			            rs.updateRow();
-			            System.out.println(deltaComp + " updated");
 					}
 				}
+				double currIssues = rs.getDouble("issues");
+				if (rs.wasNull()) {
+					if (currId == prevId) {
+						double deltaIssues = currIssues - prevIssues;
+						rs.updateDouble("delta_issues", deltaIssues);
+					}
+				}
+	            rs.updateRow();
 				prevId = currId;
 				prevComp = currComp;
 			}

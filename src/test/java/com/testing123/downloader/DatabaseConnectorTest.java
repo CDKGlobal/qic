@@ -31,19 +31,6 @@ public class DatabaseConnectorTest {
          */
     }
 
-
-    @Test
-    public void TestGetConnection() {
-        Connection connection = DatabaseConnector.getConnection();
-        try {
-            Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM allFileHistory3 LIMIT 10");
-            assertTrue(rs.next());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
     /*
      * @Test
      * public void TestWriteToTxtFileAndUpsertMetrics() {

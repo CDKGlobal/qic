@@ -27,7 +27,8 @@ public class Downloader {
 
     public List<WebData> downloadAndStoreInList(String projectKey, int depth, String distinguisher) {
         try {
-            String link = Preferences.SONAR_HOME + "/api/resources?resource" + distinguisher + projectKey + "&depth=" + depth + "&metrics=ncloc,complexity&format=json";
+            String link = Preferences.SONAR_HOME + "/api/resources?resource" + distinguisher + projectKey + "&depth=" + 
+            		depth + "&metrics=" + Preferences.SONAR_METRICS + "&format=json";
             URL ownURL = new URL(link);
 
             List<WebData> list = mapper.readValue(ownURL, new TypeReference<List<WebData>>() {
