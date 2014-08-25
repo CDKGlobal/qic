@@ -64,13 +64,13 @@ public class DownloadFisheyeDataTest {
 	
 	private Set<RevisionData> getSet1() {
 		Set<RevisionData> set = new HashSet<RevisionData>();
-		add(set,"\"/Different/useless/starter/this/is/the/other/type.java\",\"Me\",0,13");
-		add(set,"\"/Different/useless/starter/this/is/the/other/type.java\",\"Me\",0,13");
-		add(set,"\"/Different/useless/starter/this/is/the/other/type.java\",\"Myself\",11,3");
-		add(set,"\"/Different/useless/starter/this/is/the/other/type.java\",\"Irene\",7,29");
+		add(set,"\"/Different/useless/starter/this/is/the/other/type.java\",\"Me\",0,13,\"true\"");
+		add(set,"\"/Different/useless/starter/this/is/the/other/type.java\",\"Me\",0,13,\"true\"");
+		add(set,"\"/Different/useless/starter/this/is/the/other/type.java\",\"Myself\",11,3,\"true\"");
+		add(set,"\"/Different/useless/starter/this/is/the/other/type.java\",\"Irene\",7,29,\"true\"");
 		add(set,"STRING DOESNT MATcH OH NO!");
-		add(set,"\"/Useless/starter/this/is/one/type/of/path.java\",\"Chris\",0,13");
-		add(set,"\"path/doesnt/match\",\"Weiyou\",0,13");
+		add(set,"\"/Useless/starter/this/is/one/type/of/path.java\",\"Chris\",0,13,\"true\"");
+		add(set,"\"path/doesnt/match\",\"Weiyou\",0,13,\"true\"");
 		return set;
 	}
 

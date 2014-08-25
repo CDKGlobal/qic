@@ -38,7 +38,7 @@ public class FisheyeQuery implements FisheyeInterface {
 			buff.readLine();
 			String revision = buff.readLine();
 			while (revision != null) {
-				if(RegexUtil.isRevisionData(revision)){
+				if(RegexUtil.isRevisionData(revision)){//may be able to delete
 					revisionsFromFisheye.add(new RevisionData(revision));
 				}else{
 					System.out.println("could not parse:	" + revision);
@@ -68,7 +68,7 @@ public class FisheyeQuery implements FisheyeInterface {
 	
 	private static String getProjectQueryAsString(String repository, String directory, String dateRange) {
 		return Preferences.FISHEYE_HOME + "/search/" + repository + "/?ql=" + " select revisions from dir \"" + directory + "\" where date in " + dateRange
-				+ "and path like **.java and path like **/src/main/** return path,author,linesAdded,linesRemoved &csv=true";
+				+ "and path like **.java and path like **/src/main/** return path,author,linesAdded,linesRemoved,isDeleted &csv=true";
 	}
 	
 	private static String getDateRange(String date) {

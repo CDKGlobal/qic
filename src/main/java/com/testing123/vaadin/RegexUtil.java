@@ -13,11 +13,15 @@ public class RegexUtil {
 		if(line==null){
 			return false;
 		}
-		return line.matches(javaFilePath() + "," + author() + "," + integer() + "," + integer());	
+		return line.matches(javaFilePath() + "," + author() + "," + integer() + "," + integer() + "," + booleanString());	
 	}
 	
+	private static String booleanString() {
+		return ("\"(true|false)\"");
+	}
+
 	private static String javaFilePath(){
-		return ("\"[-\\.0-9a-zA-Z\\/]*[.java]\"");
+		return ("\"[-\\.0-9a-zA-Z\\/]*(.java)\"");
 	}
 	
 	private static String author(){
@@ -25,7 +29,7 @@ public class RegexUtil {
 	}
 	
 	private static String integer(){
-		return "[0-9]*";
+		return "[-0-9]*";
 	}
 	
 	

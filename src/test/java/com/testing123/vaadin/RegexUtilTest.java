@@ -8,7 +8,7 @@ public class RegexUtilTest {
 	
 	@Test
 	public void testSampleInput(){
-		String text = "\"Websites/Tetra/trunk/modules/dealer-service/src/main/java/com/cobaltgroup/websites/dealerservice/util/LayoutXmlParser.java\",\"ghoshs\",142,9";
+		String text = "\"Websites/Tetra/trunk/modules/dealer-service/src/main/java/com/cobaltgroup/websites/dealerservice/util/LayoutXmlParser.java\",\"ghoshs\",142,9,\"true\"";
 		assertTrue(RegexUtil.isRevisionData(text));
 		}
 	
@@ -41,6 +41,15 @@ public class RegexUtilTest {
 	@Test
 	public void testCorrectDateFormat(){
 		assertTrue(RegexUtil.isCorrectDateFormat("2014-12-30"));
+	}
+	
+	@Test
+	public void testCasesUsedInOtherTests(){
+		assertTrue(RegexUtil.isRevisionData("\"ui/vaadin-ui/fake.java\",\"blum\",12,32,\"true\""));
+		assertTrue(RegexUtil.isRevisionData("\"ui/vaadin-ui/fake.java\",\"weiyoud\",10,11,\"true\""));
+		assertTrue(RegexUtil.isRevisionData("\"ui/vaadin-ui/fake.java\",\"author\",13,12,\"true\""));
+		assertTrue(RegexUtil.isRevisionData("\"path.java\",\"author\",-1,-1,\"true\""));
+		assertTrue(RegexUtil.isRevisionData("\"path.java\",\"author\",-1,-1,\"false\""));
 	}
 
 }
