@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.testing123.ui.Preferences;
 import com.testing123.vaadin.WebData;
 
 /**
@@ -14,7 +15,7 @@ import com.testing123.vaadin.WebData;
  */
 public class Downloader {
 
-    private static ObjectMapper mapper;
+    private ObjectMapper mapper;
 
     public Downloader() {
         mapper = new ObjectMapper();
@@ -24,9 +25,9 @@ public class Downloader {
      * @param projectName the project name
      */
 
-    public static List<WebData> downloadAndStoreInList(String projectKey, int depth, String distinguisher) {
+    public List<WebData> downloadAndStoreInList(String projectKey, int depth, String distinguisher) {
         try {
-            String link = "http://sonar.cobalt.com/api/resources?resource" + distinguisher + projectKey + "&depth=" + depth + "&metrics=ncloc,complexity&format=json";
+            String link = Preferences.SONAR_HOME + "/api/resources?resource" + distinguisher + projectKey + "&depth=" + depth + "&metrics=ncloc,complexity&format=json";
             URL ownURL = new URL(link);
 
             List<WebData> list = mapper.readValue(ownURL, new TypeReference<List<WebData>>() {

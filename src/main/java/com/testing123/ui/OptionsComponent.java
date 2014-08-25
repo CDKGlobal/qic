@@ -92,16 +92,7 @@ public class OptionsComponent extends CustomComponent {
 				helpWindow.setPositionX(500);
                 helpWindow.setPositionY(140);
                 FormLayout helpForm = new FormLayout();
-				Label label = new Label(
-						"<p>The main function of QIC is to display the changes in Churn and Complexity "
-								+ "over two dates selected dates.  It can also show the number of non-commented "
-								+ "lines of code during a given date (specified in 'End Date').  For each file, it "
-								+ "will plot the chosen value on the x axis, and its final complexity on the y-axis. </p>"
-								+ "<p>You can filter by projects or authors to show only results specified by the "
-								+ "filter</p>"
-								+ "<p>Data points are clickable and will show the diff between the two revisions between"
-								+ "the specified dates</p>",
-								 ContentMode.HTML);
+				Label label = new Label(Preferences.HELP_DESCRIPTION, ContentMode.HTML);
 				label.addStyleName("help_label");
                 helpWindow.setWidth("400px");
                 helpForm.addComponent(label);

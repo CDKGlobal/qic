@@ -21,8 +21,7 @@ public class DownloaderTest {
 
     @Test
     public void TestDownloadAndStoreInList() {
-        new Downloader();
-        List<WebData> projectList = Downloader.downloadAndStoreInList("", 0, "?");
+        List<WebData> projectList = new Downloader().downloadAndStoreInList("", 0, "?");
         for (WebData project : projectList) {
             System.out.println(project.getKey());
         }

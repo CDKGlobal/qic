@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import com.testing123.ui.Preferences;
 import com.testing123.vaadin.WebData;
 
 public class DatabaseConnector {
@@ -35,10 +36,10 @@ public class DatabaseConnector {
     public void writeToTxtFileAndUpsertMetrics(Connection conn) {
         Statement stmt = null;
         try {
-            new Downloader();
-            List<WebData> projectList = Downloader.downloadAndStoreInList("", 0, "?");
+        	Downloader dl = new Downloader();
+        	List<WebData> projectList = dl.downloadAndStoreInList("", 0, "?");
             System.out.println("Ok before conn.createStatement");
-            String currentPath = "Archives/projectList/";
+            String currentPath = Preferences.ARCHIVE_BACKUP;
 
             String currentDate = getTodayDate();
             PrintWriter writer = new PrintWriter(currentPath + currentDate + ".txt");
@@ -49,12 +50,12 @@ public class DatabaseConnector {
                 upsertProjectDataToDB(stmt, projectPath, project);
                 int depth = 1;
                 String projectKey = project.getKey();
-                List<WebData> fileList = Downloader.downloadAndStoreInList(projectKey, depth, "=");
+                List<WebData> fileList = dl.downloadAndStoreInList(projectKey, depth, "=");
                 System.out.println("project id" + project.getId());
                 if (fileList.size() != 0) {
                     while (!fileList.get(0).getScope().equals("FIL")) {
                         depth++;
-                        fileList = Downloader.downloadAndStoreInList(projectKey, depth, "=");
+                        fileList = dl.downloadAndStoreInList(projectKey, depth, "=");
                     }
 
                     for (WebData file : fileList) {

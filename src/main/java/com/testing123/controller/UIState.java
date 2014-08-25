@@ -13,9 +13,6 @@ import com.testing123.dataObjects.ConvertProject;
 import com.testing123.ui.Preferences;
 
 public class UIState {
-	public static final ConvertDate defaultStart = Preferences.DEFAULT_START_DATE;
-	public static final ConvertDate defaultEnd = Preferences.DEFAULT_END_DATE;
-	
 	private ConvertDate start;
 	private ConvertDate end;
 	private XAxis x;
