@@ -54,8 +54,8 @@ public class DownloadFisheyeDataTest {
 		
 		assertEquals(2,test.size());
 		
-		ChangedData meMyselfIrine = new ChangedData(21, getCurrentDate(), 76, "[Me, Irene, Myself]");
-		ChangedData chris = new ChangedData(18,getCurrentDate(),13,"[Chris]");
+		ChangedData meMyselfIrine = new ChangedData(21, getCurrentDate(), 76, "[Me, Irene, Myself]",false);
+		ChangedData chris = new ChangedData(18,getCurrentDate(),13,"[Chris]",false);
 		
 		System.out.println(test);
 		assertTrue(test.contains(meMyselfIrine));

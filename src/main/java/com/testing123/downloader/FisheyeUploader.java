@@ -13,15 +13,28 @@ public class FisheyeUploader {
         List<ChangedData> fisheyeDataList = new DownloadFisheyeData().getAllFisheyeUpdates();
         try {
             for (ChangedData fisheyeData : fisheyeDataList) {
+            	if(fisheyeData.getIsDeleted()){
+            		new SQLConnector().updateQuery("UPDATE allFileHistory3 SET "
+                            + "churn = " + fisheyeData.getChurn() + ", "
+                            + "authors = '" + fisheyeData.getAuthors() + "', "
+                            + "comlexity = 0"
+                            + "WHERE file_id = " + fisheyeData.getFile_id() + " "
+                            + "and dbdate = '" + fisheyeData.getDate() + "';"); 
+                  System.out.println("churn = '" + fisheyeData.getChurn() + "', "
+                  + "authors = '" + fisheyeData.getAuthors() +
+                  "file_id = " + fisheyeData.getFile_id() + " "
+                  + "and dbdate = '" + fisheyeData.getDate());
+            	}else{
                 new SQLConnector().updateQuery("UPDATE allFileHistory3 SET "
                                 + "churn = " + fisheyeData.getChurn() + ", "
                                 + "authors = '" + fisheyeData.getAuthors() + "' "
                                 + "WHERE file_id = " + fisheyeData.getFile_id() + " "
                                 + "and dbdate = '" + fisheyeData.getDate() + "';");
-                System.out.println("churn = '" + fisheyeData.getChurn() + "', "
-                                + "authors = '" + fisheyeData.getAuthors() +
-                                "file_id = " + fisheyeData.getFile_id() + " "
-                                + "and dbdate = '" + fisheyeData.getDate());
+            	}
+//                System.out.println("churn = '" + fisheyeData.getChurn() + "', "
+//                                + "authors = '" + fisheyeData.getAuthors() +
+//                                "file_id = " + fisheyeData.getFile_id() + " "
+//                                + "and dbdate = '" + fisheyeData.getDate());
             }
 
         } catch (SQLException e) {

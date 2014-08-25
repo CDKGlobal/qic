@@ -10,15 +10,21 @@ public class ChangedData {
     private String date;
     private int churn;
     private String authors;
+    private boolean isDeleted;
 
 
-    public ChangedData(int file_id, String date, int churn, String authors) {
+    public ChangedData(int file_id, String date, int churn, String authors, boolean isDeleted) {
         this.file_id = file_id;
         this.date = date;
         this.churn = churn;
         this.authors = authors;
+        this.isDeleted = isDeleted;
     }
-
+    
+    public boolean getIsDeleted(){
+    	return isDeleted;
+    }
+    
     public int getFile_id() {
         return file_id;
     }

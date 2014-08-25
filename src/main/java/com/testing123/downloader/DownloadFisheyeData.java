@@ -61,7 +61,7 @@ public class DownloadFisheyeData {
 				String sonarPath = pathInDatabase(revision.getFisheyePath(), setOfFilesInDatabase);
 				if (sonarPath != null) {
 					returnedData.add(new ChangedData(mapForDatabase.get(sonarPath), date, revision.getChurn(), revision.getAuthor()
-							.toString()));
+							.toString(), revision.getIsDeleted()));
 				} else {
 					System.out.println("Found no match in Database for:" + "=\t" + revision.getFisheyePath());
 				}
