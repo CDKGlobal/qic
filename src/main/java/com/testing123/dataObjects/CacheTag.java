@@ -15,7 +15,12 @@ public class CacheTag {
 		this.singleMetric = singleMetric;
 	}
 
-	public boolean equals(CacheTag o) {
+	@Override
+	public boolean equals(Object other) {
+		if (!(other instanceof CacheTag)) {
+			return false;
+		}
+		CacheTag o = (CacheTag) other;
 		if (startDate.equals(o.startDate) && endDate.equals(o.endDate) && projects.equals(o.projects) 
 				&& singleMetric == o.singleMetric) {
 			return true;
