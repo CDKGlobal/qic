@@ -63,6 +63,7 @@ public class SQLConnector {
 	public void updateQuery(String query) throws SQLException {
 		PreparedStatement stmt = conn.prepareStatement(query);
 		stmt.executeUpdate();
+		stmt.close();
 	}
 	
 	/**
