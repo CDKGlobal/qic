@@ -12,9 +12,10 @@ public class FisheyeUploader {
     public static void uploadFEToDatabase() {
         List<ChangedData> fisheyeDataList = new DownloadFisheyeData().getAllFisheyeUpdates();
         try {
+        	SQLConnector conn = new SQLConnector();
             for (ChangedData fisheyeData : fisheyeDataList) {
-            	if(fisheyeData.getIsDeleted()){
-            		new SQLConnector().updateQuery("UPDATE allFileHistory3 SET "
+            	if (fisheyeData.getIsDeleted()) {
+            		conn.updateQuery("UPDATE allFileHistory3 SET "
                             + "churn = " + fisheyeData.getChurn() + ", "
                             + "authors = '" + fisheyeData.getAuthors() + "', "
                             + "comlexity = 0"
@@ -24,8 +25,8 @@ public class FisheyeUploader {
                   + "authors = '" + fisheyeData.getAuthors() +
                   "file_id = " + fisheyeData.getFile_id() + " "
                   + "and dbdate = '" + fisheyeData.getDate());
-            	}else{
-                new SQLConnector().updateQuery("UPDATE allFileHistory3 SET "
+            	} else {
+            		conn.updateQuery("UPDATE allFileHistory3 SET "
                                 + "churn = " + fisheyeData.getChurn() + ", "
                                 + "authors = '" + fisheyeData.getAuthors() + "' "
                                 + "WHERE file_id = " + fisheyeData.getFile_id() + " "
@@ -36,7 +37,7 @@ public class FisheyeUploader {
 //                                "file_id = " + fisheyeData.getFile_id() + " "
 //                                + "and dbdate = '" + fisheyeData.getDate());
             }
-
+        	conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
