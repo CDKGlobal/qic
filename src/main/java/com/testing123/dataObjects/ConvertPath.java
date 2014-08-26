@@ -69,17 +69,19 @@ public class ConvertPath {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((originalInput == null) ? 0 : originalInput.hashCode());
+		result = prime * result + (originallySonar ? 1231 : 1237);
 		result = prime * result + ((path == null) ? 0 : path.hashCode());
 		return result;
 	}
-
-	public boolean equals(String string) {
-		return equals(new ConvertPath(string));
+	
+	
+	
+	public boolean equalsCP(String string) {
+		return equalsCP(new ConvertPath(string));
 	}
 
-	public boolean equals(ConvertPath other) {
-		if (other == null)
-			return false;
+	public boolean equalsCP(ConvertPath other) {
 		if(path == null || other.path==null)
 			return false;
 		if (path.containsAll(other.path) || other.path.containsAll(path)) {
@@ -87,6 +89,17 @@ public class ConvertPath {
 		} else if (!path.equals(other.path))
 			return false;
 		return true;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null)
+			return false;
+		if(String.class == obj.getClass())
+			return equalsCP((String) obj);
+		if (getClass() == obj.getClass())
+			return equalsCP((ConvertPath) obj);
+		return false;
 	}
 
 }
