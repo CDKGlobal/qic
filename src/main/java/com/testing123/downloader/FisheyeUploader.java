@@ -18,7 +18,7 @@ public class FisheyeUploader {
             		conn.updateQuery("UPDATE allFileHistory3 SET "
                             + "churn = " + fisheyeData.getChurn() + ", "
                             + "authors = '" + fisheyeData.getAuthors() + "', "
-                            + "comlexity = 0"
+                            + "complexity = 0"
                             + "WHERE file_id = " + fisheyeData.getFile_id() + " "
                             + "and dbdate = '" + fisheyeData.getDate() + "';"); 
                   System.out.println("churn = '" + fisheyeData.getChurn() + "', "
