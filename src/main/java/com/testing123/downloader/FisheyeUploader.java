@@ -24,7 +24,8 @@ public class FisheyeUploader {
                   System.out.println("churn = '" + fisheyeData.getChurn() + "', "
                   + "authors = '" + fisheyeData.getAuthors() +
                   "file_id = " + fisheyeData.getFile_id() + " "
-                  + "and dbdate = '" + fisheyeData.getDate());
+                  + "and dbdate = '" + fisheyeData.getDate()
+                  + " and complexity = 0;");
             	} else {
             		conn.updateQuery("UPDATE allFileHistory3 SET "
                                 + "churn = " + fisheyeData.getChurn() + ", "
@@ -32,10 +33,6 @@ public class FisheyeUploader {
                                 + "WHERE file_id = " + fisheyeData.getFile_id() + " "
                                 + "and dbdate = '" + fisheyeData.getDate() + "';");
             	}
-//                System.out.println("churn = '" + fisheyeData.getChurn() + "', "
-//                                + "authors = '" + fisheyeData.getAuthors() +
-//                                "file_id = " + fisheyeData.getFile_id() + " "
-//                                + "and dbdate = '" + fisheyeData.getDate());
             }
         	conn.close();
         } catch (SQLException e) {
