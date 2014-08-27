@@ -40,6 +40,7 @@ public class SQLConnector {
             				+ "?user=" + Preferences.DB_USER + "&password=" + Preferences.DB_PASS);
             return conn;
         } catch (SQLException ex) {
+        	ex.printStackTrace();
         	System.out.println("Could not make connection");
         }
         return null;

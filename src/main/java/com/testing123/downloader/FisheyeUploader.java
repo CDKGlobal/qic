@@ -14,7 +14,7 @@ public class FisheyeUploader {
         try {
         	SQLConnector conn = new SQLConnector();
             for (ChangedData fisheyeData : fisheyeDataList) {
-            	if (fisheyeData.getIsDeleted()) {
+            	/*if (fisheyeData.getIsDeleted()) {
             		conn.updateQuery("UPDATE allFileHistory3 SET "
                             + "churn = " + fisheyeData.getChurn() + ", "
                             + "authors = '" + fisheyeData.getAuthors() + "', "
@@ -26,13 +26,13 @@ public class FisheyeUploader {
                   "file_id = " + fisheyeData.getFile_id() + " "
                   + "and dbdate = '" + fisheyeData.getDate()
                   + " and complexity = 0;");
-            	} else {
+            	} else {*/
             		conn.updateQuery("UPDATE allFileHistory3 SET "
                                 + "churn = " + fisheyeData.getChurn() + ", "
                                 + "authors = '" + fisheyeData.getAuthors() + "' "
                                 + "WHERE file_id = " + fisheyeData.getFile_id() + " "
                                 + "and dbdate = '" + fisheyeData.getDate() + "';");
-            	}
+            	//}
             }
         	conn.close();
         } catch (SQLException e) {

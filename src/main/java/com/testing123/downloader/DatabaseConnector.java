@@ -88,7 +88,7 @@ public class DatabaseConnector {
                     + file.getMsr().get(1).getVal() + ", "
                     	+ file.getMsr().get(2).getVal() + ", '";
         } else {
-        	throw new IllegalStateException("Msr size: " + file.getMsr().size());
+        	throw new IllegalStateException("Msr size: " + file.getMsr().size() + " name: " + file.getKey());
         }
         query = query + currentDate + "', NULL) ON DUPLICATE KEY UPDATE "
                         + "file_key = values(file_key),"
