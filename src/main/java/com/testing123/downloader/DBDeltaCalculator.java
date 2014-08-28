@@ -34,7 +34,7 @@ public class DBDeltaCalculator {
 				String currKey = rs.getString("file_key");
 				double currComp = rs.getDouble("complexity");
 				double currDC = rs.getDouble("delta_complexity");
-				if (rs.wasNull()) {
+				//if (rs.wasNull()) {
 					if (currId == prevId) {
 						double deltaComp = currComp - prevComp;
 						prevDC = deltaComp;
@@ -44,9 +44,9 @@ public class DBDeltaCalculator {
 			            System.out.println(rs.getString("dbdate") + " updated");
 			            System.out.println(rs.getString("file_key") + " updated");
 					}
-				} else {
+				//} else {
 					prevDC = currDC;
-				}
+				//}
 				prevId = currId;
 				prevKey = currKey;
 				prevComp = currComp;
@@ -74,7 +74,7 @@ public class DBDeltaCalculator {
 				String currKey = rs.getString("file_key");
 				double currIssues = rs.getDouble("issues");
 				double currDC = rs.getDouble("delta_issues");
-				if (rs.wasNull()) {
+				//if (rs.wasNull()) {
 					if (currId == prevId) {
 						double deltaComp = currIssues - prevIssues;
 						prevDI = deltaComp;
@@ -84,9 +84,9 @@ public class DBDeltaCalculator {
 			            System.out.println(rs.getString("dbdate") + " updated");
 			            System.out.println(rs.getString("file_key") + " updated");
 					}
-				} else {
+				//} else {
 					prevDI = currDC;
-				}
+				//}
 				prevId = currId;
 				prevKey = currKey;
 				prevIssues = currIssues;
