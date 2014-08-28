@@ -1,17 +1,24 @@
 package com.testing123.downloader;
 
+import java.sql.Connection;
+
+
 public class DataDownloaderMain {
     public static void main(String[] args) {
         try {
-        	System.out.println("version 8/28  10:22");
             DatabaseConnector dbConnector = new DatabaseConnector();
-            dbConnector.writeToTxtFileAndUpsertMetrics();
-            FisheyeUploader.uploadFEToDatabase();
+            // builds a connection
+            Connection conn = DatabaseConnector.getConnection();
+            dbConnector.writeToTxtFileAndUpsertMetrics(conn);
+            FisheyeUploader fe = new FisheyeUploader();
+            fe.uploadFEToDatabase(conn);
+            conn.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
         DataSupportMain.processDeltaCalculations();
         DataSupportMain.processAuthorsAndDates();
+
     }
 }
 
