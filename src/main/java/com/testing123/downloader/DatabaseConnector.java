@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import com.testing123.ui.Preferences;
 import com.testing123.vaadin.WebData;
 
 public class DatabaseConnector {
@@ -19,8 +20,8 @@ public class DatabaseConnector {
     public static Connection getConnection() {
         try {
             Connection conn =
-                            DriverManager.getConnection("jdbc:mysql://dc2pvpdc00059.vcac.dc2.dsghost.net:3306/dataList4?" +
-                                            "user=root&password=password");
+                            DriverManager.getConnection("jdbc:" + Preferences.DB_SERVER + "/dataList4?" +
+                                            "user=" + Preferences.DB_USER + "&password=" + Preferences.DB_PASS + "");
             return conn;
         } catch (SQLException ex) {
             // handle any errors
@@ -157,7 +158,7 @@ public class DatabaseConnector {
 
     public static String getProjectPath(int index) {
         try {
-            URL url = new URL("http://sonar.cobalt.com/dashboard/index/" + index);
+            URL url = new URL("http://" + Preferences.SONAR_HOME + "/dashboard/index/" + index);
             BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
             String inputLine;
             String[] split;
